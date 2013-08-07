@@ -1,0 +1,5 @@
+C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.csprojResolveAssemblyReference.cache
+C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\bin\Debug\LDAPLibrary.dll
+C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\bin\Debug\LDAPLibrary.pdb
+C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.dll
+C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.pdb
