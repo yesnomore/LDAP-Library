@@ -138,7 +138,7 @@ namespace LDAPLibrary
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <param name="LDAPCurrentState">Return the state of the LDAP to parent class</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public bool searchUsers(string baseDN,string userObjectClass , List<string> otherReturnedAttributes, string[] searchedUsers, out List<LDAPUser> searchResult, out LDAPState LDAPCurrentState)
+        public bool searchUsers(string baseDN, string userObjectClass, string MatchFieldUsername, List<string> otherReturnedAttributes, string[] searchedUsers, out List<LDAPUser> searchResult, out LDAPState LDAPCurrentState)
         {
 
             searchResult = new List<LDAPUser>();
@@ -155,7 +155,7 @@ namespace LDAPLibrary
                 foreach (string users in searchedUsers)
                 {
                     //Create the filter for the search
-                    string LDAPSearchFilter = "(&(objectClass=" + userObjectClass + ")(cn=" + users + "))";
+                    string LDAPSearchFilter = "(&(objectClass=" + userObjectClass + ")(" + MatchFieldUsername + "=" + users + "))";
 
                     //Componing search request
                     SearchRequest search = new SearchRequest(baseDN, LDAPSearchFilter, SearchScope.Subtree, otherReturnedAttributes.ToArray());

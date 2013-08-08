@@ -20,7 +20,7 @@ namespace Test_LDAPLibrary
             //Get the user Login Password and create a temp dictionary for the library
             Dictionary<string, string[]> temp = new Dictionary<string, string[]>();
             string [] tempStringArray = new string[1];
-            tempStringArray[0] = ConfigurationManager.AppSettings["LDAPLoginUserAttribute_userPassword"];
+            tempStringArray[0] = ConfigurationManager.AppSettings["LDAPAdminUserPassword"];
 
             //Active Directory OU=Test LDAP,OU=Apex,dc=apex-net,dc=it
             //OpenLDAP o=ApexNet,ou=People,dc=maxcrc,dc=com
@@ -28,9 +28,9 @@ namespace Test_LDAPLibrary
 
             temp.Add("userPassword", tempStringArray); //Importante mantenere la stessa chiave perchè è così sia per OpenLDAP che per AD. La libreria cerca quella.
 
-            ILDAPManager LDAPManager = new LDAPManager(ConfigurationManager.AppSettings["LDAPLoginUserDN"],
-                                                       ConfigurationManager.AppSettings["LDAPLoginUserCN"],
-                                                       ConfigurationManager.AppSettings["LDAPLoginUserSN"],
+            ILDAPManager LDAPManager = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+                                                       ConfigurationManager.AppSettings["LDAPAdminUserCN"],
+                                                       ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                        temp,
                                                        ConfigurationManager.AppSettings["LDAPServer"],
                                                        ConfigurationManager.AppSettings["LDAPServerDomain"],

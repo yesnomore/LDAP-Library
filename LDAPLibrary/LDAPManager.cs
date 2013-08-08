@@ -19,8 +19,9 @@ namespace LDAPLibrary
         private string baseDN;
         private string logPath;
         private string UserObjectClass;
+        private string MatchFieldUsername;
         private bool writeLogFlag;
-
+        
         //Error Description from LDAP connection
         private LDAPState LDAPCurrentState;
         private string LDAPConnectionErrorDescription;
@@ -31,17 +32,18 @@ namespace LDAPLibrary
         
         #endregion
 
-        public LDAPManager(string loginUserDN, string loginUserCN, string loginUserSN, Dictionary<string,string[]> loginUserAttributes,
-            string LDAPServer, string domain, string baseDN, bool writeLog, string logPath, string UserObjectClass)
+        public LDAPManager(string adminUserDN, string adminUserCN, string adminUserSN, Dictionary<string,string[]> adminUserAttributes,
+            string LDAPServer, string domain, string baseDN, bool writeLog, string logPath, string UserObjectClass, string MatchFieldUsername)
         {
 
-            this.loginUser = new LDAPUser(loginUserDN, loginUserCN, loginUserSN, loginUserAttributes);
+            this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
             this.LDAPServer = LDAPServer;
             this.domain = domain;
             this.baseDN = baseDN;
             this.writeLogFlag = writeLog;
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
+            this.MatchFieldUsername = MatchFieldUsername;
         }
 
         
@@ -107,7 +109,7 @@ namespace LDAPLibrary
         /// <returns>Boolean that comunicate the result of search</returns>
         public bool searchUsers(string baseDN, List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult)
         {
-            bool operationResult = ManageLDAPUser.searchUsers(baseDN, UserObjectClass, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
+            bool operationResult = ManageLDAPUser.searchUsers(baseDN, UserObjectClass, MatchFieldUsername, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
             writeLog(getLDAPMessage());
             return operationResult;
         }
