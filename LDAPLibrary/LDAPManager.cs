@@ -18,6 +18,7 @@ namespace LDAPLibrary
         private string domain;
         private string baseDN;
         private string logPath;
+        private string UserObjectClass;
         private bool writeLogFlag;
 
         //Error Description from LDAP connection
@@ -31,7 +32,7 @@ namespace LDAPLibrary
         #endregion
 
         public LDAPManager(string loginUserDN, string loginUserCN, string loginUserSN, Dictionary<string,string[]> loginUserAttributes,
-            string LDAPServer, string domain, string baseDN, bool writeLog, string logPath)
+            string LDAPServer, string domain, string baseDN, bool writeLog, string logPath, string UserObjectClass)
         {
 
             this.loginUser = new LDAPUser(loginUserDN, loginUserCN, loginUserSN, loginUserAttributes);
@@ -40,6 +41,7 @@ namespace LDAPLibrary
             this.baseDN = baseDN;
             this.writeLogFlag = writeLog;
             this.logPath = logPath;
+            this.UserObjectClass = UserObjectClass;
         }
 
         
@@ -105,7 +107,7 @@ namespace LDAPLibrary
         /// <returns>Boolean that comunicate the result of search</returns>
         public bool searchUsers(string baseDN, List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult)
         {
-            bool operationResult = ManageLDAPUser.searchUsers(baseDN, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
+            bool operationResult = ManageLDAPUser.searchUsers(baseDN, UserObjectClass, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
             writeLog(getLDAPMessage());
             return operationResult;
         }

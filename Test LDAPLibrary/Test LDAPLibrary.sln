@@ -1,9 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibrary", "LDAPLibrary\LDAPLibrary.csproj", "{A31E343A-C1DA-40A1-9BFA-2200D892E83D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test LDAPLibrary", "Test LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary.csproj", "{16973C68-BE22-45DF-B1FE-FEB4FEEF548E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test LDAPLibrary", "Test LDAPLibrary\Test LDAPLibrary.csproj", "{16973C68-BE22-45DF-B1FE-FEB4FEEF548E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +9,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A31E343A-C1DA-40A1-9BFA-2200D892E83D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A31E343A-C1DA-40A1-9BFA-2200D892E83D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A31E343A-C1DA-40A1-9BFA-2200D892E83D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A31E343A-C1DA-40A1-9BFA-2200D892E83D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{16973C68-BE22-45DF-B1FE-FEB4FEEF548E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{16973C68-BE22-45DF-B1FE-FEB4FEEF548E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16973C68-BE22-45DF-B1FE-FEB4FEEF548E}.Release|Any CPU.ActiveCfg = Release|Any CPU

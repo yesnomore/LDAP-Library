@@ -3,3 +3,7 @@ C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\
 C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\bin\Debug\LDAPLibrary.pdb
 C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.dll
 C:\Users\e.benini\Documents\Visual Studio 2012\Projects\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.pdb
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Debug\LDAPLibrary.dll
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Debug\LDAPLibrary.pdb
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.dll
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\obj\Debug\LDAPLibrary.pdb
