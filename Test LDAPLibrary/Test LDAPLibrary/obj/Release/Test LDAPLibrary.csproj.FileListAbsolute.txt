@@ -1,0 +1,8 @@
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\bin\Release\Test LDAPLibrary.exe.config
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\obj\Release\Test LDAPLibrary.csprojResolveAssemblyReference.cache
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\bin\Release\Test LDAPLibrary.exe
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\bin\Release\Test LDAPLibrary.pdb
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\bin\Release\LDAPLibrary.dll
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\bin\Release\LDAPLibrary.pdb
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\obj\Release\Test LDAPLibrary.exe
+C:\work\Progetti Locali\LDAPLibrary\Test LDAPLibrary\Test LDAPLibrary\obj\Release\Test LDAPLibrary.pdb

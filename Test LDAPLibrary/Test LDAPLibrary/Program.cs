@@ -37,7 +37,8 @@ namespace Test_LDAPLibrary
                                                        ConfigurationManager.AppSettings["LDAPBaseDN"],
                                                        Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
                                                        ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
-                                                       ConfigurationManager.AppSettings["LDAPUserObjectClass"]);
+                                                       ConfigurationManager.AppSettings["LDAPUserObjectClass"],
+                                                       ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]);
 
 
             Console.WriteLine("Test the LDAP LIbrary: step 1 CONNECT");

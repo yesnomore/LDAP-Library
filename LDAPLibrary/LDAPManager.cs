@@ -32,8 +32,17 @@ namespace LDAPLibrary
         
         #endregion
 
-        public LDAPManager(string adminUserDN, string adminUserCN, string adminUserSN, Dictionary<string,string[]> adminUserAttributes,
-            string LDAPServer, string domain, string baseDN, bool writeLog, string logPath, string UserObjectClass, string MatchFieldUsername)
+        public LDAPManager(string adminUserDN, 
+                           string adminUserCN,
+                           string adminUserSN,
+                           Dictionary<string,string[]> adminUserAttributes,
+                           string LDAPServer,
+                           string domain,
+                           string baseDN,
+                           bool writeLog,
+                           string logPath,
+                           string UserObjectClass,
+                           string MatchFieldUsername)
         {
 
             this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
