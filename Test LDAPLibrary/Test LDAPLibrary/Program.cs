@@ -17,6 +17,8 @@ namespace Test_LDAPLibrary
         {
             Console.WriteLine("Starting test the LDAPLibrary: Read Parameters from config and create the library object");
 
+
+
             //Get the user Login Password and create a temp dictionary for the library
             Dictionary<string, string[]> temp = new Dictionary<string, string[]>();
             string [] tempStringArray = new string[1];
@@ -161,7 +163,7 @@ namespace Test_LDAPLibrary
             
             Console.WriteLine("Try to search and connect in one shot!");
 
-            bool searchAndConnect = LDAPManager.searchUserAndConnect("OU=users,DC=testathon,DC=net", "john", "john");
+            bool searchAndConnect = LDAPManager.searchUserAndConnect("ou=Users,DC=testathon,DC=net", "john", "john");
 
             if (searchAndConnect == true)
                 Console.WriteLine("YEAH!");
@@ -170,7 +172,6 @@ namespace Test_LDAPLibrary
                 Console.WriteLine("operation Failed, with this error: ");
                 Console.WriteLine(LDAPManager.getLDAPMessage());
             }
-
             Console.ReadLine();
         }
     }

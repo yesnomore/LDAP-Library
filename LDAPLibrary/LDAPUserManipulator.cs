@@ -201,6 +201,7 @@ namespace LDAPLibrary
                         //Create new tempUser and add to the searchResult
                         LDAPUser tempUser = new LDAPUser(tempUserDN, tempUserCN, tempUserSN, tempUserOtherAttributes);
                         searchResult.Add(tempUser);
+
                     }
                 }
             }
@@ -222,5 +223,6 @@ namespace LDAPLibrary
             LDAPUserManipulationMessage = "Search Operation Success";
             return true;
         }
+
     }
 }

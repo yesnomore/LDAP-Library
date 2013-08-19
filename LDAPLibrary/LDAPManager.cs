@@ -53,6 +53,7 @@ namespace LDAPLibrary
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
             this.MatchFieldUsername = MatchFieldUsername;
+            connect();
         }
 
         
