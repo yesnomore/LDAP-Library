@@ -53,7 +53,8 @@ namespace LDAPLibrary
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
             this.MatchFieldUsername = MatchFieldUsername;
-            connect();
+            if (!connect())
+                throw new Exception("LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: view the log or call 'getLDAPMessage()' for information ");
         }
 
         
