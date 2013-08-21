@@ -40,7 +40,11 @@ namespace Test_LDAPLibrary
                                                        Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
                                                        ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
                                                        ConfigurationManager.AppSettings["LDAPUserObjectClass"],
-                                                       ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]);
+                                                       ConfigurationManager.AppSettings["LDAPMatchFieldUsername"],
+                                                       ConfigurationManager.AppSettings["LDAPSearchBaseDN"]);
+
+
+            bool searchAndConnect = LDAPManager.searchUserAndConnect("Enrico Benini", "seagal08");
 
 
             Console.WriteLine("Test the LDAP LIbrary: step 1 CONNECT");
@@ -89,7 +93,7 @@ namespace Test_LDAPLibrary
             List<LDAPUser> returnUsers = new List<LDAPUser>();
             List<string> otherAttributes = new List<string>();
             otherAttributes.Add("mail");
-            result = LDAPManager.searchUsers("OU=users,DC=testathon,DC=net", otherAttributes, searchUsers, out returnUsers);
+            result = LDAPManager.searchUsers(otherAttributes, searchUsers, out returnUsers);
 
             if (result == false)
             {
@@ -163,7 +167,7 @@ namespace Test_LDAPLibrary
             
             Console.WriteLine("Try to search and connect in one shot!");
 
-            bool searchAndConnect = LDAPManager.searchUserAndConnect("ou=Users,DC=testathon,DC=net", "john", "john");
+            searchAndConnect = LDAPManager.searchUserAndConnect("Enrico", "1");
 
             if (searchAndConnect == true)
                 Console.WriteLine("YEAH!");

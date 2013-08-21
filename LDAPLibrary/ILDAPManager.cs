@@ -45,7 +45,7 @@ namespace LDAPLibrary
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        bool searchUsers(string baseDN, List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult);
+        bool searchUsers(List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult);
 
         /// <summary>
         /// Return the Error Message of an occurred LDAP Exception
@@ -67,6 +67,6 @@ namespace LDAPLibrary
         /// <param name="user">The Username to search and Connect</param>
         /// <param name="password">The passwords of the User</param>
         /// <returns>the operation result</returns>
-        bool searchUserAndConnect(string baseDN, string user, string password);
+        bool searchUserAndConnect(string user, string password);
     }
 }

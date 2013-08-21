@@ -21,6 +21,7 @@ namespace LDAPLibrary
         private string UserObjectClass;
         private string MatchFieldUsername;
         private bool writeLogFlag;
+        private string LDAPSearchBaseDN;
         
         //Error Description from LDAP connection
         private LDAPState LDAPCurrentState;
@@ -42,7 +43,8 @@ namespace LDAPLibrary
                            bool writeLog,
                            string logPath,
                            string UserObjectClass,
-                           string MatchFieldUsername)
+                           string MatchFieldUsername,
+                           string LDAPSearchBaseDN)
         {
 
             this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
@@ -53,6 +55,8 @@ namespace LDAPLibrary
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
             this.MatchFieldUsername = MatchFieldUsername;
+            this.LDAPSearchBaseDN = LDAPSearchBaseDN;
+
             if (!connect())
                 throw new Exception("LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: view the log or call 'getLDAPMessage()' for information ");
         }
@@ -118,9 +122,9 @@ namespace LDAPLibrary
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public bool searchUsers(string baseDN, List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult)
+        public bool searchUsers(List<string> otherReturnedAttributes, string [] searchedUsers, out List<LDAPUser> searchResult)
         {
-            bool operationResult = ManageLDAPUser.searchUsers(baseDN, UserObjectClass, MatchFieldUsername, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
+            bool operationResult = ManageLDAPUser.searchUsers(LDAPSearchBaseDN, UserObjectClass, MatchFieldUsername, otherReturnedAttributes ,searchedUsers, out searchResult, out LDAPCurrentState);
             writeLog(getLDAPMessage());
             return operationResult;
         }
@@ -198,7 +202,7 @@ namespace LDAPLibrary
         /// <param name="user">The Username to search and Connect</param>
         /// <param name="password">The passwords of the User</param>
         /// <returns>the operation result</returns>
-        public bool searchUserAndConnect(string baseDN, string user, string password) 
+        public bool searchUserAndConnect(string user, string password) 
         {
             string [] tempUser = new string[1];
             tempUser[0] = user; 
@@ -206,7 +210,7 @@ namespace LDAPLibrary
             bool connectResult = false,searchResult;
 
             //Do the search and check the result 
-            searchResult = searchUsers(baseDN, null, tempUser, out searchReturn);
+            searchResult = searchUsers(null, tempUser, out searchReturn);
             if (searchResult == false)
                 return false;
             
