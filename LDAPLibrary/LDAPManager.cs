@@ -10,11 +10,13 @@ namespace LDAPLibrary
     {
         #region Class Variables
 
+        
         private LdapConnection ldapConnection;
 
         //Variables passed in the constructor
         private string LDAPServer;
         private LDAPUser loginUser;
+        private string defaultUserSn;
         private string domain;
         private string baseDN;
         private string logPath;
@@ -33,6 +35,22 @@ namespace LDAPLibrary
         
         #endregion
 
+        /// <summary>
+        /// Ldap Manager Contructor with all the configuration needed
+        /// </summary>
+        /// <param name="adminUserDN">User Admin DN</param>
+        /// <param name="adminUserCN">User Admin CN</param>
+        /// <param name="adminUserSN">User Admin SN</param>
+        /// <param name="adminUserAttributes">User Admin other attributes</param>
+        /// <param name="LDAPServer">Name of the server LDAP</param>
+        /// <param name="domain">Domain of the server LDAP</param>
+        /// <param name="baseDN">Base DN for the Admin User</param>
+        /// <param name="writeLogFlag">Flag that secified if write the log file</param>
+        /// <param name="logPath">Path of the log file</param>
+        /// <param name="UserObjectClass">Class in LDAP user to identify the User</param>
+        /// <param name="MatchFieldUsername">Field user to identify the username</param>
+        /// <param name="LDAPSearchBaseDN">Base DN where start the search</param>
+        /// <param name="defaultUserSn">Default value of user Sn</param>
         public LDAPManager(string adminUserDN, 
                            string adminUserCN,
                            string adminUserSN,
@@ -40,25 +58,30 @@ namespace LDAPLibrary
                            string LDAPServer,
                            string domain,
                            string baseDN,
-                           bool writeLog,
+                           bool writeLogFlag,
                            string logPath,
                            string UserObjectClass,
                            string MatchFieldUsername,
-                           string LDAPSearchBaseDN)
+                           string LDAPSearchBaseDN,
+                           string defaultUserSn)
         {
 
             this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
             this.LDAPServer = LDAPServer;
             this.domain = domain;
             this.baseDN = baseDN;
-            this.writeLogFlag = writeLog;
+            this.writeLogFlag = writeLogFlag;
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
             this.MatchFieldUsername = MatchFieldUsername;
             this.LDAPSearchBaseDN = LDAPSearchBaseDN;
+            this.defaultUserSn = defaultUserSn;
 
             if (!connect())
-                throw new Exception("LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: view the log or call 'getLDAPMessage()' for information ");
+            {
+                writeLog("LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: unable to connect with administrator credential, see the config file");
+                throw new Exception("LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: unable to connect with administrator credential, see the config file");
+            }
         }
 
         
@@ -135,7 +158,7 @@ namespace LDAPLibrary
         /// <summary>
         /// Return the Error Message of an occurred LDAP Exception
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Message</returns>
         public string getLDAPMessage()
         {
             switch (LDAPCurrentState)
@@ -155,24 +178,28 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        /// Instance the Ldap connection
+        /// Instance the Ldap connection with admin config credential
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Success or Failed</returns>
         public bool connect()
         {
            bool temp = connect(new NetworkCredential(loginUser.getUserDn(), loginUser.getUserAttribute("userPassword")[0], domain));
            return temp;
         }
+
+        /// <summary>
+        /// Connect to LDAP with the specified credential
+        /// </summary>
+        /// <param name="credential">user Credential</param>
+        /// <returns>Success or Failed</returns>
         public bool connect(NetworkCredential credential) 
         {
             try
             {
-                ldapConnection = new LdapConnection(LDAPServer);
-                ldapConnection.Credential = credential;
-                ldapConnection.AuthType = AuthType.Basic;
+                ldapConnection = new LdapConnection(LDAPServer) { Credential = credential, AuthType = AuthType.Basic };
                 ldapConnection.SessionOptions.ProtocolVersion = 3;
                 ldapConnection.Bind();
-                ManageLDAPUser = new LDAPUserManipulator(ldapConnection);
+                ManageLDAPUser = new LDAPUserManipulator(ldapConnection, defaultUserSn);
             }
             catch (Exception e)
             {
@@ -186,7 +213,11 @@ namespace LDAPLibrary
             return true;
         }
 
-        private void writeLog( string messageToLog) 
+        /// <summary>
+        /// Write to log the message incoming
+        /// </summary>
+        /// <param name="messageToLog">Message to Log</param>
+        protected void writeLog( string messageToLog) 
         {
             if (writeLogFlag == true && (!logPath.Equals("") || logPath == null) ) 
             {
@@ -195,6 +226,7 @@ namespace LDAPLibrary
                 logWriter.Close();
             }
         }
+
         /// <summary>
         /// Method that wrap SearchUsers and Connect in one operation
         /// </summary>
@@ -207,10 +239,10 @@ namespace LDAPLibrary
             string [] tempUser = new string[1];
             tempUser[0] = user; 
             List<LDAPUser> searchReturn = new List<LDAPUser>();
-            bool connectResult = false,searchResult;
+            bool connectResult = false;
 
             //Do the search and check the result 
-            searchResult = searchUsers(null, tempUser, out searchReturn);
+            bool searchResult = searchUsers(null, tempUser, out searchReturn);
             if (searchResult == false)
                 return false;
             

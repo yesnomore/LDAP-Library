@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LDAPLibrary
 {
     [Serializable]
     public class LDAPUser
     {
-        //Required Fields
         private string cn;
         private string sn;
         private string dn;
@@ -17,25 +15,28 @@ namespace LDAPLibrary
 
         public LDAPUser(string userDN, string userCN, string userSN, Dictionary<string, string[]> otherAttribute)
         {
-            //Check parameters
-            if ((!userDN.Equals("") && userDN != null) &&
-                    (!userSN.Equals("") && userSN != null) &&
-                    (!userCN.Equals("") && userCN != null))
+            if ((!userDN.Equals(string.Empty) && userDN != null) &&
+                    (!userSN.Equals(string.Empty) && userSN != null) &&
+                    (!userCN.Equals(string.Empty) && userCN != null))
             {
                 sn = userSN;
                 dn = userDN;
                 cn = userCN;
                 if (otherAttribute != null)
+                {
                     otherAttributes = new Dictionary<string, string[]>(otherAttribute);
+                }
                 else
+                {
                     otherAttributes = new Dictionary<string, string[]>();
+                }
             }
             else
+            {
                 throw new ArgumentException("I valori dei primi 3 argomenti non possono essere null o vuoti");
-
+            }
         }
 
-        #region Get Methods
 
         /// <summary>
         /// Returns the values for the specified attribute name
@@ -45,19 +46,49 @@ namespace LDAPLibrary
         public string[] getUserAttribute(string attributeName)
         {
             if (otherAttributes.ContainsKey(attributeName))
+            {
                 return otherAttributes[attributeName];
+            }
             else
+            {
                 throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
+            }
         }
-        public string[] getUserAttributeKeys() 
+
+        /// <summary>
+        /// Get all the Attribute Names of an LDAPUser
+        /// </summary>
+        /// <returns>All the Attribute Names</returns>
+        public string[] getUserAttributeKeys()
         {
             return otherAttributes.Keys.ToArray();
         }
 
-        public string getUserCn() { return cn; }
-        public string getUserSn() { return sn; }
-        public string getUserDn() { return dn; }
+        /// <summary>
+        /// Get User CN
+        /// </summary>
+        /// <returns>User CN</returns>
+        public string getUserCn()
+        {
+            return cn;
+        }
 
-        #endregion
+        /// <summary>
+        /// Get User SN
+        /// </summary>
+        /// <returns>User SN</returns>
+        public string getUserSn()
+        {
+            return sn;
+        }
+
+        /// <summary>
+        /// Get User DN
+        /// </summary>
+        /// <returns>User DN</returns>
+        public string getUserDn()
+        {
+            return dn;
+        }
     }
 }

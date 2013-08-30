@@ -44,7 +44,7 @@ namespace Test_LDAPLibrary
                                                        ConfigurationManager.AppSettings["LDAPSearchBaseDN"]);
 
 
-            bool searchAndConnect = LDAPManager.searchUserAndConnect("Enrico Benini", "seagal08");
+            bool searchAndConnect = LDAPManager.searchUserAndConnect("allarme", "allarme");
 
 
             Console.WriteLine("Test the LDAP LIbrary: step 1 CONNECT");
