@@ -90,5 +90,13 @@ namespace LDAPLibrary
         {
             return dn;
         }
+
+        public void setUserAttribute(string attributeName, string[] attributeValues) 
+        {
+            if (otherAttributes.ContainsKey(attributeName))
+                otherAttributes[attributeName] = attributeValues;
+            else
+                otherAttributes.Add(attributeName, attributeValues);
+        }
     }
 }

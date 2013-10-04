@@ -18,7 +18,6 @@ namespace LDAPLibrary
         private LDAPUser loginUser;
         private string defaultUserSn;
         private string domain;
-        private string baseDN;
         private string logPath;
         private string UserObjectClass;
         private string MatchFieldUsername;
@@ -57,7 +56,6 @@ namespace LDAPLibrary
                            Dictionary<string,string[]> adminUserAttributes,
                            string LDAPServer,
                            string domain,
-                           string baseDN,
                            bool writeLogFlag,
                            string logPath,
                            string UserObjectClass,
@@ -69,7 +67,6 @@ namespace LDAPLibrary
             this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
             this.LDAPServer = LDAPServer;
             this.domain = domain;
-            this.baseDN = baseDN;
             this.writeLogFlag = writeLogFlag;
             this.logPath = logPath;
             this.UserObjectClass = UserObjectClass;
@@ -140,7 +137,6 @@ namespace LDAPLibrary
         /// <summary>
         /// Search Users in the LDAP system
         /// </summary>
-        /// <param name="baseDN">Starting DN of the search</param>
         /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
@@ -228,12 +224,14 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        /// Method that wrap SearchUsers and Connect in one operation
+        /// Search the user and try to connect to LDAP
         /// </summary>
-        /// <param name="baseDN">The nodo where the search starts</param>
-        /// <param name="user">The Username to search and Connect</param>
-        /// <param name="password">The passwords of the User</param>
-        /// <returns>the operation result</returns>
+        /// <param name="user">Username</param>
+        /// <param name="password">Password</param>
+        /// <returns>
+        /// TRUE: connected
+        /// FALSE: not connected
+        /// </returns>
         public bool searchUserAndConnect(string user, string password) 
         {
             string [] tempUser = new string[1];

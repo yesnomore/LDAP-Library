@@ -32,8 +32,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LDAPLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="LDAPLibrary">
       <HintPath>..\..\LDAPLibrary\bin\Debug\LDAPLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
