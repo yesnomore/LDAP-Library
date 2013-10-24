@@ -58,7 +58,7 @@ namespace LDAPLibrary
         /// </summary>
         /// <returns></returns>
         bool connect();
-        bool connect(NetworkCredential credential);
+		bool connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,bool clientCertificate);
 
         /// <summary>
         /// Method that wrap SearchUsers and Connect in one operation

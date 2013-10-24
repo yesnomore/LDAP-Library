@@ -27,49 +27,49 @@ namespace Test_LDAPLibrary
 
             Init();
 
-            #region Setup Test User
+			#region Setup Test User
 
-            Console.WriteLine("Insert the user test DN,CN,SN divide one by one by breaklines!:");
-            string tempDN = Console.ReadLine();
-            string tempCN = Console.ReadLine();
-            string tempSN = Console.ReadLine();
+			//Console.WriteLine("Insert the user test DN,CN,SN divide one by one by breaklines!:");
+			//string tempDN = Console.ReadLine();
+			//string tempCN = Console.ReadLine();
+			//string tempSN = Console.ReadLine();
 
-            Console.WriteLine("Insert the user test attributes:");
-            tempAttributes.Clear();
-            while (true)
-            {
+			//Console.WriteLine("Insert the user test attributes:");
+			//tempAttributes.Clear();
+			//while (true)
+			//{
 
-                Console.Write("Insert attribute key(breakpoint to jum over): ");
-                string tempAttributeKey = Console.ReadLine();
-                if (string.IsNullOrEmpty(tempAttributeKey)) break;
-                else
-                {
-                    Console.Write("How many attribute want insert: ");
-                    int attributeNumber = Int32.Parse(Console.ReadLine());
+			//	Console.Write("Insert attribute key(breakpoint to jum over): ");
+			//	string tempAttributeKey = Console.ReadLine();
+			//	if (string.IsNullOrEmpty(tempAttributeKey)) break;
+			//	else
+			//	{
+			//		Console.Write("How many attribute want insert: ");
+			//		int attributeNumber = Int32.Parse(Console.ReadLine());
 
-                    if (attributeNumber <= 0) continue;
+			//		if (attributeNumber <= 0) continue;
 
-                    string[] tempAttributeValues = new string[attributeNumber];
+			//		string[] tempAttributeValues = new string[attributeNumber];
 
-                    for (int i = 0; i < attributeNumber; i++)
-                    {
-                        Console.Write("Insert attribute value: ");
-                        tempAttributeValues[i] = Console.ReadLine();
-                    }
+			//		for (int i = 0; i < attributeNumber; i++)
+			//		{
+			//			Console.Write("Insert attribute value: ");
+			//			tempAttributeValues[i] = Console.ReadLine();
+			//		}
 
 
-                    tempAttributes.Add(tempAttributeKey, tempAttributeValues);
+			//		tempAttributes.Add(tempAttributeKey, tempAttributeValues);
 
-                }
-            }
+			//	}
+			//}
 
-            setupTestUser(tempDN, tempCN, tempSN, tempAttributes);
+			//setupTestUser(tempDN, tempCN, tempSN, tempAttributes);
 
-            #endregion
+			#endregion
 
-            testCreateUser();
 
-            testBocconi();
+
+            //testBocconi();
 
 
             testConnect();
@@ -142,19 +142,23 @@ namespace Test_LDAPLibrary
             tempStringArray[0] = ConfigurationManager.AppSettings["LDAPAdminUserPassword"];
             tempAttributes.Add("userPassword", tempStringArray); //KEEP THE SAME KEY FOR PASSWORD
 
-            LDAPManagerObj = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
-                                                       ConfigurationManager.AppSettings["LDAPAdminUserCN"],
-                                                       ConfigurationManager.AppSettings["LDAPAdminUserSN"],
-                                                       tempAttributes,
-                                                       ConfigurationManager.AppSettings["LDAPServer"],
-                                                       ConfigurationManager.AppSettings["LDAPServerDomain"],
-                                                       Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
-                                                       ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
-                                                       ConfigurationManager.AppSettings["LDAPUserObjectClass"],
-                                                       ConfigurationManager.AppSettings["LDAPMatchFieldUsername"],
-                                                       ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
-                                                       ConfigurationManager.AppSettings["defaultUserSn"]);
-        }
+            LDAPManagerObj = new LDAPManager(	ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+												ConfigurationManager.AppSettings["LDAPAdminUserCN"],
+												ConfigurationManager.AppSettings["LDAPAdminUserSN"],
+												tempAttributes,
+												ConfigurationManager.AppSettings["LDAPServer"],
+												ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
+												ConfigurationManager.AppSettings["LDAPServerDomain"],
+												Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
+												Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
+												Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]),
+												ConfigurationManager.AppSettings["clientCertificatePath"],
+												Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
+												ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
+												ConfigurationManager.AppSettings["LDAPUserObjectClass"],
+												ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]
+												);
+		}
 
         private static void setupTestUser(string userDN, string userCN, string userSN, Dictionary<string, string[]> attribute)
         {
