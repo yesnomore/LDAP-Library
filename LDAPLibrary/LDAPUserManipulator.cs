@@ -8,6 +8,7 @@ namespace LDAPLibrary
     {
         private LdapConnection ldapConnection;
         private string defaultUserSn;
+		private string defaultUserCn;
         private string LDAPUserManipulationMessage;
 
         /// <summary>
@@ -15,9 +16,10 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="ldapConnection">Connection of an admin User</param>
         /// <param name="defaultUserSn">Default SN for a new User</param>
-        public LDAPUserManipulator(LdapConnection ldapConnection, string defaultUserSn)
+        public LDAPUserManipulator(LdapConnection ldapConnection, string defaultUserCn , string defaultUserSn)
         {
             this.ldapConnection = ldapConnection;
+			this.defaultUserCn = defaultUserCn;
             this.defaultUserSn = defaultUserSn;
         }
 
@@ -202,7 +204,8 @@ namespace LDAPLibrary
                     {
                         //Required attributes inizialization
                         string tempUserDN = userReturn.DistinguishedName;
-                        string tempUserCN = null, tempUserSN = defaultUserSn;
+						string tempUserCN = defaultUserCn;
+						string tempUserSN = defaultUserSn;
                         Dictionary<string, string[]> tempUserOtherAttributes = new Dictionary<string, string[]>();
 
                         //Cycle attributes

@@ -6,6 +6,7 @@ namespace LDAPLibrary
 {
     public enum LDAPState
     {
+		LDAPLibraryInitSuccess,
         LDAPConnectionSuccess,
         LDAPUserManipulatorSuccess,
         LDAPConnectionError,
@@ -14,6 +15,7 @@ namespace LDAPLibrary
         LDAPModifyUserAttributeError,
         LDAPChangeUserPasswordError,
         LDAPSearchUserError,
+		LDAPLibraryInitError,
         LDAPGenericError
     }
 }

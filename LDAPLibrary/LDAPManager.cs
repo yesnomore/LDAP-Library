@@ -20,7 +20,8 @@ namespace LDAPLibrary
 		private string LDAPSearchBaseDN;	//LDAP base search DN
 
 		//Attioctional parameter class that have default values
-		private string defaultUserSn;					//Sn used in library for the user than don't have that(required in OpenLDAP
+		private string defaultUserSn = "Default Surname";//Sn used in library for the user than don't have that( almost always required in OpenLDAP)
+		private string defaultUserCn = "Default CommonName";//Cn used in library for the user than don't have that(almost always required in OpenLDAP)
 		private string domain;							//Domain of server LDAP
 		private string logPath;							//Log file path
 		private string UserObjectClass;					//The attribute ObjectClass used to indentify an user
@@ -33,7 +34,10 @@ namespace LDAPLibrary
 
 		//Error Description from LDAP connection
 		private LDAPState LDAPCurrentState;
+
 		private string LDAPConnectionErrorDescription;
+
+		private string LDAPLibraryErrorDescription;
 
 		//External Class to delegate the jobs
 		private LDAPUserManipulator ManageLDAPUser;
@@ -63,6 +67,9 @@ namespace LDAPLibrary
 			this.LDAPSearchBaseDN = LDAPSearchBaseDN;
 
 			standardLDAPInformation();
+
+			LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
+			writeLog(getLDAPMessage());
 		}
 
 		/// <summary>
@@ -91,7 +98,7 @@ namespace LDAPLibrary
 					LDAPServer,
 					LDAPSearchBaseDN)
 		{
-			addictionalLDAPInformation(	domain,
+			addictionalLDAPInformation(domain,
 										secureSocketLayerFlag,
 										transportSocketLayerFlag,
 										clientCertificateFlag,
@@ -101,6 +108,10 @@ namespace LDAPLibrary
 										UserObjectClass,
 										MatchFieldUsername
 			);
+
+			LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
+			writeLog(getLDAPMessage());
+
 		}
 
 		#region Methods from LDAPUserManipulator Class
@@ -226,7 +237,6 @@ namespace LDAPLibrary
 			this.logPath = "";
 			this.UserObjectClass = "person";
 			this.MatchFieldUsername = "cn";
-			this.defaultUserSn = "Default Surname";
 
 		}
 
@@ -244,9 +254,11 @@ namespace LDAPLibrary
 				case LDAPState.LDAPDeleteUserError: return "LDAP DELETE USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
 				case LDAPState.LDAPModifyUserAttributeError: return "LDAP MODIFY ATTRIBUTE USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
 				case LDAPState.LDAPSearchUserError: return "LDAP SEARCH USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
+				case LDAPState.LDAPLibraryInitError: return "LDAP LIBRARY INIT ERROR: " + LDAPLibraryErrorDescription;
 				case LDAPState.LDAPGenericError: return "LDAP GENERIC ERROR";
 				case LDAPState.LDAPConnectionSuccess: return "LDAP CONNECTION SUCCESS";
 				case LDAPState.LDAPUserManipulatorSuccess: return "LDAP USER MANIPULATION SUCCESS: " + ManageLDAPUser.getLDAPUserManipulationMessage();
+				case LDAPState.LDAPLibraryInitSuccess: return "LDAP LIBRARY INIT SUCCESS";
 				default: return "NO LDAP MESSAGE!";
 			}
 
@@ -309,14 +321,14 @@ namespace LDAPLibrary
 				#endregion
 
 				ldapConnection.Bind();
-				ManageLDAPUser = new LDAPUserManipulator(ldapConnection, defaultUserSn);
+				ManageLDAPUser = new LDAPUserManipulator(ldapConnection,defaultUserCn ,defaultUserSn);
 			}
 			catch (Exception e)
 			{
 				LDAPConnectionErrorDescription += e.Message +
 													"\n User: " + credential.UserName +
 													"\n Pwd: " + credential.Password +
-													(secureSocketLayer ? "\n With SSL " : "") + 
+													(secureSocketLayer ? "\n With SSL " : "") +
 													(transportSocketLayer ? "\n With TLS " : "") +
 													(clientCertificate ? "\n With Client Certificate" : "");
 				LDAPCurrentState = LDAPState.LDAPConnectionError;
@@ -326,8 +338,8 @@ namespace LDAPLibrary
 			LDAPConnectionErrorDescription += "Connection success" +
 													"\n User: " + credential.UserName +
 													"\n Pwd: " + credential.Password +
-													(secureSocketLayer ? "\n With SSL " : "")	+
-													(transportSocketLayer ? "\n With TLS " : "")+
+													(secureSocketLayer ? "\n With SSL " : "") +
+													(transportSocketLayer ? "\n With TLS " : "") +
 													(clientCertificate ? "\n With Client Certificate" : "");
 			LDAPCurrentState = LDAPState.LDAPConnectionSuccess;
 			writeLog(getLDAPMessage());
@@ -389,5 +401,7 @@ namespace LDAPLibrary
 		{
 			ldapConnection.Dispose();
 		}
+
+
 	}
 }
