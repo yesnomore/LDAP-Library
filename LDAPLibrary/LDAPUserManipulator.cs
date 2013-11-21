@@ -8,7 +8,7 @@ namespace LDAPLibrary
     {
         private LdapConnection ldapConnection;
         private string defaultUserSn;
-		private string defaultUserCn;
+        private string defaultUserCn;
         private string LDAPUserManipulationMessage;
 
         /// <summary>
@@ -16,10 +16,10 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="ldapConnection">Connection of an admin User</param>
         /// <param name="defaultUserSn">Default SN for a new User</param>
-        public LDAPUserManipulator(LdapConnection ldapConnection, string defaultUserCn , string defaultUserSn)
+        public LDAPUserManipulator(LdapConnection ldapConnection, string defaultUserCn, string defaultUserSn)
         {
             this.ldapConnection = ldapConnection;
-			this.defaultUserCn = defaultUserCn;
+            this.defaultUserCn = defaultUserCn;
             this.defaultUserSn = defaultUserSn;
         }
 
@@ -38,13 +38,13 @@ namespace LDAPLibrary
         /// <param name="newUser">User to create</param>
         /// <param name="LDAPCurrentState">State of LDAP</param>
         /// <returns> Success or Failed</returns>
-        public bool createUser(LDAPUser newUser, out LDAPState LDAPCurrentState)
+        public bool createUser(LDAPUser newUser, out LDAPState LDAPCurrentState, string objectClass)
         {
             try
             {
 
                 AddRequest addReq = new AddRequest() { DistinguishedName = newUser.getUserDn() };
-                addReq.Attributes.Add(new DirectoryAttribute("objectClass", new object[] { "person", "top" }));
+                addReq.Attributes.Add(new DirectoryAttribute("objectClass",objectClass));
                 addReq.Attributes.Add(new DirectoryAttribute("cn", newUser.getUserCn()));
                 addReq.Attributes.Add(new DirectoryAttribute("sn", newUser.getUserSn()));
 
@@ -125,6 +125,33 @@ namespace LDAPLibrary
                 return false;
             }
 
+
+            //Update LDAPUser Structure.
+            string[] tempArray;
+
+            switch (operationType)
+            {
+                case DirectoryAttributeOperation.Add:
+                    tempArray = new string[user.getUserAttribute(attributeName).Length + 1];
+                    user.getUserAttribute(attributeName).CopyTo(tempArray, 0);
+                    tempArray[tempArray.Length - 1] = attributeValue;
+                    user.setUserAttribute(attributeName, tempArray);
+                    break;
+                case DirectoryAttributeOperation.Delete:
+                    tempArray = new string[user.getUserAttribute(attributeName).Length - 1];
+                    for (int i = 0; i < user.getUserAttribute(attributeName).Length; i++)
+                    {
+                        if (!user.getUserAttribute(attributeName)[i].Equals(attributeValue))
+                            tempArray[i] = user.getUserAttribute(attributeName)[i];
+                    }
+                    user.setUserAttribute(attributeName, tempArray);
+                    break;
+                case DirectoryAttributeOperation.Replace:
+                    user.setUserAttribute(attributeName, new string[] { attributeValue });
+                    break;
+            }
+
+
             LDAPUserManipulationMessage = "Modify User Attribute Operation Success";
             LDAPCurrentState = LDAPState.LDAPUserManipulatorSuccess;
             return true;
@@ -143,9 +170,11 @@ namespace LDAPLibrary
             try
             {
 
-                DirectoryAttributeModification modifyUserPassword = new DirectoryAttributeModification() { 
+                DirectoryAttributeModification modifyUserPassword = new DirectoryAttributeModification()
+                {
                     Operation = DirectoryAttributeOperation.Replace,
-                    Name = "userPassword" };
+                    Name = "userPassword"
+                };
                 modifyUserPassword.Add(newPwd);
 
                 ModifyRequest modifyRequest = new ModifyRequest(user.getUserDn(), modifyUserPassword);
@@ -158,6 +187,8 @@ namespace LDAPLibrary
                 LDAPUserManipulationMessage = e.Message;
                 return false;
             }
+
+            user.setUserAttribute("userPassword", new string[] { newPwd });
 
             LDAPUserManipulationMessage = "Change Password Operation Success";
             LDAPCurrentState = LDAPState.LDAPUserManipulatorSuccess;
@@ -183,8 +214,10 @@ namespace LDAPLibrary
                 otherReturnedAttributes = new List<string>();
 
             //Add required search return attributes to the list
-            otherReturnedAttributes.Add("cn");
-            otherReturnedAttributes.Add("sn");
+
+            if (!otherReturnedAttributes.Contains("cn"))    otherReturnedAttributes.Add("cn");
+            if (!otherReturnedAttributes.Contains("sn"))    otherReturnedAttributes.Add("sn");
+
             try
             {
                 //Foreach all the credential,for everyone do the search and add user results to the out parameter
@@ -204,8 +237,8 @@ namespace LDAPLibrary
                     {
                         //Required attributes inizialization
                         string tempUserDN = userReturn.DistinguishedName;
-						string tempUserCN = defaultUserCn;
-						string tempUserSN = defaultUserSn;
+                        string tempUserCN = defaultUserCn;
+                        string tempUserSN = defaultUserSn;
                         Dictionary<string, string[]> tempUserOtherAttributes = new Dictionary<string, string[]>();
 
                         //Cycle attributes

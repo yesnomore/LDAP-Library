@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibrary", "LDAPLibrary\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAP Library UnitTest", "LDAP Library UnitTest\LDAP Library UnitTest.csproj", "{2C87EE7A-B569-49E1-860F-55B49BC755DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI_LDAPUnitTest", "GUI_LDAPUnitTest\GUI_LDAPUnitTest.csproj", "{62F5E637-3C0D-406A-A3A1-03F09244C8A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{2C87EE7A-B569-49E1-860F-55B49BC755DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2C87EE7A-B569-49E1-860F-55B49BC755DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2C87EE7A-B569-49E1-860F-55B49BC755DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62F5E637-3C0D-406A-A3A1-03F09244C8A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62F5E637-3C0D-406A-A3A1-03F09244C8A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62F5E637-3C0D-406A-A3A1-03F09244C8A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62F5E637-3C0D-406A-A3A1-03F09244C8A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

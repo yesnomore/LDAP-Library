@@ -68,5 +68,6 @@ namespace LDAPLibrary
         /// <param name="password">The passwords of the User</param>
         /// <returns>the operation result</returns>
         bool searchUserAndConnect(string user, string password);
+
     }
 }

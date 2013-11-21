@@ -6,3 +6,5 @@ C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAPLibrary.
 C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAPLibrary.pdb
 C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\obj\Debug\LDAP Library UnitTest.dll
 C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\obj\Debug\LDAP Library UnitTest.pdb
+C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAP Library UnitTest.dll.CodeAnalysisLog.xml
+C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAP Library UnitTest.dll.lastcodeanalysissucceeded

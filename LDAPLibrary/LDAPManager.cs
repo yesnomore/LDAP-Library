@@ -22,7 +22,6 @@ namespace LDAPLibrary
 		//Attioctional parameter class that have default values
 		private string defaultUserSn = "Default Surname";//Sn used in library for the user than don't have that( almost always required in OpenLDAP)
 		private string defaultUserCn = "Default CommonName";//Cn used in library for the user than don't have that(almost always required in OpenLDAP)
-		private string domain;							//Domain of server LDAP
 		private string logPath;							//Log file path
 		private string UserObjectClass;					//The attribute ObjectClass used to indentify an user
 		private string MatchFieldUsername;				//Field used in search filter to know what is the LDAP attribute to match with username
@@ -37,7 +36,7 @@ namespace LDAPLibrary
 
 		private string LDAPConnectionErrorDescription;
 
-		private string LDAPLibraryErrorDescription;
+        private string LDAPInitLibraryErrorDescription;
 
 		//External Class to delegate the jobs
 		private LDAPUserManipulator ManageLDAPUser;
@@ -62,14 +61,24 @@ namespace LDAPLibrary
 							string LDAPSearchBaseDN
 						   )
 		{
-			this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
-			this.LDAPServer = LDAPServer;
-			this.LDAPSearchBaseDN = LDAPSearchBaseDN;
+            if (checkLibraryParameters(new string[] { adminUserDN, adminUserCN, adminUserSN, LDAPServer, LDAPSearchBaseDN }))
+            {
+                this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
+                this.LDAPServer = LDAPServer;
+                this.LDAPSearchBaseDN = LDAPSearchBaseDN;
 
-			standardLDAPInformation();
+                standardLDAPInformation();
 
-			LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
-			writeLog(getLDAPMessage());
+                LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
+                writeLog(getLDAPMessage());
+            }
+            else 
+            {
+                LDAPInitLibraryErrorDescription = "Standard Init LDAPLibrary - One or more standard required string parameter is null or empty. Check the config file.";
+                LDAPCurrentState = LDAPState.LDAPLibraryInitError;
+                writeLog(getLDAPMessage());
+                throw new Exception(LDAPInitLibraryErrorDescription);
+            }
 		}
 
 		/// <summary>
@@ -81,7 +90,6 @@ namespace LDAPLibrary
 							Dictionary<string, string[]> adminUserAttributes,
 							string LDAPServer,
 							string LDAPSearchBaseDN,
-							string domain,
 							bool secureSocketLayerFlag,
 							bool transportSocketLayerFlag,
 							bool clientCertificateFlag,
@@ -98,20 +106,28 @@ namespace LDAPLibrary
 					LDAPServer,
 					LDAPSearchBaseDN)
 		{
-			addictionalLDAPInformation(domain,
-										secureSocketLayerFlag,
-										transportSocketLayerFlag,
-										clientCertificateFlag,
-										clientCertificatePath,
-										writeLogFlag,
-										logPath,
-										UserObjectClass,
-										MatchFieldUsername
-			);
+            if (checkLibraryParameters(new string[] { clientCertificatePath, logPath, UserObjectClass, MatchFieldUsername }))
+            {
+                addictionalLDAPInformation(secureSocketLayerFlag,
+                                            transportSocketLayerFlag,
+                                            clientCertificateFlag,
+                                            clientCertificatePath,
+                                            writeLogFlag,
+                                            logPath,
+                                            UserObjectClass,
+                                            MatchFieldUsername
+                );
 
-			LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
-			writeLog(getLDAPMessage());
-
+                LDAPCurrentState = LDAPState.LDAPLibraryInitSuccess;
+                writeLog(getLDAPMessage());
+            }
+            else 
+            {
+                LDAPInitLibraryErrorDescription = "Complete Init LDAPLibrary - One or more Addictional string parameter is null or empty. Check the config file.";
+                LDAPCurrentState = LDAPState.LDAPLibraryInitError;
+                writeLog(getLDAPMessage());
+                throw new Exception(LDAPInitLibraryErrorDescription);
+            }
 		}
 
 		#region Methods from LDAPUserManipulator Class
@@ -123,7 +139,7 @@ namespace LDAPLibrary
 		/// <returns>Boolean that comunicate the result of creation</returns>
 		public bool createUser(LDAPUser newUser)
 		{
-			bool operationResult = ManageLDAPUser.createUser(newUser, out LDAPCurrentState);
+			bool operationResult = ManageLDAPUser.createUser(newUser, out LDAPCurrentState, UserObjectClass);
 			writeLog(getLDAPMessage());
 			return operationResult;
 		}
@@ -197,7 +213,6 @@ namespace LDAPLibrary
 		/// <param name="MatchFieldUsername">Attribute to match in user search</param>
 		/// <param name="defaultUserSn">Default Surname for new users.</param>
 		private void addictionalLDAPInformation(
-				string domain,
 				bool secureSocketLayerFlag,
 				bool transportSocketLayerFlag,
 				bool clientCertificateFlag,
@@ -213,7 +228,6 @@ namespace LDAPLibrary
 			this.transportSocketLayerConnection = transportSocketLayerFlag;
 			this.clientCertificate = clientCertificateFlag;
 			this.clientCertificatePath = clientCertificatePath;
-			this.domain = domain;
 			this.writeLogFlag = writeLogFlag;
 			this.logPath = logPath;
 			this.UserObjectClass = UserObjectClass;
@@ -226,9 +240,7 @@ namespace LDAPLibrary
 		private void standardLDAPInformation()
 		{
 
-
 			//Default class variables information
-			this.domain = "";
 			this.secureSocketLayerConnection = false;
 			this.transportSocketLayerConnection = false;
 			this.clientCertificate = false;
@@ -254,7 +266,7 @@ namespace LDAPLibrary
 				case LDAPState.LDAPDeleteUserError: return "LDAP DELETE USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
 				case LDAPState.LDAPModifyUserAttributeError: return "LDAP MODIFY ATTRIBUTE USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
 				case LDAPState.LDAPSearchUserError: return "LDAP SEARCH USER ERROR: " + ManageLDAPUser.getLDAPUserManipulationMessage();
-				case LDAPState.LDAPLibraryInitError: return "LDAP LIBRARY INIT ERROR: " + LDAPLibraryErrorDescription;
+				case LDAPState.LDAPLibraryInitError: return "LDAP LIBRARY INIT ERROR: " + LDAPInitLibraryErrorDescription;
 				case LDAPState.LDAPGenericError: return "LDAP GENERIC ERROR";
 				case LDAPState.LDAPConnectionSuccess: return "LDAP CONNECTION SUCCESS";
 				case LDAPState.LDAPUserManipulatorSuccess: return "LDAP USER MANIPULATION SUCCESS: " + ManageLDAPUser.getLDAPUserManipulationMessage();
@@ -272,7 +284,7 @@ namespace LDAPLibrary
 		{
 			try
 			{
-				bool temp = connect(new NetworkCredential(loginUser.getUserDn(), loginUser.getUserAttribute("userPassword")[0], domain),
+				bool temp = connect(new NetworkCredential(loginUser.getUserDn(), loginUser.getUserAttribute("userPassword")[0]),
 														  secureSocketLayerConnection,
 														  transportSocketLayerConnection,
 														  this.clientCertificate);
@@ -384,7 +396,7 @@ namespace LDAPLibrary
 			//try to connect for all the results
 			foreach (LDAPUser searchedUser in searchReturn)
 			{
-				connectResult = connect(new NetworkCredential(searchedUser.getUserDn(), password, domain),
+				connectResult = connect(new NetworkCredential(searchedUser.getUserDn(), password),
 										secureSocketLayerConnection,
 										transportSocketLayerConnection,
 										this.clientCertificate);
@@ -402,6 +414,21 @@ namespace LDAPLibrary
 			ldapConnection.Dispose();
 		}
 
+        /// <summary>
+        /// Check all the string parameters
+        /// </summary>
+        /// <returns>true if all is set, false otherwise</returns>
+        public bool checkLibraryParameters(string [] parameters)
+        {
+            foreach (string s in parameters)
+                if (checkNullParameter(s))
+                    return false;
+            return true;
+        }
 
+        private bool checkNullParameter(string parameter)
+        {
+            return string.IsNullOrEmpty(parameter);
+        }
 	}
 }
