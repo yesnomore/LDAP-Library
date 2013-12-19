@@ -7,7 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace LDAPLibrary
 {
-	public class LDAPManager : ILDAPManager
+    public class LDAPManager : ILDAPManager
 	{
 		#region Class Variables
 
@@ -128,7 +128,7 @@ namespace LDAPLibrary
                 writeLog(getLDAPMessage());
                 throw new Exception(LDAPInitLibraryErrorDescription);
             }
-		}
+        }
 
 		#region Methods from LDAPUserManipulator Class
 

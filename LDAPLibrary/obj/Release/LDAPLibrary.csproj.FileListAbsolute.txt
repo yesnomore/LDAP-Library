@@ -2,4 +2,5 @@ C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Release\LDAPLibrary.dll
 C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Release\LDAPLibrary.pdb
 C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\obj\Release\LDAPLibrary.dll
 C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\obj\Release\LDAPLibrary.pdb
-C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\obj\Release\LDAPLibrary.csprojResolveAssemblyReference.cache
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Release\LDAPLibrary.dll.CodeAnalysisLog.xml
+C:\work\Progetti Locali\LDAPLibrary\LDAPLibrary\bin\Release\LDAPLibrary.dll.lastcodeanalysissucceeded

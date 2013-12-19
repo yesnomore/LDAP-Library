@@ -63,7 +63,7 @@ namespace GUI_LDAPUnitTest
 		/// </summary>
 		/// <param name="path"></param>
 		/// <returns></returns>
-		private static bool IsValidPath(string path)
+		private bool IsValidPath(string path)
 		{
 			try
 			{
@@ -85,7 +85,7 @@ namespace GUI_LDAPUnitTest
 		/// http://www.nitrix-reloaded.com/2010/08/31/using-external-configuration-files-in-net-applications-c/
 		/// </summary>
 		/// <param name="configFilePath"></param>
-		public static void SetConfigFileAtRuntime(string configFilePath)
+		public void SetConfigFileAtRuntime(string configFilePath)
 		{
             //Remove previously key in LDAPLibraryConfig
         //    removeActualKeys(Config.LDAPLibrary);
@@ -97,7 +97,8 @@ namespace GUI_LDAPUnitTest
 
             FileStream fs = new FileStream(configFilePath,FileMode.Open);
             FileStream fs1 = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "tempConfig.config", FileMode.Create);
-            fs.CopyTo(fs1);
+            CopyTo(fs, fs1);
+            //fs.CopyTo(fs1);
             fs.Flush();
             fs1.Flush();
             fs.Close();
@@ -112,41 +113,23 @@ namespace GUI_LDAPUnitTest
 			ConfigurationManager.RefreshSection("LDAPLibrary");
 		}
 
-        private static void removeActualKeys(System.Collections.Specialized.NameValueCollection sectionKeysCollection)
+        private void removeActualKeys(System.Collections.Specialized.NameValueCollection sectionKeysCollection)
         {
             foreach (string s in sectionKeysCollection.Keys) 
                 sectionKeysCollection.Remove(s);
         }
 
-        /// <summary>
-        /// Creates a relative path from one file or folder to another.
-        /// </summary>
-        /// <param name="fromPath">Contains the directory that defines the start of the relative path.</param>
-        /// <param name="toPath">Contains the path that defines the endpoint of the relative path.</param>
-        /// <returns>The relative path from the start directory to the end path.</returns>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="UriFormatException"></exception>
-        /// <exception cref="InvalidOperationException"></exception>
-        private static String MakeRelativePath(String fromPath, String toPath)
+        // Only useful before .NET 4
+        private void CopyTo(Stream input, Stream output)
         {
-            if (String.IsNullOrEmpty(fromPath)) throw new ArgumentNullException("fromPath");
-            if (String.IsNullOrEmpty(toPath)) throw new ArgumentNullException("toPath");
+            byte[] buffer = new byte[16 * 1024]; // Fairly arbitrary size
+            int bytesRead;
 
-            Uri fromUri = new Uri(fromPath);
-            Uri toUri = new Uri(toPath);
-
-            if (fromUri.Scheme != toUri.Scheme) { return toPath; } // path can't be made relative.
-
-            Uri relativeUri = fromUri.MakeRelativeUri(toUri);
-            String relativePath = Uri.UnescapeDataString(relativeUri.ToString());
-
-            if (toUri.Scheme.ToUpperInvariant() == "FILE")
+            while ((bytesRead = input.Read(buffer, 0, buffer.Length)) > 0)
             {
-                relativePath = relativePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
+                output.Write(buffer, 0, bytesRead);
             }
-
-            return relativePath;
         }
-
+    
 	}
 }

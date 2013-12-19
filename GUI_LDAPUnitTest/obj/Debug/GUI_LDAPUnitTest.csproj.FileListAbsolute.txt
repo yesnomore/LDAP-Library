@@ -13,5 +13,3 @@ C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\obj\Debug\GUI_LDAPUnitTest.
 C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\obj\Debug\GUI_LDAPUnitTest.exe
 C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\obj\Debug\GUI_LDAPUnitTest.pdb
 C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\bin\Debug\UP_WS_CONFIG\LDAPLibrary.config
-C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\bin\Debug\GUI_LDAPUnitTest.exe.CodeAnalysisLog.xml
-C:\work\Progetti Locali\LDAPLibrary\GUI_LDAPUnitTest\bin\Debug\GUI_LDAPUnitTest.exe.lastcodeanalysissucceeded

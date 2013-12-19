@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="LDAPLibrary.LDAPManager" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="4" Y="3" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Public" Collapsed="true" />
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>ACCCSagAgAYAAAQAgAAAAABQDRCAQFEIAAABAQAEAAQ=</HashCode>
+      <FileName>LDAPManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="loginUser" />
+      <Field Name="LDAPCurrentState" />
+      <Field Name="ManageLDAPUser" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="LDAPLibrary.LDAPUser" Collapsed="true">
+    <Position X="4" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIgAgJAAAAAEAAAAAgCAAAAAEAAAAAAAABAAAAAAA=</HashCode>
+      <FileName>LDAPUser.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LDAPLibrary.LDAPUserManipulator" Collapsed="true">
+    <Position X="0.75" Y="3" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AACACAAAAAAAQAQAQAAAAAAAAACAQAAAAAABAAAAAAQ=</HashCode>
+      <FileName>LDAPUserManipulator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="LDAPLibrary.ILDAPManager" Collapsed="true">
+    <Position X="5.75" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAAAAQAgAAAAAAABAAAQAAIAAABAAAAAAQ=</HashCode>
+      <FileName>ILDAPManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="LDAPLibrary.LDAPState" Collapsed="true">
+    <Position X="4" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAEAAAAAwAAAAACAAMCAAAAAAAABAAAAAACAEA=</HashCode>
+      <FileName>LDAPState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
