@@ -26,11 +26,14 @@ namespace GUI_LDAPUnitTest
             {
                 string testUserCN = "defaultTestUserCN";
                 string testUserSN = "defaultTestUserSN";
+                string testUserDN = "no User DN";
                 //Cut the DN of Admin User from his CN and add the default CN of testUser
-                string testUserDN = (
-                    "cn=" + testUserCN +
-                     Config.LDAPLibrary["LDAPAdminUserDN"].Substring(Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(","))
-                    );
+                if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+                    testUserDN = (
+                        "cn=" + testUserCN +
+                         Config.LDAPLibrary["LDAPAdminUserDN"].Substring(Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(","))
+                        );
+
                 Dictionary<string, string[]> testUserOtherAttribute = new Dictionary<string, string[]>()
 				{
 					//aggiungere inizializzare così il dizionario
@@ -318,7 +321,7 @@ namespace GUI_LDAPUnitTest
                         Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
-                       
+
             testAdminConnect();
 
             if (result)
@@ -336,14 +339,18 @@ namespace GUI_LDAPUnitTest
 
         private bool testUserConnect()
         {
+            bool result;
 
-            if (!testAdminConnect())
-                return false;
+            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            {
+                if (!testAdminConnect())
+                    return false;
 
-            bool result = LDAPManagerObj.createUser(testUser);
+                result = LDAPManagerObj.createUser(testUser);
 
-            if (!result)
-                return false;
+                if (!result)
+                    return false;
+            }
 
             NetworkCredential testUserCredential = new NetworkCredential(
                 testUser.getUserDn(),
@@ -358,11 +365,13 @@ namespace GUI_LDAPUnitTest
             if (!result)
                 return false;
 
-            if (!testAdminConnect())
-                return false;
+            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            {
+                if (!testAdminConnect())
+                    return false;
 
-            result = LDAPManagerObj.deleteUser(testUser);
-
+                result = LDAPManagerObj.deleteUser(testUser);
+            }
             return result;
         }
 

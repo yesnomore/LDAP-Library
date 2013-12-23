@@ -207,14 +207,14 @@ namespace LDAP_Library_UnitTest
 		[TestMethod]
 		public void testUserConnect()
 		{
-
-			testAdminConnect();
-			LDAPUser testUser = setupTestUser();
-
-			bool result = LDAPManagerObj.createUser(testUser);
-
-			Assert.IsTrue(result);
-
+            bool result;
+            LDAPUser testUser = setupTestUser();
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
+            {
+                testAdminConnect();
+                result = LDAPManagerObj.createUser(testUser);
+                Assert.IsTrue(result);
+            }
 			NetworkCredential testUserCredential = new NetworkCredential(
 				testUser.getUserDn(),
 				testUser.getUserAttribute("userPassword")[0],
@@ -226,12 +226,12 @@ namespace LDAP_Library_UnitTest
 						Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
 
 			Assert.IsTrue(result);
-
-			testAdminConnect();
-
-			result = LDAPManagerObj.deleteUser(testUser);
-
-			Assert.IsTrue(result);
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
+            {
+                testAdminConnect();
+                result = LDAPManagerObj.deleteUser(testUser);
+                Assert.IsTrue(result);
+            }
 		}
 
 		[TestMethod]
