@@ -436,9 +436,9 @@ namespace GUI_LDAPUnitTest
 
         private bool testUserConnectWithoutWritePermissions()
         {
-
-            if (!testAdminConnect())
-                return false;
+            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+                if (!testAdminConnect())
+                    return false;
 
             NetworkCredential testUserCredential = new NetworkCredential(
                 testUser.getUserDn(),
