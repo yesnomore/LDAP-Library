@@ -27,12 +27,16 @@ namespace LDAP_Library_UnitTest
 				{	"userPassword", new string[]{ConfigurationManager.AppSettings["LDAPAdminUserPassword"]}	}
 			};
 
+            AuthType authType = (AuthType)Enum.Parse(   typeof(AuthType),
+                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
+
             LDAPManagerObj = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                 tempAttributes,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
+                                                authType,
                                                 Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                                                 Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                                                 Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]),
@@ -56,12 +60,17 @@ namespace LDAP_Library_UnitTest
 				{	"userPassword", new string[]{ConfigurationManager.AppSettings["LDAPAdminUserPassword"]}	}
 			};
 
+
+            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
+
             LDAPManagerObj = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                 tempAttributes,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
-                                                ConfigurationManager.AppSettings["LDAPSearchBaseDN"]
+                                                ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
+                                                authType
                                                 );
 
             Assert.AreEqual(LDAPManagerObj.getLDAPMessage(), "LDAP LIBRARY INIT SUCCESS");
@@ -133,11 +142,10 @@ namespace LDAP_Library_UnitTest
             LDAPUser testLDAPUser = setupTestUser();
             LDAPManagerObj.createUser(testLDAPUser);
             List<LDAPUser> returnUsers = new List<LDAPUser>();
-            string userAttributeName = "description";
-            string userAttributeValue = "description Modified";
+            const string userAttributeValue = "description Modified";
 
 
-            bool result = LDAPManagerObj.modifyUserAttribute(DirectoryAttributeOperation.Replace, testLDAPUser, userAttributeName, userAttributeValue);
+            bool result = LDAPManagerObj.modifyUserAttribute(DirectoryAttributeOperation.Replace, testLDAPUser, "description", userAttributeValue);
 
             Assert.IsTrue(result);
 
@@ -159,7 +167,7 @@ namespace LDAP_Library_UnitTest
         public void testChangeUserPassword()
         {
             testAdminConnect();
-            string newPassword = "pippo";
+            const string newPassword = "pippo";
             LDAPUser testUser = setupTestUser();
             string oldPassword = testUser.getUserAttribute("userPassword")[0];
             //Create the user
@@ -215,6 +223,11 @@ namespace LDAP_Library_UnitTest
                 result = LDAPManagerObj.createUser(testUser);
                 Assert.IsTrue(result);
             }
+            else
+                //Init the DLL
+                testStandardInitLibrary();
+
+
             NetworkCredential testUserCredential = new NetworkCredential(
                 testUser.getUserDn(),
                 testUser.getUserAttribute("userPassword")[0],
@@ -288,6 +301,10 @@ namespace LDAP_Library_UnitTest
         {
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
                 testAdminConnect();
+            else
+                //Init the DLL
+                testStandardInitLibrary();
+
             LDAPUser testUser = setupTestUser();
 
             NetworkCredential testUserCredential = new NetworkCredential(
@@ -323,8 +340,6 @@ namespace LDAP_Library_UnitTest
             //UDINE TEST USER
 
             //string userDN = "cn=uptest,ou=servizio,ou=utenti,dc=uniud,dc=it";
-            //string userCN = "uptest";
-            //string userSN = "uptest";
             //Dictionary<string, string[]> attribute = new Dictionary<string, string[]>()
             //{
             //    //aggiungere inizializzare così il dizionario
@@ -332,42 +347,31 @@ namespace LDAP_Library_UnitTest
             //    {   "uid", new string[]{"uptest"}	}
             //};
 
-            //LDAPUser testLDAPUser = new LDAPUser(userDN, userCN, userSN, attribute);
 
-            //if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("cn"))
-            //    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserCn() };
-            //else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("dn"))
-            //    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserDn() };
-            //else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("sn"))
-            //    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserSn() };
-            //else
-            //    LDAPMatchSearchField = new string[1] {
-            //            testLDAPUser.getUserAttribute( ConfigurationManager.AppSettings["LDAPMatchFieldUsername"] )[0]
-            //        };
-
-
-            string userDN = "cn=testUser2,ou=Employers,ou=Bocconi,o=INetServices";
+            string userDN = "daniele.flori@unibo.it";
             string userCN = "testUser2";
             string userSN = "testUser2";
             Dictionary<string, string[]> attribute = new Dictionary<string, string[]>()
 			{
 				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{"1"}	},
+				{	"userPassword", new string[]{""}	},
 			};
 
             LDAPUser testLDAPUser = new LDAPUser(userDN, userCN, userSN, attribute);
 
-            if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("cn"))
-                LDAPMatchSearchField = new string[1] { testLDAPUser.getUserCn() };
-            else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("dn"))
-                LDAPMatchSearchField = new string[1] { testLDAPUser.getUserDn() };
-            else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("sn"))
-                LDAPMatchSearchField = new string[1] { testLDAPUser.getUserSn() };
-            else
-                LDAPMatchSearchField = new string[1] {
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]))
+            {
+                if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("cn"))
+                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserCn() };
+                else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("dn"))
+                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserDn() };
+                else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("sn"))
+                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserSn() };
+                else
+                    LDAPMatchSearchField = new string[1] {
 						testLDAPUser.getUserAttribute( ConfigurationManager.AppSettings["LDAPMatchFieldUsername"] )[0]
 					};
-
+            }
 
             //Set the test user
             return testLDAPUser;

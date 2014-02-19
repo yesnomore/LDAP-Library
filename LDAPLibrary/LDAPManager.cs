@@ -15,13 +15,13 @@ namespace LDAPLibrary
         private LdapConnection ldapConnection;
 
         //Variables passed in the constructor MUST
-        private string LDAPServer;			//Server LDAP with port
-        private LDAPUser loginUser;			//LDAP User Admin
-        private string LDAPSearchBaseDN;	//LDAP base search DN
+        private readonly string LDAPServer;			//Server LDAP with port
+        private readonly LDAPUser loginUser;			//LDAP User Admin
+        private readonly string LDAPSearchBaseDN;	//LDAP base search DN
 
         //Attioctional parameter class that have default values
-        private string defaultUserSn = "Default Surname";//Sn used in library for the user than don't have that( almost always required in OpenLDAP)
-        private string defaultUserCn = "Default CommonName";//Cn used in library for the user than don't have that(almost always required in OpenLDAP)
+        private const string defaultUserSn = "Default Surname";//Sn used in library for the user than don't have that( almost always required in OpenLDAP)
+        private const string defaultUserCn = "Default CommonName";//Cn used in library for the user than don't have that(almost always required in OpenLDAP)
         private string logPath;							//Log file path
         private string UserObjectClass;					//The attribute ObjectClass used to indentify an user
         private string MatchFieldUsername;				//Field used in search filter to know what is the LDAP attribute to match with username
@@ -31,12 +31,14 @@ namespace LDAPLibrary
         private bool clientCertificate;					//Flag that specify if enable Client Certificate
         private string clientCertificatePath;			//Client Certificate Path
 
+        private readonly AuthType authType;                      //Set the authentication Type of ldapConnection http://msdn.microsoft.com/it-it/library/system.directoryservices.protocols.authtype(v=vs.110).aspx
+
         //Error Description from LDAP connection
         private LDAPState LDAPCurrentState;
 
         private string LDAPConnectionErrorDescription;
 
-        private string LDAPInitLibraryErrorDescription;
+        private readonly string LDAPInitLibraryErrorDescription;
 
         //External Class to delegate the jobs
         private LDAPUserManipulator ManageLDAPUser;
@@ -58,15 +60,17 @@ namespace LDAPLibrary
                             string adminUserSN,
                             Dictionary<string, string[]> adminUserAttributes,
                             string LDAPServer,
-                            string LDAPSearchBaseDN
+                            string LDAPSearchBaseDN,
+                            AuthType authType
                            )
         {
-            if (checkLibraryParameters(new string[] { LDAPServer }))
+            if (checkLibraryParameters(new string[] { LDAPServer }) && authType != null)
             {
                 this.LDAPServer = LDAPServer;
+                this.authType = authType;
                 if (checkLibraryParameters(new string[] { adminUserDN, adminUserCN, adminUserSN, LDAPSearchBaseDN }))
                 {
-                    this.loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
+                    loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
 
                     this.LDAPSearchBaseDN = LDAPSearchBaseDN;
 
@@ -94,6 +98,7 @@ namespace LDAPLibrary
                             Dictionary<string, string[]> adminUserAttributes,
                             string LDAPServer,
                             string LDAPSearchBaseDN,
+                            AuthType authType,
                             bool secureSocketLayerFlag,
                             bool transportSocketLayerFlag,
                             bool clientCertificateFlag,
@@ -108,7 +113,8 @@ namespace LDAPLibrary
                     adminUserSN,
                     adminUserAttributes,
                     LDAPServer,
-                    LDAPSearchBaseDN)
+                    LDAPSearchBaseDN,
+                    authType)
         {
             if (checkLibraryParameters(new string[] { clientCertificatePath, logPath, UserObjectClass, MatchFieldUsername }))
             {
@@ -228,9 +234,9 @@ namespace LDAPLibrary
             )
         {
 
-            this.secureSocketLayerConnection = secureSocketLayerFlag;
-            this.transportSocketLayerConnection = transportSocketLayerFlag;
-            this.clientCertificate = clientCertificateFlag;
+            secureSocketLayerConnection = secureSocketLayerFlag;
+            transportSocketLayerConnection = transportSocketLayerFlag;
+            clientCertificate = clientCertificateFlag;
             this.clientCertificatePath = clientCertificatePath;
             this.writeLogFlag = writeLogFlag;
             this.logPath = logPath;
@@ -245,14 +251,14 @@ namespace LDAPLibrary
         {
 
             //Default class variables information
-            this.secureSocketLayerConnection = false;
-            this.transportSocketLayerConnection = false;
-            this.clientCertificate = false;
-            this.clientCertificatePath = "";
-            this.writeLogFlag = false;
-            this.logPath = "";
-            this.UserObjectClass = "person";
-            this.MatchFieldUsername = "cn";
+            secureSocketLayerConnection = false;
+            transportSocketLayerConnection = false;
+            clientCertificate = false;
+            clientCertificatePath = "";
+            writeLogFlag = false;
+            logPath = "";
+            UserObjectClass = "person";
+            MatchFieldUsername = "cn";
 
         }
 
@@ -288,12 +294,12 @@ namespace LDAPLibrary
         {
             try
             {
-                if (loginUser == null)
+                if (loginUser != null)
                 {
                     bool temp = connect(new NetworkCredential(loginUser.getUserDn(), loginUser.getUserAttribute("userPassword")[0]),
                                                               secureSocketLayerConnection,
                                                               transportSocketLayerConnection,
-                                                              this.clientCertificate);
+                                                              clientCertificate);
                     return temp;
                 }
                 return false;
@@ -317,7 +323,7 @@ namespace LDAPLibrary
         {
             try
             {
-                ldapConnection = new LdapConnection(LDAPServer) { Credential = credential, AuthType = AuthType.Basic };
+                ldapConnection = new LdapConnection(LDAPServer) { AuthType = authType };
                 ldapConnection.SessionOptions.ProtocolVersion = 3;
 
                 #region secure Layer Options
@@ -340,27 +346,29 @@ namespace LDAPLibrary
 
                 #endregion
 
-                ldapConnection.Bind();
+                ldapConnection.Bind(credential);
+                //ldapConnection.SendRequest(new SearchRequest(LDAPServer, "(objectClass=*)", SearchScope.Subtree, null));
                 ManageLDAPUser = new LDAPUserManipulator(ldapConnection, defaultUserCn, defaultUserSn);
             }
             catch (Exception e)
             {
-                LDAPConnectionErrorDescription += e.Message +
-                                                    "\n User: " + credential.UserName +
-                                                    "\n Pwd: " + credential.Password +
-                                                    (secureSocketLayer ? "\n With SSL " : "") +
-                                                    (transportSocketLayer ? "\n With TLS " : "") +
-                                                    (clientCertificate ? "\n With Client Certificate" : "");
+                LDAPConnectionErrorDescription += String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
+                                                                e.Message,
+                                                                credential.UserName,
+                                                                credential.Password,
+                                                                (secureSocketLayer ? "\n With SSL " : ""),
+                                                                (transportSocketLayer ? "\n With TLS " : ""),
+                                                                (clientCertificate ? "\n With Client Certificate" : ""));
                 LDAPCurrentState = LDAPState.LDAPConnectionError;
                 writeLog(getLDAPMessage());
                 return false;
             }
-            LDAPConnectionErrorDescription += "Connection success" +
-                                                    "\n User: " + credential.UserName +
-                                                    "\n Pwd: " + credential.Password +
-                                                    (secureSocketLayer ? "\n With SSL " : "") +
-                                                    (transportSocketLayer ? "\n With TLS " : "") +
-                                                    (clientCertificate ? "\n With Client Certificate" : "");
+            LDAPConnectionErrorDescription += String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
+                                                            credential.UserName,
+                                                            credential.Password,
+                                                            (secureSocketLayer ? "\n With SSL " : ""),
+                                                            (transportSocketLayer ? "\n With TLS " : ""),
+                                                            (clientCertificate ? "\n With Client Certificate" : ""));
             if (loginUser == null)
                 ldapConnection.Dispose();
             LDAPCurrentState = LDAPState.LDAPConnectionSuccess;
@@ -376,9 +384,11 @@ namespace LDAPLibrary
         {
             if (writeLogFlag == true && !String.IsNullOrEmpty(logPath))
             {
-                StreamWriter logWriter = new StreamWriter(logPath + "LDAPLog.txt", true);
-                logWriter.WriteLine(DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss tt") + " - " + messageToLog);
-                logWriter.Close();
+                using (StreamWriter logWriter = new StreamWriter(logPath + "LDAPLog.txt", true))
+                {
+                    logWriter.WriteLine(String.Format("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog));
+                    logWriter.Close();
+                }
             }
         }
 
@@ -409,7 +419,7 @@ namespace LDAPLibrary
                 connectResult = connect(new NetworkCredential(searchedUser.getUserDn(), password),
                                         secureSocketLayerConnection,
                                         transportSocketLayerConnection,
-                                        this.clientCertificate);
+                                        clientCertificate);
                 if (connectResult == true)
                     return true;
             }
@@ -432,5 +442,7 @@ namespace LDAPLibrary
         {
             return string.IsNullOrEmpty(parameter);
         }
+
+
     }
 }

@@ -6,9 +6,9 @@ namespace LDAPLibrary
 {
     public class LDAPUserManipulator
     {
-        private LdapConnection ldapConnection;
-        private string defaultUserSn;
-        private string defaultUserCn;
+        private readonly LdapConnection ldapConnection;
+        private readonly string defaultUserSn;
+        private readonly string defaultUserCn;
         private string LDAPUserManipulationMessage;
 
         /// <summary>
@@ -224,7 +224,7 @@ namespace LDAPLibrary
                 foreach (string users in searchedUsers)
                 {
                     //Create the filter for the search
-                    string LDAPSearchFilter = "(&(objectClass=" + userObjectClass + ")(" + MatchFieldUsername + "=" + users + "))";
+                    string LDAPSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", userObjectClass, MatchFieldUsername, users);
 
                     //Componing search request
                     SearchRequest search = new SearchRequest(baseDN, LDAPSearchFilter, SearchScope.Subtree, otherReturnedAttributes.ToArray());

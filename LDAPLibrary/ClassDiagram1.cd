@@ -4,10 +4,9 @@
     <Position X="4" Y="3" Width="1.5" />
     <Compartments>
       <Compartment Name="Public" Collapsed="true" />
-      <Compartment Name="Fields" Collapsed="true" />
     </Compartments>
     <TypeIdentifier>
-      <HashCode>ACCCSagAgAYAAAQAgAAAAABQDRCAQFEIAAABAQAEAAQ=</HashCode>
+      <HashCode>ACCCSaoAgAYAAAQAgAAAAABQDRCAQFEIAAABAQAEAAQ=</HashCode>
       <FileName>LDAPManager.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>

@@ -95,20 +95,24 @@ namespace GUI_LDAPUnitTest
 				{	"userPassword", new string[]{ Config.LDAPLibrary["LDAPAdminUserPassword"]}	}
 			};
 
+                AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                            Config.LDAPLibrary["LDAPAuthType"]);
+
                 LDAPManagerObj = new LDAPManager(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                     Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                     Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                    Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                    Config.LDAPLibrary["LDAPAdminUserSN"],
                                                     tempAttributes,
-                                                     Config.LDAPLibrary["LDAPServer"],
-                                                     Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    Config.LDAPLibrary["LDAPServer"],
+                                                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    authType,
                                                     Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
                                                     Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
                                                     Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
-                                                     Config.LDAPLibrary["clientCertificatePath"],
+                                                    Config.LDAPLibrary["clientCertificatePath"],
                                                     Convert.ToBoolean(Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                                                     Config.LDAPLibrary["LDAPLibraryLogPath"],
-                                                     Config.LDAPLibrary["LDAPUserObjectClass"],
-                                                     Config.LDAPLibrary["LDAPMatchFieldUsername"]
+                                                    Config.LDAPLibrary["LDAPLibraryLogPath"],
+                                                    Config.LDAPLibrary["LDAPUserObjectClass"],
+                                                    Config.LDAPLibrary["LDAPMatchFieldUsername"]
                                                     );
 
                 if (LDAPManagerObj.getLDAPMessage().Equals("LDAP LIBRARY INIT SUCCESS"))
@@ -133,12 +137,16 @@ namespace GUI_LDAPUnitTest
 				{	"userPassword", new string[]{ Config.LDAPLibrary["LDAPAdminUserPassword"]}	}
 			};
 
+                AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                            Config.LDAPLibrary["LDAPAuthType"]);
+
                 LDAPManagerObj = new LDAPManager(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                     Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                     Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                    Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                    Config.LDAPLibrary["LDAPAdminUserSN"],
                                                     tempAttributes,
-                                                     Config.LDAPLibrary["LDAPServer"],
-                                                     Config.LDAPLibrary["LDAPSearchBaseDN"]
+                                                    Config.LDAPLibrary["LDAPServer"],
+                                                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    authType
                                                     );
 
                 if (LDAPManagerObj.getLDAPMessage().Equals("LDAP LIBRARY INIT SUCCESS"))
@@ -225,6 +233,8 @@ namespace GUI_LDAPUnitTest
 
         private bool testModifyUserAttribute()
         {
+            string oldDescription;
+
             if (!testAdminConnect())
                 return false;
 
@@ -233,12 +243,22 @@ namespace GUI_LDAPUnitTest
 
             List<LDAPUser> returnUsers = new List<LDAPUser>();
 
-
+            try
+            {
+                oldDescription = testUser.getUserAttribute("description")[0];
+            }
+            catch (Exception e) 
+            {
+                oldDescription = "";
+            }
             bool result = LDAPManagerObj.modifyUserAttribute(DirectoryAttributeOperation.Replace, testUser, "description", testUserNewDescription);
 
             if (!result)
-                return result;
-
+            {
+                result = LDAPManagerObj.deleteUser(testUser);
+                testUser.setUserAttribute("description", new string[] { oldDescription });
+                return false;
+            }
             switch (LDAPMatchSearchField[0])
             {
                 case "cn": result = LDAPManagerObj.searchUsers(new List<string> { "description" },
@@ -273,6 +293,7 @@ namespace GUI_LDAPUnitTest
             else
             {
                 result = LDAPManagerObj.deleteUser(testUser);
+                testUser.setUserAttribute("description", returnUsers[0].getUserAttribute("description"));
                 return false;
             }
         }
@@ -289,13 +310,19 @@ namespace GUI_LDAPUnitTest
             string oldPassword = testUser.getUserAttribute("userPassword")[0];
 
             if (!result)
+            {
                 return false;
+            }
 
             //Perform change of password
             result = LDAPManagerObj.changeUserPassword(testUser, testUserNewPassword);
 
             if (!result)
+            {
+                LDAPManagerObj.deleteUser(testUser);
+                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
                 return false;
+            }
 
             //Try to connect with the old password
             NetworkCredential testUserCredential = new NetworkCredential(
@@ -304,12 +331,16 @@ namespace GUI_LDAPUnitTest
                 "");
 
             result = LDAPManagerObj.connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
+                        Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
+                        Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
 
             if (result)
+            {
+                LDAPManagerObj.deleteUser(testUser);
+                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
                 return false;
+            }
 
             //Try to connect with the new password
             testUserCredential = new NetworkCredential(
@@ -318,20 +349,22 @@ namespace GUI_LDAPUnitTest
                 "");
 
             result = LDAPManagerObj.connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
+                        Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
+                        Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
 
             testAdminConnect();
 
             if (result)
             {
                 result = LDAPManagerObj.deleteUser(testUser);
-                return true;
+                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
+                return result;
             }
             else
             {
                 result = LDAPManagerObj.deleteUser(testUser);
+                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
                 return false;
             }
         }
@@ -363,15 +396,17 @@ namespace GUI_LDAPUnitTest
                         Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
 
             if (!result)
+            {
+                LDAPManagerObj.deleteUser(testUser);
                 return false;
+            }
 
             if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
             {
                 if (!testAdminConnect())
-                    return false;
-
-                result = LDAPManagerObj.deleteUser(testUser);
+                    return false;               
             }
+            result = LDAPManagerObj.deleteUser(testUser);
             return result;
         }
 

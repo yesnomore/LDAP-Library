@@ -7,11 +7,11 @@ namespace LDAPLibrary
     [Serializable]
     public class LDAPUser
     {
-        private string cn;
-        private string sn;
-        private string dn;
+        private readonly string cn;
+        private readonly string sn;
+        private readonly string dn;
 
-        private Dictionary<string, string[]> otherAttributes;
+        private readonly Dictionary<string, string[]> otherAttributes;
 
         public LDAPUser(string userDN, string userCN, string userSN, Dictionary<string, string[]> otherAttribute)
         {

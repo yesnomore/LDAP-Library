@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using LDAPLibrary;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.DirectoryServices.Protocols;
 
 namespace GUI_LDAPUnitTest
 {
@@ -258,6 +259,8 @@ namespace GUI_LDAPUnitTest
 
 			testsProgressBar.Value = 100;
 
+
+
 			Cursor.Current = Cursors.Default;
 		}
 
@@ -279,13 +282,17 @@ namespace GUI_LDAPUnitTest
 				{	"userPassword", new string[]{ Config.LDAPLibrary["LDAPAdminUserPassword"]}	}
 			};
 
+            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                        Config.LDAPLibrary["LDAPAuthType"]);
+
             LDAPManagerObj = new LDAPManager(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                 Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                 Config.LDAPLibrary["LDAPAdminUserSN"],
-												tempAttributes,
-                                                 Config.LDAPLibrary["LDAPServer"],
-                                                 Config.LDAPLibrary["LDAPSearchBaseDN"]
-												);
+                                                Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                tempAttributes,
+                                                Config.LDAPLibrary["LDAPServer"],
+                                                Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                authType
+                                                );
 		}
 
 		/// <summary>
