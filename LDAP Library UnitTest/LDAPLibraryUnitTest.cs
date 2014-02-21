@@ -21,19 +21,16 @@ namespace LDAP_Library_UnitTest
         public void testCompleteInitLibrary()
         {
 
-            Dictionary<string, string[]> tempAttributes = new Dictionary<string, string[]>()
-			{
-				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{ConfigurationManager.AppSettings["LDAPAdminUserPassword"]}	}
-			};
-
-            AuthType authType = (AuthType)Enum.Parse(   typeof(AuthType),
-                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
-
-            LDAPManagerObj = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+            LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
-                                                tempAttributes,
+                                                null);
+            adminUser.setUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
+
+            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
+
+            LDAPManagerObj = new LDAPManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType,
@@ -54,20 +51,17 @@ namespace LDAP_Library_UnitTest
         public void testStandardInitLibrary()
         {
 
-            Dictionary<string, string[]> tempAttributes = new Dictionary<string, string[]>()
-			{
-				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{ConfigurationManager.AppSettings["LDAPAdminUserPassword"]}	}
-			};
+            LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
+                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
+                                                 null);
+            adminUser.setUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
 
 
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
-                                                ConfigurationManager.AppSettings["LDAPAdminUserCN"],
-                                                ConfigurationManager.AppSettings["LDAPAdminUserSN"],
-                                                tempAttributes,
+            LDAPManagerObj = new LDAPManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType
@@ -351,13 +345,10 @@ namespace LDAP_Library_UnitTest
             string userDN = "daniele.flori@unibo.it";
             string userCN = "testUser2";
             string userSN = "testUser2";
-            Dictionary<string, string[]> attribute = new Dictionary<string, string[]>()
-			{
-				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{""}	},
-			};
 
-            LDAPUser testLDAPUser = new LDAPUser(userDN, userCN, userSN, attribute);
+            LDAPUser testLDAPUser = new LDAPUser(userDN, userCN, userSN, null);
+
+            testLDAPUser.setUserAttribute("userPassword", "");
 
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]))
             {

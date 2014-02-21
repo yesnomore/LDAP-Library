@@ -55,10 +55,7 @@ namespace LDAPLibrary
         /// <param name="adminUserSN">SN of admin user</param>
         /// <param name="LDAPServer">LDAP Server with port</param>
         /// <param name="LDAPSearchBaseDN">Base DN where start the search.</param>
-        public LDAPManager(string adminUserDN,
-                            string adminUserCN,
-                            string adminUserSN,
-                            Dictionary<string, string[]> adminUserAttributes,
+        public LDAPManager(LDAPUser adminUser,
                             string LDAPServer,
                             string LDAPSearchBaseDN,
                             AuthType authType
@@ -68,9 +65,9 @@ namespace LDAPLibrary
             {
                 this.LDAPServer = LDAPServer;
                 this.authType = authType;
-                if (checkLibraryParameters(new string[] { adminUserDN, adminUserCN, adminUserSN, LDAPSearchBaseDN }))
+                if (checkLibraryParameters(new string[] { adminUser.getUserDn(), adminUser.getUserCn(), adminUser.getUserSn(), LDAPSearchBaseDN }))
                 {
-                    loginUser = new LDAPUser(adminUserDN, adminUserCN, adminUserSN, adminUserAttributes);
+                    loginUser = adminUser;
 
                     this.LDAPSearchBaseDN = LDAPSearchBaseDN;
 
@@ -92,10 +89,7 @@ namespace LDAPLibrary
         /// <summary>
         /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LDAPManager(string adminUserDN,
-                            string adminUserCN,
-                            string adminUserSN,
-                            Dictionary<string, string[]> adminUserAttributes,
+        public LDAPManager(LDAPUser adminUser,
                             string LDAPServer,
                             string LDAPSearchBaseDN,
                             AuthType authType,
@@ -108,10 +102,7 @@ namespace LDAPLibrary
                             string UserObjectClass,
                             string MatchFieldUsername
             )
-            : this(adminUserDN,
-                    adminUserCN,
-                    adminUserSN,
-                    adminUserAttributes,
+            : this(adminUser,
                     LDAPServer,
                     LDAPSearchBaseDN,
                     authType)
