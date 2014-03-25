@@ -34,10 +34,10 @@ namespace GUI_LDAPUnitTest
                          Config.LDAPLibrary["LDAPAdminUserDN"].Substring(Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(","))
                         );
 
-                Dictionary<string, string[]> testUserOtherAttribute = new Dictionary<string, string[]>()
+                Dictionary<string, List<string>> testUserOtherAttribute = new Dictionary<string, List<string>>()
 				{
 					//aggiungere inizializzare così il dizionario
-					{	"userPassword", new string[]{"defaultTestUserPassword"}	}
+					{	"userPassword", new List<string>(){"defaultTestUserPassword"}	}
 				};
 
                 setupTestUser(testUserDN, testUserCN, testUserSN, testUserOtherAttribute);
@@ -67,7 +67,7 @@ namespace GUI_LDAPUnitTest
             testUserNewPassword = p;
         }
 
-        public void setupTestUser(string testUserDN, string testUserCN, string testUserSN, Dictionary<string, string[]> testUserOtherAttribute)
+        public void setupTestUser(string testUserDN, string testUserCN, string testUserSN, Dictionary<string, List<string>> testUserOtherAttribute)
         {
             testUser = new LDAPUser(testUserDN, testUserCN, testUserSN, testUserOtherAttribute);
         }
@@ -89,19 +89,16 @@ namespace GUI_LDAPUnitTest
             try
             {
 
-                Dictionary<string, string[]> tempAttributes = new Dictionary<string, string[]>()
-			{
-				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{ Config.LDAPLibrary["LDAPAdminUserPassword"]}	}
-			};
+                LDAPUser adminUser = new LDAPUser(Config.LDAPLibrary["LDAPAdminUserDN"],
+                                                Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                null);
+                adminUser.setUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
                 AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                             Config.LDAPLibrary["LDAPAuthType"]);
 
-                LDAPManagerObj = new LDAPManager(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                    Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                    Config.LDAPLibrary["LDAPAdminUserSN"],
-                                                    tempAttributes,
+                LDAPManagerObj = new LDAPManager(adminUser,
                                                     Config.LDAPLibrary["LDAPServer"],
                                                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                                                     authType,
@@ -131,19 +128,17 @@ namespace GUI_LDAPUnitTest
 
             try
             {
-                Dictionary<string, string[]> tempAttributes = new Dictionary<string, string[]>()
-			{
-				//aggiungere inizializzare così il dizionario
-				{	"userPassword", new string[]{ Config.LDAPLibrary["LDAPAdminUserPassword"]}	}
-			};
+
+                LDAPUser adminUser = new LDAPUser(Config.LDAPLibrary["LDAPAdminUserDN"],
+                                                Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                null);
+                adminUser.setUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
                 AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                             Config.LDAPLibrary["LDAPAuthType"]);
 
-                LDAPManagerObj = new LDAPManager(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                    Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                    Config.LDAPLibrary["LDAPAdminUserSN"],
-                                                    tempAttributes,
+                LDAPManagerObj = new LDAPManager(adminUser,
                                                     Config.LDAPLibrary["LDAPServer"],
                                                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                                                     authType
@@ -247,7 +242,7 @@ namespace GUI_LDAPUnitTest
             {
                 oldDescription = testUser.getUserAttribute("description")[0];
             }
-            catch (Exception e) 
+            catch (Exception e)
             {
                 oldDescription = "";
             }
@@ -256,7 +251,7 @@ namespace GUI_LDAPUnitTest
             if (!result)
             {
                 result = LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("description", new string[] { oldDescription });
+                testUser.setUserAttribute("description", oldDescription);
                 return false;
             }
             switch (LDAPMatchSearchField[0])
@@ -276,7 +271,7 @@ namespace GUI_LDAPUnitTest
                     break;
                 default:
                     result = LDAPManagerObj.searchUsers(new List<string> { "description" },
-                                                               testUser.getUserAttribute(LDAPMatchSearchField[0]),
+                                                               testUser.getUserAttribute(LDAPMatchSearchField[0]).ToArray(),
                                                                out returnUsers);
                     break;
             }
@@ -293,7 +288,7 @@ namespace GUI_LDAPUnitTest
             else
             {
                 result = LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("description", returnUsers[0].getUserAttribute("description"));
+                testUser.setUserAttributes("description", returnUsers[0].getUserAttribute("description"));
                 return false;
             }
         }
@@ -320,7 +315,7 @@ namespace GUI_LDAPUnitTest
             if (!result)
             {
                 LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
+                testUser.setUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
@@ -338,7 +333,7 @@ namespace GUI_LDAPUnitTest
             if (result)
             {
                 LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
+                testUser.setUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
@@ -358,13 +353,13 @@ namespace GUI_LDAPUnitTest
             if (result)
             {
                 result = LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
+                testUser.setUserAttribute("userPassword", oldPassword);
                 return result;
             }
             else
             {
                 result = LDAPManagerObj.deleteUser(testUser);
-                testUser.setUserAttribute("userPassword", new string[] { oldPassword });
+                testUser.setUserAttribute("userPassword", oldPassword);
                 return false;
             }
         }
@@ -404,7 +399,7 @@ namespace GUI_LDAPUnitTest
             if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
             {
                 if (!testAdminConnect())
-                    return false;               
+                    return false;
             }
             result = LDAPManagerObj.deleteUser(testUser);
             return result;
@@ -522,7 +517,7 @@ namespace GUI_LDAPUnitTest
         {
             return testUser.getUserSn();
         }
-        public string[] getTestUserOtherAttributes(string attributeKey)
+        public List<string> getTestUserOtherAttributes(string attributeKey)
         {
             return testUser.getUserAttribute(attributeKey);
         }

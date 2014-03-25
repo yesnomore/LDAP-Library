@@ -23,10 +23,11 @@ namespace GUI_LDAPUnitTest
             {
                 return ldapLibrary;
             }
-            set 
+            set
             {
                 ldapLibrary = value;
             }
         }
+
     }
 }
