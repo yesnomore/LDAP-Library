@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using LDAPLibrary;
 using System.Configuration;
-using System.Collections.Specialized;
 using System.DirectoryServices.Protocols;
 
 namespace GUI_LDAPUnitTest
@@ -43,10 +39,7 @@ namespace GUI_LDAPUnitTest
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Cannot load the Config - Standard LDAP Library Init failed" +
-                                Environment.NewLine +
-                                "Exception Message: " +
-                                ex.Message,
+                MessageBox.Show(String.Format("Cannot load the Config - Standard LDAP Library Init failed{0}Exception Message: {1}", Environment.NewLine, ex.Message),
                                 "Error Config Loading",
                                 MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw;
@@ -64,7 +57,10 @@ namespace GUI_LDAPUnitTest
         /// <param name="e"></param>
         private void changeConfigFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new SetUpForm().ShowDialog();
+            using (SetUpForm setUpForm = new SetUpForm())
+            {
+                setUpForm.ShowDialog();
+            }
             ConfigurationManager.RefreshSection("LDAPLibrary");
         }
 
@@ -84,30 +80,27 @@ namespace GUI_LDAPUnitTest
 
         private void configModifyUserDescriptionButton_Click(object sender, EventArgs e)
         {
-            OneItemConfigurationForm setupModifyUserDescriptionForm = new OneItemConfigurationForm(
-                oneItemConfigurationState.newDescription,
-                testManagerObj
-                );
+            using (OneItemConfigurationForm setupModifyUserDescriptionForm = new OneItemConfigurationForm(oneItemConfigurationState.newDescription, testManagerObj))
+            {
 
-            setupModifyUserDescriptionForm.ShowDialog();
+                setupModifyUserDescriptionForm.ShowDialog();
+            }
         }
 
         private void configSearchUserButton_Click(object sender, EventArgs e)
         {
-            OneItemConfigurationForm setupSearchUserForm = new OneItemConfigurationForm(
-                oneItemConfigurationState.userToSearch,
-                testManagerObj
-                );
-            setupSearchUserForm.ShowDialog();
+            using (OneItemConfigurationForm setupSearchUserForm = new OneItemConfigurationForm(oneItemConfigurationState.userToSearch, testManagerObj))
+            {
+                setupSearchUserForm.ShowDialog();
+            }
         }
 
         private void configUserChangePasswordButton_Click(object sender, EventArgs e)
         {
-            OneItemConfigurationForm setupNewPasswordForm = new OneItemConfigurationForm(
-                oneItemConfigurationState.newPassword,
-                testManagerObj
-                );
-            setupNewPasswordForm.ShowDialog();
+            using (OneItemConfigurationForm setupNewPasswordForm = new OneItemConfigurationForm(oneItemConfigurationState.newPassword, testManagerObj))
+            {
+                setupNewPasswordForm.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -117,7 +110,10 @@ namespace GUI_LDAPUnitTest
         /// <param name="e"></param>
         private void setUserButton_Click(object sender, EventArgs e)
         {
-            new TestUserForm(ref testManagerObj).ShowDialog();
+            using (TestUserForm testUserForm = new TestUserForm(ref testManagerObj))
+            {
+                testUserForm.ShowDialog();
+            }
             currentUserLabel.Text = testManagerObj.getTestUserCN();
         }
 
@@ -178,14 +174,14 @@ namespace GUI_LDAPUnitTest
         /// <param name="e"></param>
         private void readTestsLabel_Click(object sender, EventArgs e)
         {
-            if (this.readTestsPanel.Height == 35)
+            if (readTestsPanel.Height == 35)
             {
                 //Expand the read and move the write panel
                 readTestsPanel.Height = 180;
                 readTestIconLabel.Text = "-";
                 writeTestsPanel.Location = new Point(writeTestsPanel.Location.X, writeTestsPanel.Location.Y + 150);
             }
-            else if (this.readTestsPanel.Height == 180)
+            else if (readTestsPanel.Height == 180)
             {
                 //Collapse the read panel and write panel repositioned.
                 readTestsPanel.Height = 35;
@@ -276,21 +272,33 @@ namespace GUI_LDAPUnitTest
 
             object TEST = Config.LDAPLibrary;
 
-            LDAPUser adminUser = new LDAPUser(Config.LDAPLibrary["LDAPAdminUserDN"],
-                                                Config.LDAPLibrary["LDAPAdminUserCN"],
-                                                Config.LDAPLibrary["LDAPAdminUserSN"],
-                                                null);
-
-            adminUser.setUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         Config.LDAPLibrary["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(adminUser,
-                                                Config.LDAPLibrary["LDAPServer"],
-                                                Config.LDAPLibrary["LDAPSearchBaseDN"],
-                                                authType
-                                                );
+            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            {
+
+                LDAPUser adminUser = new LDAPUser(Config.LDAPLibrary["LDAPAdminUserDN"],
+                                                Config.LDAPLibrary["LDAPAdminUserCN"],
+                                                Config.LDAPLibrary["LDAPAdminUserSN"],
+                                                null);
+
+                adminUser.setUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+
+
+                LDAPManagerObj = new LDAPManager(adminUser,
+                                                    Config.LDAPLibrary["LDAPServer"],
+                                                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    authType
+                                                    );
+            }
+            else
+                LDAPManagerObj = new LDAPManager(null,
+                                                    Config.LDAPLibrary["LDAPServer"],
+                                                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    authType
+                                                    );
         }
 
         /// <summary>
@@ -298,41 +306,50 @@ namespace GUI_LDAPUnitTest
         /// </summary>
         private void BuildTriplets()
         {
-            testTripletList.Add(new testTriplet(this.testInitLibraryCheckBox,
+
+            testTripletList.Add(new testTriplet(testStandardInitLibraryNoAdminCheckBox,
+                                                tests.testStandardInitLibraryNoAdmin,
+                                                stateStandardInitLibraryNoAdminLabel));
+
+            testTripletList.Add(new testTriplet(testInitLibraryNoAdminCheckBox,
+                                                tests.testInitLibraryNoAdmin,
+                                                stateInitLibraryNoAdminLabel));
+
+            testTripletList.Add(new testTriplet(testInitLibraryCheckBox,
                                                 tests.testInitLibrary,
-                                                this.stateInitLibraryLabel));
+                                                stateInitLibraryLabel));
 
-            testTripletList.Add(new testTriplet(this.testAdminConnectCheckBox,
+            testTripletList.Add(new testTriplet(testAdminConnectCheckBox,
                                                 tests.testAdminConnection,
-                                                this.stateAdminConnectLabel));
+                                                stateAdminConnectLabel));
 
-            testTripletList.Add(new testTriplet(this.testConnectUserCheckBox,
+            testTripletList.Add(new testTriplet(testConnectUserCheckBox,
                                                 tests.testConnectUser,
-                                                this.stateConnectUserLabel));
+                                                stateConnectUserLabel));
 
-            testTripletList.Add(new testTriplet(this.testSearchUserAndConnectCheckBox,
+            testTripletList.Add(new testTriplet(testSearchUserAndConnectCheckBox,
                                                 tests.testSearchUserAndConnect,
-                                                this.stateSearchUserAndConnectLabel));
+                                                stateSearchUserAndConnectLabel));
 
-            testTripletList.Add(new testTriplet(this.testSearchUsersCheckBox,
+            testTripletList.Add(new testTriplet(testSearchUsersCheckBox,
                                                 tests.testSearchUsers,
-                                                this.stateSearchUsersLabel));
+                                                stateSearchUsersLabel));
 
-            testTripletList.Add(new testTriplet(this.testCreateUserCheckBox,
+            testTripletList.Add(new testTriplet(testCreateUserCheckBox,
                                                 tests.testCreateUser,
-                                                this.stateCreateUserLabel));
+                                                stateCreateUserLabel));
 
-            testTripletList.Add(new testTriplet(this.testModifyUserDescriptionCheckBox,
+            testTripletList.Add(new testTriplet(testModifyUserDescriptionCheckBox,
                                                 tests.testModifyUserDescription,
-                                                this.stateModifyUserDescriptionLabel));
+                                                stateModifyUserDescriptionLabel));
 
-            testTripletList.Add(new testTriplet(this.testUserChangePasswordCheckBox,
+            testTripletList.Add(new testTriplet(testUserChangePasswordCheckBox,
                                                 tests.testUserChangePassword,
-                                                this.stateUserChangePasswordLabel));
+                                                stateUserChangePasswordLabel));
 
-            testTripletList.Add(new testTriplet(this.testDeleteUserCheckBox,
+            testTripletList.Add(new testTriplet(testDeleteUserCheckBox,
                                                 tests.testDeleteUser,
-                                                this.stateDeleteUserLabel));
+                                                stateDeleteUserLabel));
         }
 
         /// <summary>
@@ -353,6 +370,7 @@ namespace GUI_LDAPUnitTest
 
 
         #endregion
+
 
 
     }

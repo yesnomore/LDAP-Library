@@ -1,33 +1,33 @@
 ﻿namespace GUI_LDAPUnitTest
 {
-	partial class TestForm
-	{
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    partial class TestForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Windows Form Designer generated code
+        #region Windows Form Designer generated code
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.runButton = new System.Windows.Forms.Button();
             this.testsProgressBar = new System.Windows.Forms.ProgressBar();
             this.testsLabel = new System.Windows.Forms.Label();
@@ -78,6 +78,12 @@
             this.TestUserLabel = new System.Windows.Forms.Label();
             this.testAdminConnectCheckBox = new System.Windows.Forms.CheckBox();
             this.testInitLibraryCheckBox = new System.Windows.Forms.CheckBox();
+            this.testInitLibraryNoAdminCheckBox = new System.Windows.Forms.CheckBox();
+            this.testInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
+            this.stateInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
+            this.testStandardInitLibraryNoAdminCheckBox = new System.Windows.Forms.CheckBox();
+            this.testStandardInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
+            this.stateStandardInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.readTestsPanel.SuspendLayout();
             this.writeTestsPanel.SuspendLayout();
@@ -88,7 +94,7 @@
             // 
             this.runButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runButton.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.runButton.Location = new System.Drawing.Point(23, 650);
+            this.runButton.Location = new System.Drawing.Point(26, 675);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(149, 48);
             this.runButton.TabIndex = 4;
@@ -98,7 +104,7 @@
             // 
             // testsProgressBar
             // 
-            this.testsProgressBar.Location = new System.Drawing.Point(178, 658);
+            this.testsProgressBar.Location = new System.Drawing.Point(181, 683);
             this.testsProgressBar.Name = "testsProgressBar";
             this.testsProgressBar.Size = new System.Drawing.Size(420, 31);
             this.testsProgressBar.TabIndex = 5;
@@ -118,7 +124,7 @@
             // 
             this.testInitLibraryLabel.AutoSize = true;
             this.testInitLibraryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.testInitLibraryLabel.Location = new System.Drawing.Point(27, 86);
+            this.testInitLibraryLabel.Location = new System.Drawing.Point(27, 133);
             this.testInitLibraryLabel.Name = "testInitLibraryLabel";
             this.testInitLibraryLabel.Size = new System.Drawing.Size(142, 18);
             this.testInitLibraryLabel.TabIndex = 2;
@@ -129,7 +135,7 @@
             // 
             this.testAdminConnectLabel.AutoSize = true;
             this.testAdminConnectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.testAdminConnectLabel.Location = new System.Drawing.Point(27, 117);
+            this.testAdminConnectLabel.Location = new System.Drawing.Point(27, 156);
             this.testAdminConnectLabel.Name = "testAdminConnectLabel";
             this.testAdminConnectLabel.Size = new System.Drawing.Size(155, 18);
             this.testAdminConnectLabel.TabIndex = 3;
@@ -224,7 +230,7 @@
             // 
             this.stateInitLibraryLabel.AutoSize = true;
             this.stateInitLibraryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stateInitLibraryLabel.Location = new System.Drawing.Point(295, 88);
+            this.stateInitLibraryLabel.Location = new System.Drawing.Point(295, 135);
             this.stateInitLibraryLabel.Name = "stateInitLibraryLabel";
             this.stateInitLibraryLabel.Size = new System.Drawing.Size(64, 15);
             this.stateInitLibraryLabel.TabIndex = 12;
@@ -235,7 +241,7 @@
             // 
             this.stateAdminConnectLabel.AutoSize = true;
             this.stateAdminConnectLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stateAdminConnectLabel.Location = new System.Drawing.Point(295, 120);
+            this.stateAdminConnectLabel.Location = new System.Drawing.Point(295, 159);
             this.stateAdminConnectLabel.Name = "stateAdminConnectLabel";
             this.stateAdminConnectLabel.Size = new System.Drawing.Size(64, 15);
             this.stateAdminConnectLabel.TabIndex = 13;
@@ -590,7 +596,7 @@
             this.readWriteTestsPanel.Controls.Add(this.TestUserLabel);
             this.readWriteTestsPanel.Controls.Add(this.readTestsPanel);
             this.readWriteTestsPanel.Controls.Add(this.writeTestsPanel);
-            this.readWriteTestsPanel.Location = new System.Drawing.Point(27, 156);
+            this.readWriteTestsPanel.Location = new System.Drawing.Point(30, 195);
             this.readWriteTestsPanel.Name = "readWriteTestsPanel";
             this.readWriteTestsPanel.Size = new System.Drawing.Size(580, 474);
             this.readWriteTestsPanel.TabIndex = 33;
@@ -629,7 +635,7 @@
             this.testAdminConnectCheckBox.AutoSize = true;
             this.testAdminConnectCheckBox.Checked = true;
             this.testAdminConnectCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testAdminConnectCheckBox.Location = new System.Drawing.Point(11, 121);
+            this.testAdminConnectCheckBox.Location = new System.Drawing.Point(11, 163);
             this.testAdminConnectCheckBox.Name = "testAdminConnectCheckBox";
             this.testAdminConnectCheckBox.Size = new System.Drawing.Size(15, 14);
             this.testAdminConnectCheckBox.TabIndex = 35;
@@ -641,18 +647,92 @@
             this.testInitLibraryCheckBox.AutoSize = true;
             this.testInitLibraryCheckBox.Checked = true;
             this.testInitLibraryCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.testInitLibraryCheckBox.Location = new System.Drawing.Point(11, 86);
+            this.testInitLibraryCheckBox.Location = new System.Drawing.Point(11, 137);
             this.testInitLibraryCheckBox.Name = "testInitLibraryCheckBox";
             this.testInitLibraryCheckBox.Size = new System.Drawing.Size(15, 14);
             this.testInitLibraryCheckBox.TabIndex = 36;
             this.testInitLibraryCheckBox.UseVisualStyleBackColor = true;
             this.testInitLibraryCheckBox.Visible = false;
             // 
+            // testInitLibraryNoAdminCheckBox
+            // 
+            this.testInitLibraryNoAdminCheckBox.AutoSize = true;
+            this.testInitLibraryNoAdminCheckBox.Checked = true;
+            this.testInitLibraryNoAdminCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testInitLibraryNoAdminCheckBox.Location = new System.Drawing.Point(11, 113);
+            this.testInitLibraryNoAdminCheckBox.Name = "testInitLibraryNoAdminCheckBox";
+            this.testInitLibraryNoAdminCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.testInitLibraryNoAdminCheckBox.TabIndex = 39;
+            this.testInitLibraryNoAdminCheckBox.UseVisualStyleBackColor = true;
+            this.testInitLibraryNoAdminCheckBox.Visible = false;
+            // 
+            // testInitLibraryNoAdminLabel
+            // 
+            this.testInitLibraryNoAdminLabel.AutoSize = true;
+            this.testInitLibraryNoAdminLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.testInitLibraryNoAdminLabel.Location = new System.Drawing.Point(27, 110);
+            this.testInitLibraryNoAdminLabel.Name = "testInitLibraryNoAdminLabel";
+            this.testInitLibraryNoAdminLabel.Size = new System.Drawing.Size(211, 18);
+            this.testInitLibraryNoAdminLabel.TabIndex = 37;
+            this.testInitLibraryNoAdminLabel.Text = "Complete Init Library No Admin";
+            this.testInitLibraryNoAdminLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // stateInitLibraryNoAdminLabel
+            // 
+            this.stateInitLibraryNoAdminLabel.AutoSize = true;
+            this.stateInitLibraryNoAdminLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stateInitLibraryNoAdminLabel.Location = new System.Drawing.Point(295, 113);
+            this.stateInitLibraryNoAdminLabel.Name = "stateInitLibraryNoAdminLabel";
+            this.stateInitLibraryNoAdminLabel.Size = new System.Drawing.Size(64, 15);
+            this.stateInitLibraryNoAdminLabel.TabIndex = 38;
+            this.stateInitLibraryNoAdminLabel.Text = "Undefined";
+            this.stateInitLibraryNoAdminLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // testStandardInitLibraryNoAdminCheckBox
+            // 
+            this.testStandardInitLibraryNoAdminCheckBox.AutoSize = true;
+            this.testStandardInitLibraryNoAdminCheckBox.Checked = true;
+            this.testStandardInitLibraryNoAdminCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.testStandardInitLibraryNoAdminCheckBox.Location = new System.Drawing.Point(11, 92);
+            this.testStandardInitLibraryNoAdminCheckBox.Name = "testStandardInitLibraryNoAdminCheckBox";
+            this.testStandardInitLibraryNoAdminCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.testStandardInitLibraryNoAdminCheckBox.TabIndex = 42;
+            this.testStandardInitLibraryNoAdminCheckBox.UseVisualStyleBackColor = true;
+            this.testStandardInitLibraryNoAdminCheckBox.Visible = false;
+            // 
+            // testStandardInitLibraryNoAdminLabel
+            // 
+            this.testStandardInitLibraryNoAdminLabel.AutoSize = true;
+            this.testStandardInitLibraryNoAdminLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.testStandardInitLibraryNoAdminLabel.Location = new System.Drawing.Point(27, 88);
+            this.testStandardInitLibraryNoAdminLabel.Name = "testStandardInitLibraryNoAdminLabel";
+            this.testStandardInitLibraryNoAdminLabel.Size = new System.Drawing.Size(203, 18);
+            this.testStandardInitLibraryNoAdminLabel.TabIndex = 40;
+            this.testStandardInitLibraryNoAdminLabel.Text = "Stardard Init Library No Admin";
+            this.testStandardInitLibraryNoAdminLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // stateStandardInitLibraryNoAdminLabel
+            // 
+            this.stateStandardInitLibraryNoAdminLabel.AutoSize = true;
+            this.stateStandardInitLibraryNoAdminLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stateStandardInitLibraryNoAdminLabel.Location = new System.Drawing.Point(295, 90);
+            this.stateStandardInitLibraryNoAdminLabel.Name = "stateStandardInitLibraryNoAdminLabel";
+            this.stateStandardInitLibraryNoAdminLabel.Size = new System.Drawing.Size(64, 15);
+            this.stateStandardInitLibraryNoAdminLabel.TabIndex = 41;
+            this.stateStandardInitLibraryNoAdminLabel.Text = "Undefined";
+            this.stateStandardInitLibraryNoAdminLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 710);
+            this.ClientSize = new System.Drawing.Size(649, 737);
+            this.Controls.Add(this.testStandardInitLibraryNoAdminCheckBox);
+            this.Controls.Add(this.testStandardInitLibraryNoAdminLabel);
+            this.Controls.Add(this.stateStandardInitLibraryNoAdminLabel);
+            this.Controls.Add(this.testInitLibraryNoAdminCheckBox);
+            this.Controls.Add(this.testInitLibraryNoAdminLabel);
+            this.Controls.Add(this.stateInitLibraryNoAdminLabel);
             this.Controls.Add(this.testAdminConnectCheckBox);
             this.Controls.Add(this.testInitLibraryCheckBox);
             this.Controls.Add(this.readWriteTestsPanel);
@@ -681,60 +761,66 @@
             this.ResumeLayout(false);
             this.PerformLayout();
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.Button runButton;
-		private System.Windows.Forms.ProgressBar testsProgressBar;
-		private System.Windows.Forms.Label testsLabel;
-		private System.Windows.Forms.Label testInitLibraryLabel;
-		private System.Windows.Forms.Label testAdminConnectLabel;
-		private System.Windows.Forms.Label testCreateUserLabel;
-		private System.Windows.Forms.Label testModifyUserDescriptionLabel;
-		private System.Windows.Forms.Label testSearchUserLabel;
-		private System.Windows.Forms.Label testConnectUserLabel;
-		private System.Windows.Forms.Label testSearchUserAndConnectLabel;
-		private System.Windows.Forms.Label testUserChangePasswordLabel;
-		private System.Windows.Forms.Label testDeleteUserLabel;
-		private System.Windows.Forms.Label stateInitLibraryLabel;
-		private System.Windows.Forms.Label stateAdminConnectLabel;
-		private System.Windows.Forms.Label stateCreateUserLabel;
-		private System.Windows.Forms.Label stateModifyUserDescriptionLabel;
-		private System.Windows.Forms.Label stateSearchUsersLabel;
-		private System.Windows.Forms.Label stateConnectUserLabel;
-		private System.Windows.Forms.Label stateSearchUserAndConnectLabel;
-		private System.Windows.Forms.Label stateUserChangePasswordLabel;
-		private System.Windows.Forms.Label stateDeleteUserLabel;
-		private System.Windows.Forms.CheckBox testCreateUserCheckBox;
-		private System.Windows.Forms.CheckBox testModifyUserDescriptionCheckBox;
-		private System.Windows.Forms.CheckBox testSearchUsersCheckBox;
-		private System.Windows.Forms.CheckBox testConnectUserCheckBox;
-		private System.Windows.Forms.CheckBox testSearchUserAndConnectCheckBox;
-		private System.Windows.Forms.CheckBox testUserChangePasswordCheckBox;
-		private System.Windows.Forms.CheckBox testDeleteUserCheckBox;
-		private System.Windows.Forms.Button configUserChangePasswordButton;
-		private System.Windows.Forms.Button configSearchUserButton;
-		private System.Windows.Forms.Button configModifyUserDescriptionButton;
-		private System.Windows.Forms.MenuStrip menuStrip1;
-		private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem changeConfigFileToolStripMenuItem;
-		private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-		private System.Windows.Forms.Label lineLabel;
-		private System.Windows.Forms.Panel readTestsPanel;
-		private System.Windows.Forms.Panel writeTestsPanel;
-		private System.Windows.Forms.Label WriteTestsLabel;
-		private System.Windows.Forms.Panel readWriteTestsPanel;
-		private System.Windows.Forms.Label readTestIconLabel;
-		private System.Windows.Forms.Label readTestsLabel;
-		private System.Windows.Forms.Label writeTestsIconLabel;
-		private System.Windows.Forms.Label label1;
-		private System.Windows.Forms.Label TestUserLabel;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.Button setUserButton;
-		private System.Windows.Forms.Label currentUserLabel;
-		private System.Windows.Forms.CheckBox testAdminConnectCheckBox;
-		private System.Windows.Forms.CheckBox testInitLibraryCheckBox;
-	}
+        private System.Windows.Forms.Button runButton;
+        private System.Windows.Forms.ProgressBar testsProgressBar;
+        private System.Windows.Forms.Label testsLabel;
+        private System.Windows.Forms.Label testInitLibraryLabel;
+        private System.Windows.Forms.Label testAdminConnectLabel;
+        private System.Windows.Forms.Label testCreateUserLabel;
+        private System.Windows.Forms.Label testModifyUserDescriptionLabel;
+        private System.Windows.Forms.Label testSearchUserLabel;
+        private System.Windows.Forms.Label testConnectUserLabel;
+        private System.Windows.Forms.Label testSearchUserAndConnectLabel;
+        private System.Windows.Forms.Label testUserChangePasswordLabel;
+        private System.Windows.Forms.Label testDeleteUserLabel;
+        private System.Windows.Forms.Label stateInitLibraryLabel;
+        private System.Windows.Forms.Label stateAdminConnectLabel;
+        private System.Windows.Forms.Label stateCreateUserLabel;
+        private System.Windows.Forms.Label stateModifyUserDescriptionLabel;
+        private System.Windows.Forms.Label stateSearchUsersLabel;
+        private System.Windows.Forms.Label stateConnectUserLabel;
+        private System.Windows.Forms.Label stateSearchUserAndConnectLabel;
+        private System.Windows.Forms.Label stateUserChangePasswordLabel;
+        private System.Windows.Forms.Label stateDeleteUserLabel;
+        private System.Windows.Forms.CheckBox testCreateUserCheckBox;
+        private System.Windows.Forms.CheckBox testModifyUserDescriptionCheckBox;
+        private System.Windows.Forms.CheckBox testSearchUsersCheckBox;
+        private System.Windows.Forms.CheckBox testConnectUserCheckBox;
+        private System.Windows.Forms.CheckBox testSearchUserAndConnectCheckBox;
+        private System.Windows.Forms.CheckBox testUserChangePasswordCheckBox;
+        private System.Windows.Forms.CheckBox testDeleteUserCheckBox;
+        private System.Windows.Forms.Button configUserChangePasswordButton;
+        private System.Windows.Forms.Button configSearchUserButton;
+        private System.Windows.Forms.Button configModifyUserDescriptionButton;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem changeConfigFileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.Label lineLabel;
+        private System.Windows.Forms.Panel readTestsPanel;
+        private System.Windows.Forms.Panel writeTestsPanel;
+        private System.Windows.Forms.Label WriteTestsLabel;
+        private System.Windows.Forms.Panel readWriteTestsPanel;
+        private System.Windows.Forms.Label readTestIconLabel;
+        private System.Windows.Forms.Label readTestsLabel;
+        private System.Windows.Forms.Label writeTestsIconLabel;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label TestUserLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button setUserButton;
+        private System.Windows.Forms.Label currentUserLabel;
+        private System.Windows.Forms.CheckBox testAdminConnectCheckBox;
+        private System.Windows.Forms.CheckBox testInitLibraryCheckBox;
+        private System.Windows.Forms.CheckBox testInitLibraryNoAdminCheckBox;
+        private System.Windows.Forms.Label testInitLibraryNoAdminLabel;
+        private System.Windows.Forms.Label stateInitLibraryNoAdminLabel;
+        private System.Windows.Forms.CheckBox testStandardInitLibraryNoAdminCheckBox;
+        private System.Windows.Forms.Label testStandardInitLibraryNoAdminLabel;
+        private System.Windows.Forms.Label stateStandardInitLibraryNoAdminLabel;
+    }
 }
 

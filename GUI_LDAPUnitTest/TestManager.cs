@@ -112,7 +112,7 @@ namespace GUI_LDAPUnitTest
                                                     Config.LDAPLibrary["LDAPMatchFieldUsername"]
                                                     );
 
-                if (LDAPManagerObj.getLDAPMessage().Equals("LDAP LIBRARY INIT SUCCESS"))
+                if (!LDAPManagerObj.Equals(null))
                     return true;
                 else
                     return false;
@@ -144,7 +144,7 @@ namespace GUI_LDAPUnitTest
                                                     authType
                                                     );
 
-                if (LDAPManagerObj.getLDAPMessage().Equals("LDAP LIBRARY INIT SUCCESS"))
+                if (!LDAPManagerObj.Equals(null))
                     return true;
                 else
                     return false;
@@ -167,12 +167,64 @@ namespace GUI_LDAPUnitTest
                 return false;
 
             //Assert the behavior of DLL
-            if (LDAPManagerObj.getLDAPMessage().Equals("LDAP CONNECTION SUCCESS"))
+            if (!LDAPManagerObj.Equals(null))
                 return true;
             else
                 return false;
 
 
+        }
+
+        public bool testCompleteInitLibraryNoAdmin()
+        {
+            try
+            {
+                AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                           Config.LDAPLibrary["LDAPAuthType"]);
+
+                LDAPManagerObj = new LDAPManager(null,
+                                                    Config.LDAPLibrary["LDAPServer"],
+                                                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                    authType,
+                                                    Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
+                                                    Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
+                                                    Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
+                                                    Config.LDAPLibrary["clientCertificatePath"],
+                                                    Convert.ToBoolean(Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                                                    Config.LDAPLibrary["LDAPLibraryLogPath"],
+                                                    Config.LDAPLibrary["LDAPUserObjectClass"],
+                                                    Config.LDAPLibrary["LDAPMatchFieldUsername"]
+                                                    );
+
+                if (!LDAPManagerObj.Equals(null))
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception) { return false; }
+        }
+
+
+        public bool testStardardInitLibraryNoAdmin()
+        {
+            try
+            {
+
+                AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+                                                           Config.LDAPLibrary["LDAPAuthType"]);
+
+                LDAPManagerObj = new LDAPManager(null,
+                                                        Config.LDAPLibrary["LDAPServer"],
+                                                        Config.LDAPLibrary["LDAPSearchBaseDN"],
+                                                        authType
+                                                        );
+
+                if (!LDAPManagerObj.Equals(null))
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception) { return false; }
         }
 
         #endregion
@@ -552,6 +604,8 @@ namespace GUI_LDAPUnitTest
                     else return testSearchUserAndConnectWithoutWritePermissions();
                 case tests.testUserChangePassword: return testChangeUserPassword();
                 case tests.testDeleteUser: return testDeleteUser();
+                case tests.testStandardInitLibraryNoAdmin: return testStardardInitLibraryNoAdmin();
+                case tests.testInitLibraryNoAdmin: return testCompleteInitLibraryNoAdmin();
                 default: return false;
             }
         }
@@ -560,7 +614,9 @@ namespace GUI_LDAPUnitTest
 
     public enum tests
     {
+        testStandardInitLibraryNoAdmin,
         testInitLibrary,
+        testInitLibraryNoAdmin,
         testAdminConnection,
         testCreateUser,
         testModifyUserDescription,

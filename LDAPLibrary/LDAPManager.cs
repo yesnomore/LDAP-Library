@@ -65,7 +65,7 @@ namespace LDAPLibrary
             {
                 this.LDAPServer = LDAPServer;
                 this.authType = authType;
-                if (checkLibraryParameters(new string[] { adminUser.getUserDn(), adminUser.getUserCn(), adminUser.getUserSn(), LDAPSearchBaseDN }))
+                if (adminUser != null && checkLibraryParameters(new string[] { adminUser.getUserDn(), adminUser.getUserCn(), adminUser.getUserSn(), LDAPSearchBaseDN }))
                 {
                     loginUser = adminUser;
 
@@ -423,9 +423,11 @@ namespace LDAPLibrary
         /// <returns>true if all is set, false otherwise</returns>
         public static bool checkLibraryParameters(string[] parameters)
         {
+            
             foreach (string s in parameters)
                 if (checkNullParameter(s))
                     return false;
+
             return true;
         }
 
