@@ -1,8 +1,0 @@
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\obj\Debug\LDAP Library UnitTest.csprojResolveAssemblyReference.cache
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAP Library UnitTest.dll.config
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAP Library UnitTest.dll
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAP Library UnitTest.pdb
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAPLibrary.dll
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\bin\Debug\LDAPLibrary.pdb
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\obj\Debug\LDAP Library UnitTest.dll
-C:\work\Progetti Locali\LDAPLibrary\LDAP Library UnitTest\obj\Debug\LDAP Library UnitTest.pdb
