@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 
@@ -34,7 +29,7 @@ namespace GUI_LDAPUnitTest
 
 		private void finishSetUpButton_Click(object sender, EventArgs e)
 		{
-			this.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+			DialogResult = DialogResult.Cancel;
 
 			if (!string.IsNullOrEmpty(appConfigPathTextBox.Text))
 			{
@@ -45,8 +40,8 @@ namespace GUI_LDAPUnitTest
 					if (IsValidPath(path))
 					{
 						SetConfigFileAtRuntime(path);
-						this.DialogResult = DialogResult.OK;
-						this.Close();
+						DialogResult = DialogResult.OK;
+						Close();
 					}
 				}
 				catch 
@@ -113,7 +108,7 @@ namespace GUI_LDAPUnitTest
 			ConfigurationManager.RefreshSection("LDAPLibrary");
 		}
 
-        private void removeActualKeys(System.Collections.Specialized.NameValueCollection sectionKeysCollection)
+        private void removeActualKeys(NameValueCollection sectionKeysCollection)
         {
             foreach (string s in sectionKeysCollection.Keys) 
                 sectionKeysCollection.Remove(s);

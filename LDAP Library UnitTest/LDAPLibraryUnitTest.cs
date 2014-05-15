@@ -9,28 +9,28 @@ using System.Net;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LDAPLibraryUnitTest
+    public class LdapLibraryUnitTest
     {
         //Class fields for the test
-        ILDAPManager LDAPManagerObj;                 //LDAPLibrary
-        string[] LDAPMatchSearchField;				 //Field to search
+        ILDAPManager _ldapManagerObj;                 //LDAPLibrary
+        string[] _ldapMatchSearchField;				 //Field to search
 
         #region LDAP Library Tests - Base
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void testCompleteInitLibrary()
+        public void TestCompleteInitLibrary()
         {
 
             LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                 null);
-            adminUser.setUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
+            adminUser.SetUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
 
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(adminUser,
+            _ldapManagerObj = new LDAPManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType,
@@ -44,16 +44,16 @@ namespace LDAP_Library_UnitTest
                                                 ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]
                                                 );
 
-            Assert.IsFalse(LDAPManagerObj.Equals(null));
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void testCompleteInitLibraryNoAdmin()
+        public void TestCompleteInitLibraryNoAdmin()
         {
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(null,
+            _ldapManagerObj = new LDAPManager(null,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType,
@@ -67,57 +67,57 @@ namespace LDAP_Library_UnitTest
                                                 ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]
                                                 );
 
-            Assert.IsFalse(LDAPManagerObj.Equals(null));
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
 
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void testStardardInitLibraryNoAdmin()
+        public void TestStardardInitLibraryNoAdmin()
         {
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(null,
+            _ldapManagerObj = new LDAPManager(null,
                                                     ConfigurationManager.AppSettings["LDAPServer"],
                                                     ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                     authType
                                                     );
 
-            Assert.IsFalse(LDAPManagerObj.Equals(null));
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
 
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void testStandardInitLibrary()
+        public void TestStandardInitLibrary()
         {
 
             LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                  ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                  ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                  null);
-            adminUser.setUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
+            adminUser.SetUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
 
 
             AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            LDAPManagerObj = new LDAPManager(adminUser,
+            _ldapManagerObj = new LDAPManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType
                                                 );
 
-            Assert.IsFalse(LDAPManagerObj.Equals(null));
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void testAdminConnect()
+        public void TestAdminConnect()
         {
             //Init the DLL
-            testCompleteInitLibrary();
+            TestCompleteInitLibrary();
 
             //Connect with admin user
-            Assert.IsTrue(LDAPManagerObj.connect());
+            Assert.IsTrue(_ldapManagerObj.Connect());
         }
 
         #endregion
@@ -125,100 +125,100 @@ namespace LDAP_Library_UnitTest
         #region LDAP Library Tests - Write Permission Required
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testCreateUser()
+        public void TestCreateUser()
         {
-            LDAPUser testLDAPUser = setupTestUser();
+            LDAPUser testLdapUser = SetupTestUser();
             //Init the DLL and connect the admin
-            testAdminConnect();
+            TestAdminConnect();
 
             //Create user
-            bool result = LDAPManagerObj.createUser(testLDAPUser);
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(LDAPManagerObj.getLDAPMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success");
 
-            result = LDAPManagerObj.deleteUser(testLDAPUser);
+            result = _ldapManagerObj.DeleteUser(testLdapUser);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testDeleteUser()
+        public void TestDeleteUser()
         {
             //Set the test user
-            LDAPUser testLDAPUser = setupTestUser();
+            LDAPUser testLdapUser = SetupTestUser();
 
             //Init the DLL and connect the admin
-            testAdminConnect();
+            TestAdminConnect();
 
-            //Create LDAPuser to delete.
-            bool result = LDAPManagerObj.createUser(testLDAPUser);
+            //Create LDAPUser to delete.
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
             //Delete user
-            result = LDAPManagerObj.deleteUser(testLDAPUser);
+            result = _ldapManagerObj.DeleteUser(testLdapUser);
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(LDAPManagerObj.getLDAPMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testModifyUserAttribute()
+        public void TestModifyUserAttribute()
         {
             bool result;
-            testAdminConnect();
-            LDAPUser testLDAPUser = setupTestUser();
-            result = LDAPManagerObj.createUser(testLDAPUser);
+            TestAdminConnect();
+            LDAPUser testLdapUser = SetupTestUser();
+            result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
-            List<LDAPUser> returnUsers = new List<LDAPUser>();
+            List<LDAPUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
-            result = LDAPManagerObj.modifyUserAttribute(DirectoryAttributeOperation.Replace, testLDAPUser, "description", userAttributeValue);
+            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
 
             Assert.IsTrue(result);
 
-            result = LDAPManagerObj.searchUsers(
+            result = _ldapManagerObj.SearchUsers(
                 new List<string> { "description" },
-                LDAPMatchSearchField,
+                _ldapMatchSearchField,
                 out returnUsers);
 
             Assert.IsTrue(result);
-            Assert.AreEqual(returnUsers[0].getUserCn(), testLDAPUser.getUserCn());
-            Assert.AreEqual(returnUsers[0].getUserAttribute("description")[0], userAttributeValue);
+            Assert.AreEqual(returnUsers[0].GetUserCn(), testLdapUser.GetUserCn());
+            Assert.AreEqual(returnUsers[0].GetUserAttribute("description")[0], userAttributeValue);
 
-            result = LDAPManagerObj.deleteUser(testLDAPUser);
+            result = _ldapManagerObj.DeleteUser(testLdapUser);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testChangeUserPassword()
+        public void TestChangeUserPassword()
         {
-            testAdminConnect();
+            TestAdminConnect();
             const string newPassword = "pippo";
-            LDAPUser testUser = setupTestUser();
-            string oldPassword = testUser.getUserAttribute("userPassword")[0];
+            LDAPUser testUser = SetupTestUser();
+            string oldPassword = testUser.GetUserAttribute("userPassword")[0];
             //Create the user
-            bool result = LDAPManagerObj.createUser(testUser);
+            bool result = _ldapManagerObj.CreateUser(testUser);
 
             Assert.IsTrue(result);
 
             //Perform change of password
-            result = LDAPManagerObj.changeUserPassword(testUser, newPassword);
+            result = _ldapManagerObj.ChangeUserPassword(testUser, newPassword);
             Assert.IsTrue(result);
 
             //Try to connect with the old password
             NetworkCredential testUserCredential = new NetworkCredential(
-                testUser.getUserDn(),
+                testUser.GetUserDn(),
                 oldPassword,
                 "");
 
-            result = LDAPManagerObj.connect(testUserCredential,
+            result = _ldapManagerObj.Connect(testUserCredential,
                         Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
@@ -227,46 +227,46 @@ namespace LDAP_Library_UnitTest
 
             //Try to connect with the new password
             testUserCredential = new NetworkCredential(
-                testUser.getUserDn(),
+                testUser.GetUserDn(),
                 newPassword,
                 "");
 
-            result = LDAPManagerObj.connect(testUserCredential,
+            result = _ldapManagerObj.Connect(testUserCredential,
                         Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
 
             Assert.IsTrue(result);
 
-            testAdminConnect();
+            TestAdminConnect();
 
-            result = LDAPManagerObj.deleteUser(testUser);
+            result = _ldapManagerObj.DeleteUser(testUser);
 
             Assert.IsTrue(result);
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testUserConnect()
+        public void TestUserConnect()
         {
             bool result;
-            LDAPUser testUser = setupTestUser();
+            LDAPUser testUser = SetupTestUser();
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
             {
-                testAdminConnect();
-                result = LDAPManagerObj.createUser(testUser);
+                TestAdminConnect();
+                result = _ldapManagerObj.CreateUser(testUser);
                 Assert.IsTrue(result);
             }
             else
                 //Init the DLL
-                testStandardInitLibrary();
+                TestStandardInitLibrary();
 
 
             NetworkCredential testUserCredential = new NetworkCredential(
-                testUser.getUserDn(),
-                testUser.getUserAttribute("userPassword")[0],
+                testUser.GetUserDn(),
+                testUser.GetUserAttribute("userPassword")[0],
                 "");
 
-            result = LDAPManagerObj.connect(testUserCredential,
+            result = _ldapManagerObj.Connect(testUserCredential,
                         Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
@@ -274,30 +274,30 @@ namespace LDAP_Library_UnitTest
             Assert.IsTrue(result);
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
             {
-                testAdminConnect();
-                result = LDAPManagerObj.deleteUser(testUser);
+                TestAdminConnect();
+                result = _ldapManagerObj.DeleteUser(testUser);
                 Assert.IsTrue(result);
             }
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void testSearchUserAndConnect()
+        public void TestSearchUserAndConnect()
         {
 
-            testAdminConnect();
-            LDAPUser testLDAPUser = setupTestUser();
+            TestAdminConnect();
+            LDAPUser testLdapUser = SetupTestUser();
 
-            bool result = LDAPManagerObj.createUser(testLDAPUser);
-
-            Assert.IsTrue(result);
-
-            result = LDAPManagerObj.searchUserAndConnect(LDAPMatchSearchField[0], testLDAPUser.getUserAttribute("userPassword")[0]);
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
-            testAdminConnect();
+            result = _ldapManagerObj.SearchUserAndConnect(_ldapMatchSearchField[0], testLdapUser.GetUserAttribute("userPassword")[0]);
 
-            result = LDAPManagerObj.deleteUser(testLDAPUser);
+            Assert.IsTrue(result);
+
+            TestAdminConnect();
+
+            result = _ldapManagerObj.DeleteUser(testLdapUser);
 
             Assert.IsTrue(result);
         }
@@ -307,45 +307,45 @@ namespace LDAP_Library_UnitTest
         #region LDAP Library Tests - Only Read Permission Required
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
-        public void testSearchUser()
+        public void TestSearchUser()
         {
-            testAdminConnect();
+            TestAdminConnect();
 
-            string[] userIDToSearch = new string[1]
-			{
-				"Matteo"
-			};
-            List<string> userAttributeToReturnBySearch = new List<string>()
-			{
+            string[] userIdToSearch =
+            {
+                "Matteo"
+            };
+            List<string> userAttributeToReturnBySearch = new List<string>
+            {
 				"description"
 			};
 
-            List<LDAPUser> returnUsers = new List<LDAPUser>();
+            List<LDAPUser> returnUsers;
 
-            bool result = LDAPManagerObj.searchUsers(userAttributeToReturnBySearch, userIDToSearch, out returnUsers);
+            bool result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 
             Assert.IsTrue(result);
-            Assert.AreEqual(returnUsers.Count, userIDToSearch.Length);
-            Assert.AreEqual(returnUsers[0].getUserCn(), "Matteo");
+            Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
+            Assert.AreEqual(returnUsers[0].GetUserCn(), "Matteo");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
-        public void testUserConnectWithoutWritePermissions()
+        public void TestUserConnectWithoutWritePermissions()
         {
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
-                testAdminConnect();
+                TestAdminConnect();
             else
                 //Init the DLL
-                testStandardInitLibrary();
+                TestStandardInitLibrary();
 
-            LDAPUser testUser = setupTestUser();
+            LDAPUser testUser = SetupTestUser();
 
             NetworkCredential testUserCredential = new NetworkCredential(
-                testUser.getUserDn(),
-                testUser.getUserAttribute("userPassword")[0],
+                testUser.GetUserDn(),
+                testUser.GetUserAttribute("userPassword")[0],
                 "");
 
-            bool result = LDAPManagerObj.connect(testUserCredential,
+            bool result = _ldapManagerObj.Connect(testUserCredential,
                         Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
                         Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
@@ -355,44 +355,44 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
-        public void testSearchUserAndConnectWithoutWritePermissions()
+        public void TestSearchUserAndConnectWithoutWritePermissions()
         {
-            testAdminConnect();
-            LDAPUser testLDAPUser = setupTestUser();
+            TestAdminConnect();
+            LDAPUser testLdapUser = SetupTestUser();
 
-            bool result = LDAPManagerObj.searchUserAndConnect(LDAPMatchSearchField[0], testLDAPUser.getUserAttribute("userPassword")[0]);
+            bool result = _ldapManagerObj.SearchUserAndConnect(_ldapMatchSearchField[0], testLdapUser.GetUserAttribute("userPassword")[0]);
 
             Assert.IsTrue(result);
         }
 
         #endregion
 
-        private LDAPUser setupTestUser()
+        private LDAPUser SetupTestUser()
         {
             string userDN = "cn=Fabio2,o=ApexNet,ou=People,dc=maxcrc,dc=com";
             string userCN = "Fabio";
             string userSN = "Vassura";
 
-            LDAPUser testLDAPUser = new LDAPUser(userDN, userCN, userSN, null);
+            LDAPUser testLdapUser = new LDAPUser(userDN, userCN, userSN, null);
 
-            testLDAPUser.setUserAttribute("userPassword", "1");
+            testLdapUser.SetUserAttribute("userPassword", "1");
 
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]))
             {
                 if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("cn"))
-                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserCn() };
+                    _ldapMatchSearchField = new[] { testLdapUser.GetUserCn() };
                 else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("dn"))
-                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserDn() };
+                    _ldapMatchSearchField = new[] { testLdapUser.GetUserDn() };
                 else if (ConfigurationManager.AppSettings["LDAPMatchFieldUsername"].Equals("sn"))
-                    LDAPMatchSearchField = new string[1] { testLDAPUser.getUserSn() };
+                    _ldapMatchSearchField = new[] { testLdapUser.GetUserSn() };
                 else
-                    LDAPMatchSearchField = new string[1] {
-						testLDAPUser.getUserAttribute( ConfigurationManager.AppSettings["LDAPMatchFieldUsername"] )[0]
+                    _ldapMatchSearchField = new[] {
+						testLdapUser.GetUserAttribute( ConfigurationManager.AppSettings["LDAPMatchFieldUsername"] )[0]
 					};
             }
 
             //Set the test user
-            return testLDAPUser;
+            return testLdapUser;
         }
     }
 }

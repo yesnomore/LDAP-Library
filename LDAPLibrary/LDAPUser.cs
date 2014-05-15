@@ -7,27 +7,20 @@ namespace LDAPLibrary
     [Serializable]
     public class LDAPUser
     {
-        private readonly string cn;
-        private readonly string sn;
-        private readonly string dn;
+        private readonly string _cn;
+        private readonly string _sn;
+        private readonly string _dn;
 
-        private readonly Dictionary<string, List<string>> otherAttributes;
+        private readonly Dictionary<string, List<string>> _otherAttributes;
 
-        public LDAPUser(string userDN, string userCN, string userSN, Dictionary<string, List<string>> otherAttribute)
+        public LDAPUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
         {
-            if (LDAPManager.checkLibraryParameters(new string[] { userDN, userSN, userCN }))
+            if (LDAPManager.CheckLibraryParameters(new[] { userDn, userSn, userCn }))
             {
-                sn = userSN;
-                dn = userDN;
-                cn = userCN;
-                if (otherAttribute != null)
-                {
-                    otherAttributes = new Dictionary<string, List<string>>(otherAttribute);
-                }
-                else
-                {
-                    otherAttributes = new Dictionary<string, List<string>>();
-                }
+                _sn = userSn;
+                _dn = userDn;
+                _cn = userCn;
+                _otherAttributes = otherAttribute != null ? new Dictionary<string, List<string>>(otherAttribute) : new Dictionary<string, List<string>>();
             }
             else
             {
@@ -42,57 +35,54 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName">Attribute Name to search of</param>
         /// <returns>Values in string array</returns>
-        public List<string> getUserAttribute(string attributeName)
+        public List<string> GetUserAttribute(string attributeName)
         {
-            if (otherAttributes.ContainsKey(attributeName))
+            if (_otherAttributes.ContainsKey(attributeName))
             {
-                return otherAttributes[attributeName];
+                return _otherAttributes[attributeName];
             }
-            else
-            {
-                throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
-            }
+            throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
         }
 
         /// <summary>
         /// Get all the Attribute Names of an LDAPUser
         /// </summary>
         /// <returns>All the Attribute Names</returns>
-        public string[] getUserAttributeKeys()
+        public string[] GetUserAttributeKeys()
         {
-            return otherAttributes.Keys.ToArray();
+            return _otherAttributes.Keys.ToArray();
         }
 
-        public Dictionary<string, List<string>> getUserAttributes()
+        public Dictionary<string, List<string>> GetUserAttributes()
         {
-            return otherAttributes;
+            return _otherAttributes;
         }
 
         /// <summary>
         /// Get User CN
         /// </summary>
         /// <returns>User CN</returns>
-        public string getUserCn()
+        public string GetUserCn()
         {
-            return cn;
+            return _cn;
         }
 
         /// <summary>
         /// Get User SN
         /// </summary>
         /// <returns>User SN</returns>
-        public string getUserSn()
+        public string GetUserSn()
         {
-            return sn;
+            return _sn;
         }
 
         /// <summary>
         /// Get User DN
         /// </summary>
         /// <returns>User DN</returns>
-        public string getUserDn()
+        public string GetUserDn()
         {
-            return dn;
+            return _dn;
         }
 
         /// <summary>
@@ -101,12 +91,12 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName"></param>
         /// <param name="attributeValues"></param>
-        public void setUserAttributes(string attributeName, List<string> attributeValues)
+        public void SetUserAttributes(string attributeName, List<string> attributeValues)
         {
-            if (otherAttributes.ContainsKey(attributeName))
-                otherAttributes[attributeName] = attributeValues;
+            if (_otherAttributes.ContainsKey(attributeName))
+                _otherAttributes[attributeName] = attributeValues;
             else
-                otherAttributes.Add(attributeName, attributeValues);
+                _otherAttributes.Add(attributeName, attributeValues);
         }
         /// <summary>
         /// Set the user attribute values list with a new one that contain only the parameter value 
@@ -114,12 +104,12 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
-        public void setUserAttribute(string attributeName, string attributeValue)
+        public void SetUserAttribute(string attributeName, string attributeValue)
         {
-            if (otherAttributes.ContainsKey(attributeName))
-                otherAttributes[attributeName] = new List<string>() { attributeValue };
+            if (_otherAttributes.ContainsKey(attributeName))
+                _otherAttributes[attributeName] = new List<string> { attributeValue };
             else
-                otherAttributes.Add(attributeName, new List<string>() { attributeValue });
+                _otherAttributes.Add(attributeName, new List<string> { attributeValue });
         }
 
         /// <summary>
@@ -128,12 +118,12 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
-        public void insertUserAttribute(string attributeName, string attributeValue)
+        public void InsertUserAttribute(string attributeName, string attributeValue)
         {
-            if (otherAttributes.ContainsKey(attributeName))
+            if (_otherAttributes.ContainsKey(attributeName))
             {
                 if (string.IsNullOrEmpty(attributeValue))
-                    otherAttributes[attributeName].Add(attributeValue);
+                    _otherAttributes[attributeName].Add(attributeValue);
             }
             else
                 throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
@@ -144,11 +134,11 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
-        public void deleteUserAttribute(string attributeName, string attributeValue)
+        public void DeleteUserAttribute(string attributeName, string attributeValue)
         {
-            List<string> tempUserAttriutes = getUserAttribute(attributeName);
+            List<string> tempUserAttriutes = GetUserAttribute(attributeName);
             if (tempUserAttriutes.Remove(attributeValue))
-                setUserAttributes(attributeName, tempUserAttriutes);
+                SetUserAttributes(attributeName, tempUserAttriutes);
             else
                 throw new ArgumentException(string.Format("Impossibile rimuovere il valore dagli attributi dell'utente: {0}", attributeValue));
         }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 using LDAPLibrary;
 using System.Configuration;
@@ -27,7 +26,7 @@ namespace GUI_LDAPUnitTest
                 setUpLDAPLibrary();
                 testManagerObj = new TestManager(LDAPManagerObj);
 
-                currentUserLabel.Text = testManagerObj.getTestUserCN();
+                currentUserLabel.Text = testManagerObj.GetTestUserCn();
 
                 /*
                  * IMPORTANT METHOD: it build up the struct that correlates the interface controls 
@@ -114,7 +113,7 @@ namespace GUI_LDAPUnitTest
             {
                 testUserForm.ShowDialog();
             }
-            currentUserLabel.Text = testManagerObj.getTestUserCN();
+            currentUserLabel.Text = testManagerObj.GetTestUserCn();
         }
 
         #endregion
@@ -219,7 +218,7 @@ namespace GUI_LDAPUnitTest
             testsProgressBar.Value = 0;
             setAllStateLabelText("In Progress");
 
-            int progressBarIncrement = 100 / Enum.GetNames(typeof(tests)).Length;
+            int progressBarIncrement = 100 / Enum.GetNames(typeof(Tests)).Length;
             try
             {
 
@@ -228,7 +227,7 @@ namespace GUI_LDAPUnitTest
                     if (t.testCheckbox.Checked)
                     {
                         t.testLabel.Text = "Started";
-                        if (testManagerObj.runTest(t.testType,
+                        if (testManagerObj.RunTest(t.testType,
                                                     Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"])
                                                     ))
                         {
@@ -284,7 +283,7 @@ namespace GUI_LDAPUnitTest
                                                 Config.LDAPLibrary["LDAPAdminUserSN"],
                                                 null);
 
-                adminUser.setUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+                adminUser.SetUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
 
                 LDAPManagerObj = new LDAPManager(adminUser,
@@ -308,47 +307,47 @@ namespace GUI_LDAPUnitTest
         {
 
             testTripletList.Add(new testTriplet(testStandardInitLibraryNoAdminCheckBox,
-                                                tests.testStandardInitLibraryNoAdmin,
+                                                Tests.TestStandardInitLibraryNoAdmin,
                                                 stateStandardInitLibraryNoAdminLabel));
 
             testTripletList.Add(new testTriplet(testInitLibraryNoAdminCheckBox,
-                                                tests.testInitLibraryNoAdmin,
+                                                Tests.TestInitLibraryNoAdmin,
                                                 stateInitLibraryNoAdminLabel));
 
             testTripletList.Add(new testTriplet(testInitLibraryCheckBox,
-                                                tests.testInitLibrary,
+                                                Tests.TestInitLibrary,
                                                 stateInitLibraryLabel));
 
             testTripletList.Add(new testTriplet(testAdminConnectCheckBox,
-                                                tests.testAdminConnection,
+                                                Tests.TestAdminConnection,
                                                 stateAdminConnectLabel));
 
             testTripletList.Add(new testTriplet(testConnectUserCheckBox,
-                                                tests.testConnectUser,
+                                                Tests.TestConnectUser,
                                                 stateConnectUserLabel));
 
             testTripletList.Add(new testTriplet(testSearchUserAndConnectCheckBox,
-                                                tests.testSearchUserAndConnect,
+                                                Tests.TestSearchUserAndConnect,
                                                 stateSearchUserAndConnectLabel));
 
             testTripletList.Add(new testTriplet(testSearchUsersCheckBox,
-                                                tests.testSearchUsers,
+                                                Tests.TestSearchUsers,
                                                 stateSearchUsersLabel));
 
             testTripletList.Add(new testTriplet(testCreateUserCheckBox,
-                                                tests.testCreateUser,
+                                                Tests.TestCreateUser,
                                                 stateCreateUserLabel));
 
             testTripletList.Add(new testTriplet(testModifyUserDescriptionCheckBox,
-                                                tests.testModifyUserDescription,
+                                                Tests.TestModifyUserDescription,
                                                 stateModifyUserDescriptionLabel));
 
             testTripletList.Add(new testTriplet(testUserChangePasswordCheckBox,
-                                                tests.testUserChangePassword,
+                                                Tests.TestUserChangePassword,
                                                 stateUserChangePasswordLabel));
 
             testTripletList.Add(new testTriplet(testDeleteUserCheckBox,
-                                                tests.testDeleteUser,
+                                                Tests.TestDeleteUser,
                                                 stateDeleteUserLabel));
         }
 
@@ -378,7 +377,7 @@ namespace GUI_LDAPUnitTest
     public struct testTriplet
     {
         private CheckBox c;
-        private tests t;
+        private Tests t;
         private Label l;
 
         public CheckBox testCheckbox
@@ -386,7 +385,7 @@ namespace GUI_LDAPUnitTest
             get { return c; }
             set { c = value; }
         }
-        public tests testType
+        public Tests testType
         {
             get { return t; }
             set { t = value; }
@@ -397,7 +396,7 @@ namespace GUI_LDAPUnitTest
             set { l = value; }
         }
 
-        public testTriplet(CheckBox c, tests t, Label l)
+        public testTriplet(CheckBox c, Tests t, Label l)
         {
             this.c = c;
             this.t = t;

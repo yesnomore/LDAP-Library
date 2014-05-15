@@ -63,9 +63,6 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LDAPLibrary">
-      <HintPath>..\LDAPLibrary\bin\Debug\LDAPLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
@@ -102,6 +99,7 @@
     <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestManager.cs" />
+    <Compile Include="tests.cs" />
     <Compile Include="TestUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,6 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="UP_WS_CONFIG\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LDAPLibrary\LDAPLibrary.csproj">
+      <Project>{a31e343a-c1da-40a1-9bfa-2200d892e83d}</Project>
+      <Name>LDAPLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,21 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LDAPLibrary
+﻿namespace LDAPLibrary
 {
     public enum LDAPState
     {
-		LDAPLibraryInitSuccess,
-        LDAPConnectionSuccess,
-        LDAPUserManipulatorSuccess,
-        LDAPConnectionError,
-        LDAPCreateUserError,
-        LDAPDeleteUserError,
-        LDAPModifyUserAttributeError,
-        LDAPChangeUserPasswordError,
-        LDAPSearchUserError,
-		LDAPLibraryInitError,
-        LDAPGenericError
+        LdapLibraryInitSuccess,
+        LdapConnectionSuccess,
+        LdapUserManipulatorSuccess,
+        LdapConnectionError,
+        LdapCreateUserError,
+        LdapDeleteUserError,
+        LdapModifyUserAttributeError,
+        LdapChangeUserPasswordError,
+        LdapSearchUserError,
+        LdapLibraryInitError,
+        LdapGenericError
     }
 }
