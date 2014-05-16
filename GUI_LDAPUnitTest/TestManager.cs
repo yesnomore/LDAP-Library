@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
@@ -9,13 +10,16 @@ namespace GUI_LDAPUnitTest
     public class TestManager
     {
         private readonly string[] _ldapMatchSearchField;
-        private ILDAPManager _ldapManagerObj;
-        private LDAPUser _testUser;
+        private ILdapManager _ldapManagerObj;
+        private LdapUser _testUser;
         private string _testUserNewDescription;
         private string _testUserNewPassword;
         private string[] _usersToSearch;
+        private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
 
-        public TestManager(ILDAPManager lm)
+        private readonly Dictionary<Tests, TestMethod> _testList;
+
+        public TestManager(ILdapManager lm)
         {
             _ldapManagerObj = lm;
 
@@ -51,6 +55,35 @@ namespace GUI_LDAPUnitTest
                 SetupUsersToSearch(new[] { "defaultNewTestUserCN" });
 
             _ldapMatchSearchField = new[] { Config.LDAPLibrary["LDAPMatchFieldUsername"] };
+
+            _testList = new Dictionary<Tests, TestMethod>
+            {
+                {Tests.TestAdminConnection, TestAdminConnect},
+                {Tests.TestCreateUser, TestCreateUser},
+                {Tests.TestDeleteUser, TestDeleteUser},
+                {Tests.TestInitLibrary, TestCompleteInitLibrary},
+                {Tests.TestInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
+                {Tests.TestModifyUserDescription, TestModifyUserAttribute},
+                {Tests.TestSearchUsers, TestSearchUser},
+                {Tests.TestStandardInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
+                {Tests.TestUserChangePassword, TestChangeUserPassword},
+                {
+                    Tests.TestConnectUser, () =>
+                    {
+                        var testMethod = new TestMethod(TestUserConnectWithoutWritePermissions);
+                        if (_writePermission) testMethod = TestUserConnect;
+                        return testMethod();
+                    }
+                },
+                {
+                    Tests.TestSearchUserAndConnect, () =>
+                    {
+                        var testMethod = new TestMethod(TestSearchUserAndConnectWithoutWritePermissions);
+                        if (_writePermission) testMethod = TestSearchUserAndConnect;
+                        return testMethod();
+                    }
+                }
+            };
         }
 
         #region Method called for configuration
@@ -68,7 +101,7 @@ namespace GUI_LDAPUnitTest
         public void SetupTestUser(string testUserDn, string testUserCn, string testUserSn,
             Dictionary<string, List<string>> testUserOtherAttribute)
         {
-            _testUser = new LDAPUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
+            _testUser = new LdapUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
         }
 
         public void SetupTestUserNewDescription(string p)
@@ -86,7 +119,7 @@ namespace GUI_LDAPUnitTest
         {
             try
             {
-                var adminUser = new LDAPUser(Config.LDAPLibrary["LDAPAdminUserDN"],
+                var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
                     Config.LDAPLibrary["LDAPAdminUserCN"],
                     Config.LDAPLibrary["LDAPAdminUserSN"],
                     null);
@@ -95,7 +128,7 @@ namespace GUI_LDAPUnitTest
                 var authType = (AuthType)Enum.Parse(typeof(AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
-                _ldapManagerObj = new LDAPManager(adminUser,
+                _ldapManagerObj = new LdapManager(adminUser,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                     authType,
@@ -142,7 +175,7 @@ namespace GUI_LDAPUnitTest
                 var authType = (AuthType)Enum.Parse(typeof(AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
-                _ldapManagerObj = new LDAPManager(null,
+                _ldapManagerObj = new LdapManager(null,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                     authType,
@@ -174,7 +207,7 @@ namespace GUI_LDAPUnitTest
                 var authType = (AuthType)Enum.Parse(typeof(AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
-                _ldapManagerObj = new LDAPManager(null,
+                _ldapManagerObj = new LdapManager(null,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                     authType
@@ -215,7 +248,6 @@ namespace GUI_LDAPUnitTest
             return result;
         }
 
-
         private bool TestDeleteUser()
         {
             //Init the DLL and connect the admin
@@ -239,7 +271,6 @@ namespace GUI_LDAPUnitTest
             return true;
         }
 
-
         private bool TestModifyUserAttribute()
         {
             string oldDescription;
@@ -250,7 +281,7 @@ namespace GUI_LDAPUnitTest
             if (!_ldapManagerObj.CreateUser(_testUser))
                 return false;
 
-            List<LDAPUser> returnUsers;
+            List<LdapUser> returnUsers;
 
             try
             {
@@ -306,7 +337,6 @@ namespace GUI_LDAPUnitTest
             _testUser.SetUserAttributes("description", returnUsers[0].GetUserAttribute("description"));
             return false;
         }
-
 
         private bool TestChangeUserPassword()
         {
@@ -375,7 +405,6 @@ namespace GUI_LDAPUnitTest
             return false;
         }
 
-
         private bool TestUserConnect()
         {
             bool result;
@@ -415,7 +444,6 @@ namespace GUI_LDAPUnitTest
             result = _ldapManagerObj.DeleteUser(_testUser);
             return result;
         }
-
 
         private bool TestSearchUserAndConnect()
         {
@@ -474,7 +502,7 @@ namespace GUI_LDAPUnitTest
             if (!TestAdminConnect())
                 return false;
 
-            List<LDAPUser> returnUsers;
+            List<LdapUser> returnUsers;
 
             bool result = _ldapManagerObj.SearchUsers(null, _usersToSearch, out returnUsers);
 
@@ -483,7 +511,6 @@ namespace GUI_LDAPUnitTest
                 return true;
             return false;
         }
-
 
         private bool TestUserConnectWithoutWritePermissions()
         {
@@ -503,7 +530,6 @@ namespace GUI_LDAPUnitTest
 
             return result;
         }
-
 
         private bool TestSearchUserAndConnectWithoutWritePermissions()
         {
@@ -526,7 +552,7 @@ namespace GUI_LDAPUnitTest
                             _testUser.GetUserAttribute("userPassword")[0]);
                 default:
                     return
-                         _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
+                        _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
                             _testUser.GetUserAttribute("userPassword")[0]);
             }
         }
@@ -575,37 +601,11 @@ namespace GUI_LDAPUnitTest
             return _testUserNewDescription;
         }
 
-        public bool RunTest(Tests testType, bool writePermission)
+        public bool RunTest(Tests testType)
         {
-            switch (testType)
-            {
-                case Tests.TestInitLibrary:
-                    return TestCompleteInitLibrary();
-                case Tests.TestAdminConnection:
-                    return TestAdminConnect();
-                case Tests.TestCreateUser:
-                    return TestCreateUser();
-                case Tests.TestModifyUserDescription:
-                    return TestModifyUserAttribute();
-                case Tests.TestSearchUsers:
-                    return TestSearchUser();
-                case Tests.TestConnectUser:
-                    if (writePermission) return TestUserConnect();
-                    return TestUserConnectWithoutWritePermissions();
-                case Tests.TestSearchUserAndConnect:
-                    if (writePermission) return TestSearchUserAndConnect();
-                    return TestSearchUserAndConnectWithoutWritePermissions();
-                case Tests.TestUserChangePassword:
-                    return TestChangeUserPassword();
-                case Tests.TestDeleteUser:
-                    return TestDeleteUser();
-                case Tests.TestStandardInitLibraryNoAdmin:
-                    return TestStardardInitLibraryNoAdmin();
-                case Tests.TestInitLibraryNoAdmin:
-                    return TestCompleteInitLibraryNoAdmin();
-                default:
-                    return false;
-            }
+            return _testList[testType]();
         }
+
+        private delegate bool TestMethod();
     }
 }

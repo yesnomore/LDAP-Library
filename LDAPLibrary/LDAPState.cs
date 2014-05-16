@@ -1,6 +1,6 @@
 ﻿namespace LDAPLibrary
 {
-    public enum LDAPState
+    public enum LdapState
     {
         LdapLibraryInitSuccess,
         LdapConnectionSuccess,

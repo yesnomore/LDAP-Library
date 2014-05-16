@@ -5,7 +5,7 @@ using System.Linq;
 namespace LDAPLibrary
 {
     [Serializable]
-    public class LDAPUser
+    public class LdapUser
     {
         private readonly string _cn;
         private readonly string _sn;
@@ -13,9 +13,9 @@ namespace LDAPLibrary
 
         private readonly Dictionary<string, List<string>> _otherAttributes;
 
-        public LDAPUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
+        public LdapUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
         {
-            if (LDAPManager.CheckLibraryParameters(new[] { userDn, userSn, userCn }))
+            if (LdapManager.CheckLibraryParameters(new[] { userDn, userSn, userCn }))
             {
                 _sn = userSn;
                 _dn = userDn;

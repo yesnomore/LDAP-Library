@@ -14,7 +14,7 @@ namespace GUI_LDAPUnitTest
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            TestForm testUserForm = new TestForm();
+            var testUserForm = new TestForm();
             Application.Run(testUserForm);
 
         }

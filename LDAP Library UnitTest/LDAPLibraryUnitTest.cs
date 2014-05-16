@@ -12,7 +12,7 @@ namespace LDAP_Library_UnitTest
     public class LdapLibraryUnitTest
     {
         //Class fields for the test
-        ILDAPManager _ldapManagerObj;                 //LDAPLibrary
+        ILdapManager _ldapManagerObj;                 //LDAPLibrary
         string[] _ldapMatchSearchField;				 //Field to search
 
         #region LDAP Library Tests - Base
@@ -21,16 +21,16 @@ namespace LDAP_Library_UnitTest
         public void TestCompleteInitLibrary()
         {
 
-            LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+            var adminUser = new LdapUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                 null);
             adminUser.SetUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
 
-            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+            var authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            _ldapManagerObj = new LDAPManager(adminUser,
+            _ldapManagerObj = new LdapManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType,
@@ -50,10 +50,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestCompleteInitLibraryNoAdmin()
         {
-            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+            var authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            _ldapManagerObj = new LDAPManager(null,
+            _ldapManagerObj = new LdapManager(null,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType,
@@ -74,10 +74,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestStardardInitLibraryNoAdmin()
         {
-            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+            var authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            _ldapManagerObj = new LDAPManager(null,
+            _ldapManagerObj = new LdapManager(null,
                                                     ConfigurationManager.AppSettings["LDAPServer"],
                                                     ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                     authType
@@ -91,17 +91,17 @@ namespace LDAP_Library_UnitTest
         public void TestStandardInitLibrary()
         {
 
-            LDAPUser adminUser = new LDAPUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
+            var adminUser = new LdapUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
                                                  ConfigurationManager.AppSettings["LDAPAdminUserCN"],
                                                  ConfigurationManager.AppSettings["LDAPAdminUserSN"],
                                                  null);
             adminUser.SetUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
 
 
-            AuthType authType = (AuthType)Enum.Parse(typeof(AuthType),
+            var authType = (AuthType)Enum.Parse(typeof(AuthType),
                                                         ConfigurationManager.AppSettings["LDAPAuthType"]);
 
-            _ldapManagerObj = new LDAPManager(adminUser,
+            _ldapManagerObj = new LdapManager(adminUser,
                                                 ConfigurationManager.AppSettings["LDAPServer"],
                                                 ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
                                                 authType
@@ -127,7 +127,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestCreateUser()
         {
-            LDAPUser testLdapUser = SetupTestUser();
+            LdapUser testLdapUser = SetupTestUser();
             //Init the DLL and connect the admin
             TestAdminConnect();
 
@@ -147,7 +147,7 @@ namespace LDAP_Library_UnitTest
         public void TestDeleteUser()
         {
             //Set the test user
-            LDAPUser testLdapUser = SetupTestUser();
+            LdapUser testLdapUser = SetupTestUser();
 
             //Init the DLL and connect the admin
             TestAdminConnect();
@@ -168,14 +168,13 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestModifyUserAttribute()
         {
-            bool result;
             TestAdminConnect();
-            LDAPUser testLdapUser = SetupTestUser();
-            result = _ldapManagerObj.CreateUser(testLdapUser);
+            LdapUser testLdapUser = SetupTestUser();
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
-            List<LDAPUser> returnUsers;
+            List<LdapUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
             result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
@@ -201,7 +200,7 @@ namespace LDAP_Library_UnitTest
         {
             TestAdminConnect();
             const string newPassword = "pippo";
-            LDAPUser testUser = SetupTestUser();
+            LdapUser testUser = SetupTestUser();
             string oldPassword = testUser.GetUserAttribute("userPassword")[0];
             //Create the user
             bool result = _ldapManagerObj.CreateUser(testUser);
@@ -213,7 +212,7 @@ namespace LDAP_Library_UnitTest
             Assert.IsTrue(result);
 
             //Try to connect with the old password
-            NetworkCredential testUserCredential = new NetworkCredential(
+            var testUserCredential = new NetworkCredential(
                 testUser.GetUserDn(),
                 oldPassword,
                 "");
@@ -249,7 +248,7 @@ namespace LDAP_Library_UnitTest
         public void TestUserConnect()
         {
             bool result;
-            LDAPUser testUser = SetupTestUser();
+            LdapUser testUser = SetupTestUser();
             if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
             {
                 TestAdminConnect();
@@ -261,7 +260,7 @@ namespace LDAP_Library_UnitTest
                 TestStandardInitLibrary();
 
 
-            NetworkCredential testUserCredential = new NetworkCredential(
+            var testUserCredential = new NetworkCredential(
                 testUser.GetUserDn(),
                 testUser.GetUserAttribute("userPassword")[0],
                 "");
@@ -285,7 +284,7 @@ namespace LDAP_Library_UnitTest
         {
 
             TestAdminConnect();
-            LDAPUser testLdapUser = SetupTestUser();
+            LdapUser testLdapUser = SetupTestUser();
 
             bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
@@ -315,12 +314,12 @@ namespace LDAP_Library_UnitTest
             {
                 "Matteo"
             };
-            List<string> userAttributeToReturnBySearch = new List<string>
+            var userAttributeToReturnBySearch = new List<string>
             {
 				"description"
 			};
 
-            List<LDAPUser> returnUsers;
+            List<LdapUser> returnUsers;
 
             bool result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 
@@ -338,9 +337,9 @@ namespace LDAP_Library_UnitTest
                 //Init the DLL
                 TestStandardInitLibrary();
 
-            LDAPUser testUser = SetupTestUser();
+            LdapUser testUser = SetupTestUser();
 
-            NetworkCredential testUserCredential = new NetworkCredential(
+            var testUserCredential = new NetworkCredential(
                 testUser.GetUserDn(),
                 testUser.GetUserAttribute("userPassword")[0],
                 "");
@@ -358,7 +357,7 @@ namespace LDAP_Library_UnitTest
         public void TestSearchUserAndConnectWithoutWritePermissions()
         {
             TestAdminConnect();
-            LDAPUser testLdapUser = SetupTestUser();
+            LdapUser testLdapUser = SetupTestUser();
 
             bool result = _ldapManagerObj.SearchUserAndConnect(_ldapMatchSearchField[0], testLdapUser.GetUserAttribute("userPassword")[0]);
 
@@ -367,13 +366,13 @@ namespace LDAP_Library_UnitTest
 
         #endregion
 
-        private LDAPUser SetupTestUser()
+        private LdapUser SetupTestUser()
         {
-            string userDN = "cn=Fabio2,o=ApexNet,ou=People,dc=maxcrc,dc=com";
-            string userCN = "Fabio";
-            string userSN = "Vassura";
+            const string userDn = "cn=Fabio2,o=ApexNet,ou=People,dc=maxcrc,dc=com";
+            const string userCn = "Fabio";
+            const string userSn = "Vassura";
 
-            LDAPUser testLdapUser = new LDAPUser(userDN, userCN, userSN, null);
+            var testLdapUser = new LdapUser(userDn, userCn, userSn, null);
 
             testLdapUser.SetUserAttribute("userPassword", "1");
 

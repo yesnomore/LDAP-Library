@@ -7,13 +7,13 @@ namespace GUI_LDAPUnitTest
 {
     public partial class TestUserForm : Form
     {
-        private TestManager testManagerObj;
+        private readonly TestManager _testManagerObj;
 
         public TestUserForm(ref TestManager testManagerObj)
         {
             InitializeComponent();
 
-            this.testManagerObj = testManagerObj;
+            _testManagerObj = testManagerObj;
 
             Init();
 
@@ -22,39 +22,38 @@ namespace GUI_LDAPUnitTest
 
         private void Init()
         {
-            testUserCNTextBox.Text = testManagerObj.GetTestUserCn();
-            testUserDNTextBox.Text = testManagerObj.GetTestUserDn();
-            testUserSNTextBox.Text = testManagerObj.GetTestUserSn();
+            testUserCNTextBox.Text = _testManagerObj.GetTestUserCn();
+            testUserDNTextBox.Text = _testManagerObj.GetTestUserDn();
+            testUserSNTextBox.Text = _testManagerObj.GetTestUserSn();
 
-            foreach (string key in testManagerObj.GetTestUserOtherAttributesKeys())
+            foreach (string key in _testManagerObj.GetTestUserOtherAttributesKeys())
             {
-                foreach (string value in testManagerObj.GetTestUserOtherAttributes(key))
-                    testUserOtherTextBox.Text += key + "=" + value + Environment.NewLine;
+                foreach (string value in _testManagerObj.GetTestUserOtherAttributes(key))
+                    testUserOtherTextBox.Text += key + @"=" + value + Environment.NewLine;
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
             string[] attributes = testUserOtherTextBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-            Dictionary<string, List<string>> testUserAttribute = new Dictionary<string, List<string>>();
+            var testUserAttribute = new Dictionary<string, List<string>>();
             attributes = attributes.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             try
             {
                 foreach (string attribute in attributes)
                 {
-                    string[] temp = new string[2];
-                    temp = attribute.Split(new[] { '=' });
+                    string[] temp = attribute.Split(new[] { '=' });
                     testUserAttribute.Add(temp[0], new List<string> { temp[1] });
                 }
 
-                testManagerObj.SetupTestUser(
+                _testManagerObj.SetupTestUser(
                     testUserDNTextBox.Text, testUserCNTextBox.Text, testUserSNTextBox.Text, testUserAttribute);
                 DialogResult = DialogResult.OK;
                 Close();
             }
             catch
             {
-                MessageBox.Show("Error: Unable to setup the testUser. Check the inputs. Application will be restarted", "Error Creation Test User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(@"Error: Unable to setup the testUser. Check the inputs. Application will be restarted", @"Error Creation Test User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.Cancel;
             }
 

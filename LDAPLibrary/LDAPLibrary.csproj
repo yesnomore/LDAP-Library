@@ -45,11 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ILDAPManager.cs" />
-    <Compile Include="LDAPState.cs" />
-    <Compile Include="LDAPManager.cs" />
-    <Compile Include="LDAPUser.cs" />
-    <Compile Include="LDAPUserManipulator.cs" />
+    <Compile Include="ILdapManager.cs" />
+    <Compile Include="LdapState.cs" />
+    <Compile Include="LdapManager.cs" />
+    <Compile Include="LdapUser.cs" />
+    <Compile Include="LdapUserManipulator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

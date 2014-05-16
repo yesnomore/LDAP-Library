@@ -4,21 +4,21 @@ using System.Net;
 
 namespace LDAPLibrary
 {
-    public interface ILDAPManager
+    public interface ILdapManager
     {
         /// <summary>
         /// Create a new LDAP User
         /// </summary>
         /// <param name="newUser"> The LDAPUser object that contain all the details of the new user to create</param>
         /// <returns>Boolean that comunicate the result of creation</returns>
-        bool CreateUser(LDAPUser newUser);
+        bool CreateUser(LdapUser newUser);
 
         /// <summary>
         /// delete the specified  LDAPUser
         /// </summary>
         /// <param name="user">LDAPUser to delete</param>
         /// <returns>the result of operation</returns>
-        bool DeleteUser(LDAPUser user);
+        bool DeleteUser(LdapUser user);
 
         /// <summary>
         /// Modify an LDAPUser Attribute
@@ -28,7 +28,7 @@ namespace LDAPLibrary
         /// <param name="attributeName">Name of the attribute</param>
         /// <param name="attributeValue">Value of the attribute</param>
         /// <returns></returns>
-        bool ModifyUserAttribute(DirectoryAttributeOperation operationType, LDAPUser user, string attributeName, string attributeValue);
+        bool ModifyUserAttribute(DirectoryAttributeOperation operationType, LdapUser user, string attributeName, string attributeValue);
 
         /// <summary>
         /// Change the user Password
@@ -36,7 +36,7 @@ namespace LDAPLibrary
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        bool ChangeUserPassword(LDAPUser user, string newPwd);
+        bool ChangeUserPassword(LdapUser user, string newPwd);
 
         /// <summary>
         /// Search Users in the LDAP system
@@ -45,7 +45,7 @@ namespace LDAPLibrary
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<LDAPUser> searchResult);
+        bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<LdapUser> searchResult);
 
         /// <summary>
         /// Return the Error Message of an occurred LDAP Exception

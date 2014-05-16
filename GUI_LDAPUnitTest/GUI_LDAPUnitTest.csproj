@@ -99,7 +99,8 @@
     <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestManager.cs" />
-    <Compile Include="tests.cs" />
+    <Compile Include="Tests.cs" />
+    <Compile Include="TestTriplet.cs" />
     <Compile Include="TestUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
