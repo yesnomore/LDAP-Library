@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GUI_LDAPUnitTest
@@ -22,11 +16,11 @@ namespace GUI_LDAPUnitTest
 			{
 				case oneItemConfigurationState.newDescription:
 					oneItemConfigurationLabel.Text = "Set the New Description";
-					oneItemConfigurationTextBox.Text = tf.getTestUserNewDescription();
+					oneItemConfigurationTextBox.Text = tf.GetTestUserNewDescription();
 					break;
 				case oneItemConfigurationState.newPassword:
 					oneItemConfigurationLabel.Text = "Set the New Password";
-					oneItemConfigurationTextBox.Text = tf.getTestUserNewPassword();
+					oneItemConfigurationTextBox.Text = tf.GetTestUserNewPassword();
 					break;
 				case oneItemConfigurationState.userToSearch:
 					oneItemConfigurationLabel.Text = "Set the Users to search (separated by breaklines)";
@@ -34,7 +28,7 @@ namespace GUI_LDAPUnitTest
 					oneItemConfigurationTextBox.Height = 60;
 					oneItemConfigurationTextBox.ScrollBars = ScrollBars.Both;
 					string users = null;
-					foreach (string user in tf.getUserToSearch()) users += user + Environment.NewLine;
+					foreach (string user in tf.GetUserToSearch()) users += user + Environment.NewLine;
 					oneItemConfigurationTextBox.Text = users;
 					break;
 			}
@@ -45,17 +39,17 @@ namespace GUI_LDAPUnitTest
 			switch (oneItemConfigurationMode)
 			{
 				case oneItemConfigurationState.newDescription:
-					testManager.setupTestUserNewDescription(oneItemConfigurationTextBox.Text);
+					testManager.SetupTestUserNewDescription(oneItemConfigurationTextBox.Text);
 					break;
 				case oneItemConfigurationState.newPassword:
-					testManager.setupTestUserNewPassword(oneItemConfigurationTextBox.Text);
+					testManager.SetupTestUserNewPassword(oneItemConfigurationTextBox.Text);
 					break;
 				case oneItemConfigurationState.userToSearch:
-					string[] users = oneItemConfigurationTextBox.Text.Split(new string[] { Environment.NewLine }, StringSplitOptions.None);
-					testManager.setupUsersToSearch(users);
+					string[] users = oneItemConfigurationTextBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+					testManager.SetupUsersToSearch(users);
 					break;
 			}
-			this.Close();
+			Close();
 		}
 	}
 
