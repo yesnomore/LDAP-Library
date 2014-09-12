@@ -145,14 +145,14 @@
     <None Include="UP_WS_CONFIG\LDAPLibraryBicocca_noAdminPassword.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UP_WS_CONFIG\LDAPLibraryLocal.config">
+    <None Include="UP_WS_CONFIG\LDAPLibrary.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
     <None Include="UP_WS_CONFIG\LDAPLibraryBocconi.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UP_WS_CONFIG\LDAPLibrary.config">
+    <None Include="UP_WS_CONFIG\LDAPLibraryBologna.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="UP_WS_CONFIG\LDAPLibraryUdine.config">
