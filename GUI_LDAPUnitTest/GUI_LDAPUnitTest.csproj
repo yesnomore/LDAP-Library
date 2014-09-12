@@ -149,10 +149,6 @@
     <None Include="UP_WS_CONFIG\LDAPLibraryBicocca_noAdminPassword.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="UP_WS_CONFIG\LDAPLibrary1.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
     <None Include="UP_WS_CONFIG\LDAPLibraryBocconi.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -160,6 +156,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="UP_WS_CONFIG\LDAPLibraryEmpty.config" />
+    <None Include="UP_WS_CONFIG\LDAPLibraryFerrara.config" />
     <None Include="UP_WS_CONFIG\LDAPLibraryLocal.config" />
     <None Include="UP_WS_CONFIG\LDAPLibraryUdine.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
