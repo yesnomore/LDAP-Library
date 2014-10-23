@@ -133,6 +133,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="GUI_LDAPUnitTest_TemporaryKey.pfx" />
+    <None Include="LDAPCert\Terena-chain.pem" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -142,26 +143,14 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="UP_WS_CONFIG\LDAPLibrary.config">
-      <SubType>Designer</SubType>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="UP_WS_CONFIG\LDAPLibraryBicocca_noAdminPassword.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="UP_WS_CONFIG\LDAPLibraryBocconi.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="UP_WS_CONFIG\LDAPLibraryBologna.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="UP_WS_CONFIG\LDAPLibraryEmpty.config" />
-    <None Include="UP_WS_CONFIG\LDAPLibraryFerrara.config" />
-    <None Include="UP_WS_CONFIG\LDAPLibraryLocal.config" />
-    <None Include="UP_WS_CONFIG\LDAPLibraryUdine.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="Users Configs\LDAPLibrary.config" />
+    <None Include="Users Configs\LDAPLibraryBicocca_noAdminPassword.config" />
+    <None Include="Users Configs\LDAPLibraryBocconi.config" />
+    <None Include="Users Configs\LDAPLibraryBologna.config" />
+    <None Include="Users Configs\LDAPLibraryEmpty.config" />
+    <None Include="Users Configs\LDAPLibraryFerrara.config" />
+    <None Include="Users Configs\LDAPLibraryLocal.config" />
+    <None Include="Users Configs\LDAPLibraryUdine.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -181,13 +170,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="UP_WS_CONFIG\README.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\LDAPLibrary\LDAPLibrary.csproj">
       <Project>{a31e343a-c1da-40a1-9bfa-2200d892e83d}</Project>
       <Name>LDAPLibrary</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Users Configs\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

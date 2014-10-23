@@ -21,21 +21,15 @@ using System.Net;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LocalhostEnvironment
+    public class UdineEnvironment
     {
         //Class fields for the test
         ILdapManager _ldapManagerObj;                 //LDAPLibrary
 
         //READ ONLY USER
-        private const string ReadOnlyUserCn = "Matteo";
-        private const string ReadOnlyUserPwd = "1";
-        private const string ReadOnlyUserDn = "cn=" + ReadOnlyUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
-        //WRITE USER THIS MUST NOT EXIST INITIALLY
-        private const string WriteUserCn = "Fabio";
-        private const string WriteUserPwd = "1";
-        private const string WriteUserDn = "cn=" + WriteUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
-
-
+        private const string ReadOnlyUserUid = "uptest";
+        private const string ReadOnlyUserPwd = "606FSxdklf7q";
+        private const string ReadOnlyUserDn = "cn=" + ReadOnlyUserUid + ",ou=servizio,ou=utenti,dc=uniud,dc=it";
 
         #region LDAP Library Tests - Base
 
@@ -139,181 +133,7 @@ namespace LDAP_Library_UnitTest
         }
 
         #endregion
-
-        #region LDAP Library Tests - Write Permission Required
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestCreateUser()
-        {
-            var tempUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
-
-            //Init the DLL and connect the admin
-            TestAdminConnect();
-
-            //Create user
-            var result = _ldapManagerObj.CreateUser(tempUser);
-
-            //Assert the correct operations
-            Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success");
-
-            result = _ldapManagerObj.DeleteUser(tempUser);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestDeleteUser()
-        {
-            //Set the test user
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
-
-            //Init the DLL and connect the admin
-            TestAdminConnect();
-
-            //Create LDAPUser to delete.
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
-
-            Assert.IsTrue(result);
-
-            //Delete user
-            result = _ldapManagerObj.DeleteUser(testLdapUser);
-
-            //Assert the correct operations
-            Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success");
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestModifyUserAttribute()
-        {
-            TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
-
-            Assert.IsTrue(result);
-
-            List<LdapUser> returnUsers;
-            const string userAttributeValue = "description Modified";
-
-            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
-
-            Assert.IsTrue(result);
-
-            result = _ldapManagerObj.SearchUsers(
-                new List<string> { "description" },
-                new[] { WriteUserCn },
-                out returnUsers);
-
-            Assert.IsTrue(result);
-            Assert.AreEqual(returnUsers[0].GetUserCn(), testLdapUser.GetUserCn());
-            Assert.AreEqual(returnUsers[0].GetUserAttribute("description")[0], userAttributeValue);
-
-            result = _ldapManagerObj.DeleteUser(testLdapUser);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestChangeUserPassword()
-        {
-            TestAdminConnect();
-            const string newPassword = "pippo";
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
-            //Create the user
-            var result = _ldapManagerObj.CreateUser(testUser);
-
-            Assert.IsTrue(result);
-
-            //Perform change of password
-            result = _ldapManagerObj.ChangeUserPassword(testUser, newPassword);
-            Assert.IsTrue(result);
-
-            //Try to connect with the old password
-            var testUserCredential = new NetworkCredential(
-                testUser.GetUserDn(),
-                WriteUserPwd,
-                "");
-
-            result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
-
-            Assert.IsFalse(result);
-
-            //Try to connect with the new password
-            testUserCredential = new NetworkCredential(
-                testUser.GetUserDn(),
-                newPassword,
-                "");
-
-            result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
-
-            Assert.IsTrue(result);
-
-            TestAdminConnect();
-
-            result = _ldapManagerObj.DeleteUser(testUser);
-
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestUserConnect()
-        {
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
-
-            TestAdminConnect();
-            bool result = _ldapManagerObj.CreateUser(testUser);
-            Assert.IsTrue(result);
-
-
-
-            var testUserCredential = new NetworkCredential(
-                testUser.GetUserDn(),
-                testUser.GetUserAttribute("userPassword")[0],
-                "");
-
-            result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
-
-            Assert.IsTrue(result);
-
-            TestAdminConnect();
-            result = _ldapManagerObj.DeleteUser(testUser);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
-        public void TestSearchUserAndConnect()
-        {
-
-            TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
-
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
-
-            Assert.IsTrue(result);
-
-            result = _ldapManagerObj.SearchUserAndConnect(WriteUserCn, WriteUserPwd);
-
-            Assert.IsTrue(result);
-
-            TestAdminConnect();
-
-            result = _ldapManagerObj.DeleteUser(testLdapUser);
-
-            Assert.IsTrue(result);
-        }
-
-        #endregion
-
+        
         #region LDAP Library Tests - Only Read Permission Required
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
@@ -323,7 +143,7 @@ namespace LDAP_Library_UnitTest
 
             string[] userIdToSearch =
             {
-                ReadOnlyUserCn
+                ReadOnlyUserUid
             };
             var userAttributeToReturnBySearch = new List<string>
             {
@@ -336,7 +156,7 @@ namespace LDAP_Library_UnitTest
 
             Assert.IsTrue(result);
             Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
-            Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+            Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserUid);
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
@@ -364,7 +184,7 @@ namespace LDAP_Library_UnitTest
         {
             TestAdminConnect();
 
-            var result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
+            var result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserUid, ReadOnlyUserPwd);
 
             Assert.IsTrue(result);
         }
