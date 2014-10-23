@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LDAPLibrary;
 using System.Collections.Generic;
@@ -147,7 +148,7 @@ namespace LDAP_Library_UnitTest
             };
             var userAttributeToReturnBySearch = new List<string>
             {
-				"description"
+				"description","uid"
 			};
 
             List<LdapUser> returnUsers;
@@ -156,7 +157,7 @@ namespace LDAP_Library_UnitTest
 
             Assert.IsTrue(result);
             Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
-            Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserUid);
+            Assert.AreEqual(returnUsers[0].GetUserAttribute("uid").First(), ReadOnlyUserUid);
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
