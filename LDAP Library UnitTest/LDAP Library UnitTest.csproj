@@ -55,6 +55,7 @@
     <Compile Include="UdineEnvironment.cs" />
     <Compile Include="localhost\LocalhostEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LdapUserUnitTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LDAPLibrary\LDAPLibrary.csproj">

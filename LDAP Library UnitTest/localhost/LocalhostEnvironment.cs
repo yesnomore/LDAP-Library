@@ -48,7 +48,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapAdminUserCn = "Manager";
         private const string LdapAdminUserSn = "test";
         private const string LdapAdminUserPassword = "secret";
-        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
+        private static readonly LDAPLibrary.LdapUser AdminUser = new LDAPLibrary.LdapUser(LdapAdminUserDn,
             LdapAdminUserCn,
             LdapAdminUserSn,
             new Dictionary<string, List<string>> { { "userPassword", new List<string> { LdapAdminUserPassword } } });
@@ -150,7 +150,7 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestCreateUser()
         {
-            var tempUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
+            var tempUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", null);
 
             //Init the DLL and connect the admin
             TestAdminConnect();
@@ -171,7 +171,7 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestDeleteUser()
         {
             //Set the test user
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
+            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", null);
 
             //Init the DLL and connect the admin
             TestAdminConnect();
@@ -193,12 +193,12 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestModifyUserAttribute()
         {
             TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
+            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
             var result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
-            List<LdapUser> returnUsers;
+            List<LDAPLibrary.LdapUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
             result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
@@ -224,7 +224,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
             const string newPassword = "pippo";
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
             //Create the user
             var result = _ldapManagerObj.CreateUser(testUser);
 
@@ -270,7 +270,7 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestUserConnect()
         {
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
 
             TestAdminConnect();
             bool result = _ldapManagerObj.CreateUser(testUser);
@@ -300,7 +300,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
 
             TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
 
             var result = _ldapManagerObj.CreateUser(testLdapUser);
 
@@ -335,7 +335,7 @@ namespace LDAP_Library_UnitTest.localhost
 				"description"
 			};
 
-            List<LdapUser> returnUsers;
+            List<LDAPLibrary.LdapUser> returnUsers;
 
             var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 
