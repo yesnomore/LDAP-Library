@@ -53,7 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="UdineEnvironment.cs" />
-    <Compile Include="LocalhostEnvironment.cs" />
+    <Compile Include="localhost\LocalhostEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,10 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using LDAPLibrary;
 using System.Collections.Generic;
 using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Net;
+using LDAPLibrary;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 /*
  * 
@@ -18,7 +18,7 @@ using System.Net;
  * 
  */
 
-namespace LDAP_Library_UnitTest
+namespace LDAP_Library_UnitTest.localhost
 {
     [TestClass]
     public class LocalhostEnvironment
@@ -26,6 +26,8 @@ namespace LDAP_Library_UnitTest
         //Class fields for the test
         ILdapManager _ldapManagerObj;                 //LDAPLibrary
 
+        #region Users
+        
         //READ ONLY USER
         private const string ReadOnlyUserCn = "Matteo";
         private const string ReadOnlyUserPwd = "1";
@@ -35,31 +37,51 @@ namespace LDAP_Library_UnitTest
         private const string WriteUserPwd = "1";
         private const string WriteUserDn = "cn=" + WriteUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
 
+        #endregion
 
+        #region Localhost Configuration
+
+        private const AuthType LdapAuthType = AuthType.Basic;
+        private const string LdapServer = "127.0.0.1:389";
+
+        private const string LdapAdminUserDn = "cn=Manager,dc=maxcrc,dc=com";
+        private const string LdapAdminUserCn = "Manager";
+        private const string LdapAdminUserSn = "test";
+        private const string LdapAdminUserPassword = "secret";
+        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
+            LdapAdminUserCn,
+            LdapAdminUserSn,
+            new Dictionary<string, List<string>> { { "userPassword", new List<string> { LdapAdminUserPassword } } });
+
+        private const string LdapSearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
+        private const string LdapUserObjectClass = "person";
+        private const string LdapMatchFieldUsername = "cn";
+        private const bool EnableLdapLibraryLog = true;
+        private const string LdapLibraryLogPath = @"C:\work\LDAPLibrary\Log\";
+        private const bool SecureSocketLayerFlag = false;
+        private const bool TransportSocketLayerFlag = false;
+        private const bool ClientCertificationFlag = false;
+        private const string ClientCertificatePath = "null";
+
+        #endregion
 
         #region LDAP Library Tests - Base
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestCompleteInitLibrary()
         {
-            var authType = (AuthType)Enum.Parse(typeof(AuthType),
-                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
-
-            _ldapManagerObj = new LdapManager(new LdapUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
-                                                ConfigurationManager.AppSettings["LDAPAdminUserCN"],
-                                                ConfigurationManager.AppSettings["LDAPAdminUserSN"],
-                                                new Dictionary<string, List<string>> { { "userPassword", new List<string> { ConfigurationManager.AppSettings["LDAPAdminUserPassword"] } } }),
-                                                ConfigurationManager.AppSettings["LDAPServer"],
-                                                ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
-                                                authType,
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]),
-                                                ConfigurationManager.AppSettings["clientCertificatePath"],
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
-                                                ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
-                                                ConfigurationManager.AppSettings["LDAPUserObjectClass"],
-                                                ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]
+            _ldapManagerObj = new LdapManager(AdminUser,
+                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                LdapUserObjectClass,
+                                                LdapMatchFieldUsername
                                                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -68,21 +90,18 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestCompleteInitLibraryNoAdmin()
         {
-            var authType = (AuthType)Enum.Parse(typeof(AuthType),
-                                                       ConfigurationManager.AppSettings["LDAPAuthType"]);
-
             _ldapManagerObj = new LdapManager(null,
-                                                ConfigurationManager.AppSettings["LDAPServer"],
-                                                ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
-                                                authType,
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]),
-                                                ConfigurationManager.AppSettings["clientCertificatePath"],
-                                                Convert.ToBoolean(ConfigurationManager.AppSettings["enableLDAPLibraryLog"]),
-                                                ConfigurationManager.AppSettings["LDAPLibraryLogPath"],
-                                                ConfigurationManager.AppSettings["LDAPUserObjectClass"],
-                                                ConfigurationManager.AppSettings["LDAPMatchFieldUsername"]
+                                                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                LdapUserObjectClass,
+                                                LdapMatchFieldUsername
                                                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -92,13 +111,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestStardardInitLibraryNoAdmin()
         {
-            var authType = (AuthType)Enum.Parse(typeof(AuthType),
-                                                       ConfigurationManager.AppSettings["LDAPAuthType"]);
-
             _ldapManagerObj = new LdapManager(null,
-                                                    ConfigurationManager.AppSettings["LDAPServer"],
-                                                    ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
-                                                    authType
+                                                    LdapServer,
+                                                    LdapSearchBaseDn,
+                                                    LdapAuthType
                                                     );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -108,21 +124,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestStandardInitLibrary()
         {
-
-            var adminUser = new LdapUser(ConfigurationManager.AppSettings["LDAPAdminUserDN"],
-                                                 ConfigurationManager.AppSettings["LDAPAdminUserCN"],
-                                                 ConfigurationManager.AppSettings["LDAPAdminUserSN"],
-                                                 null);
-            adminUser.SetUserAttribute("userPassword", ConfigurationManager.AppSettings["LDAPAdminUserPassword"]);
-
-
-            var authType = (AuthType)Enum.Parse(typeof(AuthType),
-                                                        ConfigurationManager.AppSettings["LDAPAuthType"]);
-
-            _ldapManagerObj = new LdapManager(adminUser,
-                                                ConfigurationManager.AppSettings["LDAPServer"],
-                                                ConfigurationManager.AppSettings["LDAPSearchBaseDN"],
-                                                authType
+            _ldapManagerObj = new LdapManager(AdminUser,
+                                                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType
                                                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -236,9 +241,9 @@ namespace LDAP_Library_UnitTest
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        SecureSocketLayerFlag,
+                        TransportSocketLayerFlag,
+                        ClientCertificationFlag);
 
             Assert.IsFalse(result);
 
@@ -249,9 +254,9 @@ namespace LDAP_Library_UnitTest
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        SecureSocketLayerFlag,
+                        TransportSocketLayerFlag,
+                        ClientCertificationFlag);
 
             Assert.IsTrue(result);
 
@@ -279,9 +284,9 @@ namespace LDAP_Library_UnitTest
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        SecureSocketLayerFlag,
+                        TransportSocketLayerFlag,
+                        ClientCertificationFlag);
 
             Assert.IsTrue(result);
 
@@ -342,7 +347,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
         public void TestUserConnectWithoutWritePermissions()
         {
-            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["LDAPAdminUserDN"]))
+            if (!string.IsNullOrEmpty(LdapAdminUserDn))
                 TestAdminConnect();
             else
                 //Init the DLL
@@ -352,9 +357,9 @@ namespace LDAP_Library_UnitTest
             var result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,
                 ""),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["secureSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["transportSocketLayerFlag"]),
-                        Convert.ToBoolean(ConfigurationManager.AppSettings["ClientCertificationFlag"]));
+                        SecureSocketLayerFlag,
+                        TransportSocketLayerFlag,
+                        ClientCertificationFlag);
 
             Assert.IsTrue(result);
         }
