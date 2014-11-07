@@ -91,25 +91,40 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="attributeName"></param>
         /// <param name="attributeValues"></param>
-        public void SetUserAttributes(string attributeName, List<string> attributeValues)
+        public void OverwriteUserAttribute(string attributeName, List<string> attributeValues)
         {
             if (_otherAttributes.ContainsKey(attributeName))
                 _otherAttributes[attributeName] = attributeValues;
             else
-                _otherAttributes.Add(attributeName, attributeValues);
+                throw new ArgumentException("L'attributo di cui si vuole sovrascrivere i valori non è presente nel dizionario degli attributi dell'utente", attributeName);
         }
-        /// <summary>
-        /// Set the user attribute values list with a new one that contain only the parameter value 
-        /// ERASE THE OLD ONE!!
-        /// </summary>
-        /// <param name="attributeName"></param>
-        /// <param name="attributeValue"></param>
-        public void SetUserAttribute(string attributeName, string attributeValue)
+        public void OverwriteUserAttribute(string attributeName, string attributeValue)
         {
             if (_otherAttributes.ContainsKey(attributeName))
                 _otherAttributes[attributeName] = new List<string> { attributeValue };
             else
+                throw new ArgumentException("L'attributo di cui si vuole sovrascrivere i valori non è presente nel dizionario degli attributi dell'utente", attributeName);
+        }
+
+        /// <summary>
+        /// Create a new user attribute with the given attribute values
+        /// </summary>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValues"></param>
+        public void CreateUserAttribute(string attributeName, List<string> attributeValues)
+        {
+            if (!_otherAttributes.ContainsKey(attributeName)) 
+                _otherAttributes.Add(attributeName, attributeValues);
+            else
+                throw new ArgumentException("L'attributo da creare è gia' presente nel dizionario degli attributi dell'utente", attributeName);
+        }
+
+        public void CreateUserAttribute(string attributeName, string attributeValue)
+        {
+            if (!_otherAttributes.ContainsKey(attributeName))
                 _otherAttributes.Add(attributeName, new List<string> { attributeValue });
+            else
+                throw new ArgumentException("L'attributo da creare è gia' presente nel dizionario degli attributi dell'utente", attributeName);
         }
 
         /// <summary>
@@ -120,13 +135,9 @@ namespace LDAPLibrary
         /// <param name="attributeValue"></param>
         public void InsertUserAttribute(string attributeName, string attributeValue)
         {
-            if (_otherAttributes.ContainsKey(attributeName))
-            {
-                if (string.IsNullOrEmpty(attributeValue))
-                    _otherAttributes[attributeName].Add(attributeValue);
-            }
-            else
-                throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
+            if (!_otherAttributes.ContainsKey(attributeName)) throw new ArgumentException("L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
+            if (!string.IsNullOrEmpty(attributeValue))
+                _otherAttributes[attributeName].Add(attributeValue);             
         }
 
         /// <summary>
@@ -138,7 +149,7 @@ namespace LDAPLibrary
         {
             List<string> tempUserAttriutes = GetUserAttribute(attributeName);
             if (tempUserAttriutes.Remove(attributeValue))
-                SetUserAttributes(attributeName, tempUserAttriutes);
+                OverwriteUserAttribute(attributeName, tempUserAttriutes);
             else
                 throw new ArgumentException(string.Format("Impossibile rimuovere il valore dagli attributi dell'utente: {0}", attributeValue));
         }

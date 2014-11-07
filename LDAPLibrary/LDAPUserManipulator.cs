@@ -136,7 +136,7 @@ namespace LDAPLibrary
                     user.DeleteUserAttribute(attributeName, attributeValue);
                     break;
                 case DirectoryAttributeOperation.Replace:
-                    user.SetUserAttribute(attributeName, attributeValue);
+                    user.OverwriteUserAttribute(attributeName, attributeValue);
                     break;
             }
 
@@ -177,7 +177,7 @@ namespace LDAPLibrary
                 return false;
             }
 
-            user.SetUserAttribute("userPassword", newPwd);
+            user.OverwriteUserAttribute("userPassword", newPwd);
 
             _ldapUserManipulationMessage = "Change Password Operation Success";
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
