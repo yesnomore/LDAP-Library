@@ -52,7 +52,6 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UdineEnvironment.cs" />
     <Compile Include="localhost\LocalhostEnvironment.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LdapUserUnitTests.cs" />
@@ -65,9 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="LDAPCert\Terena-chain.pem" />
-    <None Include="UdineApp.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
