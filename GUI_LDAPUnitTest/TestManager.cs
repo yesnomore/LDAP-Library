@@ -123,7 +123,7 @@ namespace GUI_LDAPUnitTest
                     Config.LDAPLibrary["LDAPAdminUserCN"],
                     Config.LDAPLibrary["LDAPAdminUserSN"],
                     null);
-                adminUser.SetUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+                adminUser.OverwriteUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
                 var authType = (AuthType)Enum.Parse(typeof(AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
@@ -297,7 +297,7 @@ namespace GUI_LDAPUnitTest
             if (!result)
             {
                 _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.SetUserAttribute("description", oldDescription);
+                _testUser.OverwriteUserAttribute("description", oldDescription);
                 return false;
             }
             switch (_ldapMatchSearchField[0])
@@ -334,7 +334,7 @@ namespace GUI_LDAPUnitTest
                 return false;
             }
             _ldapManagerObj.DeleteUser(_testUser);
-            _testUser.SetUserAttributes("description", returnUsers[0].GetUserAttribute("description"));
+            _testUser.OverwriteUserAttribute("description", returnUsers[0].GetUserAttribute("description"));
             return false;
         }
 
@@ -359,7 +359,7 @@ namespace GUI_LDAPUnitTest
             if (!result)
             {
                 _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.SetUserAttribute("userPassword", oldPassword);
+                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
@@ -377,7 +377,7 @@ namespace GUI_LDAPUnitTest
             if (result)
             {
                 _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.SetUserAttribute("userPassword", oldPassword);
+                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
@@ -397,11 +397,11 @@ namespace GUI_LDAPUnitTest
             if (result)
             {
                 result = _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.SetUserAttribute("userPassword", oldPassword);
+                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return result;
             }
             _ldapManagerObj.DeleteUser(_testUser);
-            _testUser.SetUserAttribute("userPassword", oldPassword);
+            _testUser.OverwriteUserAttribute("userPassword", oldPassword);
             return false;
         }
 
