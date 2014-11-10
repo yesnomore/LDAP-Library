@@ -20,7 +20,7 @@ namespace LDAPLibrary
                 _sn = userSn;
                 _dn = userDn;
                 _cn = userCn;
-                _otherAttributes = otherAttribute ?? new Dictionary<string, List<string>>();
+                _otherAttributes = otherAttribute == null ? new Dictionary<string, List<string>>() : new Dictionary<string, List<string>>(otherAttribute);
             }
             else
             {
