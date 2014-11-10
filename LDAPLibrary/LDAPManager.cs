@@ -28,7 +28,7 @@ namespace LDAPLibrary
         private readonly string _ldapInitLibraryErrorDescription;
         private readonly string _ldapSearchBaseDn; //LDAP base search DN
         private readonly string _ldapServer; //Server LDAP with port
-        private readonly LdapUser _loginUser; //LDAP User Admin
+        private readonly ILdapUser _loginUser; //LDAP User Admin
         private bool _clientCertificate; //Flag that specify if enable Client Certificate
         private string _clientCertificatePath; //Client Certificate Path
         private LdapConnection _ldapConnection;
@@ -59,7 +59,7 @@ namespace LDAPLibrary
         /// <param name="ldapServer">LDAP Server with port</param>
         /// <param name="ldapSearchBaseDn">Base DN where start the search.</param>
         /// <param name="authType"></param>
-        public LdapManager(LdapUser adminUser,
+        public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType
@@ -130,7 +130,7 @@ namespace LDAPLibrary
         /// <summary>
         ///     More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(LdapUser adminUser,
+        public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -180,7 +180,7 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="newUser"> The LDAPUser object that contain all the details of the new user to create</param>
         /// <returns>Boolean that comunicate the result of creation</returns>
-        public bool CreateUser(LdapUser newUser)
+        public bool CreateUser(ILdapUser newUser)
         {
             bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState, _userObjectClass);
             WriteLog(GetLdapMessage());
@@ -188,11 +188,11 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        ///     delete the specified  LDAPUser
+        ///     delete the specified  LdapUser
         /// </summary>
         /// <param name="user">LDAPUser to delete</param>
         /// <returns>the result of operation</returns>
-        public bool DeleteUser(LdapUser user)
+        public bool DeleteUser(ILdapUser user)
         {
             bool operationResult = _manageLdapUser.DeleteUser(user, out _ldapCurrentState);
             WriteLog(GetLdapMessage());
@@ -207,7 +207,7 @@ namespace LDAPLibrary
         /// <param name="attributeName">Name of the attribute</param>
         /// <param name="attributeValue">Value of the attribute</param>
         /// <returns></returns>
-        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, LdapUser user, string attributeName,
+        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
             string attributeValue)
         {
             bool operationResult = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName,
@@ -222,7 +222,7 @@ namespace LDAPLibrary
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        public bool ChangeUserPassword(LdapUser user, string newPwd)
+        public bool ChangeUserPassword(ILdapUser user, string newPwd)
         {
             bool operationResult = _manageLdapUser.ChangeUserPassword(user, newPwd, out _ldapCurrentState);
             WriteLog(GetLdapMessage());
@@ -237,7 +237,7 @@ namespace LDAPLibrary
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
         public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
-            out List<LdapUser> searchResult)
+            out List<ILdapUser> searchResult)
         {
             bool operationResult = _manageLdapUser.SearchUsers(_ldapSearchBaseDn, _userObjectClass, _matchFieldUsername,
                 otherReturnedAttributes, searchedUsers, out searchResult, out _ldapCurrentState);
@@ -363,7 +363,7 @@ namespace LDAPLibrary
         /// </returns>
         public bool SearchUserAndConnect(string user, string password)
         {
-            List<LdapUser> searchReturn;
+            List<ILdapUser> searchReturn;
 
             //Do the search and check the result 
             bool searchResult = SearchUsers(null, new[] { user }, out searchReturn);

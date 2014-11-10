@@ -198,7 +198,7 @@ namespace LDAP_Library_UnitTest.localhost
 
             Assert.IsTrue(result);
 
-            List<LDAPLibrary.LdapUser> returnUsers;
+            List<ILdapUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
             result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
@@ -335,7 +335,7 @@ namespace LDAP_Library_UnitTest.localhost
 				"description"
 			};
 
-            List<LDAPLibrary.LdapUser> returnUsers;
+            List<ILdapUser> returnUsers;
 
             var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 

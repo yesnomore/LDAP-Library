@@ -40,7 +40,7 @@ namespace LDAPLibrary
         /// <param name="ldapCurrentState">State of LDAP</param>
         /// <param name="objectClass"></param>
         /// <returns> Success or Failed</returns>
-        public bool CreateUser(LdapUser newUser, out LdapState ldapCurrentState, string objectClass)
+        public bool CreateUser(ILdapUser newUser, out LdapState ldapCurrentState, string objectClass)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace LDAPLibrary
         /// <param name="user">User to delete</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool DeleteUser(LdapUser user, out LdapState ldapCurrentState)
+        public bool DeleteUser(ILdapUser user, out LdapState ldapCurrentState)
         {
             try
             {
@@ -110,7 +110,7 @@ namespace LDAPLibrary
         /// <param name="attributeValue">Attribute Value</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, LdapUser user, string attributeName, string attributeValue, out LdapState ldapCurrentState)
+        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName, string attributeValue, out LdapState ldapCurrentState)
         {
             try
             {
@@ -154,7 +154,7 @@ namespace LDAPLibrary
         /// <param name="newPwd">New Passowrd</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool ChangeUserPassword(LdapUser user, string newPwd, out LdapState ldapCurrentState)
+        public bool ChangeUserPassword(ILdapUser user, string newPwd, out LdapState ldapCurrentState)
         {
             try
             {
@@ -196,10 +196,10 @@ namespace LDAPLibrary
         /// <param name="ldapCurrentState">Return the state of the LDAP to parent class</param>
         /// <param name="userObjectClass"></param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public bool SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername, List<string> otherReturnedAttributes, string[] searchedUsers, out List<LdapUser> searchResult, out LdapState ldapCurrentState)
+        public bool SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername, List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult, out LdapState ldapCurrentState)
         {
 
-            searchResult = new List<LdapUser>();
+            searchResult = new List<ILdapUser>();
 
             if (otherReturnedAttributes == null)
                 otherReturnedAttributes = new List<string>();
