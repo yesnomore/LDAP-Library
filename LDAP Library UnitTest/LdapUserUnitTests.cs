@@ -12,7 +12,7 @@ namespace LDAP_Library_UnitTest
         private const string LdapUserDn = "cn=Manager,dc=maxcrc,dc=com";
         private const string LdapUserCn = "Manager";
         private const string LdapUserSn = "test";
-        private static Dictionary<string, List<string>> LdapUserAttributes = 
+        private static readonly Dictionary<string, List<string>> LdapUserAttributes = 
             new Dictionary<string, List<string>>
             {
                 { "userPassword", new List<string> { "secret" } },
@@ -107,7 +107,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LDAPUser Getter")]
         public void GetUserAttributes()
         {
-            Assert.AreEqual(_testUser.GetUserAttributes(),LdapUserAttributes);
+            CollectionAssert.AreEqual(_testUser.GetUserAttributes(),LdapUserAttributes);
         }
 
         [TestMethod, TestCategory("LDAPUser Getter")]
@@ -242,7 +242,10 @@ namespace LDAP_Library_UnitTest
             var user = new LdapUser(LdapUserDn,
             LdapUserCn,
             LdapUserSn,
-            LdapUserAttributes);
+            new Dictionary<string, List<string>>
+            {
+                { "description", new List<string> { "test description" } }
+            });
             const string addictionalDescription = "new test description Inserted";
 
             user.InsertUserAttribute("description", addictionalDescription);
@@ -253,14 +256,6 @@ namespace LDAP_Library_UnitTest
             user.InsertUserAttribute("description", "");
 
             Assert.IsTrue(user.GetUserAttribute("description").Count == 2);
-
-            LdapUserAttributes =
-            new Dictionary<string, List<string>>
-            {
-                { "userPassword", new List<string> { "secret" } },
-                { "description", new List<string> { "test description" } },
-                { "telephoneNumber", new List<string> { "555-54321" } }
-            };
         }
 
 
@@ -278,21 +273,19 @@ namespace LDAP_Library_UnitTest
             var user = new LdapUser(LdapUserDn,
             LdapUserCn,
             LdapUserSn,
-            LdapUserAttributes);
-            var descriptionToDelete = LdapUserAttributes["description"][0];
+            new Dictionary<string, List<string>>
+            {
+                { "description", new List<string> { "test description" } },
+            });
+
+            const string descriptionToDelete = "test description";
 
             user.DeleteUserAttribute("description", descriptionToDelete);
 
+            Console.WriteLine(user.GetUserAttribute("description"));
             Assert.IsTrue(!user.GetUserAttribute("description").Contains(descriptionToDelete));
             Assert.IsTrue(user.GetUserAttribute("description").Count == 0);
 
-            LdapUserAttributes =
-            new Dictionary<string, List<string>>
-            {
-                { "userPassword", new List<string> { "secret" } },
-                { "description", new List<string> { "test description" } },
-                { "telephoneNumber", new List<string> { "555-54321" } }
-            };
         }
 
         [TestMethod, TestCategory("LDAPUser Setter")]
