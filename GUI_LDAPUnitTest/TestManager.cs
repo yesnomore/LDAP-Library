@@ -281,7 +281,7 @@ namespace GUI_LDAPUnitTest
             if (!_ldapManagerObj.CreateUser(_testUser))
                 return false;
 
-            List<LdapUser> returnUsers;
+            List<ILdapUser> returnUsers;
 
             try
             {
@@ -502,7 +502,7 @@ namespace GUI_LDAPUnitTest
             if (!TestAdminConnect())
                 return false;
 
-            List<LdapUser> returnUsers;
+            List<ILdapUser> returnUsers;
 
             bool result = _ldapManagerObj.SearchUsers(null, _usersToSearch, out returnUsers);
 
