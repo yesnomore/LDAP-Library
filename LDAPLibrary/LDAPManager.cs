@@ -122,7 +122,7 @@ namespace LDAPLibrary
                 _ldapInitLibraryErrorDescription =
                     "Standard Init LDAPLibrary - One or more standard required string parameter is null or empty. Check the config file.";
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
-                WriteLog(GetLdapMessage());
+                WriteLog(_ldapInitLibraryErrorDescription);
                 throw new Exception(_ldapInitLibraryErrorDescription);
             }
         }

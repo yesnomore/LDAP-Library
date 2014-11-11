@@ -88,6 +88,106 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof (Exception),
+            "The creation of the library with Server null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoServer()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,
+                "",
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                LdapUserObjectClass,
+                                                LdapMatchFieldUsername
+                                                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(Exception),
+            "The creation of the library with Certificate path null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoCertificatePath()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,
+                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                "",
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                LdapUserObjectClass,
+                                                LdapMatchFieldUsername
+                                                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(Exception),
+            "The creation of the library with log path null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoLogPath()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,
+                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                "",
+                                                LdapUserObjectClass,
+                                                LdapMatchFieldUsername
+                                                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(Exception),
+            "The creation of the library with user class null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoUserClass()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,
+                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                "",
+                                                LdapMatchFieldUsername
+                                                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(Exception),
+            "The creation of the library with matchFieldUsername null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoMatchFieldUsername()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,
+                LdapServer,
+                                                LdapSearchBaseDn,
+                                                LdapAuthType,
+                                                SecureSocketLayerFlag,
+                                                TransportSocketLayerFlag,
+                                                ClientCertificationFlag,
+                                                ClientCertificatePath,
+                                                EnableLdapLibraryLog,
+                                                LdapLibraryLogPath,
+                                                LdapUserObjectClass,
+                                                ""
+                                                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestCompleteInitLibraryNoAdmin()
         {
             _ldapManagerObj = new LdapManager(null,
@@ -133,6 +233,13 @@ namespace LDAP_Library_UnitTest.localhost
             Assert.IsFalse(_ldapManagerObj.Equals(null));
         }
 
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(Exception),
+            "The creation of the library with Server null or empty throw an exception")]
+        public void TestStandardInitLibraryNoServer()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser,"",LdapSearchBaseDn,LdapAuthType);
+        }
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestAdminConnect()
         {
