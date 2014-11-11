@@ -30,11 +30,26 @@
       <FileName>LdapUserManipulator.cs</FileName>
     </TypeIdentifier>
   </Class>
+  <Class Name="LDAPLibrary.LdapConfigRepository">
+    <Position X="2" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQEggGAhAAgIRAQACEAJCAAAAiAAAgQIAAAAAggBQ=</HashCode>
+      <FileName>LdapConfigRepository.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
   <Interface Name="LDAPLibrary.ILdapManager" Collapsed="true">
     <Position X="5.25" Y="1" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAACAAAAQAAQAAEAAAEAIBAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>ILdapManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LDAPLibrary.ILdapConfigRepository" Collapsed="true">
+    <Position X="1.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEgAAAhAAgIAAAAAAAJAAAAAiAAAAAIAAAAAggAA=</HashCode>
+      <FileName>ILdapConfigRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Enum Name="LDAPLibrary.LdapState" Collapsed="true">
