@@ -8,9 +8,9 @@ namespace LDAPLibrary
     public class LdapConfigRepository : ILdapConfigRepository
     {
         private const string BasicConfigNullParametersErrorMessage =
-            "One param are null or empty: Server: {0},Search Base DN: {1},Admin User: {2}";
+            "Server parameter cannot be null or empty";
         private const string CompleteConfigNullParametersErrorMessage =
-            "One param are null or empty: Server: {0},Search Base DN: {1},Admin User: {2},clientCertificatePath: {3}, logPath: {4}, userObjectClass: {5},matchFieldUsername: {6}";
+            "One param are null or empty:Search Base DN: {0},Admin User: {1},clientCertificatePath: {2}, logPath: {3}, userObjectClass: {4},matchFieldUsername: {5}";
 
         #region Configuration Parameters
 
@@ -96,7 +96,7 @@ namespace LDAPLibrary
         public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
         {
             if (ParametersIsNullOrEmpty(new[] { server }))
-                throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage, server, searchBaseDn, adminUser));
+                throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
 
             _authType = authType;
             _searchBaseDn = searchBaseDn;
@@ -111,11 +111,12 @@ namespace LDAPLibrary
             string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, server, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
+            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
                 || adminUser == null)
-                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, server, searchBaseDn,
+                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, searchBaseDn,
                     adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
 
+            BasicLdapConfig(adminUser,server,searchBaseDn,authType);
 
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
@@ -125,10 +126,6 @@ namespace LDAPLibrary
             _clientCertificateFlag = clientCertificateFlag;
             _transportSocketLayerFlag = transportSocketLayerFlag;
             _secureSocketLayerFlag = secureSocketLayerFlag;
-            _authType = authType;
-            _searchBaseDn = searchBaseDn;
-            _server = server;
-            _adminUser = adminUser;
         }
 
         /// <summary>
