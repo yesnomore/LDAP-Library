@@ -95,7 +95,7 @@ namespace LDAPLibrary
 
         public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
         {
-            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, server }) || adminUser == null)
+            if (ParametersIsNullOrEmpty(new[] { server }))
                 throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage, server, searchBaseDn, adminUser));
 
             _authType = authType;

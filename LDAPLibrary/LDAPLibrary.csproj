@@ -49,6 +49,7 @@
     <Compile Include="ILdapManager.cs" />
     <Compile Include="ILdapUser.cs" />
     <Compile Include="LdapConfigRepository.cs" />
+    <Compile Include="LdapConfigRepositoryFactory.cs" />
     <Compile Include="LdapState.cs" />
     <Compile Include="LdapManager.cs" />
     <Compile Include="LdapUser.cs" />

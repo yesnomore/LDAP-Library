@@ -51,7 +51,8 @@ namespace LDAP_Library_UnitTest
 
         private readonly ILdapConfigRepository _configRepository = new LdapConfigRepository();
 
-        [TestMethod]
+
+        [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfig()
         {
             _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
@@ -81,23 +82,19 @@ namespace LDAP_Library_UnitTest
             _configRepository.BasicLdapConfig(AdminUser, "", SearchBaseDn, AuthType);
         }
 
-        [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
-            "The creation of the configRepository with Server null or empty throw an exception")]
+        [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfigNoSearchBaseDn()
         {
             _configRepository.BasicLdapConfig(AdminUser, Server, "", AuthType);
         }
 
-        [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
-            "The creation of the configRepository with Server null or empty throw an exception")]
+        [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfigNoAdmin()
         {
             _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
         }
 
-        [TestMethod]
+        [TestMethod, TestCategory("configRepository no Exception")]
         public void CompleteConfig()
         {
             _configRepository.CompleteLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, SecureSocketLayer,
@@ -214,6 +211,26 @@ namespace LDAP_Library_UnitTest
                                                 LogPath,
                                                 UserObjectClass,
                                                 ""
+                                                );
+        }
+
+        [TestMethod, TestCategory("configRepository Exceptions")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the configRepository with admin user null or empty throw an exception")]
+        public void CompleteConfigNoAdmin()
+        {
+            _configRepository.CompleteLdapConfig(null,
+                Server,
+                                                SearchBaseDn,
+                                                AuthType,
+                                                SecureSocketLayer,
+                                                TransportSocketLayer,
+                                                ClientCertificate,
+                                                ClientCertificatePath,
+                                                EnableLog,
+                                                LogPath,
+                                                UserObjectClass,
+                                                MatchFieldUsername
                                                 );
         }
     }
