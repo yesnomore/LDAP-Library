@@ -11,14 +11,6 @@ namespace LDAPLibrary
     public class LdapManager : ILdapManager
     {
         #region Class Variables
-
-        //Attioctional parameter class that have default values
-        private const string DefaultUserSn = "Default Surname";
-        //Sn used in library for the user than don't have that( almost always required in OpenLDAP)
-
-        private const string DefaultUserCn = "Default CommonName";
-        //Cn used in library for the user than don't have that(almost always required in OpenLDAP)
-
         private readonly AuthType _authType;
         //Set the authentication Type of ldapConnection http://msdn.microsoft.com/it-it/library/system.directoryservices.protocols.authtype(v=vs.110).aspx
 
@@ -324,7 +316,7 @@ namespace LDAPLibrary
 
                 _ldapConnection.Bind(credential);
                 //ldapConnection.SendRequest(new SearchRequest(LDAPServer, "(objectClass=*)", SearchScope.Subtree, null));
-                _manageLdapUser = new LdapUserManipulator(_ldapConnection, DefaultUserCn, DefaultUserSn);
+                _manageLdapUser = new LdapUserManipulator(_ldapConnection);
             }
             catch (Exception e)
             {
