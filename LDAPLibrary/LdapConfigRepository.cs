@@ -1,10 +1,17 @@
-﻿using System.DirectoryServices.Protocols;
+﻿using System;
+using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 using System.Linq;
 
 namespace LDAPLibrary
 {
     public class LdapConfigRepository : ILdapConfigRepository
     {
+        private const string BasicConfigNullParametersErrorMessage =
+            "One param are null or empty: Server: {0},Search Base DN: {1},Admin User: {2}";
+        private const string CompleteConfigNullParametersErrorMessage =
+            "One param are null or empty: Server: {0},Search Base DN: {1},Admin User: {2},clientCertificatePath: {3}, logPath: {4}, userObjectClass: {5},matchFieldUsername: {6}";
+
         #region Configuration Parameters
 
         private ILdapUser _adminUser;
@@ -88,10 +95,15 @@ namespace LDAPLibrary
 
         public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
         {
+            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, server }) || adminUser == null)
+                throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage, server, searchBaseDn, adminUser));
+
             _authType = authType;
             _searchBaseDn = searchBaseDn;
             _server = server;
             _adminUser = adminUser;
+
+            StandardLdapInformation();
         }
 
         public void CompleteLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
@@ -99,6 +111,12 @@ namespace LDAPLibrary
             string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
+            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, server, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
+                || adminUser == null)
+                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, server, searchBaseDn,
+                    adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
+
+
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _logPath = logPath;
@@ -112,19 +130,14 @@ namespace LDAPLibrary
             _server = server;
             _adminUser = adminUser;
         }
-        
+
         /// <summary>
         ///     Check all the string parameters
         /// </summary>
         /// <returns>true if all is set, false otherwise</returns>
-        private static bool CheckLibraryParameters(string[] parameters)
+        private static bool ParametersIsNullOrEmpty(IEnumerable<string> parameters)
         {
-            return parameters.All(s => !CheckNullParameter(s));
-        }
-
-        private static bool CheckNullParameter(string parameter)
-        {
-            return string.IsNullOrEmpty(parameter);
+            return parameters.Any(String.IsNullOrEmpty);
         }
 
         /// <summary>

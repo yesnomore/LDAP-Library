@@ -377,6 +377,29 @@ namespace LDAPLibrary
                        .Any(connectResult => connectResult);
         }
 
+
+        /// <summary>
+        ///     Write to log the message incoming
+        /// </summary>
+        /// <param name="messageToLog">Message to Log</param>
+        protected void WriteLog(string messageToLog)
+        {
+            if (_writeLogFlag && !String.IsNullOrEmpty(_logPath))
+            {
+                using (var logWriter = new StreamWriter(_logPath + "LDAPLog.txt", true))
+                {
+                    logWriter.WriteLine("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog);
+                    logWriter.Close();
+                }
+            }
+        }
+
+
+
+
+
+
+
         /// <summary>
         ///     Private method used in detail constructor for specify all the addictional information
         /// </summary>
@@ -425,22 +448,7 @@ namespace LDAPLibrary
             _matchFieldUsername = "cn";
         }
 
-        /// <summary>
-        ///     Write to log the message incoming
-        /// </summary>
-        /// <param name="messageToLog">Message to Log</param>
-        protected void WriteLog(string messageToLog)
-        {
-            if (_writeLogFlag && !String.IsNullOrEmpty(_logPath))
-            {
-                using (var logWriter = new StreamWriter(_logPath + "LDAPLog.txt", true))
-                {
-                    logWriter.WriteLine("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog);
-                    logWriter.Close();
-                }
-            }
-        }
-
+       
         /// <summary>
         ///     Check all the string parameters
         /// </summary>

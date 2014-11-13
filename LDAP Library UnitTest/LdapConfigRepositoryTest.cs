@@ -74,11 +74,27 @@ namespace LDAP_Library_UnitTest
 
         }
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with Server null or empty throw an exception")]
         public void BasicConfigNoServer()
         {
             _configRepository.BasicLdapConfig(AdminUser, "", SearchBaseDn, AuthType);
+        }
+
+        [TestMethod, TestCategory("configRepository Exceptions")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the configRepository with Server null or empty throw an exception")]
+        public void BasicConfigNoSearchBaseDn()
+        {
+            _configRepository.BasicLdapConfig(AdminUser, Server, "", AuthType);
+        }
+
+        [TestMethod, TestCategory("configRepository Exceptions")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the configRepository with Server null or empty throw an exception")]
+        public void BasicConfigNoAdmin()
+        {
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
         }
 
         [TestMethod]
@@ -102,7 +118,7 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with Server null or empty throw an exception")]
         public void CompleteConfigNoServer()
         {
@@ -122,7 +138,7 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with Certificate path null or empty throw an exception")]
         public void CompleteConfigNoCertificatePath()
         {
@@ -142,7 +158,7 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with log path null or empty throw an exception")]
         public void CompleteConfigNoLogPath()
         {
@@ -162,7 +178,7 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with user class null or empty throw an exception")]
         public void CompleteConfigNoUserClass()
         {
@@ -182,7 +198,7 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with matchFieldUsername null or empty throw an exception")]
         public void CompleteConfigNoMatchFieldUsername()
         {
