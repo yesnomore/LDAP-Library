@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-static internal class LdapParameterChecker
+namespace LDAPLibrary
 {
-    /// <summary>
-    ///     Check all the string parameters
-    /// </summary>
-    /// <returns>true if all is set, false otherwise</returns>
-    public static bool ParametersIsNullOrEmpty(IEnumerable<string> parameters)
+    static internal class LdapParameterChecker
     {
-        return parameters.Any(String.IsNullOrEmpty);
+        /// <summary>
+        ///     Check all the string parameters
+        /// </summary>
+        /// <returns>true if all is set, false otherwise</returns>
+        public static bool ParametersIsNullOrEmpty(IEnumerable<string> parameters)
+        {
+            return parameters.Any(String.IsNullOrEmpty);
+        }
     }
 }

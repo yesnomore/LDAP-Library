@@ -232,14 +232,13 @@ namespace LDAPLibrary
             {
                 if (_configRepository.GetAdminUser() != null)
                 {
-                    bool temp =
-                        Connect(
+                    return Connect(
                             new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
                                 _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
                             _configRepository.GetSecureSocketLayerFlag(),
                             _configRepository.GetTransportSocketLayerFlag(),
                             _configRepository.GetClientCertificateFlag());
-                    return temp;
+                    
                 }
                 return false;
             }
