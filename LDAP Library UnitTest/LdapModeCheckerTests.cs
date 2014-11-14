@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
+using System.Runtime.InteropServices;
 using LDAPLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LdapModeChecker
+    public class LdapModeCheckerTests
     {
 
         #region Localhost Configuration
@@ -50,14 +51,16 @@ namespace LDAP_Library_UnitTest
         #endregion
 
         private readonly ILdapConfigRepository _configRepository = new LdapConfigRepository();
-        
+
         [TestMethod, TestCategory("Mode Checker - Basic Mode")]
         public void BasicMode()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
 
-            Assert.IsTrue(_modeChecker.isBasicMode());
-            Assert.IsFalse(_modeChecker.isCompleteMode());
+            var modeCheckerTests = new LdapModeChecker(_configRepository);
+
+            Assert.IsTrue(modeCheckerTests.IsBasicMode());
+            Assert.IsFalse(modeCheckerTests.IsCompleteMode());
         }
 
         [TestMethod, TestCategory("Mode Checker - Complete Mode")]
@@ -68,8 +71,10 @@ namespace LDAP_Library_UnitTest
             _configRepository.AdditionalLdapConfig(SecureSocketLayer,
                 TransportSocketLayer, ClientCertificate, ClientCertificatePath, EnableLog, LogPath, UserObjectClass, MatchFieldUsername);
 
-            Assert.IsFalse(_modeChecker.isBasicMode());
-            Assert.IsTrue(_modeChecker.isCompleteMode());
+            var modeCheckerTests = new LdapModeChecker(_configRepository);
+
+            Assert.IsFalse(modeCheckerTests.IsBasicMode());
+            Assert.IsTrue(modeCheckerTests.IsCompleteMode());
         }
     }
 }
