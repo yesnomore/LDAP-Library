@@ -56,6 +56,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="LdapUserUnitTests.cs" />
     <Compile Include="LdapConfigRepositoryTest.cs" />
+    <Compile Include="ParameterChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LDAPLibrary\LDAPLibrary.csproj">
