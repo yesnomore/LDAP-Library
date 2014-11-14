@@ -13,17 +13,14 @@ namespace LDAPLibrary
         #region Class Variables
 
         private readonly ILdapConfigRepository _configRepository;
-        //Set the authentication Type of ldapConnection http://msdn.microsoft.com/it-it/library/system.directoryservices.protocols.authtype(v=vs.110).aspx
+        private LdapModeChecker _modeChecker;
 
-        //Error Description from LDAP connection
         private readonly Dictionary<LdapState, LdapError> _ldapErrors;
 
         private readonly string _ldapInitLibraryErrorDescription;
         private LdapConnection _ldapConnection;
         private string _ldapConnectionErrorDescription;
         private LdapState _ldapCurrentState;
-
-        //External Class to delegate the jobs
         private LdapUserManipulator _manageLdapUser;
 
         private delegate string LdapError();
@@ -45,7 +42,7 @@ namespace LDAPLibrary
             )
         {
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
-
+            
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
@@ -94,6 +91,7 @@ namespace LDAPLibrary
                 }
             };
 
+            _modeChecker = new LdapModeChecker(_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             WriteLog(GetLdapMessage());
         }
@@ -230,7 +228,7 @@ namespace LDAPLibrary
         {
             try
             {
-                if (_configRepository.GetAdminUser() != null)
+                if (_modeChecker.IsCompleteMode())
                 {
                     return Connect(
                             new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
@@ -311,7 +309,7 @@ namespace LDAPLibrary
                 (secureSocketLayer ? "\n With SSL " : ""),
                 (transportSocketLayer ? "\n With TLS " : ""),
                 (clientCertificate ? "\n With Client Certificate" : ""));
-            if (_configRepository.GetAdminUser() == null)
+            if (_modeChecker.IsBasicMode())
                 _ldapConnection.Dispose();
             _ldapCurrentState = LdapState.LdapConnectionSuccess;
             WriteLog(GetLdapMessage());
