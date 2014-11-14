@@ -106,18 +106,16 @@ namespace LDAPLibrary
             StandardLdapInformation();
         }
 
-        public void CompleteLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
+        public void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
             string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (ParametersIsNullOrEmpty(new[] { searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
-                || adminUser == null)
-                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, searchBaseDn,
-                    adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
-
-            BasicLdapConfig(adminUser,server,searchBaseDn,authType);
-
+            if (ParametersIsNullOrEmpty(new[] { _searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
+                || _adminUser == null)
+                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, _searchBaseDn,
+                    _adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
+            
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _logPath = logPath;

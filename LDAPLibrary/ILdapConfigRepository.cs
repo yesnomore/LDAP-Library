@@ -9,7 +9,7 @@ namespace LDAPLibrary
 
         void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType);
 
-        void CompleteLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
+        void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath,
             bool writeLogFlag, string logPath, string userObjectClass, string matchFieldUsername);
 

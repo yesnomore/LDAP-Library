@@ -97,7 +97,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("configRepository no Exception")]
         public void CompleteConfig()
         {
-            _configRepository.CompleteLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, SecureSocketLayer,
+
+            _configRepository.BasicLdapConfig(AdminUser,Server,SearchBaseDn,AuthType);
+
+            _configRepository.AdditionalLdapConfig(SecureSocketLayer,
                 TransportSocketLayer, ClientCertificate, ClientCertificatePath, EnableLog, LogPath, UserObjectClass, MatchFieldUsername);
 
             Assert.AreEqual(AdminUser, _configRepository.GetAdminUser());
@@ -116,33 +119,12 @@ namespace LDAP_Library_UnitTest
 
         [TestMethod, TestCategory("configRepository Exceptions")]
         [ExpectedException(typeof(ArgumentNullException),
-            "The creation of the configRepository with Server null or empty throw an exception")]
-        public void CompleteConfigNoServer()
-        {
-            _configRepository.CompleteLdapConfig(AdminUser,
-                "",
-                                                SearchBaseDn,
-                                                AuthType,
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                ClientCertificatePath,
-                                                EnableLog,
-                                                LogPath,
-                                                UserObjectClass,
-                                                MatchFieldUsername
-                                                );
-        }
-
-        [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with Certificate path null or empty throw an exception")]
         public void CompleteConfigNoCertificatePath()
         {
-            _configRepository.CompleteLdapConfig(AdminUser,
-                Server,
-                                                SearchBaseDn,
-                                                AuthType,
+            _configRepository.BasicLdapConfig(AdminUser,Server,SearchBaseDn,AuthType);
+
+            _configRepository.AdditionalLdapConfig(
                                                 SecureSocketLayer,
                                                 TransportSocketLayer,
                                                 ClientCertificate,
@@ -159,10 +141,9 @@ namespace LDAP_Library_UnitTest
             "The creation of the configRepository with log path null or empty throw an exception")]
         public void CompleteConfigNoLogPath()
         {
-            _configRepository.CompleteLdapConfig(AdminUser,
-                Server,
-                                                SearchBaseDn,
-                                                AuthType,
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+
+            _configRepository.AdditionalLdapConfig(
                                                 SecureSocketLayer,
                                                 TransportSocketLayer,
                                                 ClientCertificate,
@@ -179,10 +160,9 @@ namespace LDAP_Library_UnitTest
             "The creation of the configRepository with user class null or empty throw an exception")]
         public void CompleteConfigNoUserClass()
         {
-            _configRepository.CompleteLdapConfig(AdminUser,
-                Server,
-                                                SearchBaseDn,
-                                                AuthType,
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+
+            _configRepository.AdditionalLdapConfig(
                                                 SecureSocketLayer,
                                                 TransportSocketLayer,
                                                 ClientCertificate,
@@ -199,10 +179,9 @@ namespace LDAP_Library_UnitTest
             "The creation of the configRepository with matchFieldUsername null or empty throw an exception")]
         public void CompleteConfigNoMatchFieldUsername()
         {
-            _configRepository.CompleteLdapConfig(AdminUser,
-                Server,
-                                                SearchBaseDn,
-                                                AuthType,
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+
+            _configRepository.AdditionalLdapConfig(
                                                 SecureSocketLayer,
                                                 TransportSocketLayer,
                                                 ClientCertificate,
@@ -219,10 +198,9 @@ namespace LDAP_Library_UnitTest
             "The creation of the configRepository with admin user null or empty throw an exception")]
         public void CompleteConfigNoAdmin()
         {
-            _configRepository.CompleteLdapConfig(null,
-                Server,
-                                                SearchBaseDn,
-                                                AuthType,
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
+
+            _configRepository.AdditionalLdapConfig(
                                                 SecureSocketLayer,
                                                 TransportSocketLayer,
                                                 ClientCertificate,
