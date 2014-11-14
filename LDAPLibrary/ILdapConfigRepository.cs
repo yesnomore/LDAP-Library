@@ -1,4 +1,5 @@
-﻿using System.DirectoryServices.Protocols;
+﻿using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 
 namespace LDAPLibrary
 {
@@ -27,8 +28,5 @@ namespace LDAPLibrary
         string GetLogPath();
         string GetUserObjectClass();
         string GetMatchFieldName();
-
-
-
     }
 }

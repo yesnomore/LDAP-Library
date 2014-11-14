@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
-using System.Linq;
 
 namespace LDAPLibrary
 {
@@ -95,7 +93,7 @@ namespace LDAPLibrary
 
         public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
         {
-            if (ParametersIsNullOrEmpty(new[] { server }))
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { server }))
                 throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
 
             _authType = authType;
@@ -111,7 +109,7 @@ namespace LDAPLibrary
             string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (ParametersIsNullOrEmpty(new[] { _searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { _searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
                 || _adminUser == null)
                 throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, _searchBaseDn,
                     _adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
@@ -124,15 +122,6 @@ namespace LDAPLibrary
             _clientCertificateFlag = clientCertificateFlag;
             _transportSocketLayerFlag = transportSocketLayerFlag;
             _secureSocketLayerFlag = secureSocketLayerFlag;
-        }
-
-        /// <summary>
-        ///     Check all the string parameters
-        /// </summary>
-        /// <returns>true if all is set, false otherwise</returns>
-        private static bool ParametersIsNullOrEmpty(IEnumerable<string> parameters)
-        {
-            return parameters.Any(String.IsNullOrEmpty);
         }
 
         /// <summary>

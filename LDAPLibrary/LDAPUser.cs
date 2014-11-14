@@ -14,7 +14,7 @@ namespace LDAPLibrary
 
         public LdapUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
         {
-            if (LdapManager.CheckLibraryParameters(new[] { userDn, userSn, userCn }))
+            if (!LdapParameterChecker.ParametersIsNullOrEmpty(new[] { userDn, userSn, userCn }))
             {
                 _sn = userSn;
                 _dn = userDn;

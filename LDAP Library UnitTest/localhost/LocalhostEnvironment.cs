@@ -88,7 +88,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof (Exception),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with Server null or empty throw an exception")]
         public void TestCompleteInitLibraryNoServer()
         {
@@ -108,7 +108,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with Certificate path null or empty throw an exception")]
         public void TestCompleteInitLibraryNoCertificatePath()
         {
@@ -128,7 +128,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with log path null or empty throw an exception")]
         public void TestCompleteInitLibraryNoLogPath()
         {
@@ -148,7 +148,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with user class null or empty throw an exception")]
         public void TestCompleteInitLibraryNoUserClass()
         {
@@ -168,7 +168,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with matchFieldUsername null or empty throw an exception")]
         public void TestCompleteInitLibraryNoMatchFieldUsername()
         {
@@ -188,6 +188,8 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the library with Server null or empty throw an exception")]
         public void TestCompleteInitLibraryNoAdmin()
         {
             _ldapManagerObj = new LdapManager(null,
@@ -203,9 +205,6 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 LdapMatchFieldUsername
                                                 );
-
-            Assert.IsFalse(_ldapManagerObj.Equals(null));
-
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -234,7 +233,7 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(Exception),
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with Server null or empty throw an exception")]
         public void TestStandardInitLibraryNoServer()
         {
