@@ -45,7 +45,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ILdapConfigRepository.cs" />
     <Compile Include="ILdapManager.cs" />
+    <Compile Include="ILdapUser.cs" />
+    <Compile Include="LdapConfigRepository.cs" />
+    <Compile Include="LdapConfigRepositoryFactory.cs" />
+    <Compile Include="LdapParameterChecker.cs" />
     <Compile Include="LdapState.cs" />
     <Compile Include="LdapManager.cs" />
     <Compile Include="LdapUser.cs" />

@@ -12,40 +12,19 @@ namespace LDAPLibrary
     {
         #region Class Variables
 
-        //Attioctional parameter class that have default values
-        private const string DefaultUserSn = "Default Surname";
-        //Sn used in library for the user than don't have that( almost always required in OpenLDAP)
-
-        private const string DefaultUserCn = "Default CommonName";
-        //Cn used in library for the user than don't have that(almost always required in OpenLDAP)
-
-        private readonly AuthType _authType;
+        private readonly ILdapConfigRepository _configRepository;
         //Set the authentication Type of ldapConnection http://msdn.microsoft.com/it-it/library/system.directoryservices.protocols.authtype(v=vs.110).aspx
 
         //Error Description from LDAP connection
         private readonly Dictionary<LdapState, LdapError> _ldapErrors;
 
         private readonly string _ldapInitLibraryErrorDescription;
-        private readonly string _ldapSearchBaseDn; //LDAP base search DN
-        private readonly string _ldapServer; //Server LDAP with port
-        private readonly LdapUser _loginUser; //LDAP User Admin
-        private bool _clientCertificate; //Flag that specify if enable Client Certificate
-        private string _clientCertificatePath; //Client Certificate Path
         private LdapConnection _ldapConnection;
         private string _ldapConnectionErrorDescription;
         private LdapState _ldapCurrentState;
-        private string _logPath; //Log file path
 
         //External Class to delegate the jobs
         private LdapUserManipulator _manageLdapUser;
-
-        private string _matchFieldUsername;
-        //Field used in search filter to know what is the LDAP attribute to match with username
-
-        private bool _secureSocketLayerConnection; //Flag that specify if enable SSL protocol
-        private bool _transportSocketLayerConnection; //Flag that specify if enable TSL protocol
-        private string _userObjectClass; //The attribute ObjectClass used to indentify an user
-        private bool _writeLogFlag; //Flag that specify if enable the log
 
         private delegate string LdapError();
 
@@ -59,78 +38,70 @@ namespace LDAPLibrary
         /// <param name="ldapServer">LDAP Server with port</param>
         /// <param name="ldapSearchBaseDn">Base DN where start the search.</param>
         /// <param name="authType"></param>
-        public LdapManager(LdapUser adminUser,
+        public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType
             )
         {
-            if (CheckLibraryParameters(new[] { ldapServer }))
+            _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
+
+            try
             {
-                _ldapServer = ldapServer;
-                _authType = authType;
-                if (adminUser != null &&
-                    CheckLibraryParameters(new[] { adminUser.GetUserDn(), adminUser.GetUserCn(), adminUser.GetUserSn(), ldapSearchBaseDn }))
-                {
-                    _loginUser = adminUser;
-
-                    _ldapSearchBaseDn = ldapSearchBaseDn;
-                }
-                StandardLdapInformation();
-
-                _ldapErrors = new Dictionary<LdapState, LdapError>
-                {
-                    {
-                        LdapState.LdapChangeUserPasswordError,
-                        () => "LDAP CHANGE USER PASSWORD ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    },
-                    {LdapState.LdapConnectionError, () => "LDAP CONNECTION ERROR: " + _ldapConnectionErrorDescription},
-                    {LdapState.LdapConnectionSuccess, () => "LDAP CONNECTION SUCCESS"},
-                    {
-                        LdapState.LdapCreateUserError,
-                        () => "LDAP CREATE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    },
-                    {
-                        LdapState.LdapDeleteUserError,
-                        () => "LDAP DELETE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    },
-                    {LdapState.LdapGenericError, () => "LDAP GENERIC ERROR"},
-                    {
-                        LdapState.LdapLibraryInitError,
-                        () => "LDAP LIBRARY INIT ERROR: " + _ldapInitLibraryErrorDescription
-                    },
-                    {LdapState.LdapLibraryInitSuccess, () => "LDAP LIBRARY INIT SUCCESS"},
-                    {
-                        LdapState.LdapModifyUserAttributeError,
-                        () => "LDAP MODIFY USER ATTRIBUTE ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    },
-                    {
-                        LdapState.LdapSearchUserError,
-                        () => "LDAP SEARCH USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    },
-                    {
-                        LdapState.LdapUserManipulatorSuccess,
-                        () => "LDAP USER MANIPULATION SUCCESS: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                    }
-                };
-
-                _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
-                WriteLog(GetLdapMessage());
+                _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
             }
-            else
+            catch (ArgumentNullException e)
             {
                 _ldapInitLibraryErrorDescription =
-                    "Standard Init LDAPLibrary - One or more standard required string parameter is null or empty. Check the config file.";
+                    e.Message;
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
-                WriteLog(GetLdapMessage());
-                throw new Exception(_ldapInitLibraryErrorDescription);
+                WriteLog(_ldapInitLibraryErrorDescription);
+                throw;
             }
+            _ldapErrors = new Dictionary<LdapState, LdapError>
+            {
+                {
+                    LdapState.LdapChangeUserPasswordError,
+                    () => "LDAP CHANGE USER PASSWORD ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                },
+                {LdapState.LdapConnectionError, () => "LDAP CONNECTION ERROR: " + _ldapConnectionErrorDescription},
+                {LdapState.LdapConnectionSuccess, () => "LDAP CONNECTION SUCCESS"},
+                {
+                    LdapState.LdapCreateUserError,
+                    () => "LDAP CREATE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                },
+                {
+                    LdapState.LdapDeleteUserError,
+                    () => "LDAP DELETE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                },
+                {LdapState.LdapGenericError, () => "LDAP GENERIC ERROR"},
+                {
+                    LdapState.LdapLibraryInitError,
+                    () => "LDAP LIBRARY INIT ERROR: " + _ldapInitLibraryErrorDescription
+                },
+                {LdapState.LdapLibraryInitSuccess, () => "LDAP LIBRARY INIT SUCCESS"},
+                {
+                    LdapState.LdapModifyUserAttributeError,
+                    () => "LDAP MODIFY USER ATTRIBUTE ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                },
+                {
+                    LdapState.LdapSearchUserError,
+                    () => "LDAP SEARCH USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                },
+                {
+                    LdapState.LdapUserManipulatorSuccess,
+                    () => "LDAP USER MANIPULATION SUCCESS: " + _manageLdapUser.GetLdapUserManipulationMessage()
+                }
+            };
+
+            _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
+            WriteLog(GetLdapMessage());
         }
 
         /// <summary>
         ///     More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(LdapUser adminUser,
+        public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -148,29 +119,22 @@ namespace LDAPLibrary
                 ldapSearchBaseDn,
                 authType)
         {
-            if (CheckLibraryParameters(new[] { clientCertificatePath, logPath, userObjectClass, matchFieldUsername }))
+            try
             {
-                AddictionalLdapInformation(secureSocketLayerFlag,
-                    transportSocketLayerFlag,
-                    clientCertificateFlag,
-                    clientCertificatePath,
-                    writeLogFlag,
-                    logPath,
-                    userObjectClass,
-                    matchFieldUsername
-                    );
-
-                _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
-                WriteLog(GetLdapMessage());
+                _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
+                    clientCertificateFlag, clientCertificatePath, writeLogFlag, logPath, userObjectClass,
+                    matchFieldUsername);
             }
-            else
+            catch (ArgumentNullException e)
             {
                 _ldapInitLibraryErrorDescription =
-                    "Complete Init LDAPLibrary - One or more Addictional string parameter is null or empty. Check the config file.";
+                    e.Message;
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
                 WriteLog(GetLdapMessage());
-                throw new Exception(_ldapInitLibraryErrorDescription);
+                throw;
             }
+            _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
+            WriteLog(GetLdapMessage());
         }
 
         #region Methods from LDAPUserManipulator Class
@@ -180,19 +144,20 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="newUser"> The LDAPUser object that contain all the details of the new user to create</param>
         /// <returns>Boolean that comunicate the result of creation</returns>
-        public bool CreateUser(LdapUser newUser)
+        public bool CreateUser(ILdapUser newUser)
         {
-            bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState, _userObjectClass);
+            bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState,
+                _configRepository.GetUserObjectClass());
             WriteLog(GetLdapMessage());
             return operationResult;
         }
 
         /// <summary>
-        ///     delete the specified  LDAPUser
+        ///     delete the specified  LdapUser
         /// </summary>
         /// <param name="user">LDAPUser to delete</param>
         /// <returns>the result of operation</returns>
-        public bool DeleteUser(LdapUser user)
+        public bool DeleteUser(ILdapUser user)
         {
             bool operationResult = _manageLdapUser.DeleteUser(user, out _ldapCurrentState);
             WriteLog(GetLdapMessage());
@@ -207,7 +172,7 @@ namespace LDAPLibrary
         /// <param name="attributeName">Name of the attribute</param>
         /// <param name="attributeValue">Value of the attribute</param>
         /// <returns></returns>
-        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, LdapUser user, string attributeName,
+        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
             string attributeValue)
         {
             bool operationResult = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName,
@@ -222,7 +187,7 @@ namespace LDAPLibrary
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd"></param>
         /// <returns></returns>
-        public bool ChangeUserPassword(LdapUser user, string newPwd)
+        public bool ChangeUserPassword(ILdapUser user, string newPwd)
         {
             bool operationResult = _manageLdapUser.ChangeUserPassword(user, newPwd, out _ldapCurrentState);
             WriteLog(GetLdapMessage());
@@ -237,9 +202,10 @@ namespace LDAPLibrary
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
         public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
-            out List<LdapUser> searchResult)
+            out List<ILdapUser> searchResult)
         {
-            bool operationResult = _manageLdapUser.SearchUsers(_ldapSearchBaseDn, _userObjectClass, _matchFieldUsername,
+            bool operationResult = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
+                _configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(),
                 otherReturnedAttributes, searchedUsers, out searchResult, out _ldapCurrentState);
             WriteLog(GetLdapMessage());
             return operationResult;
@@ -264,14 +230,15 @@ namespace LDAPLibrary
         {
             try
             {
-                if (_loginUser != null)
+                if (_configRepository.GetAdminUser() != null)
                 {
                     bool temp =
                         Connect(
-                            new NetworkCredential(_loginUser.GetUserDn(), _loginUser.GetUserAttribute("userPassword")[0]),
-                            _secureSocketLayerConnection,
-                            _transportSocketLayerConnection,
-                            _clientCertificate);
+                            new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
+                                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
+                            _configRepository.GetSecureSocketLayerFlag(),
+                            _configRepository.GetTransportSocketLayerFlag(),
+                            _configRepository.GetClientCertificateFlag());
                     return temp;
                 }
                 return false;
@@ -299,7 +266,7 @@ namespace LDAPLibrary
         {
             try
             {
-                _ldapConnection = new LdapConnection(_ldapServer) { AuthType = _authType };
+                _ldapConnection = new LdapConnection(_configRepository.GetServer()) {AuthType = _configRepository.GetAuthType()};
                 _ldapConnection.SessionOptions.ProtocolVersion = 3;
 
                 #region secure Layer Options
@@ -316,7 +283,7 @@ namespace LDAPLibrary
                 if (clientCertificate)
                 {
                     var clientCertificateFile = new X509Certificate();
-                    clientCertificateFile.Import(_clientCertificatePath);
+                    clientCertificateFile.Import(_configRepository.GetClientCertificatePath());
                     _ldapConnection.ClientCertificates.Add(clientCertificateFile);
                 }
 
@@ -324,7 +291,7 @@ namespace LDAPLibrary
 
                 _ldapConnection.Bind(credential);
                 //ldapConnection.SendRequest(new SearchRequest(LDAPServer, "(objectClass=*)", SearchScope.Subtree, null));
-                _manageLdapUser = new LdapUserManipulator(_ldapConnection, DefaultUserCn, DefaultUserSn);
+                _manageLdapUser = new LdapUserManipulator(_ldapConnection);
             }
             catch (Exception e)
             {
@@ -345,7 +312,7 @@ namespace LDAPLibrary
                 (secureSocketLayer ? "\n With SSL " : ""),
                 (transportSocketLayer ? "\n With TLS " : ""),
                 (clientCertificate ? "\n With Client Certificate" : ""));
-            if (_loginUser == null)
+            if (_configRepository.GetAdminUser() == null)
                 _ldapConnection.Dispose();
             _ldapCurrentState = LdapState.LdapConnectionSuccess;
             WriteLog(GetLdapMessage());
@@ -363,67 +330,22 @@ namespace LDAPLibrary
         /// </returns>
         public bool SearchUserAndConnect(string user, string password)
         {
-            List<LdapUser> searchReturn;
+            List<ILdapUser> searchReturn;
 
             //Do the search and check the result 
-            bool searchResult = SearchUsers(null, new[] { user }, out searchReturn);
+            bool searchResult = SearchUsers(null, new[] {user}, out searchReturn);
 
             //if the previous search goes try to connect all the users
             return searchResult &&
                    searchReturn.Select(
                        searchedUser =>
                            Connect(new NetworkCredential(searchedUser.GetUserDn(), password),
-                               _secureSocketLayerConnection, _transportSocketLayerConnection, _clientCertificate))
+                               _configRepository.GetSecureSocketLayerFlag(),
+                               _configRepository.GetTransportSocketLayerFlag(),
+                               _configRepository.GetClientCertificateFlag()))
                        .Any(connectResult => connectResult);
         }
 
-        /// <summary>
-        ///     Private method used in detail constructor for specify all the addictional information
-        /// </summary>
-        /// <param name="secureSocketLayerFlag">Flag to specify if use SSL protocol</param>
-        /// <param name="transportSocketLayerFlag">Flag to specify if use TSL protocol</param>
-        /// <param name="clientCertificateFlag">Flag to specify the Client Certificate</param>
-        /// <param name="clientCertificatePath">Path of the Client Certificate</param>
-        /// <param name="writeLogFlag">Flag to specify if write the log</param>
-        /// <param name="logPath">Path of the log file</param>
-        /// <param name="userObjectClass">Attribute that rappresent the user in LDAP</param>
-        /// <param name="matchFieldUsername">Attribute to match in user search</param>
-        private void AddictionalLdapInformation(
-            bool secureSocketLayerFlag,
-            bool transportSocketLayerFlag,
-            bool clientCertificateFlag,
-            string clientCertificatePath,
-            bool writeLogFlag,
-            string logPath,
-            string userObjectClass,
-            string matchFieldUsername
-            )
-        {
-            _secureSocketLayerConnection = secureSocketLayerFlag;
-            _transportSocketLayerConnection = transportSocketLayerFlag;
-            _clientCertificate = clientCertificateFlag;
-            _clientCertificatePath = clientCertificatePath;
-            _writeLogFlag = writeLogFlag;
-            _logPath = logPath;
-            _userObjectClass = userObjectClass;
-            _matchFieldUsername = matchFieldUsername;
-        }
-
-        /// <summary>
-        ///     Set LDAP Information To standard values.
-        /// </summary>
-        private void StandardLdapInformation()
-        {
-            //Default class variables information
-            _secureSocketLayerConnection = false;
-            _transportSocketLayerConnection = false;
-            _clientCertificate = false;
-            _clientCertificatePath = "";
-            _writeLogFlag = false;
-            _logPath = "";
-            _userObjectClass = "person";
-            _matchFieldUsername = "cn";
-        }
 
         /// <summary>
         ///     Write to log the message incoming
@@ -431,28 +353,17 @@ namespace LDAPLibrary
         /// <param name="messageToLog">Message to Log</param>
         protected void WriteLog(string messageToLog)
         {
-            if (_writeLogFlag && !String.IsNullOrEmpty(_logPath))
+            if (_configRepository.GetWriteLogFlag() &&
+                !String.IsNullOrEmpty(_configRepository.GetClientCertificatePath()))
             {
-                using (var logWriter = new StreamWriter(_logPath + "LDAPLog.txt", true))
+                using (
+                    var logWriter = new StreamWriter(_configRepository.GetClientCertificatePath() + "LDAPLog.txt", true)
+                    )
                 {
                     logWriter.WriteLine("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog);
                     logWriter.Close();
                 }
             }
-        }
-
-        /// <summary>
-        ///     Check all the string parameters
-        /// </summary>
-        /// <returns>true if all is set, false otherwise</returns>
-        public static bool CheckLibraryParameters(string[] parameters)
-        {
-            return parameters.All(s => !CheckNullParameter(s));
-        }
-
-        private static bool CheckNullParameter(string parameter)
-        {
-            return string.IsNullOrEmpty(parameter);
         }
     }
 }
