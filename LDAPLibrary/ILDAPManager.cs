@@ -7,31 +7,32 @@ namespace LDAPLibrary
     public interface ILdapManager
     {
         /// <summary>
-        /// Create a new LDAP User
+        ///     Create a new LDAP User
         /// </summary>
         /// <param name="newUser"> The LDAPUser object that contain all the details of the new user to create</param>
         /// <returns>Boolean that comunicate the result of creation</returns>
         bool CreateUser(ILdapUser newUser);
 
         /// <summary>
-        /// delete the specified  LDAPUser
+        ///     delete the specified  LDAPUser
         /// </summary>
         /// <param name="user">LDAPUser to delete</param>
         /// <returns>the result of operation</returns>
         bool DeleteUser(ILdapUser user);
 
         /// <summary>
-        /// Modify an LDAPUser Attribute
+        ///     Modify an LDAPUser Attribute
         /// </summary>
         /// <param name="operationType">Choose the operation to do, it's an enum</param>
         /// <param name="user">The User to Modify the attribute</param>
         /// <param name="attributeName">Name of the attribute</param>
         /// <param name="attributeValue">Value of the attribute</param>
         /// <returns></returns>
-        bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName, string attributeValue);
+        bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
+            string attributeValue);
 
         /// <summary>
-        /// Change the user Password
+        ///     Change the user Password
         /// </summary>
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd"></param>
@@ -39,7 +40,7 @@ namespace LDAPLibrary
         bool ChangeUserPassword(ILdapUser user, string newPwd);
 
         /// <summary>
-        /// Search Users in the LDAP system
+        ///     Search Users in the LDAP system
         /// </summary>
         /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
         /// <param name="searchedUsers">Credential for the search</param>
@@ -48,25 +49,26 @@ namespace LDAPLibrary
         bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult);
 
         /// <summary>
-        /// Return the Error Message of an occurred LDAP Exception
+        ///     Return the Error Message of an occurred LDAP Exception
         /// </summary>
         /// <returns></returns>
         string GetLdapMessage();
 
         /// <summary>
-        /// Instance the Ldap connection
+        ///     Instance the Ldap connection
         /// </summary>
         /// <returns></returns>
         bool Connect();
-        bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer, bool clientCertificate);
+
+        bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
+            bool clientCertificate);
 
         /// <summary>
-        /// BuildLogMessage that wrap SearchUsers and Connect in one operation
+        ///     BuildLogMessage that wrap SearchUsers and Connect in one operation
         /// </summary>
         /// <param name="user">The Username to search and Connect</param>
         /// <param name="password">The passwords of the User</param>
         /// <returns>the operation result</returns>
         bool SearchUserAndConnect(string user, string password);
-
     }
 }

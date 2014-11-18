@@ -7,6 +7,7 @@ namespace LDAPLibrary
     {
         private const string BasicConfigNullParametersErrorMessage =
             "Server parameter cannot be null or empty";
+
         private const string CompleteConfigNullParametersErrorMessage =
             "One param are null or empty:Search Base DN: {0},Admin User: {1},clientCertificatePath: {2}, logPath: {3}, userObjectClass: {4},matchFieldUsername: {5}";
 
@@ -93,7 +94,7 @@ namespace LDAPLibrary
 
         public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { server }))
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {server}))
                 throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
 
             _authType = authType;
@@ -109,11 +110,12 @@ namespace LDAPLibrary
             string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { _searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername }) 
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[]
+            {_searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername})
                 || _adminUser == null)
                 throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, _searchBaseDn,
                     _adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
-            
+
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _logPath = logPath;
@@ -139,6 +141,5 @@ namespace LDAPLibrary
             _userObjectClass = "person";
             _matchFieldUsername = "cn";
         }
-
     }
 }

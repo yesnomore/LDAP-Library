@@ -6,6 +6,8 @@ namespace LDAPLibrary
 {
     internal abstract class ALogger : ILogger
     {
+        protected const string DateFormat = "dd/MM/yyyy HH:mm:ss tt";
+
         private readonly Dictionary<LdapState, LdapError> _ldapErrors = new Dictionary<LdapState, LdapError>
         {
             {
@@ -54,16 +56,14 @@ namespace LDAPLibrary
             }
         };
 
-        private delegate string LdapError(string message);
-
-        protected const string DateFormat = "dd/MM/yyyy HH:mm:ss tt";
-
         public string BuildLogMessage(string message, LdapState state)
         {
-            return String.Format("{0} - {1}", DateTime.Now.ToString(DateFormat,CultureInfo.InvariantCulture), _ldapErrors[state](message));
+            return String.Format("{0} - {1}", DateTime.Now.ToString(DateFormat, CultureInfo.InvariantCulture),
+                _ldapErrors[state](message));
         }
 
         public abstract void Write(string message);
 
+        private delegate string LdapError(string message);
     }
 }

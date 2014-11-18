@@ -13,11 +13,11 @@ namespace LDAPLibrary
         #region Class Variables
 
         private readonly ILdapConfigRepository _configRepository;
-        private readonly LdapModeChecker _modeChecker;
 
         private readonly Dictionary<LdapState, LdapError> _ldapErrors;
 
         private readonly string _ldapInitLibraryErrorDescription;
+        private readonly LdapModeChecker _modeChecker;
         private LdapConnection _ldapConnection;
         private string _ldapConnectionErrorDescription;
         private LdapState _ldapCurrentState;
@@ -42,7 +42,7 @@ namespace LDAPLibrary
             )
         {
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
-            
+
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
@@ -231,12 +231,11 @@ namespace LDAPLibrary
                 if (_modeChecker.IsCompleteMode())
                 {
                     return Connect(
-                            new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
-                                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
-                            _configRepository.GetSecureSocketLayerFlag(),
-                            _configRepository.GetTransportSocketLayerFlag(),
-                            _configRepository.GetClientCertificateFlag());
-                    
+                        new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
+                            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
+                        _configRepository.GetSecureSocketLayerFlag(),
+                        _configRepository.GetTransportSocketLayerFlag(),
+                        _configRepository.GetClientCertificateFlag());
                 }
                 return false;
             }
@@ -263,7 +262,10 @@ namespace LDAPLibrary
         {
             try
             {
-                _ldapConnection = new LdapConnection(_configRepository.GetServer()) {AuthType = _configRepository.GetAuthType()};
+                _ldapConnection = new LdapConnection(_configRepository.GetServer())
+                {
+                    AuthType = _configRepository.GetAuthType()
+                };
                 _ldapConnection.SessionOptions.ProtocolVersion = 3;
 
                 #region secure Layer Options

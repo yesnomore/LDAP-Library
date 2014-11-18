@@ -3,10 +3,10 @@ using System.IO;
 
 namespace LDAPLibrary
 {
-    class FileLogger : ALogger
+    internal class FileLogger : ALogger
     {
-        private readonly string _logPath;
         private const string LogFileName = "LDAPLog.txt";
+        private readonly string _logPath;
 
         public FileLogger(string logPath)
         {
@@ -18,7 +18,7 @@ namespace LDAPLibrary
 
         public override void Write(string message)
         {
-            using (var logWriter = new StreamWriter(_logPath+ @"\" + LogFileName, true))
+            using (var logWriter = new StreamWriter(_logPath + @"\" + LogFileName, true))
             {
                 logWriter.WriteLine(message);
                 logWriter.Close();
