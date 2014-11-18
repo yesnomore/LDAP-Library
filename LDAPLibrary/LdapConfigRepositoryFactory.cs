@@ -4,7 +4,7 @@
     {
         public static ILdapConfigRepository GetConfigRepository()
         {
-           return new LdapConfigRepository();
+            return new LdapConfigRepository();
         }
     }
 }

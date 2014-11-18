@@ -354,7 +354,7 @@ namespace LDAPLibrary
                 !String.IsNullOrEmpty(_configRepository.GetClientCertificatePath()))
             {
                 using (
-                    var logWriter = new StreamWriter(_configRepository.GetClientCertificatePath() + "LDAPLog.txt", true)
+                    var logWriter = new StreamWriter(_configRepository.GetLogPath() + "LDAPLog.txt", true)
                     )
                 {
                     logWriter.WriteLine("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog);

@@ -61,7 +61,7 @@ namespace LDAPLibrary
         bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer, bool clientCertificate);
 
         /// <summary>
-        /// Method that wrap SearchUsers and Connect in one operation
+        /// BuildLogMessage that wrap SearchUsers and Connect in one operation
         /// </summary>
         /// <param name="user">The Username to search and Connect</param>
         /// <param name="password">The passwords of the User</param>
