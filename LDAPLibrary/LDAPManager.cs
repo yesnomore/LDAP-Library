@@ -13,7 +13,7 @@ namespace LDAPLibrary
         #region Class Variables
 
         private readonly ILdapConfigRepository _configRepository;
-        private LdapModeChecker _modeChecker;
+        private readonly LdapModeChecker _modeChecker;
 
         private readonly Dictionary<LdapState, LdapError> _ldapErrors;
 
