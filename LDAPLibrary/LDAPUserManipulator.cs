@@ -15,8 +15,6 @@ namespace LDAPLibrary
         ///     Constructor of the LDAP User Manipulator
         /// </summary>
         /// <param name="ldapConnection">Connection of an admin User</param>
-        /// <param name="defaultUserCn"></param>
-        /// <param name="defaultUserSn">Default SN for a new User</param>
         public LdapUserManipulator(LdapConnection ldapConnection)
         {
             _ldapConnection = ldapConnection;
@@ -236,7 +234,7 @@ namespace LDAPLibrary
                                     //if is CN or SN, set right String else add attribute to dictionary
                                     if (userReturnAttribute.Name.Equals("cn") || userReturnAttribute.Name.Equals("CN"))
                                     {
-                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
+                                        object[] values = userReturnAttribute.GetValues( Type.GetType("System.String"));
                                         tempUserCn = (string) values[0];
                                     }
                                     else if (userReturnAttribute.Name.Equals("sn") ||

@@ -85,6 +85,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT SUCCESS");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -105,6 +106,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 LdapMatchFieldUsername
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -125,10 +127,11 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 LdapMatchFieldUsername
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof(ArgumentException),
             "The creation of the library with log path null or empty throw an exception")]
         public void TestCompleteInitLibraryNoLogPath()
         {
@@ -145,6 +148,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 LdapMatchFieldUsername
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -165,6 +169,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 "",
                                                 LdapMatchFieldUsername
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -185,6 +190,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 ""
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -205,6 +211,7 @@ namespace LDAP_Library_UnitTest.localhost
                                                 LdapUserObjectClass,
                                                 LdapMatchFieldUsername
                                                 );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -238,6 +245,7 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestStandardInitLibraryNoServer()
         {
             _ldapManagerObj = new LdapManager(AdminUser,"",LdapSearchBaseDn,LdapAuthType);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestAdminConnect()
@@ -256,17 +264,25 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestCreateUser()
         {
-            var tempUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", null);
+            var tempUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
+            var existingUser = new LdapUser(ReadOnlyUserDn, ReadOnlyUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string>{ ReadOnlyUserPwd} } });
 
             //Init the DLL and connect the admin
             TestAdminConnect();
 
+            //Create existing user
+            var result = _ldapManagerObj.CreateUser(existingUser);
+
+            //Assert the correct operations
+            Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CREATE USER ERROR: ");
+
             //Create user
-            var result = _ldapManagerObj.CreateUser(tempUser);
+            result = _ldapManagerObj.CreateUser(tempUser);
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
 
             result = _ldapManagerObj.DeleteUser(tempUser);
 
@@ -277,7 +293,7 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestDeleteUser()
         {
             //Set the test user
-            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", null);
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
 
             //Init the DLL and connect the admin
             TestAdminConnect();
@@ -292,14 +308,21 @@ namespace LDAP_Library_UnitTest.localhost
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage(), "LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+
+            //Delete user again with error
+            result = _ldapManagerObj.DeleteUser(testLdapUser);
+
+            //Assert the correct operations
+            Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP DELETE USER ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestModifyUserAttribute()
         {
             TestAdminConnect();
-            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
             var result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
@@ -307,9 +330,15 @@ namespace LDAP_Library_UnitTest.localhost
             List<ILdapUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
+            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Delete, testLdapUser, "ciccio", userAttributeValue);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP MODIFY USER ATTRIBUTE ERROR: ");
+
             result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
 
             Assert.IsTrue(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
 
             result = _ldapManagerObj.SearchUsers(
                 new List<string> { "description" },
@@ -330,7 +359,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
             const string newPassword = "pippo";
-            var testUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
             //Create the user
             var result = _ldapManagerObj.CreateUser(testUser);
 
@@ -339,6 +368,7 @@ namespace LDAP_Library_UnitTest.localhost
             //Perform change of password
             result = _ldapManagerObj.ChangeUserPassword(testUser, newPassword);
             Assert.IsTrue(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
 
             //Try to connect with the old password
             var testUserCredential = new NetworkCredential(
@@ -352,6 +382,7 @@ namespace LDAP_Library_UnitTest.localhost
                         ClientCertificationFlag);
 
             Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
 
             //Try to connect with the new password
             testUserCredential = new NetworkCredential(
@@ -365,29 +396,45 @@ namespace LDAP_Library_UnitTest.localhost
                         ClientCertificationFlag);
 
             Assert.IsTrue(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
 
             TestAdminConnect();
 
             result = _ldapManagerObj.DeleteUser(testUser);
 
             Assert.IsTrue(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestUserConnect()
         {
-            var testUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { "FakePassword" } } });
 
             TestAdminConnect();
+
+
             bool result = _ldapManagerObj.CreateUser(testUser);
             Assert.IsTrue(result);
-
-
 
             var testUserCredential = new NetworkCredential(
                 testUser.GetUserDn(),
                 testUser.GetUserAttribute("userPassword")[0],
                 "");
+            var faketestUserCredential = new NetworkCredential(
+                faketestUser.GetUserDn(),
+                faketestUser.GetUserAttribute("userPassword")[0],
+                "");
+
+            result = _ldapManagerObj.Connect(faketestUserCredential,
+                        SecureSocketLayerFlag,
+                        TransportSocketLayerFlag,
+                        ClientCertificationFlag);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
+            
 
             result = _ldapManagerObj.Connect(testUserCredential,
                         SecureSocketLayerFlag,
@@ -395,7 +442,8 @@ namespace LDAP_Library_UnitTest.localhost
                         ClientCertificationFlag);
 
             Assert.IsTrue(result);
-
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
+            
             TestAdminConnect();
             result = _ldapManagerObj.DeleteUser(testUser);
             Assert.IsTrue(result);
@@ -436,6 +484,10 @@ namespace LDAP_Library_UnitTest.localhost
             {
                 ReadOnlyUserCn
             };
+            string[] FakeuserIdToSearch =
+            {
+                WriteUserCn
+            };
             var userAttributeToReturnBySearch = new List<string>
             {
 				"description"
@@ -443,7 +495,12 @@ namespace LDAP_Library_UnitTest.localhost
 
             List<ILdapUser> returnUsers;
 
-            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
+            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, FakeuserIdToSearch, out returnUsers);
+
+            Assert.IsFalse(result);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
+
+            result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 
             Assert.IsTrue(result);
             Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
@@ -18,7 +17,7 @@ namespace LDAPLibrary
         private LdapConnection _ldapConnection;
         private LdapState _ldapCurrentState;
         private LdapUserManipulator _manageLdapUser;
-        private ILogger _logger;
+        private readonly ILogger _logger;
 
         #endregion
 
@@ -40,18 +39,15 @@ namespace LDAPLibrary
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
-                _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), _configRepository.GetLogPath());
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
-                _logger.Write(e.Message);
                 throw;
             }
            
             _modeChecker = new LdapModeChecker(_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
-            _logger.Write(_logger.BuildLogMessage("",_ldapCurrentState));
         }
 
         /// <summary>
@@ -77,10 +73,10 @@ namespace LDAPLibrary
         {
             try
             {
+                _logger = LoggerFactory.GetLogger(writeLogFlag,logPath);
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
                     clientCertificateFlag, clientCertificatePath, writeLogFlag, logPath, userObjectClass,
                     matchFieldUsername);
-                _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), _configRepository.GetLogPath());
             }
             catch (ArgumentNullException e)
             {
