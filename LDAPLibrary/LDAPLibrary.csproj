@@ -45,9 +45,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ALogger.cs" />
+    <Compile Include="FakeLogger.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="ILdapConfigRepository.cs" />
     <Compile Include="ILdapManager.cs" />
     <Compile Include="ILdapUser.cs" />
+    <Compile Include="ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />
     <Compile Include="LdapConfigRepositoryFactory.cs" />
     <Compile Include="LdapModeChecker.cs" />
@@ -56,6 +60,7 @@
     <Compile Include="LdapManager.cs" />
     <Compile Include="LdapUser.cs" />
     <Compile Include="LdapUserManipulator.cs" />
+    <Compile Include="LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

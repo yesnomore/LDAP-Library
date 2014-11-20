@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
-using System.IO;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
@@ -13,17 +12,12 @@ namespace LDAPLibrary
         #region Class Variables
 
         private readonly ILdapConfigRepository _configRepository;
+        
         private readonly LdapModeChecker _modeChecker;
-
-        private readonly Dictionary<LdapState, LdapError> _ldapErrors;
-
-        private readonly string _ldapInitLibraryErrorDescription;
         private LdapConnection _ldapConnection;
-        private string _ldapConnectionErrorDescription;
         private LdapState _ldapCurrentState;
         private LdapUserManipulator _manageLdapUser;
-
-        private delegate string LdapError();
+        private readonly ILogger _logger;
 
         #endregion
 
@@ -42,58 +36,18 @@ namespace LDAPLibrary
             )
         {
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
-            
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
-                _ldapInitLibraryErrorDescription =
-                    e.Message;
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
-                WriteLog(_ldapInitLibraryErrorDescription);
                 throw;
             }
-            _ldapErrors = new Dictionary<LdapState, LdapError>
-            {
-                {
-                    LdapState.LdapChangeUserPasswordError,
-                    () => "LDAP CHANGE USER PASSWORD ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                },
-                {LdapState.LdapConnectionError, () => "LDAP CONNECTION ERROR: " + _ldapConnectionErrorDescription},
-                {LdapState.LdapConnectionSuccess, () => "LDAP CONNECTION SUCCESS"},
-                {
-                    LdapState.LdapCreateUserError,
-                    () => "LDAP CREATE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                },
-                {
-                    LdapState.LdapDeleteUserError,
-                    () => "LDAP DELETE USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                },
-                {LdapState.LdapGenericError, () => "LDAP GENERIC ERROR"},
-                {
-                    LdapState.LdapLibraryInitError,
-                    () => "LDAP LIBRARY INIT ERROR: " + _ldapInitLibraryErrorDescription
-                },
-                {LdapState.LdapLibraryInitSuccess, () => "LDAP LIBRARY INIT SUCCESS"},
-                {
-                    LdapState.LdapModifyUserAttributeError,
-                    () => "LDAP MODIFY USER ATTRIBUTE ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                },
-                {
-                    LdapState.LdapSearchUserError,
-                    () => "LDAP SEARCH USER ERROR: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                },
-                {
-                    LdapState.LdapUserManipulatorSuccess,
-                    () => "LDAP USER MANIPULATION SUCCESS: " + _manageLdapUser.GetLdapUserManipulationMessage()
-                }
-            };
-
+           
             _modeChecker = new LdapModeChecker(_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
-            WriteLog(GetLdapMessage());
         }
 
         /// <summary>
@@ -119,20 +73,19 @@ namespace LDAPLibrary
         {
             try
             {
+                _logger = LoggerFactory.GetLogger(writeLogFlag,logPath);
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
                     clientCertificateFlag, clientCertificatePath, writeLogFlag, logPath, userObjectClass,
                     matchFieldUsername);
             }
             catch (ArgumentNullException e)
             {
-                _ldapInitLibraryErrorDescription =
-                    e.Message;
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
-                WriteLog(GetLdapMessage());
+                _logger.Write(_logger.BuildLogMessage(e.Message, _ldapCurrentState));
                 throw;
             }
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
 
         #region Methods from LDAPUserManipulator Class
@@ -146,7 +99,7 @@ namespace LDAPLibrary
         {
             bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState,
                 _configRepository.GetUserObjectClass());
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
             return operationResult;
         }
 
@@ -158,7 +111,7 @@ namespace LDAPLibrary
         public bool DeleteUser(ILdapUser user)
         {
             bool operationResult = _manageLdapUser.DeleteUser(user, out _ldapCurrentState);
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
             return operationResult;
         }
 
@@ -175,7 +128,7 @@ namespace LDAPLibrary
         {
             bool operationResult = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName,
                 attributeValue, out _ldapCurrentState);
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
             return operationResult;
         }
 
@@ -188,7 +141,7 @@ namespace LDAPLibrary
         public bool ChangeUserPassword(ILdapUser user, string newPwd)
         {
             bool operationResult = _manageLdapUser.ChangeUserPassword(user, newPwd, out _ldapCurrentState);
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
             return operationResult;
         }
 
@@ -205,7 +158,7 @@ namespace LDAPLibrary
             bool operationResult = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
                 _configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(),
                 otherReturnedAttributes, searchedUsers, out searchResult, out _ldapCurrentState);
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
             return operationResult;
         }
 
@@ -217,7 +170,7 @@ namespace LDAPLibrary
         /// <returns>Message</returns>
         public string GetLdapMessage()
         {
-            return _ldapErrors[_ldapCurrentState]();
+            return _logger.BuildLogMessage("", _ldapCurrentState);
         }
 
         /// <summary>
@@ -231,22 +184,20 @@ namespace LDAPLibrary
                 if (_modeChecker.IsCompleteMode())
                 {
                     return Connect(
-                            new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
-                                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
-                            _configRepository.GetSecureSocketLayerFlag(),
-                            _configRepository.GetTransportSocketLayerFlag(),
-                            _configRepository.GetClientCertificateFlag());
-                    
+                        new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
+                            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
+                        _configRepository.GetSecureSocketLayerFlag(),
+                        _configRepository.GetTransportSocketLayerFlag(),
+                        _configRepository.GetClientCertificateFlag());
                 }
                 return false;
             }
             catch (Exception)
             {
-                _ldapConnectionErrorDescription =
-                    "LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: unable to connect with administrator credential, see the config file";
+                const string error = "LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: unable to connect with administrator credential, see the config file";
                 _ldapCurrentState = LdapState.LdapConnectionError;
-                WriteLog(GetLdapMessage());
-                throw new Exception(_ldapConnectionErrorDescription);
+                _logger.Write(_logger.BuildLogMessage(error, _ldapCurrentState));
+                throw new Exception(error);
             }
         }
 
@@ -263,7 +214,10 @@ namespace LDAPLibrary
         {
             try
             {
-                _ldapConnection = new LdapConnection(_configRepository.GetServer()) {AuthType = _configRepository.GetAuthType()};
+                _ldapConnection = new LdapConnection(_configRepository.GetServer())
+                {
+                    AuthType = _configRepository.GetAuthType()
+                };
                 _ldapConnection.SessionOptions.ProtocolVersion = 3;
 
                 #region secure Layer Options
@@ -292,7 +246,7 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                _ldapConnectionErrorDescription += String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
+                var errorConnectionMessage = String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
                     e.Message,
                     credential.UserName,
                     credential.Password,
@@ -300,10 +254,10 @@ namespace LDAPLibrary
                     (transportSocketLayer ? "\n With TLS " : ""),
                     (clientCertificate ? "\n With Client Certificate" : ""));
                 _ldapCurrentState = LdapState.LdapConnectionError;
-                WriteLog(GetLdapMessage());
+                _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, _ldapCurrentState));
                 return false;
             }
-            _ldapConnectionErrorDescription += String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
+            var successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
                 credential.UserName,
                 credential.Password,
                 (secureSocketLayer ? "\n With SSL " : ""),
@@ -312,7 +266,7 @@ namespace LDAPLibrary
             if (_modeChecker.IsBasicMode())
                 _ldapConnection.Dispose();
             _ldapCurrentState = LdapState.LdapConnectionSuccess;
-            WriteLog(GetLdapMessage());
+            _logger.Write(_logger.BuildLogMessage(successConnectionMessage, _ldapCurrentState));
             return true;
         }
 
@@ -341,26 +295,6 @@ namespace LDAPLibrary
                                _configRepository.GetTransportSocketLayerFlag(),
                                _configRepository.GetClientCertificateFlag()))
                        .Any(connectResult => connectResult);
-        }
-
-
-        /// <summary>
-        ///     Write to log the message incoming
-        /// </summary>
-        /// <param name="messageToLog">Message to Log</param>
-        protected void WriteLog(string messageToLog)
-        {
-            if (_configRepository.GetWriteLogFlag() &&
-                !String.IsNullOrEmpty(_configRepository.GetClientCertificatePath()))
-            {
-                using (
-                    var logWriter = new StreamWriter(_configRepository.GetClientCertificatePath() + "LDAPLog.txt", true)
-                    )
-                {
-                    logWriter.WriteLine("{0:dd/MM/yyyy HH:mm:ss tt} - {1}", DateTime.Now, messageToLog);
-                    logWriter.Close();
-                }
-            }
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace LDAPLibrary
 {
-    static internal class LdapParameterChecker
+    internal static class LdapParameterChecker
     {
         /// <summary>
         ///     Check all the string parameters

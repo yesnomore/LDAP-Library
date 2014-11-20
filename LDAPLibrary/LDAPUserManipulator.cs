@@ -6,24 +6,22 @@ namespace LDAPLibrary
 {
     public class LdapUserManipulator
     {
-        private readonly LdapConnection _ldapConnection;
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
+        private readonly LdapConnection _ldapConnection;
         private string _ldapUserManipulationMessage;
 
         /// <summary>
-        /// Constructor of the LDAP User Manipulator
+        ///     Constructor of the LDAP User Manipulator
         /// </summary>
         /// <param name="ldapConnection">Connection of an admin User</param>
-        /// <param name="defaultUserCn"></param>
-        /// <param name="defaultUserSn">Default SN for a new User</param>
         public LdapUserManipulator(LdapConnection ldapConnection)
         {
             _ldapConnection = ldapConnection;
         }
 
         /// <summary>
-        /// For give the class operations messages
+        ///     For give the class operations messages
         /// </summary>
         /// <returns>Operation Success/Error Messages</returns>
         public string GetLdapUserManipulationMessage()
@@ -32,7 +30,7 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        /// Create a new LDAPUser
+        ///     Create a new LDAPUser
         /// </summary>
         /// <param name="newUser">User to create</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
@@ -42,8 +40,7 @@ namespace LDAPLibrary
         {
             try
             {
-
-                var addReq = new AddRequest { DistinguishedName = newUser.GetUserDn() };
+                var addReq = new AddRequest {DistinguishedName = newUser.GetUserDn()};
                 addReq.Attributes.Add(new DirectoryAttribute("objectClass", objectClass));
                 addReq.Attributes.Add(new DirectoryAttribute("cn", newUser.GetUserCn()));
                 addReq.Attributes.Add(new DirectoryAttribute("sn", newUser.GetUserSn()));
@@ -70,7 +67,7 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        /// Delete an LDAPUser
+        ///     Delete an LDAPUser
         /// </summary>
         /// <param name="user">User to delete</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
@@ -79,7 +76,6 @@ namespace LDAPLibrary
         {
             try
             {
-
                 //Create the delete request
                 var deleteReq = new DeleteRequest(user.GetUserDn());
 
@@ -96,11 +92,10 @@ namespace LDAPLibrary
             _ldapUserManipulationMessage = "Delete User Operation Success";
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
             return true;
-
         }
 
         /// <summary>
-        /// Modify an LDAPUser Attribute
+        ///     Modify an LDAPUser Attribute
         /// </summary>
         /// <param name="operationType">Operation to execute on the attribute</param>
         /// <param name="user">LDAPUser's Attribute</param>
@@ -108,7 +103,8 @@ namespace LDAPLibrary
         /// <param name="attributeValue">Attribute Value</param>
         /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName, string attributeValue, out LdapState ldapCurrentState)
+        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
+            string attributeValue, out LdapState ldapCurrentState)
         {
             try
             {
@@ -142,11 +138,10 @@ namespace LDAPLibrary
             _ldapUserManipulationMessage = "Modify User Attribute Operation Success";
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
             return true;
-
         }
 
         /// <summary>
-        /// Change an LDAPUser's Password
+        ///     Change an LDAPUser's Password
         /// </summary>
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd">New Passowrd</param>
@@ -156,7 +151,6 @@ namespace LDAPLibrary
         {
             try
             {
-
                 var modifyUserPassword = new DirectoryAttributeModification
                 {
                     Operation = DirectoryAttributeOperation.Replace,
@@ -180,11 +174,10 @@ namespace LDAPLibrary
             _ldapUserManipulationMessage = "Change Password Operation Success";
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
             return true;
-
         }
 
         /// <summary>
-        /// Search Users in the LDAP system
+        ///     Search Users in the LDAP system
         /// </summary>
         /// <param name="baseDn">Starting DN of the search</param>
         /// <param name="matchFieldUsername"></param>
@@ -194,9 +187,10 @@ namespace LDAPLibrary
         /// <param name="ldapCurrentState">Return the state of the LDAP to parent class</param>
         /// <param name="userObjectClass"></param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public bool SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername, List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult, out LdapState ldapCurrentState)
+        public bool SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername,
+            List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult,
+            out LdapState ldapCurrentState)
         {
-
             searchResult = new List<ILdapUser>();
 
             if (otherReturnedAttributes == null)
@@ -213,13 +207,15 @@ namespace LDAPLibrary
                 foreach (string users in searchedUsers)
                 {
                     //Create the filter for the search
-                    string ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", userObjectClass, matchFieldUsername, users);
+                    string ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", userObjectClass,
+                        matchFieldUsername, users);
 
                     //Componing search request
-                    var search = new SearchRequest(baseDn, ldapSearchFilter, SearchScope.Subtree, otherReturnedAttributes.ToArray());
+                    var search = new SearchRequest(baseDn, ldapSearchFilter, SearchScope.Subtree,
+                        otherReturnedAttributes.ToArray());
 
                     //Perforing the search
-                    var searchReturn = (SearchResponse)_ldapConnection.SendRequest(search);
+                    var searchReturn = (SearchResponse) _ldapConnection.SendRequest(search);
 
                     //For all the searchReturn we create a new LDAPUser obj and add that to the return searchResult
                     if (searchReturn != null)
@@ -235,33 +231,32 @@ namespace LDAPLibrary
                             if (userReturn.Attributes.Values != null)
                                 foreach (DirectoryAttribute userReturnAttribute in userReturn.Attributes.Values)
                                 {
-
                                     //if is CN or SN, set right String else add attribute to dictionary
                                     if (userReturnAttribute.Name.Equals("cn") || userReturnAttribute.Name.Equals("CN"))
                                     {
-
-                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
-                                        tempUserCn = (string)values[0];
+                                        object[] values = userReturnAttribute.GetValues( Type.GetType("System.String"));
+                                        tempUserCn = (string) values[0];
                                     }
-                                    else if (userReturnAttribute.Name.Equals("sn") || userReturnAttribute.Name.Equals("SN"))
+                                    else if (userReturnAttribute.Name.Equals("sn") ||
+                                             userReturnAttribute.Name.Equals("SN"))
                                     {
-
-                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
-                                        tempUserSn = (string)values[0];
+                                        object[] values =
+                                            userReturnAttribute.GetValues(Type.GetType("System.String"));
+                                        tempUserSn = (string) values[0];
                                     }
                                     else
                                     {
+                                        object[] values =
+                                            userReturnAttribute.GetValues(Type.GetType("System.String"));
 
-                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
-
-                                        var stringValues = new List<string>(Array.ConvertAll(values, Convert.ToString));
+                                        var stringValues =
+                                            new List<string>(Array.ConvertAll(values, Convert.ToString));
                                         tempUserOtherAttributes.Add(userReturnAttribute.Name, stringValues);
                                     }
                                 }
                             //Create new tempUser and add to the searchResult
                             var tempUser = new LdapUser(tempUserDn, tempUserCn, tempUserSn, tempUserOtherAttributes);
                             searchResult.Add(tempUser);
-
                         }
                 }
             }
@@ -283,6 +278,5 @@ namespace LDAPLibrary
             _ldapUserManipulationMessage = "Search Operation Success";
             return true;
         }
-
     }
 }

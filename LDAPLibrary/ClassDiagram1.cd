@@ -10,13 +10,13 @@
       </Delegate>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>gCAACAIGAQIAQAxEAEAEgIBACAJAAAAiIAAQAAABARQ=</HashCode>
+      <HashCode>gCAACAAAAQAAQAgEAEAEgIBACAAAAABAIAAAAAABAQA=</HashCode>
       <FileName>LdapManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LDAPLibrary.LdapUser" Collapsed="true">
-    <Position X="1.25" Y="2.5" Width="1.5" />
+    <Position X="1.25" Y="2.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAAAAACAAAAgAACYAAAAkAAAEAAggAAAQRAAA=</HashCode>
       <FileName>LdapUser.cs</FileName>
@@ -24,19 +24,41 @@
     <Lollipop Position="0.2" />
   </Class>
   <Class Name="LDAPLibrary.LdapUserManipulator" Collapsed="true">
-    <Position X="5.25" Y="3.75" Width="1.5" />
+    <Position X="1.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAgACAAAQAAQAAEAAAAgABAAAAAQAAAIAAAAAAAIAA=</HashCode>
+      <HashCode>AAAAAAAAAQAAQAAEAAAAgIBAAAAAQAAAIAAAAAAAIAA=</HashCode>
       <FileName>LdapUserManipulator.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="LDAPLibrary.LdapConfigRepository">
-    <Position X="2" Y="4.75" Width="1.5" />
+  <Class Name="LDAPLibrary.LdapConfigRepository" Collapsed="true">
+    <Position X="3" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAQEggGAhAAgIRAQACEAJCAAAAiAAAgQIAAAAAggBQ=</HashCode>
+      <HashCode>ACAQEggCAhAAgIRIQACEAJCAAAAiAAAgQIAQAAAgAAQ=</HashCode>
       <FileName>LdapConfigRepository.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LDAPLibrary.ALogger">
+    <Position X="6.75" Y="2.5" Width="2.5" />
+    <NestedTypes>
+      <Delegate Name="LDAPLibrary.ALogger.LdapError" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>ALogger.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAggAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ALogger.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="LDAPLibrary.FileLogger">
+    <Position X="7" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FileLogger.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Interface Name="LDAPLibrary.ILdapManager" Collapsed="true">
     <Position X="5.25" Y="1" Width="1.5" />
@@ -46,14 +68,28 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="LDAPLibrary.ILdapConfigRepository" Collapsed="true">
-    <Position X="1.5" Y="3.5" Width="1.5" />
+    <Position X="3.25" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAEgAAAhAAgIAAAAAAAJAAAAAiAAAAAIAAAAAggAA=</HashCode>
+      <HashCode>AAAAEgAAAhAAgIAAAAAAAJCAAAAiAAAAAIAAAAAgAAA=</HashCode>
       <FileName>ILdapConfigRepository.cs</FileName>
     </TypeIdentifier>
   </Interface>
+  <Interface Name="LDAPLibrary.ILogger">
+    <Position X="7" Y="1" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>ILogger.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="LDAPLibrary.ILdapUser" Collapsed="true">
+    <Position X="1.5" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAgAAAYAAAAgAAAEAAggAAAQQAAA=</HashCode>
+      <FileName>ILdapUser.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
   <Enum Name="LDAPLibrary.LdapState" Collapsed="true">
-    <Position X="8.5" Y="2.5" Width="1.5" />
+    <Position X="9.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAGAAAAEgAABAAAAAACAAAYAAAAAAQIABAAAAAAAAAA=</HashCode>
       <FileName>LdapState.cs</FileName>

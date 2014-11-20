@@ -1,7 +1,6 @@
-﻿
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
 
-[assembly:InternalsVisibleTo("LDAP Library UnitTest")]
+[assembly: InternalsVisibleTo("LDAP Library UnitTest")]
 
 namespace LDAPLibrary
 {
