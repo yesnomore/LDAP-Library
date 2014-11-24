@@ -32,56 +32,6 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="LDAPLibrary.ALogger">
-    <Position X="6.75" Y="2.5" Width="2.5" />
-    <NestedTypes>
-      <Delegate Name="LDAPLibrary.ALogger.LdapError" Collapsed="true">
-        <TypeIdentifier>
-          <NewMemberFileName>ALogger.cs</NewMemberFileName>
-        </TypeIdentifier>
-      </Delegate>
-    </NestedTypes>
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAggAAAAAAAAAAAAIAAAAAAAAAEAAAA=</HashCode>
-      <FileName>ALogger.cs</FileName>
-    </TypeIdentifier>
-    <Lollipop Position="0.2" />
-  </Class>
-  <Class Name="LDAPLibrary.FileLogger">
-    <Position X="7" Y="4.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAIAAAAAAAEAAAA=</HashCode>
-      <FileName>FileLogger.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Interface Name="LDAPLibrary.ILdapManager" Collapsed="true">
-    <Position X="5.25" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAACAAAAQAAQAAEAAAEAIBAAAAAAAAAIAAAAAAAAAA=</HashCode>
-      <FileName>ILdapManager.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="LDAPLibrary.ILdapConfigRepository" Collapsed="true">
-    <Position X="3.25" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAEgAAAhAAgIAAAAAAAJCAAAAiAAAAAIAAAAAgAAA=</HashCode>
-      <FileName>ILdapConfigRepository.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="LDAPLibrary.ILogger">
-    <Position X="7" Y="1" Width="2" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
-      <FileName>ILogger.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="LDAPLibrary.ILdapUser" Collapsed="true">
-    <Position X="1.5" Y="1" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAACAAAAgAAAYAAAAgAAAEAAggAAAQQAAA=</HashCode>
-      <FileName>ILdapUser.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
   <Enum Name="LDAPLibrary.LdapState" Collapsed="true">
     <Position X="9.5" Y="2.75" Width="1.5" />
     <TypeIdentifier>

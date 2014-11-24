@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using LDAPLibrary.Interfarces;
 
 [assembly: InternalsVisibleTo("LDAP Library UnitTest")]
 

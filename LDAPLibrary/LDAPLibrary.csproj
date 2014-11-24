@@ -45,30 +45,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ALogger.cs" />
-    <Compile Include="FakeLogger.cs" />
-    <Compile Include="FileLogger.cs" />
-    <Compile Include="ILdapConfigRepository.cs" />
-    <Compile Include="ILdapConnectionObservable.cs" />
-    <Compile Include="ILdapConnectionObserver.cs" />
-    <Compile Include="ILdapConnector.cs" />
-    <Compile Include="ILdapManager.cs" />
-    <Compile Include="ILdapUser.cs" />
-    <Compile Include="ILogger.cs" />
+    <Compile Include="Factories\LdapConfigRepositoryFactory.cs" />
+    <Compile Include="Factories\LdapConnectorFactory.cs" />
+    <Compile Include="Factories\LdapUserManipulatorFactory.cs" />
+    <Compile Include="Factories\LoggerFactory.cs" />
+    <Compile Include="Interfarces\ILdapConfigRepository.cs" />
+    <Compile Include="Interfarces\ILdapConnectionObservable.cs" />
+    <Compile Include="Interfarces\ILdapConnectionObserver.cs" />
+    <Compile Include="Interfarces\ILdapConnector.cs" />
+    <Compile Include="Interfarces\ILDAPManager.cs" />
+    <Compile Include="Interfarces\ILdapUser.cs" />
+    <Compile Include="Interfarces\ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />
-    <Compile Include="LdapConfigRepositoryFactory.cs" />
     <Compile Include="LdapConnector.cs" />
-    <Compile Include="LdapConnectorFactory.cs" />
     <Compile Include="LdapModeChecker.cs" />
-    <Compile Include="LdapParameterChecker.cs" />
     <Compile Include="LdapState.cs" />
     <Compile Include="LdapManager.cs" />
-    <Compile Include="LdapStateUtils.cs" />
     <Compile Include="LdapUser.cs" />
     <Compile Include="LdapUserManipulator.cs" />
-    <Compile Include="LdapUserManipulatorFactory.cs" />
-    <Compile Include="LoggerFactory.cs" />
+    <Compile Include="Logger\ALogger.cs" />
+    <Compile Include="Logger\FakeLogger.cs" />
+    <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Static Classes\LdapParameterChecker.cs" />
+    <Compile Include="Static Classes\LdapStateUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

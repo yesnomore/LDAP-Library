@@ -1,4 +1,4 @@
-﻿namespace LDAPLibrary
+﻿namespace LDAPLibrary.Interfarces
 {
     public interface ILogger
     {

@@ -4,6 +4,7 @@ using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
+using LDAPLibrary.Interfarces;
 
 namespace GUI_LDAPUnitTest
 {

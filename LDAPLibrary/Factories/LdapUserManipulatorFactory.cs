@@ -1,4 +1,6 @@
-﻿namespace LDAPLibrary
+﻿using LDAPLibrary.Interfarces;
+
+namespace LDAPLibrary.Factories
 {
     static class LdapUserManipulatorFactory
     {

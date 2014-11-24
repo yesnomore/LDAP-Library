@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
+using LDAPLibrary.Interfarces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest

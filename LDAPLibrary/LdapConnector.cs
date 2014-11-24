@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {
@@ -18,14 +19,14 @@ namespace LDAPLibrary
         private readonly ILogger _logger;
         private readonly LdapModeChecker _modeChecker;
         private LdapConnection _ldapConnection;
-        private List<ILdapConnectionObserver> observers; 
+        private readonly List<ILdapConnectionObserver> _observers; 
 
     public LdapConnector(LdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
         {
             _modeChecker = modeChecker;
             _configRepository = configRepository;
             _logger = logger;
-            observers = new List<ILdapConnectionObserver>();
+            _observers = new List<ILdapConnectionObserver>();
         }
 
         public LdapState Connect()
@@ -84,7 +85,7 @@ namespace LDAPLibrary
                 #endregion
 
                 _ldapConnection.Bind(credential);
-                observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
+                _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
             }
             catch (Exception e)
             {
@@ -112,12 +113,12 @@ namespace LDAPLibrary
 
         public void LdapConnectionSubscribe(ILdapConnectionObserver observer)
         {
-            observers.Add(observer);
+            _observers.Add(observer);
         }
 
         public void LdapConnectionUnsubscribe(ILdapConnectionObserver observer)
         {
-            observers.Remove(observer);
+            _observers.Remove(observer);
         }
     }
 }

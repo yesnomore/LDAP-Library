@@ -2,7 +2,7 @@
 using System.DirectoryServices.Protocols;
 using System.Net;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Interfarces
 {
     public interface ILdapManager
     {

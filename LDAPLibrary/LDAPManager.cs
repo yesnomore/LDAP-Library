@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
+using LDAPLibrary.Factories;
+using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {

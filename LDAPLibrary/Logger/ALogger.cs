@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using LDAPLibrary.Interfarces;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Logger
 {
     internal abstract class ALogger : ILogger
     {

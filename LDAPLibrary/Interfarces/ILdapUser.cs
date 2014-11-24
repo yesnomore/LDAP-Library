@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Interfarces
 {
     public interface ILdapUser
     {

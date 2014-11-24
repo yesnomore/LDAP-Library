@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Interfarces
 {
     interface ILdapConnector : ILdapConnectionObservable
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Logger
 {
     internal class FileLogger : ALogger
     {

@@ -1,4 +1,4 @@
-﻿namespace LDAPLibrary
+﻿namespace LDAPLibrary.Logger
 {
     class FakeLogger : ALogger
     {

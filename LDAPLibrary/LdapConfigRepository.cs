@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.Protocols;
+using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {

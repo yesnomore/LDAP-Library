@@ -1,4 +1,6 @@
-﻿namespace LDAPLibrary
+﻿using LDAPLibrary.Interfarces;
+
+namespace LDAPLibrary.Factories
 {
     public static class LdapConfigRepositoryFactory
     {

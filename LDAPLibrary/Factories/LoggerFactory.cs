@@ -1,4 +1,7 @@
-﻿namespace LDAPLibrary
+﻿using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
+
+namespace LDAPLibrary.Factories
 {
     public static class LoggerFactory
     {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Globalization;
 using LDAPLibrary;
+using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest

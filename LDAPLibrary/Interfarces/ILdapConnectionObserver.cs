@@ -1,6 +1,6 @@
 ﻿using System.DirectoryServices.Protocols;
 
-namespace LDAPLibrary
+namespace LDAPLibrary.Interfarces
 {
     interface ILdapConnectionObserver
     {
