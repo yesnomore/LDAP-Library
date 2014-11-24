@@ -1,6 +1,6 @@
 ﻿namespace LDAPLibrary.Interfarces
 {
-    interface ILdapConnectionObservable
+    internal interface ILdapConnectionObservable
     {
         void LdapConnectionSubscribe(ILdapConnectionObserver observer);
         void LdapConnectionUnsubscribe(ILdapConnectionObserver observer);

@@ -12,6 +12,11 @@ namespace LDAPLibrary
         private LdapConnection _ldapConnection;
         private string _ldapUserManipulationMessage;
 
+        public void SetLdapConnection(LdapConnection ldapConnection)
+        {
+            _ldapConnection = ldapConnection;
+        }
+
         /// <summary>
         ///     For give the class operations messages
         /// </summary>
@@ -226,7 +231,7 @@ namespace LDAPLibrary
                                     //if is CN or SN, set right String else add attribute to dictionary
                                     if (userReturnAttribute.Name.Equals("cn") || userReturnAttribute.Name.Equals("CN"))
                                     {
-                                        object[] values = userReturnAttribute.GetValues( Type.GetType("System.String"));
+                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
                                         tempUserCn = (string) values[0];
                                     }
                                     else if (userReturnAttribute.Name.Equals("sn") ||
@@ -269,11 +274,6 @@ namespace LDAPLibrary
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
             _ldapUserManipulationMessage = "Search Operation Success";
             return true;
-        }
-
-        public void SetLdapConnection(LdapConnection ldapConnection)
-        {
-            _ldapConnection = ldapConnection;
         }
     }
 }

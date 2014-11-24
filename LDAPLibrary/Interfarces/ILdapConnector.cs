@@ -2,7 +2,7 @@
 
 namespace LDAPLibrary.Interfarces
 {
-    interface ILdapConnector : ILdapConnectionObservable
+    internal interface ILdapConnector : ILdapConnectionObservable
     {
         /// <summary>
         ///     Instance the Ldap connection with admin config credential

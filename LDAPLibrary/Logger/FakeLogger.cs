@@ -1,6 +1,6 @@
 ﻿namespace LDAPLibrary.Logger
 {
-    class FakeLogger : ALogger
+    internal class FakeLogger : ALogger
     {
         public override void Write(string message)
         {

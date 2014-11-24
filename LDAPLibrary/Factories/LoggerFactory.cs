@@ -10,6 +10,5 @@ namespace LDAPLibrary.Factories
             if (enableLogger) return new FileLogger(logPath);
             return new FakeLogger();
         }
-
     }
 }

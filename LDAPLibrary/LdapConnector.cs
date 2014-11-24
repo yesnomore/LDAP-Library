@@ -18,10 +18,10 @@ namespace LDAPLibrary
         private readonly ILdapConfigRepository _configRepository;
         private readonly ILogger _logger;
         private readonly LdapModeChecker _modeChecker;
+        private readonly List<ILdapConnectionObserver> _observers;
         private LdapConnection _ldapConnection;
-        private readonly List<ILdapConnectionObserver> _observers; 
 
-    public LdapConnector(LdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
+        public LdapConnector(LdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
         {
             _modeChecker = modeChecker;
             _configRepository = configRepository;

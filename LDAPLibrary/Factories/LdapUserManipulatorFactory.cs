@@ -2,7 +2,7 @@
 
 namespace LDAPLibrary.Factories
 {
-    static class LdapUserManipulatorFactory
+    internal static class LdapUserManipulatorFactory
     {
         public static LdapUserManipulator GetUserManipulator(ILdapConnectionObservable observable)
         {

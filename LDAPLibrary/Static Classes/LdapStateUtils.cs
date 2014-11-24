@@ -1,6 +1,6 @@
 ﻿namespace LDAPLibrary
 {
-    static class LdapStateUtils
+    internal static class LdapStateUtils
     {
         public static bool ToBoolean(LdapState state)
         {

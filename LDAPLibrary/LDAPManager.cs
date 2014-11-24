@@ -13,12 +13,12 @@ namespace LDAPLibrary
         #region Class Variables
 
         private readonly ILdapConfigRepository _configRepository;
-        
+        private readonly ILdapConnector _connector;
+        private readonly ILogger _logger;
+        private readonly LdapUserManipulator _manageLdapUser;
+
         private readonly LdapModeChecker _modeChecker;
         private LdapState _ldapCurrentState;
-        private readonly LdapUserManipulator _manageLdapUser;
-        private readonly ILogger _logger;
-        private readonly ILdapConnector _connector;
 
         #endregion
 
@@ -47,7 +47,7 @@ namespace LDAPLibrary
                 _ldapCurrentState = LdapState.LdapLibraryInitError;
                 throw;
             }
-           
+
             _modeChecker = new LdapModeChecker(_configRepository);
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
@@ -78,7 +78,7 @@ namespace LDAPLibrary
         {
             try
             {
-                _logger = LoggerFactory.GetLogger(writeLogFlag,logPath);
+                _logger = LoggerFactory.GetLogger(writeLogFlag, logPath);
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
                     clientCertificateFlag, clientCertificatePath, writeLogFlag, logPath, userObjectClass,
                     matchFieldUsername);
