@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
@@ -17,12 +18,14 @@ namespace LDAPLibrary
         private readonly ILogger _logger;
         private readonly LdapModeChecker _modeChecker;
         private LdapConnection _ldapConnection;
+        private List<ILdapConnectionObserver> observers; 
 
-        public LdapConnector(LdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
+    public LdapConnector(LdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
         {
             _modeChecker = modeChecker;
             _configRepository = configRepository;
             _logger = logger;
+            observers = new List<ILdapConnectionObserver>();
         }
 
         public LdapState Connect()
@@ -52,7 +55,6 @@ namespace LDAPLibrary
         public LdapState Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
             bool clientCertificate)
         {
-        //TODO: refactor this area, decide how to manage the user manipulation object creation (factory using getLdapConnection)
             try
             {
                 _ldapConnection = new LdapConnection(_configRepository.GetServer())
@@ -82,7 +84,7 @@ namespace LDAPLibrary
                 #endregion
 
                 _ldapConnection.Bind(credential);
-                _manageLdapUser = new LdapUserManipulator(_ldapConnection);
+                observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
             }
             catch (Exception e)
             {
@@ -93,10 +95,8 @@ namespace LDAPLibrary
                     (secureSocketLayer ? "\n With SSL " : ""),
                     (transportSocketLayer ? "\n With TLS " : ""),
                     (clientCertificate ? "\n With Client Certificate" : ""));
-                _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, LdapState.LdapConnectionError;))
-                ;
+                _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, LdapState.LdapConnectionError));
                 return LdapState.LdapConnectionError;
-                ;
             }
             string successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
                 credential.UserName,
@@ -110,10 +110,14 @@ namespace LDAPLibrary
             return LdapState.LdapConnectionSuccess;
         }
 
-        public LdapConnector GetLdapConnector()
+        public void LdapConnectionSubscribe(ILdapConnectionObserver observer)
         {
-            //TODO: return ldapConnection obj if is not null otherwise throw an exception
-            throw new NotImplementedException();
+            observers.Add(observer);
+        }
+
+        public void LdapConnectionUnsubscribe(ILdapConnectionObserver observer)
+        {
+            observers.Remove(observer);
         }
     }
 }

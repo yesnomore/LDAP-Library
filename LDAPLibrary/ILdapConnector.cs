@@ -2,7 +2,7 @@
 
 namespace LDAPLibrary
 {
-    interface ILdapConnector
+    interface ILdapConnector : ILdapConnectionObservable
     {
         /// <summary>
         ///     Instance the Ldap connection with admin config credential
@@ -20,7 +20,5 @@ namespace LDAPLibrary
         /// <returns>Success or Failed</returns>
         LdapState Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
             bool clientCertificate);
-
-        LdapConnector GetLdapConnector();
     }
 }

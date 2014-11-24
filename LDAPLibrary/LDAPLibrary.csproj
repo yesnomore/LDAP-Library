@@ -49,17 +49,24 @@
     <Compile Include="FakeLogger.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="ILdapConfigRepository.cs" />
+    <Compile Include="ILdapConnectionObservable.cs" />
+    <Compile Include="ILdapConnectionObserver.cs" />
+    <Compile Include="ILdapConnector.cs" />
     <Compile Include="ILdapManager.cs" />
     <Compile Include="ILdapUser.cs" />
     <Compile Include="ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />
     <Compile Include="LdapConfigRepositoryFactory.cs" />
+    <Compile Include="LdapConnector.cs" />
+    <Compile Include="LdapConnectorFactory.cs" />
     <Compile Include="LdapModeChecker.cs" />
     <Compile Include="LdapParameterChecker.cs" />
     <Compile Include="LdapState.cs" />
     <Compile Include="LdapManager.cs" />
+    <Compile Include="LdapStateUtils.cs" />
     <Compile Include="LdapUser.cs" />
     <Compile Include="LdapUserManipulator.cs" />
+    <Compile Include="LdapUserManipulatorFactory.cs" />
     <Compile Include="LoggerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

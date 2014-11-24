@@ -4,21 +4,12 @@ using System.DirectoryServices.Protocols;
 
 namespace LDAPLibrary
 {
-    public class LdapUserManipulator
+    public class LdapUserManipulator : ILdapConnectionObserver
     {
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
-        private readonly LdapConnection _ldapConnection;
+        private LdapConnection _ldapConnection;
         private string _ldapUserManipulationMessage;
-
-        /// <summary>
-        ///     Constructor of the LDAP User Manipulator
-        /// </summary>
-        /// <param name="ldapConnection">Connection of an admin User</param>
-        public LdapUserManipulator(LdapConnection ldapConnection)
-        {
-            _ldapConnection = ldapConnection;
-        }
 
         /// <summary>
         ///     For give the class operations messages
@@ -277,6 +268,11 @@ namespace LDAPLibrary
             ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
             _ldapUserManipulationMessage = "Search Operation Success";
             return true;
+        }
+
+        public void SetLdapConnection(LdapConnection ldapConnection)
+        {
+            _ldapConnection = ldapConnection;
         }
     }
 }

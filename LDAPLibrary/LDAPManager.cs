@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace LDAPLibrary
 {
@@ -14,10 +13,10 @@ namespace LDAPLibrary
         private readonly ILdapConfigRepository _configRepository;
         
         private readonly LdapModeChecker _modeChecker;
-        private LdapConnection _ldapConnection;
         private LdapState _ldapCurrentState;
-        private LdapUserManipulator _manageLdapUser;
+        private readonly LdapUserManipulator _manageLdapUser;
         private readonly ILogger _logger;
+        private readonly ILdapConnector _connector;
 
         #endregion
 
@@ -39,6 +38,7 @@ namespace LDAPLibrary
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
+                _logger = LoggerFactory.GetLogger(false, null);
             }
             catch (ArgumentNullException)
             {
@@ -47,6 +47,9 @@ namespace LDAPLibrary
             }
            
             _modeChecker = new LdapModeChecker(_configRepository);
+
+            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
@@ -84,6 +87,9 @@ namespace LDAPLibrary
                 _logger.Write(_logger.BuildLogMessage(e.Message, _ldapCurrentState));
                 throw;
             }
+
+            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
@@ -179,26 +185,8 @@ namespace LDAPLibrary
         /// <returns>Success or Failed</returns>
         public bool Connect()
         {
-            try
-            {
-                if (_modeChecker.IsCompleteMode())
-                {
-                    return Connect(
-                        new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
-                            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
-                        _configRepository.GetSecureSocketLayerFlag(),
-                        _configRepository.GetTransportSocketLayerFlag(),
-                        _configRepository.GetClientCertificateFlag());
-                }
-                return false;
-            }
-            catch (Exception)
-            {
-                const string error = "LDAP CONNECTION WITH ADMIN WS-CONFIG CREDENTIAL DENIED: unable to connect with administrator credential, see the config file";
-                _ldapCurrentState = LdapState.LdapConnectionError;
-                _logger.Write(_logger.BuildLogMessage(error, _ldapCurrentState));
-                throw new Exception(error);
-            }
+            _ldapCurrentState = _connector.Connect();
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
@@ -212,62 +200,9 @@ namespace LDAPLibrary
         public bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
             bool clientCertificate)
         {
-            try
-            {
-                _ldapConnection = new LdapConnection(_configRepository.GetServer())
-                {
-                    AuthType = _configRepository.GetAuthType()
-                };
-                _ldapConnection.SessionOptions.ProtocolVersion = 3;
-
-                #region secure Layer Options
-
-                if (secureSocketLayer)
-                    _ldapConnection.SessionOptions.SecureSocketLayer = true;
-
-                if (transportSocketLayer)
-                {
-                    LdapSessionOptions options = _ldapConnection.SessionOptions;
-                    options.StartTransportLayerSecurity(null);
-                }
-
-                if (clientCertificate)
-                {
-                    var clientCertificateFile = new X509Certificate();
-                    clientCertificateFile.Import(_configRepository.GetClientCertificatePath());
-                    _ldapConnection.ClientCertificates.Add(clientCertificateFile);
-                }
-
-                #endregion
-
-                _ldapConnection.Bind(credential);
-                //ldapConnection.SendRequest(new SearchRequest(LDAPServer, "(objectClass=*)", SearchScope.Subtree, null));
-                _manageLdapUser = new LdapUserManipulator(_ldapConnection);
-            }
-            catch (Exception e)
-            {
-                var errorConnectionMessage = String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
-                    e.Message,
-                    credential.UserName,
-                    credential.Password,
-                    (secureSocketLayer ? "\n With SSL " : ""),
-                    (transportSocketLayer ? "\n With TLS " : ""),
-                    (clientCertificate ? "\n With Client Certificate" : ""));
-                _ldapCurrentState = LdapState.LdapConnectionError;
-                _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, _ldapCurrentState));
-                return false;
-            }
-            var successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
-                credential.UserName,
-                credential.Password,
-                (secureSocketLayer ? "\n With SSL " : ""),
-                (transportSocketLayer ? "\n With TLS " : ""),
-                (clientCertificate ? "\n With Client Certificate" : ""));
-            if (_modeChecker.IsBasicMode())
-                _ldapConnection.Dispose();
-            _ldapCurrentState = LdapState.LdapConnectionSuccess;
-            _logger.Write(_logger.BuildLogMessage(successConnectionMessage, _ldapCurrentState));
-            return true;
+            _ldapCurrentState = _connector.Connect(credential, secureSocketLayer, transportSocketLayer,
+                clientCertificate);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
