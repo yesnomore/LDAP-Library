@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;

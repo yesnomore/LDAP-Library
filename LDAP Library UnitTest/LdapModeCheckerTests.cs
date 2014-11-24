@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
-using System.Runtime.InteropServices;
 using LDAPLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
