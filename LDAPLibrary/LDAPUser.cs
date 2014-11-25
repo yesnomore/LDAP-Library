@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
