@@ -7,10 +7,15 @@ namespace LDAPLibrary
 {
     public class LdapUserManipulator : ILdapConnectionObserver
     {
+        private readonly ILogger _logger;
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
         private LdapConnection _ldapConnection;
-        private string _ldapUserManipulationMessage;
+
+        public LdapUserManipulator(ILogger logger)
+        {
+            _logger = logger;
+        }
 
         public void SetLdapConnection(LdapConnection ldapConnection)
         {
@@ -18,22 +23,12 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        ///     For give the class operations messages
-        /// </summary>
-        /// <returns>Operation Success/Error Messages</returns>
-        public string GetLdapUserManipulationMessage()
-        {
-            return _ldapUserManipulationMessage;
-        }
-
-        /// <summary>
         ///     Create a new LDAPUser
         /// </summary>
         /// <param name="newUser">User to create</param>
-        /// <param name="ldapCurrentState">State of LDAP</param>
         /// <param name="objectClass"></param>
         /// <returns> Success or Failed</returns>
-        public bool CreateUser(ILdapUser newUser, out LdapState ldapCurrentState, string objectClass)
+        public LdapState CreateUser(ILdapUser newUser, string objectClass)
         {
             try
             {
@@ -54,22 +49,19 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                ldapCurrentState = LdapState.LdapCreateUserError;
-                _ldapUserManipulationMessage = e.Message;
-                return false;
-            }
-            ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
-            _ldapUserManipulationMessage = "Create User Operation Success";
-            return true;
+                _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapCreateUserError));
+                return LdapState.LdapCreateUserError;
+            } 
+            _logger.Write(_logger.BuildLogMessage("Create User Operation Success", LdapState.LdapCreateUserError));
+            return LdapState.LdapUserManipulatorSuccess;
         }
 
         /// <summary>
         ///     Delete an LDAPUser
         /// </summary>
         /// <param name="user">User to delete</param>
-        /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool DeleteUser(ILdapUser user, out LdapState ldapCurrentState)
+        public LdapState DeleteUser(ILdapUser user)
         {
             try
             {
@@ -81,14 +73,11 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                ldapCurrentState = LdapState.LdapDeleteUserError;
-                _ldapUserManipulationMessage = e.Message;
-                return false;
+                _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapDeleteUserError));
+                return LdapState.LdapDeleteUserError;
             }
-
-            _ldapUserManipulationMessage = "Delete User Operation Success";
-            ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
-            return true;
+            _logger.Write(_logger.BuildLogMessage("Delete User Operation Success", LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess; 
         }
 
         /// <summary>
@@ -98,10 +87,9 @@ namespace LDAPLibrary
         /// <param name="user">LDAPUser's Attribute</param>
         /// <param name="attributeName">Attribute name</param>
         /// <param name="attributeValue">Attribute Value</param>
-        /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
-            string attributeValue, out LdapState ldapCurrentState)
+        public LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
+            string attributeValue)
         {
             try
             {
@@ -113,9 +101,8 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                ldapCurrentState = LdapState.LdapModifyUserAttributeError;
-                _ldapUserManipulationMessage = e.Message;
-                return false;
+                _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapModifyUserAttributeError));
+                return LdapState.LdapModifyUserAttributeError;
             }
 
             switch (operationType)
@@ -130,11 +117,8 @@ namespace LDAPLibrary
                     user.OverwriteUserAttribute(attributeName, attributeValue);
                     break;
             }
-
-
-            _ldapUserManipulationMessage = "Modify User Attribute Operation Success";
-            ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
-            return true;
+            _logger.Write(_logger.BuildLogMessage("Modify User Attribute Operation Success", LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess; 
         }
 
         /// <summary>
@@ -142,9 +126,8 @@ namespace LDAPLibrary
         /// </summary>
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd">New Passowrd</param>
-        /// <param name="ldapCurrentState">State of LDAP</param>
         /// <returns>Success or Failed</returns>
-        public bool ChangeUserPassword(ILdapUser user, string newPwd, out LdapState ldapCurrentState)
+        public LdapState ChangeUserPassword(ILdapUser user, string newPwd)
         {
             try
             {
@@ -161,16 +144,14 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                ldapCurrentState = LdapState.LdapChangeUserPasswordError;
-                _ldapUserManipulationMessage = e.Message;
-                return false;
+                _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapChangeUserPasswordError));
+                return LdapState.LdapChangeUserPasswordError;
             }
 
             user.OverwriteUserAttribute("userPassword", newPwd);
 
-            _ldapUserManipulationMessage = "Change Password Operation Success";
-            ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
-            return true;
+            _logger.Write(_logger.BuildLogMessage("Change Password Operation Success", LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess; 
         }
 
         /// <summary>
@@ -181,12 +162,10 @@ namespace LDAPLibrary
         /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
-        /// <param name="ldapCurrentState">Return the state of the LDAP to parent class</param>
         /// <param name="userObjectClass"></param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public bool SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername,
-            List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult,
-            out LdapState ldapCurrentState)
+        public LdapState SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername,
+            List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult)
         {
             searchResult = new List<ILdapUser>();
 
@@ -259,21 +238,17 @@ namespace LDAPLibrary
             }
             catch (Exception e)
             {
-                ldapCurrentState = LdapState.LdapSearchUserError;
-                _ldapUserManipulationMessage = e.Message;
-                return false;
+                _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapSearchUserError));
+                return LdapState.LdapSearchUserError;
             }
 
             if (searchResult.Count == 0)
             {
-                ldapCurrentState = LdapState.LdapSearchUserError;
-                _ldapUserManipulationMessage = "Search Operation with NO RESULTS";
-                return false;
+                _logger.Write(_logger.BuildLogMessage("Search Operation with NO RESULTS", LdapState.LdapSearchUserError));
+                return LdapState.LdapSearchUserError;
             }
-
-            ldapCurrentState = LdapState.LdapUserManipulatorSuccess;
-            _ldapUserManipulationMessage = "Search Operation Success";
-            return true;
+            _logger.Write(_logger.BuildLogMessage("Search Operation Success", LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess;
         }
     }
 }

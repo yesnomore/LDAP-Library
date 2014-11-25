@@ -51,7 +51,7 @@ namespace LDAPLibrary
             _modeChecker = new LdapModeChecker(_configRepository);
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
@@ -91,7 +91,7 @@ namespace LDAPLibrary
             }
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
@@ -105,10 +105,8 @@ namespace LDAPLibrary
         /// <returns>Boolean that comunicate the result of creation</returns>
         public bool CreateUser(ILdapUser newUser)
         {
-            bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState,
-                _configRepository.GetUserObjectClass());
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.CreateUser(newUser, _configRepository.GetUserObjectClass());
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
@@ -118,9 +116,8 @@ namespace LDAPLibrary
         /// <returns>the result of operation</returns>
         public bool DeleteUser(ILdapUser user)
         {
-            bool operationResult = _manageLdapUser.DeleteUser(user, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.DeleteUser(user);       
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
@@ -134,10 +131,8 @@ namespace LDAPLibrary
         public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
             string attributeValue)
         {
-            bool operationResult = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName,
-                attributeValue, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName, attributeValue);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
@@ -148,9 +143,8 @@ namespace LDAPLibrary
         /// <returns></returns>
         public bool ChangeUserPassword(ILdapUser user, string newPwd)
         {
-            bool operationResult = _manageLdapUser.ChangeUserPassword(user, newPwd, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.ChangeUserPassword(user, newPwd);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         /// <summary>
@@ -163,11 +157,10 @@ namespace LDAPLibrary
         public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
             out List<ILdapUser> searchResult)
         {
-            bool operationResult = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
+            _ldapCurrentState = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
                 _configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(),
-                otherReturnedAttributes, searchedUsers, out searchResult, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+                otherReturnedAttributes, searchedUsers, out searchResult);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         #endregion
