@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {

@@ -1,4 +1,4 @@
-﻿namespace LDAPLibrary
+﻿namespace LDAPLibrary.StaticClasses
 {
     internal static class LdapStateUtils
     {

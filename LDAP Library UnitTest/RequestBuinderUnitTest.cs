@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest
@@ -21,14 +22,13 @@ namespace LDAP_Library_UnitTest
                 {"description", new List<string> {"Test Description"}}
             });
 
-        private LdapRequestBuilder requestBuilder;
         private const string ObjectClass = "person";
 
 
         [TestMethod, TestCategory("RequestBuilder")]
         public void AddRequest()
         {
-            AddRequest req = requestBuilder.getAddRequest(_testUser, ObjectClass);
+            AddRequest req = LdapRequestBuilder.GetAddRequest(_testUser, ObjectClass);
 
             Assert.AreEqual(UserDn, req.DistinguishedName);
 
@@ -42,14 +42,14 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("RequestBuilder")]
         public void DeleteRequest()
         {
-            DeleteRequest req = requestBuilder.getDeleteRequest(_testUser);
+            DeleteRequest req = LdapRequestBuilder.GetDeleteRequest(_testUser);
             Assert.AreEqual(UserDn, req.DistinguishedName);
         }
 
         [TestMethod, TestCategory("RequestBuilder")]
         public void ModifyRequest()
         {
-            ModifyRequest req = requestBuilder.getModifyRequest(_testUser, DirectoryAttributeOperation.Replace, "description",
+            ModifyRequest req = LdapRequestBuilder.GetModifyRequest(_testUser, DirectoryAttributeOperation.Replace, "description",
                 "Test Description 2");
 
             Assert.AreEqual(UserDn, req.DistinguishedName);
@@ -68,7 +68,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("RequestBuilder")]
         public void ModifyPasswordRequest()
         {
-            ModifyRequest req = requestBuilder.getModifyPasswordRequest(_testUser, "new pwd");
+            ModifyRequest req = LdapRequestBuilder.GetModifyPasswordRequest(_testUser, "new pwd");
 
             Assert.AreEqual(UserDn, req.DistinguishedName);
 
@@ -88,7 +88,7 @@ namespace LDAP_Library_UnitTest
             const string baseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
             var attributes = new[] {"cn", "sn"};
 
-            SearchRequest req = requestBuilder.getSearchPasswordRequest(baseDn, ldapSearchFilter, attributes);
+            SearchRequest req = LdapRequestBuilder.GetSearchPasswordRequest(baseDn, ldapSearchFilter, attributes);
 
             Assert.AreEqual(baseDn, req.DistinguishedName);
             Assert.AreEqual(ldapSearchFilter, req.Filter);
