@@ -1,4 +1,5 @@
-﻿using System.DirectoryServices.Protocols;
+﻿using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 using System.Runtime.CompilerServices;
 using LDAPLibrary.Interfarces;
 
@@ -48,9 +49,9 @@ namespace LDAPLibrary.StaticClasses
             return new ModifyRequest(user.GetUserDn(), modifyUserPassword);
         }
 
-        public static SearchRequest GetSearchPasswordRequest(string baseDn, string searchFilter, string[] searchAttributes)
+        public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter, List<string> searchAttributes)
         {
-            return new SearchRequest(baseDn, searchFilter, SearchScope.Subtree, searchAttributes);
+            return new SearchRequest(baseDn, searchFilter, SearchScope.Subtree, searchAttributes.ToArray());
         }
     }
 }

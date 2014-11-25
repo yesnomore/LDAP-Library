@@ -90,9 +90,9 @@ namespace LDAP_Library_UnitTest
         {
             var ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", ObjectClass, "cn", UserCn);
             const string baseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
-            var attributes = new[] {"cn", "sn"};
+            var attributes = new List<string> {"cn", "sn"};
 
-            SearchRequest req = LdapRequestBuilder.GetSearchPasswordRequest(baseDn, ldapSearchFilter, attributes);
+            SearchRequest req = LdapRequestBuilder.GetSearchUserRequest(baseDn, ldapSearchFilter, attributes);
 
             Assert.AreEqual(baseDn, req.DistinguishedName);
             Assert.AreEqual(ldapSearchFilter, req.Filter);

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
@@ -32,20 +33,7 @@ namespace LDAPLibrary
         {
             try
             {
-                var addReq = new AddRequest {DistinguishedName = newUser.GetUserDn()};
-                addReq.Attributes.Add(new DirectoryAttribute("objectClass", objectClass));
-                addReq.Attributes.Add(new DirectoryAttribute("cn", newUser.GetUserCn()));
-                addReq.Attributes.Add(new DirectoryAttribute("sn", newUser.GetUserSn()));
-
-                foreach (string attributeName in newUser.GetUserAttributeKeys())
-                {
-                    foreach (string attributeValue in newUser.GetUserAttribute(attributeName))
-                    {
-                        addReq.Attributes.Add(new DirectoryAttribute(attributeName, attributeValue));
-                    }
-                }
-                // cast the returned DirectoryResponse as an AddResponse object
-                _ldapConnection.SendRequest(addReq);
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetAddRequest(newUser,objectClass));
             }
             catch (Exception e)
             {
@@ -65,11 +53,7 @@ namespace LDAPLibrary
         {
             try
             {
-                //Create the delete request
-                var deleteReq = new DeleteRequest(user.GetUserDn());
-
-                //Perform the deletion
-                _ldapConnection.SendRequest(deleteReq);
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetDeleteRequest(user));
             }
             catch (Exception e)
             {
@@ -93,11 +77,7 @@ namespace LDAPLibrary
         {
             try
             {
-                //Prepare the modify request
-                var modRequest = new ModifyRequest(user.GetUserDn(), operationType, attributeName, attributeValue);
-
-                //Perform the modify
-                _ldapConnection.SendRequest(modRequest);
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyRequest(user,operationType,attributeName,attributeValue));
             }
             catch (Exception e)
             {
@@ -131,16 +111,7 @@ namespace LDAPLibrary
         {
             try
             {
-                var modifyUserPassword = new DirectoryAttributeModification
-                {
-                    Operation = DirectoryAttributeOperation.Replace,
-                    Name = "userPassword"
-                };
-                modifyUserPassword.Add(newPwd);
-
-                var modifyRequest = new ModifyRequest(user.GetUserDn(), modifyUserPassword);
-
-                _ldapConnection.SendRequest(modifyRequest);
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyPasswordRequest(user,newPwd));
             }
             catch (Exception e)
             {
@@ -186,12 +157,8 @@ namespace LDAPLibrary
                     string ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", userObjectClass,
                         matchFieldUsername, users);
 
-                    //Componing search request
-                    var search = new SearchRequest(baseDn, ldapSearchFilter, SearchScope.Subtree,
-                        otherReturnedAttributes.ToArray());
-
                     //Perforing the search
-                    var searchReturn = (SearchResponse) _ldapConnection.SendRequest(search);
+                    var searchReturn = (SearchResponse) _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(baseDn,ldapSearchFilter,otherReturnedAttributes));
 
                     //For all the searchReturn we create a new LDAPUser obj and add that to the return searchResult
                     if (searchReturn != null)
