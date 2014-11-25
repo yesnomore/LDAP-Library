@@ -32,11 +32,14 @@ namespace LDAP_Library_UnitTest
 
             Assert.AreEqual(UserDn, req.DistinguishedName);
 
-            Assert.IsTrue(req.Attributes.Contains(new DirectoryAttribute("objectClass", ObjectClass)));
-            Assert.IsTrue(req.Attributes.Contains(new DirectoryAttribute("cn", UserCn)));
-            Assert.IsTrue(req.Attributes.Contains(new DirectoryAttribute("sn", "test")));
-            Assert.IsTrue(req.Attributes.Contains(new DirectoryAttribute("description", "Test Description")));
-            Assert.IsTrue(req.Attributes.Contains(new DirectoryAttribute("userPassword", UserPwd)));
+            Assert.IsTrue(req.Attributes.Count == 5);
+
+            //POCHO
+            CollectionAssert.AreEqual(req.Attributes[0],new DirectoryAttribute("objectClass", ObjectClass));
+            CollectionAssert.AreEqual(req.Attributes[1], new DirectoryAttribute("cn", UserCn));
+            CollectionAssert.AreEqual(req.Attributes[2], new DirectoryAttribute("sn", "test"));
+            CollectionAssert.AreEqual(req.Attributes[3], new DirectoryAttribute("userPassword", UserPwd));
+            CollectionAssert.AreEqual(req.Attributes[4], new DirectoryAttribute("description", "Test Description"));
         }
 
         [TestMethod, TestCategory("RequestBuilder")]
@@ -61,7 +64,7 @@ namespace LDAP_Library_UnitTest
             };
             attributeModification.Add("Test Description 2");
 
-            Assert.IsTrue(req.Modifications.Contains(attributeModification));
+            CollectionAssert.AreEqual(req.Modifications[0],attributeModification);
 
         }
 
@@ -79,9 +82,10 @@ namespace LDAP_Library_UnitTest
             };
             attributeModification.Add("new pwd");
 
-            Assert.IsTrue(req.Modifications.Contains(attributeModification));
+            CollectionAssert.AreEqual(req.Modifications[0], attributeModification);
         }
 
+        [TestMethod, TestCategory("RequestBuilder")]
         public void SearchRequest()
         {
             var ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", ObjectClass, "cn", UserCn);
@@ -93,7 +97,7 @@ namespace LDAP_Library_UnitTest
             Assert.AreEqual(baseDn, req.DistinguishedName);
             Assert.AreEqual(ldapSearchFilter, req.Filter);
             Assert.AreEqual(SearchScope.Subtree, req.Scope);
-            Assert.AreEqual(attributes, req.Attributes);
+            CollectionAssert.AreEqual(attributes, req.Attributes);
         }
     }
 }
