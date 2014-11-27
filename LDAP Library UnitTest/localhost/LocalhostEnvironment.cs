@@ -48,7 +48,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapAdminUserCn = "Manager";
         private const string LdapAdminUserSn = "test";
         private const string LdapAdminUserPassword = "secret";
-        private static readonly LDAPLibrary.LdapUser AdminUser = new LDAPLibrary.LdapUser(LdapAdminUserDn,
+        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
             LdapAdminUserCn,
             LdapAdminUserSn,
             new Dictionary<string, List<string>> { { "userPassword", new List<string> { LdapAdminUserPassword } } });
@@ -454,7 +454,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
 
             TestAdminConnect();
-            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
 
             var result = _ldapManagerObj.CreateUser(testLdapUser);
 

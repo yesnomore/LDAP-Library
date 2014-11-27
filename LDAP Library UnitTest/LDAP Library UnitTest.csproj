@@ -61,6 +61,7 @@
     <Compile Include="LoggerTest.cs" />
     <Compile Include="LdapStateUtilsTest.cs" />
     <Compile Include="RequestBuinderUnitTest.cs" />
+    <Compile Include="FilterBuilderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\LDAPLibrary\LDAPLibrary.csproj">

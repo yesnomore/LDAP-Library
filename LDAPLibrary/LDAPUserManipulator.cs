@@ -8,9 +8,9 @@ namespace LDAPLibrary
 {
     public class LdapUserManipulator : ILdapConnectionObserver
     {
-        private readonly ILogger _logger;
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
+        private readonly ILogger _logger;
         private LdapConnection _ldapConnection;
 
         public LdapUserManipulator(ILogger logger)
@@ -33,13 +33,13 @@ namespace LDAPLibrary
         {
             try
             {
-                _ldapConnection.SendRequest(LdapRequestBuilder.GetAddRequest(newUser,objectClass));
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetAddRequest(newUser, objectClass));
             }
             catch (Exception e)
             {
                 _logger.Write(_logger.BuildLogMessage(e.Message, LdapState.LdapCreateUserError));
                 return LdapState.LdapCreateUserError;
-            } 
+            }
             _logger.Write(_logger.BuildLogMessage("Create User Operation Success", LdapState.LdapCreateUserError));
             return LdapState.LdapUserManipulatorSuccess;
         }
@@ -61,7 +61,7 @@ namespace LDAPLibrary
                 return LdapState.LdapDeleteUserError;
             }
             _logger.Write(_logger.BuildLogMessage("Delete User Operation Success", LdapState.LdapUserManipulatorSuccess));
-            return LdapState.LdapUserManipulatorSuccess; 
+            return LdapState.LdapUserManipulatorSuccess;
         }
 
         /// <summary>
@@ -72,12 +72,14 @@ namespace LDAPLibrary
         /// <param name="attributeName">Attribute name</param>
         /// <param name="attributeValue">Attribute Value</param>
         /// <returns>Success or Failed</returns>
-        public LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
+        public LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user,
+            string attributeName,
             string attributeValue)
         {
             try
             {
-                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyRequest(user,operationType,attributeName,attributeValue));
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyRequest(user, operationType, attributeName,
+                    attributeValue));
             }
             catch (Exception e)
             {
@@ -97,8 +99,9 @@ namespace LDAPLibrary
                     user.OverwriteUserAttribute(attributeName, attributeValue);
                     break;
             }
-            _logger.Write(_logger.BuildLogMessage("Modify User Attribute Operation Success", LdapState.LdapUserManipulatorSuccess));
-            return LdapState.LdapUserManipulatorSuccess; 
+            _logger.Write(_logger.BuildLogMessage("Modify User Attribute Operation Success",
+                LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess;
         }
 
         /// <summary>
@@ -111,7 +114,7 @@ namespace LDAPLibrary
         {
             try
             {
-                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyPasswordRequest(user,newPwd));
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetModifyPasswordRequest(user, newPwd));
             }
             catch (Exception e)
             {
@@ -121,8 +124,9 @@ namespace LDAPLibrary
 
             user.OverwriteUserAttribute("userPassword", newPwd);
 
-            _logger.Write(_logger.BuildLogMessage("Change Password Operation Success", LdapState.LdapUserManipulatorSuccess));
-            return LdapState.LdapUserManipulatorSuccess; 
+            _logger.Write(_logger.BuildLogMessage("Change Password Operation Success",
+                LdapState.LdapUserManipulatorSuccess));
+            return LdapState.LdapUserManipulatorSuccess;
         }
 
         /// <summary>
@@ -153,12 +157,12 @@ namespace LDAPLibrary
                 //Foreach all the credential,for everyone do the search and add user results to the out parameter
                 foreach (string users in searchedUsers)
                 {
-                    //Create the filter for the search
-                    string ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", userObjectClass,
-                        matchFieldUsername, users);
-
                     //Perforing the search
-                    var searchReturn = (SearchResponse) _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(baseDn,ldapSearchFilter,otherReturnedAttributes));
+                    var searchReturn =
+                        (SearchResponse)
+                            _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(baseDn,
+                                LdapFilterBuilder.GetSearchFilter(userObjectClass, matchFieldUsername, users),
+                                otherReturnedAttributes));
 
                     //For all the searchReturn we create a new LDAPUser obj and add that to the return searchResult
                     if (searchReturn != null)
