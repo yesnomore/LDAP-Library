@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
+using System.Linq;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.StaticClasses;
 
@@ -11,11 +12,13 @@ namespace LDAPLibrary
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
         private readonly ILogger _logger;
+        private readonly ILdapConfigRepository _configRepository;
         private LdapConnection _ldapConnection;
 
-        public LdapUserManipulator(ILogger logger)
+        public LdapUserManipulator(ILogger logger, ILdapConfigRepository configRepository)
         {
             _logger = logger;
+            _configRepository = configRepository;
         }
 
         public void SetLdapConnection(LdapConnection ldapConnection)
@@ -29,11 +32,11 @@ namespace LDAPLibrary
         /// <param name="newUser">User to create</param>
         /// <param name="objectClass"></param>
         /// <returns> Success or Failed</returns>
-        public LdapState CreateUser(ILdapUser newUser, string objectClass)
+        public LdapState CreateUser(ILdapUser newUser)
         {
             try
             {
-                _ldapConnection.SendRequest(LdapRequestBuilder.GetAddRequest(newUser, objectClass));
+                _ldapConnection.SendRequest(LdapRequestBuilder.GetAddRequest(newUser, _configRepository.GetUserObjectClass()));
             }
             catch (Exception e)
             {
@@ -139,29 +142,20 @@ namespace LDAPLibrary
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <param name="userObjectClass"></param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        public LdapState SearchUsers(string baseDn, string userObjectClass, string matchFieldUsername,
-            List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult)
+        public LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult)
         {
             searchResult = new List<ILdapUser>();
-
-            if (otherReturnedAttributes == null)
-                otherReturnedAttributes = new List<string>();
-
-            //Add required search return attributes to the list
-
-            if (!otherReturnedAttributes.Contains("cn")) otherReturnedAttributes.Add("cn");
-            if (!otherReturnedAttributes.Contains("sn")) otherReturnedAttributes.Add("sn");
-
             try
             {
+                otherReturnedAttributes = (new List<string> { "cn", "sn" }).Union((otherReturnedAttributes ?? new List<string>())).ToList();
                 //Foreach all the credential,for everyone do the search and add user results to the out parameter
                 foreach (string users in searchedUsers)
                 {
                     //Perforing the search
                     var searchReturn =
                         (SearchResponse)
-                            _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(baseDn,
-                                LdapFilterBuilder.GetSearchFilter(userObjectClass, matchFieldUsername, users),
+                            _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(_configRepository.GetSearchBaseDn(),
+                                LdapFilterBuilder.GetSearchFilter(_configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(), users),
                                 otherReturnedAttributes));
 
                     //For all the searchReturn we create a new LDAPUser obj and add that to the return searchResult

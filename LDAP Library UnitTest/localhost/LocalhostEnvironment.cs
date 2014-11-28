@@ -484,7 +484,7 @@ namespace LDAP_Library_UnitTest.localhost
             {
                 ReadOnlyUserCn
             };
-            string[] FakeuserIdToSearch =
+            string[] fakeuserIdToSearch =
             {
                 WriteUserCn
             };
@@ -495,10 +495,17 @@ namespace LDAP_Library_UnitTest.localhost
 
             List<ILdapUser> returnUsers;
 
-            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, FakeuserIdToSearch, out returnUsers);
+            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
+
+            result = _ldapManagerObj.SearchUsers(null, userIdToSearch, out returnUsers);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
+            Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+            Assert.IsTrue(returnUsers[0].GetUserAttributes().Count == 0);
 
             result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 

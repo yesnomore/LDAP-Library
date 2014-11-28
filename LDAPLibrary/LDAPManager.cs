@@ -52,7 +52,7 @@ namespace LDAPLibrary
             _modeChecker = new LdapModeChecker(_configRepository);
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
@@ -92,7 +92,7 @@ namespace LDAPLibrary
             }
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
@@ -106,7 +106,7 @@ namespace LDAPLibrary
         /// <returns>Boolean that comunicate the result of creation</returns>
         public bool CreateUser(ILdapUser newUser)
         {
-            _ldapCurrentState = _manageLdapUser.CreateUser(newUser, _configRepository.GetUserObjectClass());
+            _ldapCurrentState = _manageLdapUser.CreateUser(newUser);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
@@ -158,9 +158,7 @@ namespace LDAPLibrary
         public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
             out List<ILdapUser> searchResult)
         {
-            _ldapCurrentState = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
-                _configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(),
-                otherReturnedAttributes, searchedUsers, out searchResult);
+            _ldapCurrentState = _manageLdapUser.SearchUsers(otherReturnedAttributes, searchedUsers, out searchResult);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
