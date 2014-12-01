@@ -48,7 +48,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapAdminUserCn = "Manager";
         private const string LdapAdminUserSn = "test";
         private const string LdapAdminUserPassword = "secret";
-        private static readonly LDAPLibrary.LdapUser AdminUser = new LDAPLibrary.LdapUser(LdapAdminUserDn,
+        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
             LdapAdminUserCn,
             LdapAdminUserSn,
             new Dictionary<string, List<string>> { { "userPassword", new List<string> { LdapAdminUserPassword } } });
@@ -454,7 +454,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
 
             TestAdminConnect();
-            var testLdapUser = new LDAPLibrary.LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
 
             var result = _ldapManagerObj.CreateUser(testLdapUser);
 
@@ -484,7 +484,7 @@ namespace LDAP_Library_UnitTest.localhost
             {
                 ReadOnlyUserCn
             };
-            string[] FakeuserIdToSearch =
+            string[] fakeuserIdToSearch =
             {
                 WriteUserCn
             };
@@ -495,10 +495,17 @@ namespace LDAP_Library_UnitTest.localhost
 
             List<ILdapUser> returnUsers;
 
-            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, FakeuserIdToSearch, out returnUsers);
+            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
+
+            result = _ldapManagerObj.SearchUsers(null, userIdToSearch, out returnUsers);
+
+            Assert.IsTrue(result);
+            Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
+            Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+            Assert.IsTrue(returnUsers[0].GetUserAttributes().Count == 0);
 
             result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
 

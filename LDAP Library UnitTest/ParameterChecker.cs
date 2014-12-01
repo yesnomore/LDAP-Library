@@ -1,4 +1,5 @@
 ﻿using LDAPLibrary;
+using LDAPLibrary.StaticClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest

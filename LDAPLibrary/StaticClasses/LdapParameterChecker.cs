@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("LDAP Library UnitTest")]
 
-namespace LDAPLibrary
+namespace LDAPLibrary.StaticClasses
 {
     internal static class LdapParameterChecker
     {

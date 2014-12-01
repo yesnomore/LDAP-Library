@@ -1,6 +1,7 @@
 ﻿using System;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {

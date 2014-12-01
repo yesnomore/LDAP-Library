@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
@@ -51,7 +52,7 @@ namespace LDAPLibrary
             _modeChecker = new LdapModeChecker(_configRepository);
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
@@ -91,114 +92,60 @@ namespace LDAPLibrary
             }
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
 
         #region Methods from LDAPUserManipulator Class
 
-        /// <summary>
-        ///     Create a new LDAP User
-        /// </summary>
-        /// <param name="newUser"> The LDAPUser object that contain all the details of the new user to create</param>
-        /// <returns>Boolean that comunicate the result of creation</returns>
         public bool CreateUser(ILdapUser newUser)
         {
-            bool operationResult = _manageLdapUser.CreateUser(newUser, out _ldapCurrentState,
-                _configRepository.GetUserObjectClass());
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.CreateUser(newUser);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     delete the specified  LdapUser
-        /// </summary>
-        /// <param name="user">LDAPUser to delete</param>
-        /// <returns>the result of operation</returns>
         public bool DeleteUser(ILdapUser user)
         {
-            bool operationResult = _manageLdapUser.DeleteUser(user, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.DeleteUser(user);       
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Modify an LDAPUser Attribute
-        /// </summary>
-        /// <param name="operationType">Choose the operation to do, it's an enum</param>
-        /// <param name="user">The User to Modify the attribute</param>
-        /// <param name="attributeName">Name of the attribute</param>
-        /// <param name="attributeValue">Value of the attribute</param>
-        /// <returns></returns>
+
         public bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName,
             string attributeValue)
         {
-            bool operationResult = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName,
-                attributeValue, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.ModifyUserAttribute(operationType, user, attributeName, attributeValue);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Change the user Password
-        /// </summary>
-        /// <param name="user">LDAPUser to change the password</param>
-        /// <param name="newPwd"></param>
-        /// <returns></returns>
         public bool ChangeUserPassword(ILdapUser user, string newPwd)
         {
-            bool operationResult = _manageLdapUser.ChangeUserPassword(user, newPwd, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.ChangeUserPassword(user, newPwd);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Search Users in the LDAP system
-        /// </summary>
-        /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
-        /// <param name="searchedUsers">Credential for the search</param>
-        /// <param name="searchResult">LDAPUsers object returned in the search</param>
-        /// <returns>Boolean that comunicate the result of search</returns>
+
         public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
             out List<ILdapUser> searchResult)
         {
-            bool operationResult = _manageLdapUser.SearchUsers(_configRepository.GetSearchBaseDn(),
-                _configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(),
-                otherReturnedAttributes, searchedUsers, out searchResult, out _ldapCurrentState);
-            _logger.Write(_logger.BuildLogMessage(_manageLdapUser.GetLdapUserManipulationMessage(), _ldapCurrentState));
-            return operationResult;
+            _ldapCurrentState = _manageLdapUser.SearchUsers(otherReturnedAttributes, searchedUsers, out searchResult);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
         #endregion
 
-        /// <summary>
-        ///     Return the Error Message of an occurred LDAP Exception
-        /// </summary>
-        /// <returns>Message</returns>
         public string GetLdapMessage()
         {
             return _logger.BuildLogMessage("", _ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Instance the Ldap connection with admin config credential
-        /// </summary>
-        /// <returns>Success or Failed</returns>
         public bool Connect()
         {
             _ldapCurrentState = _connector.Connect();
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Connect to LDAP with the specified credential
-        /// </summary>
-        /// <param name="credential">user Credential</param>
-        /// <param name="secureSocketLayer">Flag that specify if we want to use SSL for connection.</param>
-        /// <param name="transportSocketLayer"></param>
-        /// <param name="clientCertificate"></param>
-        /// <returns>Success or Failed</returns>
         public bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
             bool clientCertificate)
         {
@@ -207,15 +154,7 @@ namespace LDAPLibrary
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        /// <summary>
-        ///     Search the user and try to connect to LDAP
-        /// </summary>
-        /// <param name="user">Username</param>
-        /// <param name="password">Password</param>
-        /// <returns>
-        ///     TRUE: connected
-        ///     FALSE: not connected
-        /// </returns>
+
         public bool SearchUserAndConnect(string user, string password)
         {
             List<ILdapUser> searchReturn;
