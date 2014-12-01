@@ -71,6 +71,7 @@
     <Compile Include="StaticClasses\LdapParameterChecker.cs" />
     <Compile Include="StaticClasses\LdapRequestBuilder.cs" />
     <Compile Include="StaticClasses\LdapStateUtils.cs" />
+    <Compile Include="StaticClasses\LdapUserUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />

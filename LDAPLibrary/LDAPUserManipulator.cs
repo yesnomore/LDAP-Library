@@ -9,8 +9,6 @@ namespace LDAPLibrary
 {
     public class LdapUserManipulator : ILdapConnectionObserver
     {
-        private const string DefaultUserSn = "Default Surname";
-        private const string DefaultUserCn = "Default CommonName";
         private readonly ILogger _logger;
         private readonly ILdapConfigRepository _configRepository;
         private LdapConnection _ldapConnection;
@@ -149,57 +147,11 @@ namespace LDAPLibrary
             {
                 otherReturnedAttributes = (new List<string> { "cn", "sn" }).Union((otherReturnedAttributes ?? new List<string>())).ToList();
                 //Foreach all the credential,for everyone do the search and add user results to the out parameter
-                foreach (string users in searchedUsers)
-                {
-                    //Perforing the search
-                    var searchReturn =
-                        (SearchResponse)
-                            _ldapConnection.SendRequest(LdapRequestBuilder.GetSearchUserRequest(_configRepository.GetSearchBaseDn(),
-                                LdapFilterBuilder.GetSearchFilter(_configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(), users),
-                                otherReturnedAttributes));
-
-                    //For all the searchReturn we create a new LDAPUser obj and add that to the return searchResult
-                    if (searchReturn != null)
-                        foreach (SearchResultEntry userReturn in searchReturn.Entries)
-                        {
-                            //Required attributes inizialization
-                            string tempUserDn = userReturn.DistinguishedName;
-                            string tempUserCn = DefaultUserCn;
-                            string tempUserSn = DefaultUserSn;
-                            var tempUserOtherAttributes = new Dictionary<string, List<string>>();
-
-                            //Cycle attributes
-                            if (userReturn.Attributes.Values != null)
-                                foreach (DirectoryAttribute userReturnAttribute in userReturn.Attributes.Values)
-                                {
-                                    //if is CN or SN, set right String else add attribute to dictionary
-                                    if (userReturnAttribute.Name.Equals("cn") || userReturnAttribute.Name.Equals("CN"))
-                                    {
-                                        object[] values = userReturnAttribute.GetValues(Type.GetType("System.String"));
-                                        tempUserCn = (string) values[0];
-                                    }
-                                    else if (userReturnAttribute.Name.Equals("sn") ||
-                                             userReturnAttribute.Name.Equals("SN"))
-                                    {
-                                        object[] values =
-                                            userReturnAttribute.GetValues(Type.GetType("System.String"));
-                                        tempUserSn = (string) values[0];
-                                    }
-                                    else
-                                    {
-                                        object[] values =
-                                            userReturnAttribute.GetValues(Type.GetType("System.String"));
-
-                                        var stringValues =
-                                            new List<string>(Array.ConvertAll(values, Convert.ToString));
-                                        tempUserOtherAttributes.Add(userReturnAttribute.Name, stringValues);
-                                    }
-                                }
-                            //Create new tempUser and add to the searchResult
-                            var tempUser = new LdapUser(tempUserDn, tempUserCn, tempUserSn, tempUserOtherAttributes);
-                            searchResult.Add(tempUser);
-                        }
-                }
+                searchResult = searchedUsers.Select(
+                    users => 
+                        (SearchResponse) _ldapConnection.SendRequest(
+                        LdapRequestBuilder.GetSearchUserRequest(_configRepository.GetSearchBaseDn(), LdapFilterBuilder.GetSearchFilter(_configRepository.GetUserObjectClass(), _configRepository.GetMatchFieldName(), users), otherReturnedAttributes)
+                        )).Aggregate(searchResult, (current, searchReturn) => current.Concat(LdapUserUtils.ConvertToLdapUsers(searchReturn)).ToList());
             }
             catch (Exception e)
             {
