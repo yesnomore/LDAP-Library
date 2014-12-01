@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 using System.Linq;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.StaticClasses;
@@ -127,6 +128,18 @@ namespace LDAPLibrary
             else
                 throw new ArgumentException(
                     string.Format("Impossibile rimuovere il valore dagli attributi dell'utente: {0}", attributeValue));
+        }
+
+        //Not tested because i don't know how to test an ACTION
+        public Action GetUserOperation(DirectoryAttributeOperation operationType, string attributeName, string attributeValue)
+        {
+            switch (operationType)
+            {
+                case DirectoryAttributeOperation.Add: return (() => InsertUserAttribute(attributeName, attributeValue));
+                case DirectoryAttributeOperation.Delete: return (() => DeleteUserAttribute(attributeName, attributeValue));
+                case DirectoryAttributeOperation.Replace: return (() => OverwriteUserAttribute(attributeName, attributeValue));
+                default: throw new Exception("LdapUser GetUserOperation Method: Not valid DirectoryAttributeOperation specified - " + operationType );
+            }
         }
 
         #endregion

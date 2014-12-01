@@ -88,18 +88,8 @@ namespace LDAPLibrary
                 return LdapState.LdapModifyUserAttributeError;
             }
 
-            switch (operationType)
-            {
-                case DirectoryAttributeOperation.Add:
-                    user.InsertUserAttribute(attributeName, attributeValue);
-                    break;
-                case DirectoryAttributeOperation.Delete:
-                    user.DeleteUserAttribute(attributeName, attributeValue);
-                    break;
-                case DirectoryAttributeOperation.Replace:
-                    user.OverwriteUserAttribute(attributeName, attributeValue);
-                    break;
-            }
+            user.GetUserOperation(operationType, attributeName, attributeValue)();
+
             _logger.Write(_logger.BuildLogMessage("Modify User Attribute Operation Success",
                 LdapState.LdapUserManipulatorSuccess));
             return LdapState.LdapUserManipulatorSuccess;
@@ -133,12 +123,9 @@ namespace LDAPLibrary
         /// <summary>
         ///     Search Users in the LDAP system
         /// </summary>
-        /// <param name="baseDn">Starting DN of the search</param>
-        /// <param name="matchFieldUsername"></param>
         /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
-        /// <param name="userObjectClass"></param>
         /// <returns>Boolean that comunicate the result of search</returns>
         public LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult)
         {

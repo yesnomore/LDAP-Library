@@ -139,7 +139,7 @@ namespace LDAP_Library_UnitTest
 
         #region Setter Tests
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void OverwriteUserAttributeList()
         {
             var testUserCopy = new LdapUser(LdapUserDn,
@@ -156,7 +156,7 @@ namespace LDAP_Library_UnitTest
             CollectionAssert.AreEqual(testUserCopy.GetUserAttribute("telephoneNumber"), telephoneNumbers);
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void OverwriteUserAttributeSingle()
         {
             var testUserCopy = new LdapUser(LdapUserDn,
@@ -173,7 +173,7 @@ namespace LDAP_Library_UnitTest
             CollectionAssert.AreEqual(testUserCopy.GetUserAttribute("telephoneNumber"),new List<string>{ telephoneNumbers});
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is not in che dictionary an exception is throw")]
         public void OverwriteUserAttributeListNotExist()
@@ -181,7 +181,7 @@ namespace LDAP_Library_UnitTest
             _testUser.OverwriteUserAttribute("NotExistAttribute", new List<string> {"test"});
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is not in che dictionary an exception is throw")]
         public void OverwriteUserAttributeSingleNotExist()
@@ -191,7 +191,7 @@ namespace LDAP_Library_UnitTest
 
 
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void CreateUserAttributeList()
         {
             var user = new LdapUser(LdapUserDn,
@@ -206,7 +206,7 @@ namespace LDAP_Library_UnitTest
 
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is in che dictionary an exception is throw")]
         public void CreateUserAttributeListExist()
@@ -214,7 +214,7 @@ namespace LDAP_Library_UnitTest
             _testUser.CreateUserAttribute("description",new List<string>{"test"});
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void CreateUserAttributeSingle()
         {
             var user = new LdapUser(LdapUserDn,
@@ -228,7 +228,7 @@ namespace LDAP_Library_UnitTest
             CollectionAssert.AreEqual(user.GetUserAttribute("newAttribute1"), new List<string> {newAttribute});
         }
         
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is in che dictionary an exception is throw")]
         public void CreateUserAttributeSingleExist()
@@ -236,7 +236,7 @@ namespace LDAP_Library_UnitTest
             _testUser.CreateUserAttribute("description", "test");
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void InsertUserAttribute()
         {
             var user = new LdapUser(LdapUserDn,
@@ -259,7 +259,7 @@ namespace LDAP_Library_UnitTest
         }
 
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is not in che dictionary an exception is throw")]
         public void InsertUserAttributeNotExist()
@@ -267,7 +267,7 @@ namespace LDAP_Library_UnitTest
             _testUser.InsertUserAttribute("NotExistAttribute", "test");
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         public void DeleteUserAttribute()
         {
             var user = new LdapUser(LdapUserDn,
@@ -288,7 +288,7 @@ namespace LDAP_Library_UnitTest
 
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the key requested is not in che dictionary an exception is throw")]
         public void DeleteUserAttributeNotExist()
@@ -296,7 +296,7 @@ namespace LDAP_Library_UnitTest
             _testUser.DeleteUserAttribute("NotExistAttribute", "test");
         }
 
-        [TestMethod, TestCategory("LDAPUser Setter")]
+        [TestMethod, TestCategory("LDAPUser Operations")]
         [ExpectedException(typeof(ArgumentException),
             "if the value requested is not in che dictionary an exception is throw")]
         public void DeleteUserAttributeValueNotExist()
@@ -305,5 +305,7 @@ namespace LDAP_Library_UnitTest
         }
 
         #endregion
+
+        
     }
 }

@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 
 namespace LDAPLibrary.Interfarces
 {
@@ -71,5 +73,15 @@ namespace LDAPLibrary.Interfarces
         /// <param name="attributeName"></param>
         /// <param name="attributeValue"></param>
         void DeleteUserAttribute(string attributeName, string attributeValue);
+
+        /// <summary>
+        /// Retun an Action method from the above depending on the value of the operation type.
+        /// If the operation type in different from: Add, Replace, Remove it throw an exception
+        /// </summary>
+        /// <param name="operationType"></param>
+        /// <param name="attributeName"></param>
+        /// <param name="attributeValue"></param>
+        /// <returns></returns>
+        Action GetUserOperation(DirectoryAttributeOperation operationType, string attributeName, string attributeValue);
     }
 }
