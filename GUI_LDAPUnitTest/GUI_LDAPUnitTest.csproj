@@ -144,13 +144,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <None Include="Users Configs\LDAPLibrary.config" />
-    <None Include="Users Configs\LDAPLibraryBicocca_noAdminPassword.config" />
-    <None Include="Users Configs\LDAPLibraryBocconi.config" />
-    <None Include="Users Configs\LDAPLibraryBologna.config" />
-    <None Include="Users Configs\LDAPLibraryEmpty.config" />
-    <None Include="Users Configs\LDAPLibraryFerrara.config" />
-    <None Include="Users Configs\LDAPLibraryLocal.config" />
-    <None Include="Users Configs\LDAPLibraryUdine.config" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">
@@ -174,9 +167,6 @@
       <Project>{a31e343a-c1da-40a1-9bfa-2200d892e83d}</Project>
       <Name>LDAPLibrary</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Users Configs\README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
