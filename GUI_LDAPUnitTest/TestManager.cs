@@ -40,7 +40,8 @@ namespace GUI_LDAPUnitTest
                 var testUserOtherAttribute = new Dictionary<string, List<string>>
                 {
                     //aggiungere inizializzare così il dizionario
-                    {"userPassword", new List<string> {"defaultTestUserPassword"}}
+                    {"userPassword", new List<string> {"defaultTestUserPassword"}},
+                    {"description", new List<string> {"test"}}
                 };
 
                 SetupTestUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
@@ -124,7 +125,7 @@ namespace GUI_LDAPUnitTest
                     Config.LDAPLibrary["LDAPAdminUserCN"],
                     Config.LDAPLibrary["LDAPAdminUserSN"],
                     null);
-                adminUser.OverwriteUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+                adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
                 var authType = (AuthType)Enum.Parse(typeof(AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
@@ -239,7 +240,7 @@ namespace GUI_LDAPUnitTest
             //Assert the correct operations
             if (!result &&
                 !_ldapManagerObj.GetLdapMessage()
-                    .Equals("LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success")
+                    .Contains("LDAP USER MANIPULATION SUCCESS: " + "Create User Operation Success")
                 )
                 return false;
 
@@ -267,7 +268,7 @@ namespace GUI_LDAPUnitTest
             if (
                 !result &&
                 !_ldapManagerObj.GetLdapMessage()
-                    .Equals("LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success"))
+                    .Contains("LDAP USER MANIPULATION SUCCESS: " + "Delete User Operation Success"))
                 return false;
             return true;
         }

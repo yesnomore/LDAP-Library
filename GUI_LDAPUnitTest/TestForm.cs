@@ -278,7 +278,7 @@ namespace GUI_LDAPUnitTest
                                                 Config.LDAPLibrary["LDAPAdminUserSN"],
                                                 null);
 
-                adminUser.OverwriteUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+                adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
 
                 _ldapManagerObj = new LdapManager(adminUser,
