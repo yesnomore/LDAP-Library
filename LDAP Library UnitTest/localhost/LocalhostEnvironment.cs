@@ -57,7 +57,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapUserObjectClass = "person";
         private const string LdapMatchFieldUsername = "cn";
         private const bool EnableLdapLibraryLog = true;
-        private const string LdapLibraryLogPath = @"C:\work\LDAPLibrary\Log\";
+        private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
         private const bool SecureSocketLayerFlag = false;
         private const bool TransportSocketLayerFlag = false;
         private const bool ClientCertificationFlag = false;
