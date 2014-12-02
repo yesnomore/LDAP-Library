@@ -12,7 +12,7 @@ namespace LDAP_Library_UnitTest
     {
 
         private const string Test = "Test Log Message";
-        private const string FilePath = @"C:\work\LDAPLibrary\Log";
+        private static readonly string FilePath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
         private readonly ILogger _logger = new FileLogger(FilePath);
 
         [TestMethod, TestCategory("Logger")]
