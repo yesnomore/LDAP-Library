@@ -35,12 +35,14 @@ namespace LDAPLibrary
             {
                 if (_modeChecker.IsCompleteMode())
                 {
-                    return Connect(
+                    var returnState = Connect(
                         new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
                             _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
                         _configRepository.GetSecureSocketLayerFlag(),
                         _configRepository.GetTransportSocketLayerFlag(),
                         _configRepository.GetClientCertificateFlag());
+                    _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
+                    return returnState;
                 }
                 _logger.Write(_logger.BuildLogMessage(AdminConnectionErrorMessageBasicMode,
                     LdapState.LdapConnectionError));
@@ -85,7 +87,6 @@ namespace LDAPLibrary
                 #endregion
 
                 _ldapConnection.Bind(credential);
-                _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
             }
             catch (Exception e)
             {
