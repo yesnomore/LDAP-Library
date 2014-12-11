@@ -14,43 +14,13 @@ namespace GUI_LDAPUnitTest
         private readonly Dictionary<Tests, TestMethod> _testList;
         private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
         private ILdapManager _ldapManagerObj;
-        private LdapUser _testUser;
-        private string _testUserNewDescription;
-        private string _testUserNewPassword;
+
         private string[] _usersToSearch;
 
         public TestManager(ILdapManager lm)
         {
             _ldapManagerObj = lm;
 
-            if (_testUser == null)
-            {
-                const string testUserCn = "defaultTestUserCN";
-                const string testUserSn = "defaultTestUserSN";
-                string testUserDn = "no User DN";
-                //Cut the DN of Admin User from his CN and add the default CN of testUser
-                if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
-                    testUserDn = (
-                        "cn=" + testUserCn +
-                        Config.LDAPLibrary["LDAPAdminUserDN"].Substring(
-                            Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(",", StringComparison.Ordinal))
-                        );
-
-                var testUserOtherAttribute = new Dictionary<string, List<string>>
-                {
-                    //aggiungere inizializzare così il dizionario
-                    {"userPassword", new List<string> {"defaultTestUserPassword"}},
-                    {"description", new List<string> {"test"}}
-                };
-
-                SetupTestUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
-            }
-
-            if (string.IsNullOrEmpty(_testUserNewPassword))
-                SetupTestUserNewPassword("defaultNewTestUserPassword");
-
-            if (string.IsNullOrEmpty(_testUserNewDescription))
-                SetupTestUserNewDescription("defaultNewTestUserDescription");
 
             if (_usersToSearch == null)
                 SetupUsersToSearch(new[] {"defaultNewTestUserCN"});
@@ -94,21 +64,8 @@ namespace GUI_LDAPUnitTest
             _usersToSearch = list;
         }
 
-        public void SetupTestUserNewPassword(string p)
-        {
-            _testUserNewPassword = p;
-        }
 
-        public void SetupTestUser(string testUserDn, string testUserCn, string testUserSn,
-            Dictionary<string, List<string>> testUserOtherAttribute)
-        {
-            _testUser = new LdapUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
-        }
 
-        public void SetupTestUserNewDescription(string p)
-        {
-            _testUserNewDescription = p;
-        }
 
         #endregion
 
