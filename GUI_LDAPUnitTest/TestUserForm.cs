@@ -16,7 +16,6 @@ namespace GUI_LDAPUnitTest
             _testManagerObj = testManagerObj;
 
             Init();
-
         }
 
 
@@ -35,15 +34,15 @@ namespace GUI_LDAPUnitTest
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string[] attributes = testUserOtherTextBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
+            string[] attributes = testUserOtherTextBox.Text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
             var testUserAttribute = new Dictionary<string, List<string>>();
             attributes = attributes.Where(s => !string.IsNullOrEmpty(s)).ToArray();
             try
             {
                 foreach (string attribute in attributes)
                 {
-                    string[] temp = attribute.Split(new[] { '=' });
-                    testUserAttribute.Add(temp[0], new List<string> { temp[1] });
+                    string[] temp = attribute.Split(new[] {'='});
+                    testUserAttribute.Add(temp[0], new List<string> {temp[1]});
                 }
 
                 _testManagerObj.SetupTestUser(
@@ -53,10 +52,11 @@ namespace GUI_LDAPUnitTest
             }
             catch
             {
-                MessageBox.Show(@"Error: Unable to setup the testUser. Check the inputs. Application will be restarted", @"Error Creation Test User", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(
+                    @"Error: Unable to setup the testUser. Check the inputs. Application will be restarted",
+                    @"Error Creation Test User", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 DialogResult = DialogResult.Cancel;
             }
-
         }
     }
 }

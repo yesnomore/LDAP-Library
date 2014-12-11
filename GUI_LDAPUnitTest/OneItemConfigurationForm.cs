@@ -1,62 +1,65 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace GUI_LDAPUnitTest
 {
-	public partial class OneItemConfigurationForm : Form
-	{
-		private oneItemConfigurationState oneItemConfigurationMode;
-		private TestManager testManager;
-		public OneItemConfigurationForm(oneItemConfigurationState oneItemConfigurationMode,TestManager tf)
-		{
-			InitializeComponent();
-			this.oneItemConfigurationMode = oneItemConfigurationMode;
-			testManager = tf;
-			switch (oneItemConfigurationMode)
-			{
-				case oneItemConfigurationState.newDescription:
-					oneItemConfigurationLabel.Text = "Set the New Description";
-					oneItemConfigurationTextBox.Text = tf.GetTestUserNewDescription();
-					break;
-				case oneItemConfigurationState.newPassword:
-					oneItemConfigurationLabel.Text = "Set the New Password";
-					oneItemConfigurationTextBox.Text = tf.GetTestUserNewPassword();
-					break;
-				case oneItemConfigurationState.userToSearch:
-					oneItemConfigurationLabel.Text = "Set the Users to search (separated by breaklines)";
-					oneItemConfigurationTextBox.Multiline = true;
-					oneItemConfigurationTextBox.Height = 60;
-					oneItemConfigurationTextBox.ScrollBars = ScrollBars.Both;
-					string users = null;
-					foreach (string user in tf.GetUserToSearch()) users += user + Environment.NewLine;
-					oneItemConfigurationTextBox.Text = users;
-					break;
-			}
-		}
+    public partial class OneItemConfigurationForm : Form
+    {
+        private readonly OneItemConfigurationState _oneItemConfigurationMode;
+        private readonly TestManager testManager;
 
-		private void oneItemConfigurationButton_Click(object sender, EventArgs e)
-		{
-			switch (oneItemConfigurationMode)
-			{
-				case oneItemConfigurationState.newDescription:
-					testManager.SetupTestUserNewDescription(oneItemConfigurationTextBox.Text);
-					break;
-				case oneItemConfigurationState.newPassword:
-					testManager.SetupTestUserNewPassword(oneItemConfigurationTextBox.Text);
-					break;
-				case oneItemConfigurationState.userToSearch:
-					string[] users = oneItemConfigurationTextBox.Text.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-					testManager.SetupUsersToSearch(users);
-					break;
-			}
-			Close();
-		}
-	}
+        public OneItemConfigurationForm(OneItemConfigurationState oneItemConfigurationMode, TestManager tf)
+        {
+            InitializeComponent();
+            _oneItemConfigurationMode = oneItemConfigurationMode;
+            testManager = tf;
+            switch (oneItemConfigurationMode)
+            {
+                case OneItemConfigurationState.NewDescription:
+                    oneItemConfigurationLabel.Text = "Set the New Description";
+                    oneItemConfigurationTextBox.Text = tf.GetTestUserNewDescription();
+                    break;
+                case OneItemConfigurationState.NewPassword:
+                    oneItemConfigurationLabel.Text = "Set the New Password";
+                    oneItemConfigurationTextBox.Text = tf.GetTestUserNewPassword();
+                    break;
+                case OneItemConfigurationState.UserToSearch:
+                    oneItemConfigurationLabel.Text = "Set the Users to search (separated by breaklines)";
+                    oneItemConfigurationTextBox.Multiline = true;
+                    oneItemConfigurationTextBox.Height = 60;
+                    oneItemConfigurationTextBox.ScrollBars = ScrollBars.Both;
+                    string users = tf.GetUserToSearch()
+                        .Aggregate<string, string>(null, (current, user) => current + (user + Environment.NewLine));
+                    oneItemConfigurationTextBox.Text = users;
+                    break;
+            }
+        }
 
-	public enum oneItemConfigurationState 
-	{
-		newPassword,
-		newDescription,
-		userToSearch
-	}
+        private void oneItemConfigurationButton_Click(object sender, EventArgs e)
+        {
+            switch (_oneItemConfigurationMode)
+            {
+                case OneItemConfigurationState.NewDescription:
+                    testManager.SetupTestUserNewDescription(oneItemConfigurationTextBox.Text);
+                    break;
+                case OneItemConfigurationState.NewPassword:
+                    testManager.SetupTestUserNewPassword(oneItemConfigurationTextBox.Text);
+                    break;
+                case OneItemConfigurationState.UserToSearch:
+                    string[] users = oneItemConfigurationTextBox.Text.Split(new[] {Environment.NewLine},
+                        StringSplitOptions.None);
+                    testManager.SetupUsersToSearch(users);
+                    break;
+            }
+            Close();
+        }
+    }
+
+    public enum OneItemConfigurationState
+    {
+        NewPassword,
+        NewDescription,
+        UserToSearch
+    }
 }

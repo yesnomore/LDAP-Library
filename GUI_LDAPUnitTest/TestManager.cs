@@ -11,14 +11,13 @@ namespace GUI_LDAPUnitTest
     public class TestManager
     {
         private readonly string[] _ldapMatchSearchField;
+        private readonly Dictionary<Tests, TestMethod> _testList;
+        private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
         private ILdapManager _ldapManagerObj;
         private LdapUser _testUser;
         private string _testUserNewDescription;
         private string _testUserNewPassword;
         private string[] _usersToSearch;
-        private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
-
-        private readonly Dictionary<Tests, TestMethod> _testList;
 
         public TestManager(ILdapManager lm)
         {
@@ -54,9 +53,9 @@ namespace GUI_LDAPUnitTest
                 SetupTestUserNewDescription("defaultNewTestUserDescription");
 
             if (_usersToSearch == null)
-                SetupUsersToSearch(new[] { "defaultNewTestUserCN" });
+                SetupUsersToSearch(new[] {"defaultNewTestUserCN"});
 
-            _ldapMatchSearchField = new[] { Config.LDAPLibrary["LDAPMatchFieldUsername"] };
+            _ldapMatchSearchField = new[] {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
 
             _testList = new Dictionary<Tests, TestMethod>
             {
@@ -127,7 +126,7 @@ namespace GUI_LDAPUnitTest
                     null);
                 adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(adminUser,
@@ -174,7 +173,7 @@ namespace GUI_LDAPUnitTest
         {
             try
             {
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
@@ -206,7 +205,7 @@ namespace GUI_LDAPUnitTest
         {
             try
             {
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
@@ -305,22 +304,22 @@ namespace GUI_LDAPUnitTest
             switch (_ldapMatchSearchField[0])
             {
                 case "cn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _testUser.GetUserCn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_testUser.GetUserCn()},
                         out returnUsers);
                     break;
                 case "sn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _testUser.GetUserSn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_testUser.GetUserSn()},
                         out returnUsers);
                     break;
                 case "dn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _testUser.GetUserDn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_testUser.GetUserDn()},
                         out returnUsers);
                     break;
                 default:
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
                         _testUser.GetUserAttribute(_ldapMatchSearchField[0]).ToArray(),
                         out returnUsers);
                     break;

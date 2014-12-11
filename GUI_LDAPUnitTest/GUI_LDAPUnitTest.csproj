@@ -95,6 +95,7 @@
     <Compile Include="TestManager.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="TestTriplet.cs" />
+    <Compile Include="TestTripletRepository.cs" />
     <Compile Include="TestUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
