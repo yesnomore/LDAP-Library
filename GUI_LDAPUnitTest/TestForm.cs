@@ -51,20 +51,6 @@ namespace GUI_LDAPUnitTest
         #region Menu Events
 
         /// <summary>
-        /// If The user want to set up another config the application restart.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void changeConfigFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var setUpForm = new SetUpForm())
-            {
-                setUpForm.ShowDialog();
-            }
-            ConfigurationManager.RefreshSection("LDAPLibrary");
-        }
-
-        /// <summary>
         /// Application exit.
         /// </summary>
         /// <param name="sender"></param>

@@ -459,13 +459,6 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // changeConfigFileToolStripMenuItem
-            // 
-            this.changeConfigFileToolStripMenuItem.Name = "changeConfigFileToolStripMenuItem";
-            this.changeConfigFileToolStripMenuItem.Size = new System.Drawing.Size(175, 22);
-            this.changeConfigFileToolStripMenuItem.Text = "Change Config File";
-            this.changeConfigFileToolStripMenuItem.Click += new System.EventHandler(this.changeConfigFileToolStripMenuItem_Click);
-            // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
