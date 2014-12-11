@@ -5,7 +5,7 @@ using LDAPLibrary.Interfarces;
 
 namespace GUI_LDAPUnitTest
 {
-    class TestUserRepository
+    public class TestUserRepository
     {
         public string TestUserNewDescription { get; set; }
         public string TestUserNewPassword { get; set; }
@@ -43,5 +43,29 @@ namespace GUI_LDAPUnitTest
             TestUser = new LdapUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
         }
 
+        public string GetTestUserCn()
+        {
+            return TestUser.GetUserCn();
+        }
+
+        public string GetTestUserDn()
+        {
+            return TestUser.GetUserDn();
+        }
+
+        public string GetTestUserSn()
+        {
+            return TestUser.GetUserSn();
+        }
+
+        public List<string> GetTestUserOtherAttributes(string attributeKey)
+        {
+            return TestUser.GetUserAttribute(attributeKey);
+        }
+
+        public string[] GetTestUserOtherAttributesKeys()
+        {
+            return TestUser.GetUserAttributeKeys();
+        }
     }
 }

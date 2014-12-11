@@ -7,22 +7,22 @@ namespace GUI_LDAPUnitTest
     public partial class OneItemConfigurationForm : Form
     {
         private readonly OneItemConfigurationState _oneItemConfigurationMode;
-        private readonly TestManager testManager;
+        private readonly TestUserRepository _userRepository;
 
-        public OneItemConfigurationForm(OneItemConfigurationState oneItemConfigurationMode, TestManager tf)
+        public OneItemConfigurationForm(OneItemConfigurationState oneItemConfigurationMode, TestUserRepository userRepository)
         {
             InitializeComponent();
             _oneItemConfigurationMode = oneItemConfigurationMode;
-            testManager = tf;
+            _userRepository = userRepository;
             switch (oneItemConfigurationMode)
             {
                 case OneItemConfigurationState.NewDescription:
                     oneItemConfigurationLabel.Text = "Set the New Description";
-                    oneItemConfigurationTextBox.Text = tf.GetTestUserNewDescription();
+                    oneItemConfigurationTextBox.Text = _userRepository.TestUserNewDescription;
                     break;
                 case OneItemConfigurationState.NewPassword:
                     oneItemConfigurationLabel.Text = "Set the New Password";
-                    oneItemConfigurationTextBox.Text = tf.GetTestUserNewPassword();
+                    oneItemConfigurationTextBox.Text = _userRepository.TestUserNewPassword;
                     break;
                 case OneItemConfigurationState.UserToSearch:
                     oneItemConfigurationLabel.Text = "Set the Users to search (separated by breaklines)";
@@ -41,15 +41,15 @@ namespace GUI_LDAPUnitTest
             switch (_oneItemConfigurationMode)
             {
                 case OneItemConfigurationState.NewDescription:
-                    testManager.SetupTestUserNewDescription(oneItemConfigurationTextBox.Text);
+                    _userRepository.TestUserNewDescription = oneItemConfigurationTextBox.Text;
                     break;
                 case OneItemConfigurationState.NewPassword:
-                    testManager.SetupTestUserNewPassword(oneItemConfigurationTextBox.Text);
+                    _userRepository.TestUserNewPassword = oneItemConfigurationTextBox.Text;
                     break;
                 case OneItemConfigurationState.UserToSearch:
                     string[] users = oneItemConfigurationTextBox.Text.Split(new[] {Environment.NewLine},
                         StringSplitOptions.None);
-                    testManager.SetupUsersToSearch(users);
+                    _userRepository.SetupUsersToSearch(users);
                     break;
             }
             Close();

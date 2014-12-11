@@ -102,6 +102,7 @@
     <Compile Include="TestUserForm.Designer.cs">
       <DependentUpon>TestUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestUserRepository.cs" />
     <EmbeddedResource Include="OneItemConfigurationForm.resx">
       <DependentUpon>OneItemConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
