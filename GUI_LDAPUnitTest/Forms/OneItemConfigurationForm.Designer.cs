@@ -1,4 +1,4 @@
-﻿namespace GUI_LDAPUnitTest
+﻿namespace GUI_LDAPUnitTest.Forms
 {
 	partial class OneItemConfigurationForm
 	{

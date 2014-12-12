@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Forms
 {
     public partial class TestUserForm : Form
     {

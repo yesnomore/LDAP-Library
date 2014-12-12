@@ -14,7 +14,6 @@ namespace GUI_LDAPUnitTest
         private readonly Dictionary<Tests, TestMethod> _testList;
         private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
         private ILdapManager _ldapManagerObj;
-        public TestUserRepository UserRepository { get; private set; }
 
 
         public TestManager(ILdapManager lm)
@@ -235,7 +234,8 @@ namespace GUI_LDAPUnitTest
             {
                 oldDescription = "";
             }
-            bool result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, UserRepository.TestUser,
+            bool result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace,
+                UserRepository.TestUser,
                 "description", UserRepository.TestUserNewDescription);
 
             if (!result)
@@ -496,7 +496,8 @@ namespace GUI_LDAPUnitTest
                             UserRepository.TestUser.GetUserAttribute("userPassword")[0]);
                 default:
                     return
-                        _ldapManagerObj.SearchUserAndConnect(UserRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
+                        _ldapManagerObj.SearchUserAndConnect(
+                            UserRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
                             UserRepository.TestUser.GetUserAttribute("userPassword")[0]);
             }
         }
@@ -504,6 +505,8 @@ namespace GUI_LDAPUnitTest
         #endregion
 
         #endregion
+
+        public TestUserRepository UserRepository { get; private set; }
 
         public bool RunTest(Tests testType)
         {

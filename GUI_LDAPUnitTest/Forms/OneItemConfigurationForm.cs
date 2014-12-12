@@ -2,14 +2,15 @@
 using System.Linq;
 using System.Windows.Forms;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Forms
 {
     public partial class OneItemConfigurationForm : Form
     {
         private readonly OneItemConfigurationState _oneItemConfigurationMode;
         private readonly TestUserRepository _userRepository;
 
-        public OneItemConfigurationForm(OneItemConfigurationState oneItemConfigurationMode, TestUserRepository userRepository)
+        public OneItemConfigurationForm(OneItemConfigurationState oneItemConfigurationMode,
+            TestUserRepository userRepository)
         {
             InitializeComponent();
             _oneItemConfigurationMode = oneItemConfigurationMode;

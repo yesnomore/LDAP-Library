@@ -5,13 +5,13 @@ using System.Windows.Forms;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Forms
 {
     public partial class TestForm : Form
     {
+        private readonly TestManager _testManagerObj;
         private readonly TestTripletRepository _testTripletRepository;
         private ILdapManager _ldapManagerObj;
-        private TestManager _testManagerObj;
 
         public TestForm()
         {
@@ -65,7 +65,8 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupModifyUserDescriptionForm =
-                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription, _testManagerObj.UserRepository))
+                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription,
+                        _testManagerObj.UserRepository))
             {
                 setupModifyUserDescriptionForm.ShowDialog();
             }
