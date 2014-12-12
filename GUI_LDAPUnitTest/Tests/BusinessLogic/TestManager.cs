@@ -6,12 +6,12 @@ using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
     public class TestManager
     {
         private readonly string[] _ldapMatchSearchField;
-        private readonly Dictionary<Tests, TestMethod> _testList;
+        private readonly Dictionary<TestType, TestMethod> _testList;
         private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
         private ILdapManager _ldapManagerObj;
 
@@ -24,19 +24,19 @@ namespace GUI_LDAPUnitTest
 
             _ldapMatchSearchField = new[] {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
 
-            _testList = new Dictionary<Tests, TestMethod>
+            _testList = new Dictionary<TestType, TestMethod>
             {
-                {Tests.TestAdminConnection, TestAdminConnect},
-                {Tests.TestCreateUser, TestCreateUser},
-                {Tests.TestDeleteUser, TestDeleteUser},
-                {Tests.TestInitLibrary, TestCompleteInitLibrary},
-                {Tests.TestInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {Tests.TestModifyUserDescription, TestModifyUserAttribute},
-                {Tests.TestSearchUsers, TestSearchUser},
-                {Tests.TestStandardInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {Tests.TestUserChangePassword, TestChangeUserPassword},
+                {TestType.TestAdminConnection, TestAdminConnect},
+                {TestType.TestCreateUser, TestCreateUser},
+                {TestType.TestDeleteUser, TestDeleteUser},
+                {TestType.TestInitLibrary, TestCompleteInitLibrary},
+                {TestType.TestInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
+                {TestType.TestModifyUserDescription, TestModifyUserAttribute},
+                {TestType.TestSearchUsers, TestSearchUser},
+                {TestType.TestStandardInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
+                {TestType.TestUserChangePassword, TestChangeUserPassword},
                 {
-                    Tests.TestConnectUser, () =>
+                    TestType.TestConnectUser, () =>
                     {
                         var testMethod = new TestMethod(TestUserConnectWithoutWritePermissions);
                         if (_writePermission) testMethod = TestUserConnect;
@@ -44,7 +44,7 @@ namespace GUI_LDAPUnitTest
                     }
                 },
                 {
-                    Tests.TestSearchUserAndConnect, () =>
+                    TestType.TestSearchUserAndConnect, () =>
                     {
                         var testMethod = new TestMethod(TestSearchUserAndConnectWithoutWritePermissions);
                         if (_writePermission) testMethod = TestSearchUserAndConnect;
@@ -54,9 +54,9 @@ namespace GUI_LDAPUnitTest
             };
         }
 
-        #region Unit Tests
+        #region Unit TestType
 
-        #region LDAP Library Tests - Base
+        #region LDAP Library TestType - Base
 
         private bool TestCompleteInitLibrary()
         {
@@ -168,7 +168,7 @@ namespace GUI_LDAPUnitTest
 
         #endregion
 
-        #region LDAP Library Tests - Write Permission Required
+        #region LDAP Library TestType - Write Permission Required
 
         private bool TestCreateUser()
         {
@@ -439,7 +439,7 @@ namespace GUI_LDAPUnitTest
 
         #endregion
 
-        #region LDAP Library Tests - Only Read Permission Required
+        #region LDAP Library TestType - Only Read Permission Required
 
         private bool TestSearchUser()
         {
@@ -508,9 +508,9 @@ namespace GUI_LDAPUnitTest
 
         public TestUserRepository UserRepository { get; private set; }
 
-        public bool RunTest(Tests testType)
+        public bool RunTest(TestType testTypeType)
         {
-            return _testList[testType]();
+            return _testList[testTypeType]();
         }
 
         private delegate bool TestMethod();

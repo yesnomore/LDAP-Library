@@ -99,11 +99,11 @@
     </Compile>
     <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestManager.cs" />
-    <Compile Include="Tests.cs" />
-    <Compile Include="TestTriplet.cs" />
-    <Compile Include="TestTripletRepository.cs" />
-    <Compile Include="TestUserRepository.cs" />
+    <Compile Include="Tests\BusinessLogic\TestManager.cs" />
+    <Compile Include="Tests\BusinessLogic\TestType.cs" />
+    <Compile Include="Tests\BusinessLogic\TestUserRepository.cs" />
+    <Compile Include="Tests\GUIStructures\TestTriplet.cs" />
+    <Compile Include="Tests\GUIStructures\TestTripletRepository.cs" />
     <EmbeddedResource Include="Forms\OneItemConfigurationForm.resx">
       <DependentUpon>OneItemConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>

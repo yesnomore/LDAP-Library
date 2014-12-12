@@ -1,14 +1,15 @@
 ﻿using System.Windows.Forms;
 
-namespace GUI_LDAPUnitTest
+
+namespace GUI_LDAPUnitTest.Tests.GUIStructures
 {
     public struct TestTriplet
     {
         private CheckBox _c;
         private Label _l;
-        private Tests _t;
+        private BusinessLogic.TestType _t;
 
-        public TestTriplet(CheckBox c, Tests t, Label l)
+        public TestTriplet(CheckBox c, BusinessLogic.TestType t, Label l)
         {
             _c = c;
             _t = t;
@@ -21,7 +22,7 @@ namespace GUI_LDAPUnitTest
             set { _c = value; }
         }
 
-        public Tests TestType
+        public BusinessLogic.TestType TestType
         {
             get { return _t; }
             set { _t = value; }

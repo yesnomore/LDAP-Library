@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
     public class TestUserRepository
     {
@@ -11,13 +11,14 @@ namespace GUI_LDAPUnitTest
 
         public TestUserRepository()
         {
-            var testUserDn =string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"])? "no User DN" : 
-                (
+            var testUserDn = string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"])
+                ? "no User DN"
+                : (
                     "cn=" + Constants.TestUserDefaultCn +
                     Config.LDAPLibrary["LDAPAdminUserDN"].Substring(
                         Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(",", StringComparison.Ordinal))
                     );
-            
+
             var testUserOtherAttribute = new Dictionary<string, List<string>>
             {
                 //aggiungere inizializzare così il dizionario

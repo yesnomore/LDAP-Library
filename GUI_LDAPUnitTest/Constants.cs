@@ -1,6 +1,8 @@
-﻿namespace GUI_LDAPUnitTest
+﻿using System.Drawing;
+
+namespace GUI_LDAPUnitTest
 {
-    static class Constants
+    internal static class Constants
     {
         public const string TestUserDefaultCn = "defaultTestUserCN";
         public const string TestUserDefaultSn = "defaultTestUserSN";
@@ -15,5 +17,8 @@
         public const string TestLablePassed = @"Passed";
         public const string TestLableFailed = @"Failed";
         public const string TestLableSkipped = @"Skipped";
+
+        public static Color TestPassedColorLable = Color.Green;
+        public static Color TestFailedColorLable = Color.Red;
     }
 }

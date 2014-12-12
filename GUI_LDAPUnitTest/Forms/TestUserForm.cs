@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using GUI_LDAPUnitTest.Tests.BusinessLogic;
 
 namespace GUI_LDAPUnitTest.Forms
 {

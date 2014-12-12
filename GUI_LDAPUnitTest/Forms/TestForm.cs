@@ -2,6 +2,8 @@
 using System.DirectoryServices.Protocols;
 using System.Drawing;
 using System.Windows.Forms;
+using GUI_LDAPUnitTest.Tests.BusinessLogic;
+using GUI_LDAPUnitTest.Tests.GUIStructures;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
@@ -203,7 +205,7 @@ namespace GUI_LDAPUnitTest.Forms
             testsProgressBar.Value = 0;
             _testTripletRepository.SetAllStateLabelText(Constants.TestLableInProgress);
 
-            int progressBarIncrement = 100/Enum.GetNames(typeof (Tests)).Length;
+            int progressBarIncrement = 100/Enum.GetNames(typeof (TestType)).Length;
             try
             {
                 foreach (TestTriplet t in _testTripletRepository.TestTripletList)
@@ -214,12 +216,12 @@ namespace GUI_LDAPUnitTest.Forms
                         if (_testManagerObj.RunTest(t.TestType))
                         {
                             t.TestLabel.Text = Constants.TestLablePassed;
-                            t.TestLabel.ForeColor = Color.Green;
+                            t.TestLabel.ForeColor = Constants.TestPassedColorLable;
                         }
                         else
                         {
                             t.TestLabel.Text = Constants.TestLableFailed;
-                            t.TestLabel.ForeColor = Color.Red;
+                            t.TestLabel.ForeColor = Constants.TestFailedColorLable;
                         }
                     }
                     else
@@ -281,47 +283,47 @@ namespace GUI_LDAPUnitTest.Forms
         private void AddTestTripletsToRepository()
         {
             _testTripletRepository.AddTestTriplet(new TestTriplet(testStandardInitLibraryNoAdminCheckBox,
-                Tests.TestStandardInitLibraryNoAdmin,
+                TestType.TestStandardInitLibraryNoAdmin,
                 stateStandardInitLibraryNoAdminLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testInitLibraryNoAdminCheckBox,
-                Tests.TestInitLibraryNoAdmin,
+                TestType.TestInitLibraryNoAdmin,
                 stateInitLibraryNoAdminLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testInitLibraryCheckBox,
-                Tests.TestInitLibrary,
+                TestType.TestInitLibrary,
                 stateInitLibraryLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testAdminConnectCheckBox,
-                Tests.TestAdminConnection,
+                TestType.TestAdminConnection,
                 stateAdminConnectLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testConnectUserCheckBox,
-                Tests.TestConnectUser,
+                TestType.TestConnectUser,
                 stateConnectUserLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchUserAndConnectCheckBox,
-                Tests.TestSearchUserAndConnect,
+                TestType.TestSearchUserAndConnect,
                 stateSearchUserAndConnectLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchUsersCheckBox,
-                Tests.TestSearchUsers,
+                TestType.TestSearchUsers,
                 stateSearchUsersLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testCreateUserCheckBox,
-                Tests.TestCreateUser,
+                TestType.TestCreateUser,
                 stateCreateUserLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testModifyUserDescriptionCheckBox,
-                Tests.TestModifyUserDescription,
+                TestType.TestModifyUserDescription,
                 stateModifyUserDescriptionLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testUserChangePasswordCheckBox,
-                Tests.TestUserChangePassword,
+                TestType.TestUserChangePassword,
                 stateUserChangePasswordLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testDeleteUserCheckBox,
-                Tests.TestDeleteUser,
+                TestType.TestDeleteUser,
                 stateDeleteUserLabel));
         }
 
