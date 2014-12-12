@@ -11,7 +11,6 @@ namespace GUI_LDAPUnitTest.Forms
     {
         private readonly TestManager _testManagerObj;
         private readonly TestTripletRepository _testTripletRepository;
-        private ILdapManager _ldapManagerObj;
 
         public TestForm()
         {
@@ -19,17 +18,14 @@ namespace GUI_LDAPUnitTest.Forms
             try
             {
                 _testTripletRepository = new TestTripletRepository();
+
                 AddTestTripletsToRepository();
 
-                //SetUp the LDAPLibrary & testManager
-                SetUpLdapLibrary();
-
-                _testManagerObj = new TestManager(_ldapManagerObj);
+                _testManagerObj = new TestManager(SetUpLdapLibrary());
 
                 currentUserLabel.Text = _testManagerObj.UserRepository.GetTestUserCn();
 
-
-                _testTripletRepository.SetAllStateLabelText("Undefined");
+                _testTripletRepository.SetAllStateLabelText(Constants.TestLableUndefined);
             }
             catch (Exception ex)
             {
@@ -205,7 +201,7 @@ namespace GUI_LDAPUnitTest.Forms
         {
             Cursor.Current = Cursors.WaitCursor;
             testsProgressBar.Value = 0;
-            _testTripletRepository.SetAllStateLabelText("In Progress");
+            _testTripletRepository.SetAllStateLabelText(Constants.TestLableInProgress);
 
             int progressBarIncrement = 100/Enum.GetNames(typeof (Tests)).Length;
             try
@@ -214,21 +210,21 @@ namespace GUI_LDAPUnitTest.Forms
                 {
                     if (t.TestCheckbox.Checked)
                     {
-                        t.TestLabel.Text = @"Started";
+                        t.TestLabel.Text = Constants.TestLableStarted;
                         if (_testManagerObj.RunTest(t.TestType))
                         {
-                            t.TestLabel.Text = @"Passed";
+                            t.TestLabel.Text = Constants.TestLablePassed;
                             t.TestLabel.ForeColor = Color.Green;
                         }
                         else
                         {
-                            t.TestLabel.Text = @"Failed";
+                            t.TestLabel.Text = Constants.TestLableFailed;
                             t.TestLabel.ForeColor = Color.Red;
                         }
                     }
                     else
                     {
-                        t.TestLabel.Text = @"Skipped";
+                        t.TestLabel.Text = Constants.TestLableSkipped;
                     }
                     testsProgressBar.Value += progressBarIncrement;
                 }
@@ -251,7 +247,7 @@ namespace GUI_LDAPUnitTest.Forms
         /// <summary>
         ///     Set up the LDAPLibrary with minimal configuration.
         /// </summary>
-        private void SetUpLdapLibrary()
+        private ILdapManager SetUpLdapLibrary()
         {
             var authType = (AuthType) Enum.Parse(typeof (AuthType),
                 Config.LDAPLibrary["LDAPAuthType"]);
@@ -266,18 +262,17 @@ namespace GUI_LDAPUnitTest.Forms
                 adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
 
-                _ldapManagerObj = new LdapManager(adminUser,
+                return new LdapManager(adminUser,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
                     authType
                     );
             }
-            else
-                _ldapManagerObj = new LdapManager(null,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
-                    );
+            return new LdapManager(null,
+                Config.LDAPLibrary["LDAPServer"],
+                Config.LDAPLibrary["LDAPSearchBaseDN"],
+                authType
+                );
         }
 
         /// <summary>
