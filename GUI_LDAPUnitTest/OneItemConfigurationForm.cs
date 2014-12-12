@@ -29,7 +29,7 @@ namespace GUI_LDAPUnitTest
                     oneItemConfigurationTextBox.Multiline = true;
                     oneItemConfigurationTextBox.Height = 60;
                     oneItemConfigurationTextBox.ScrollBars = ScrollBars.Both;
-                    string users = tf.GetUserToSearch()
+                    string users = _userRepository.GetUserToSearch()
                         .Aggregate<string, string>(null, (current, user) => current + (user + Environment.NewLine));
                     oneItemConfigurationTextBox.Text = users;
                     break;

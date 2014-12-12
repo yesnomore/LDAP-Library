@@ -7,13 +7,13 @@ namespace GUI_LDAPUnitTest
 {
     public partial class TestUserForm : Form
     {
-        private readonly TestManager _testManagerObj;
+        private readonly TestUserRepository _testUserRepository;
 
-        public TestUserForm(ref TestManager testManagerObj)
+        public TestUserForm(TestUserRepository testUserRepository)
         {
             InitializeComponent();
 
-            _testManagerObj = testManagerObj;
+            _testUserRepository = testUserRepository;
 
             Init();
         }
@@ -21,13 +21,13 @@ namespace GUI_LDAPUnitTest
 
         private void Init()
         {
-            testUserCNTextBox.Text = _testManagerObj.GetTestUserCn();
-            testUserDNTextBox.Text = _testManagerObj.GetTestUserDn();
-            testUserSNTextBox.Text = _testManagerObj.GetTestUserSn();
+            testUserCNTextBox.Text = _testUserRepository.GetTestUserCn();
+            testUserDNTextBox.Text = _testUserRepository.GetTestUserDn();
+            testUserSNTextBox.Text = _testUserRepository.GetTestUserSn();
 
-            foreach (string key in _testManagerObj.GetTestUserOtherAttributesKeys())
+            foreach (string key in _testUserRepository.GetTestUserOtherAttributesKeys())
             {
-                foreach (string value in _testManagerObj.GetTestUserOtherAttributes(key))
+                foreach (string value in _testUserRepository.GetTestUserOtherAttributes(key))
                     testUserOtherTextBox.Text += key + @"=" + value + Environment.NewLine;
             }
         }
@@ -45,7 +45,7 @@ namespace GUI_LDAPUnitTest
                     testUserAttribute.Add(temp[0], new List<string> {temp[1]});
                 }
 
-                _testManagerObj.SetupTestUser(
+                _testUserRepository.SetupTestUser(
                     testUserDNTextBox.Text, testUserCNTextBox.Text, testUserSNTextBox.Text, testUserAttribute);
                 DialogResult = DialogResult.OK;
                 Close();

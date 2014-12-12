@@ -26,7 +26,7 @@ namespace GUI_LDAPUnitTest
 
                 _testManagerObj = new TestManager(_ldapManagerObj);
 
-                currentUserLabel.Text = _testManagerObj.GetTestUserCn();
+                currentUserLabel.Text = _testManagerObj.UserRepository.GetTestUserCn();
 
 
                 _testTripletRepository.SetAllStateLabelText("Undefined");
@@ -65,7 +65,7 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupModifyUserDescriptionForm =
-                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription, _testManagerObj))
+                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription, _testManagerObj.UserRepository))
             {
                 setupModifyUserDescriptionForm.ShowDialog();
             }
@@ -75,7 +75,7 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupSearchUserForm = new OneItemConfigurationForm(OneItemConfigurationState.UserToSearch,
-                    _testManagerObj))
+                    _testManagerObj.UserRepository))
             {
                 setupSearchUserForm.ShowDialog();
             }
@@ -85,7 +85,7 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupNewPasswordForm = new OneItemConfigurationForm(OneItemConfigurationState.NewPassword,
-                    _testManagerObj))
+                    _testManagerObj.UserRepository))
             {
                 setupNewPasswordForm.ShowDialog();
             }
@@ -98,11 +98,11 @@ namespace GUI_LDAPUnitTest
         /// <param name="e"></param>
         private void setUserButton_Click(object sender, EventArgs e)
         {
-            using (var testUserForm = new TestUserForm(ref _testManagerObj))
+            using (var testUserForm = new TestUserForm(_testManagerObj.UserRepository))
             {
                 testUserForm.ShowDialog();
             }
-            currentUserLabel.Text = _testManagerObj.GetTestUserCn();
+            currentUserLabel.Text = _testManagerObj.UserRepository.GetTestUserCn();
         }
 
         #endregion

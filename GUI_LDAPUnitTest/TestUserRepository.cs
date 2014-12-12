@@ -11,6 +11,8 @@ namespace GUI_LDAPUnitTest
         public string TestUserNewPassword { get; set; }
         public ILdapUser TestUser { get; private set; }
 
+        private string[] _usersToSearch;
+
         const string TestUserDefaultCn = "defaultTestUserCN";
         const string TestUserDefaultSn = "defaultTestUserSN";
 
@@ -35,6 +37,7 @@ namespace GUI_LDAPUnitTest
                 SetupTestUser(testUserDn, TestUserDefaultCn, TestUserDefaultSn, testUserOtherAttribute);
             TestUserNewPassword = "defaultNewTestUserPassword";
             TestUserNewDescription = "defaultNewTestUserDescription";
+            SetupUsersToSearch(new[] { "defaultNewTestUserCN" });
         }
 
         public void SetupTestUser(string testUserDn, string testUserCn, string testUserSn,
@@ -66,6 +69,16 @@ namespace GUI_LDAPUnitTest
         public string[] GetTestUserOtherAttributesKeys()
         {
             return TestUser.GetUserAttributeKeys();
+        }
+
+        public void SetupUsersToSearch(string[] list)
+        {
+            _usersToSearch = list;
+        }
+
+        public string[] GetUserToSearch()
+        {
+            return _usersToSearch;
         }
     }
 }
