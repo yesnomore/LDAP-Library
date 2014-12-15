@@ -99,7 +99,9 @@
     </Compile>
     <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Tests\BusinessLogic\TestManager.cs" />
+    <Compile Include="Tests\BusinessLogic\TestImplementation.cs" />
+    <Compile Include="Tests\BusinessLogic\TestRepository.cs" />
+    <Compile Include="Tests\BusinessLogic\TestRunner.cs" />
     <Compile Include="Tests\BusinessLogic\TestType.cs" />
     <Compile Include="Tests\BusinessLogic\TestUserRepository.cs" />
     <Compile Include="Tests\GUIStructures\TestTriplet.cs" />

@@ -1,51 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-
 using LDAPLibrary.Interfarces;
 
 namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
-    class TestRepository
+    internal class TestRepository
     {
-        private readonly bool WritePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
-        private delegate bool TestMethod();
-        private  TestImplementation testImplementation;
+        private readonly TestImplementation _testImplementation;
+        private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
 
-        public TestRepository(ILdapManager ldapManagerObj,TestUserRepository testUserRepository)
+        public TestRepository(ILdapManager ldapManagerObj, TestUserRepository testUserRepository)
         {
-            testImplementation = new TestImplementation(testUserRepository, ldapManagerObj);
+            _testImplementation = new TestImplementation(testUserRepository, ldapManagerObj);
 
-            _testList = new Dictionary<TestType, TestMethod>
+            TestList = new Dictionary<TestType, TestMethod>
             {
-                {TestType.TestAdminConnection, () => TestImplementation.TestAdminConnect()},
-                {TestType.TestCreateUser, TestCreateUser},
-                {TestType.TestDeleteUser, TestDeleteUser},
-                {TestType.TestInitLibrary, TestCompleteInitLibrary},
-                {TestType.TestInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {TestType.TestModifyUserDescription, TestModifyUserAttribute},
-                {TestType.TestSearchUsers, TestSearchUser},
-                {TestType.TestStandardInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {TestType.TestUserChangePassword, TestChangeUserPassword},
+                {TestType.TestAdminConnection, _testImplementation.TestAdminConnect},
+                {TestType.TestCreateUser, _testImplementation.TestCreateUser},
+                {TestType.TestDeleteUser, _testImplementation.TestDeleteUser},
+                {TestType.TestInitLibrary, _testImplementation.TestCompleteInitLibrary},
+                {TestType.TestInitLibraryNoAdmin, _testImplementation.TestStardardInitLibraryNoAdmin},
+                {TestType.TestModifyUserDescription, _testImplementation.TestModifyUserAttribute},
+                {TestType.TestSearchUsers, _testImplementation.TestSearchUser},
+                {TestType.TestStandardInitLibraryNoAdmin, _testImplementation.TestStardardInitLibraryNoAdmin},
+                {TestType.TestUserChangePassword, _testImplementation.TestChangeUserPassword},
                 {
                     TestType.TestConnectUser, () =>
                     {
-                        var testMethod = new TestMethod(TestUserConnectWithoutWritePermissions);
-                        if (WritePermission) testMethod = TestUserConnect;
+                        var testMethod = new TestMethod(_testImplementation.TestUserConnectWithoutWritePermissions);
+                        if (_writePermission) testMethod = _testImplementation.TestUserConnect;
                         return testMethod();
                     }
                 },
                 {
                     TestType.TestSearchUserAndConnect, () =>
                     {
-                        var testMethod = new TestMethod(TestSearchUserAndConnectWithoutWritePermissions);
-                        if (WritePermission) testMethod = TestSearchUserAndConnect;
+                        var testMethod =
+                            new TestMethod(_testImplementation.TestSearchUserAndConnectWithoutWritePermissions);
+                        if (_writePermission) testMethod = _testImplementation.TestSearchUserAndConnect;
                         return testMethod();
                     }
                 }
             };
         }
 
-        private Dictionary<TestType, TestMethod> _testList;
+        public Dictionary<TestType, TestMethod> TestList { get; set; }
+
+        internal delegate bool TestMethod();
     }
 }

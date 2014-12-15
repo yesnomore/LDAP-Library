@@ -7,11 +7,11 @@ using LDAPLibrary.Interfarces;
 
 namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
-    class TestImplementation
+    internal class TestImplementation
     {
-        private ILdapManager _ldapManagerObj;
-        private readonly TestUserRepository _userRepository;
         private readonly string[] _ldapMatchSearchField = {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
+        private readonly TestUserRepository _userRepository;
+        private ILdapManager _ldapManagerObj;
 
         public TestImplementation(TestUserRepository userRepository, ILdapManager ldapManagerObj)
         {
@@ -33,7 +33,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     null);
                 adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
 
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(adminUser,
@@ -80,7 +80,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         {
             try
             {
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
@@ -111,7 +111,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         {
             try
             {
-                var authType = (AuthType)Enum.Parse(typeof(AuthType),
+                var authType = (AuthType) Enum.Parse(typeof (AuthType),
                     Config.LDAPLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
@@ -211,22 +211,22 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
             switch (_ldapMatchSearchField[0])
             {
                 case "cn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _userRepository.TestUser.GetUserCn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_userRepository.TestUser.GetUserCn()},
                         out returnUsers);
                     break;
                 case "sn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _userRepository.TestUser.GetUserSn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_userRepository.TestUser.GetUserSn()},
                         out returnUsers);
                     break;
                 case "dn":
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
-                        new[] { _userRepository.TestUser.GetUserDn() },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
+                        new[] {_userRepository.TestUser.GetUserDn()},
                         out returnUsers);
                     break;
                 default:
-                    result = _ldapManagerObj.SearchUsers(new List<string> { "description" },
+                    result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
                         _userRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0]).ToArray(),
                         out returnUsers);
                     break;
@@ -242,7 +242,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 return false;
             }
             _ldapManagerObj.DeleteUser(_userRepository.TestUser);
-            _userRepository.TestUser.OverwriteUserAttribute("description", returnUsers[0].GetUserAttribute("description"));
+            _userRepository.TestUser.OverwriteUserAttribute("description",
+                returnUsers[0].GetUserAttribute("description"));
             return false;
         }
 

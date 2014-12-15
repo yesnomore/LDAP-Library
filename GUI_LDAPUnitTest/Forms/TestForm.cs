@@ -11,7 +11,7 @@ namespace GUI_LDAPUnitTest.Forms
 {
     public partial class TestForm : Form
     {
-        private readonly TestManager _testManagerObj;
+        private readonly TestRunner _testRunnerObj;
         private readonly TestTripletRepository _testTripletRepository;
 
         public TestForm()
@@ -23,9 +23,9 @@ namespace GUI_LDAPUnitTest.Forms
 
                 AddTestTripletsToRepository();
 
-                _testManagerObj = new TestManager(SetUpLdapLibrary());
+                _testRunnerObj = new TestRunner(SetUpLdapLibrary());
 
-                currentUserLabel.Text = _testManagerObj.UserRepository.GetTestUserCn();
+                currentUserLabel.Text = _testRunnerObj.UserRepository.GetTestUserCn();
 
                 _testTripletRepository.SetAllStateLabelText(Constants.TestLableUndefined);
             }
@@ -64,7 +64,7 @@ namespace GUI_LDAPUnitTest.Forms
             using (
                 var setupModifyUserDescriptionForm =
                     new OneItemConfigurationForm(OneItemConfigurationState.NewDescription,
-                        _testManagerObj.UserRepository))
+                        _testRunnerObj.UserRepository))
             {
                 setupModifyUserDescriptionForm.ShowDialog();
             }
@@ -74,7 +74,7 @@ namespace GUI_LDAPUnitTest.Forms
         {
             using (
                 var setupSearchUserForm = new OneItemConfigurationForm(OneItemConfigurationState.UserToSearch,
-                    _testManagerObj.UserRepository))
+                    _testRunnerObj.UserRepository))
             {
                 setupSearchUserForm.ShowDialog();
             }
@@ -84,7 +84,7 @@ namespace GUI_LDAPUnitTest.Forms
         {
             using (
                 var setupNewPasswordForm = new OneItemConfigurationForm(OneItemConfigurationState.NewPassword,
-                    _testManagerObj.UserRepository))
+                    _testRunnerObj.UserRepository))
             {
                 setupNewPasswordForm.ShowDialog();
             }
@@ -97,11 +97,11 @@ namespace GUI_LDAPUnitTest.Forms
         /// <param name="e"></param>
         private void setUserButton_Click(object sender, EventArgs e)
         {
-            using (var testUserForm = new TestUserForm(_testManagerObj.UserRepository))
+            using (var testUserForm = new TestUserForm(_testRunnerObj.UserRepository))
             {
                 testUserForm.ShowDialog();
             }
-            currentUserLabel.Text = _testManagerObj.UserRepository.GetTestUserCn();
+            currentUserLabel.Text = _testRunnerObj.UserRepository.GetTestUserCn();
         }
 
         #endregion
@@ -213,7 +213,7 @@ namespace GUI_LDAPUnitTest.Forms
                     if (t.TestCheckbox.Checked)
                     {
                         t.TestLabel.Text = Constants.TestLableStarted;
-                        if (_testManagerObj.RunTest(t.TestType))
+                        if (_testRunnerObj.RunTest(t.TestType))
                         {
                             t.TestLabel.Text = Constants.TestLablePassed;
                             t.TestLabel.ForeColor = Constants.TestPassedColorLable;

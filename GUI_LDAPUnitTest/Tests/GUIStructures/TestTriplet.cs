@@ -1,5 +1,5 @@
 ﻿using System.Windows.Forms;
-
+using GUI_LDAPUnitTest.Tests.BusinessLogic;
 
 namespace GUI_LDAPUnitTest.Tests.GUIStructures
 {
@@ -7,9 +7,9 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
     {
         private CheckBox _c;
         private Label _l;
-        private BusinessLogic.TestType _t;
+        private TestType _t;
 
-        public TestTriplet(CheckBox c, BusinessLogic.TestType t, Label l)
+        public TestTriplet(CheckBox c, TestType t, Label l)
         {
             _c = c;
             _t = t;
@@ -22,7 +22,7 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
             set { _c = value; }
         }
 
-        public BusinessLogic.TestType TestType
+        public TestType TestType
         {
             get { return _t; }
             set { _t = value; }

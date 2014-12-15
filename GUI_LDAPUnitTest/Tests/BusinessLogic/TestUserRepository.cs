@@ -11,7 +11,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 
         public TestUserRepository()
         {
-            var testUserDn = string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"])
+            string testUserDn = string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"])
                 ? "no User DN"
                 : (
                     "cn=" + Constants.TestUserDefaultCn +
