@@ -19,7 +19,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
             _ldapManagerObj = ldapManagerObj;
         }
 
-        #region Unit TestType
+        #region Unit Tests
 
         #region LDAP Library TestType - Base
 

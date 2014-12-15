@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Forms;
 using GUI_LDAPUnitTest.Tests.BusinessLogic;
+using GUI_LDAPUnitTest.Tests.GUIStructures;
 
 namespace GUI_LDAPUnitTest.Forms
 {
@@ -56,12 +57,5 @@ namespace GUI_LDAPUnitTest.Forms
             }
             Close();
         }
-    }
-
-    public enum OneItemConfigurationState
-    {
-        NewPassword,
-        NewDescription,
-        UserToSearch
     }
 }

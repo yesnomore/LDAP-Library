@@ -104,6 +104,12 @@
     <Compile Include="Tests\BusinessLogic\TestRunner.cs" />
     <Compile Include="Tests\BusinessLogic\TestType.cs" />
     <Compile Include="Tests\BusinessLogic\TestUserRepository.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\IOneItemConfiguration.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationDescripiton.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationFactory.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationPassword.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationSearchUsers.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationState.cs" />
     <Compile Include="Tests\GUIStructures\TestTriplet.cs" />
     <Compile Include="Tests\GUIStructures\TestTripletRepository.cs" />
     <EmbeddedResource Include="Forms\OneItemConfigurationForm.resx">
