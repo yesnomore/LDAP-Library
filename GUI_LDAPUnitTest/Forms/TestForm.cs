@@ -2,16 +2,17 @@
 using System.DirectoryServices.Protocols;
 using System.Drawing;
 using System.Windows.Forms;
+using GUI_LDAPUnitTest.Tests.BusinessLogic;
+using GUI_LDAPUnitTest.Tests.GUIStructures;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Forms
 {
     public partial class TestForm : Form
     {
+        private readonly TestRunner _testRunnerObj;
         private readonly TestTripletRepository _testTripletRepository;
-        private ILdapManager _ldapManagerObj;
-        private TestManager _testManagerObj;
 
         public TestForm()
         {
@@ -19,17 +20,14 @@ namespace GUI_LDAPUnitTest
             try
             {
                 _testTripletRepository = new TestTripletRepository();
+
                 AddTestTripletsToRepository();
 
-                //SetUp the LDAPLibrary & testManager
-                SetUpLdapLibrary();
+                _testRunnerObj = new TestRunner(LdapLibraryBuilder.SetupLdapLibrary());
 
-                _testManagerObj = new TestManager(_ldapManagerObj);
+                currentUserLabel.Text = _testRunnerObj.UserRepository.GetTestUserCn();
 
-                currentUserLabel.Text = _testManagerObj.GetTestUserCn();
-
-
-                _testTripletRepository.SetAllStateLabelText("Undefined");
+                _testTripletRepository.SetAllStateLabelText(Constants.TestLableUndefined);
             }
             catch (Exception ex)
             {
@@ -65,7 +63,8 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupModifyUserDescriptionForm =
-                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription, _testManagerObj))
+                    new OneItemConfigurationForm(OneItemConfigurationState.NewDescription,
+                        _testRunnerObj.UserRepository))
             {
                 setupModifyUserDescriptionForm.ShowDialog();
             }
@@ -75,7 +74,7 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupSearchUserForm = new OneItemConfigurationForm(OneItemConfigurationState.UserToSearch,
-                    _testManagerObj))
+                    _testRunnerObj.UserRepository))
             {
                 setupSearchUserForm.ShowDialog();
             }
@@ -85,7 +84,7 @@ namespace GUI_LDAPUnitTest
         {
             using (
                 var setupNewPasswordForm = new OneItemConfigurationForm(OneItemConfigurationState.NewPassword,
-                    _testManagerObj))
+                    _testRunnerObj.UserRepository))
             {
                 setupNewPasswordForm.ShowDialog();
             }
@@ -98,11 +97,11 @@ namespace GUI_LDAPUnitTest
         /// <param name="e"></param>
         private void setUserButton_Click(object sender, EventArgs e)
         {
-            using (var testUserForm = new TestUserForm(ref _testManagerObj))
+            using (var testUserForm = new TestUserForm(_testRunnerObj.UserRepository))
             {
                 testUserForm.ShowDialog();
             }
-            currentUserLabel.Text = _testManagerObj.GetTestUserCn();
+            currentUserLabel.Text = _testRunnerObj.UserRepository.GetTestUserCn();
         }
 
         #endregion
@@ -204,30 +203,30 @@ namespace GUI_LDAPUnitTest
         {
             Cursor.Current = Cursors.WaitCursor;
             testsProgressBar.Value = 0;
-            _testTripletRepository.SetAllStateLabelText("In Progress");
+            _testTripletRepository.SetAllStateLabelText(Constants.TestLableInProgress);
 
-            int progressBarIncrement = 100/Enum.GetNames(typeof (Tests)).Length;
+            int progressBarIncrement = 100/Enum.GetNames(typeof (TestType)).Length;
             try
             {
                 foreach (TestTriplet t in _testTripletRepository.TestTripletList)
                 {
                     if (t.TestCheckbox.Checked)
                     {
-                        t.TestLabel.Text = @"Started";
-                        if (_testManagerObj.RunTest(t.TestType))
+                        t.TestLabel.Text = Constants.TestLableStarted;
+                        if (_testRunnerObj.RunTest(t.TestType))
                         {
-                            t.TestLabel.Text = @"Passed";
-                            t.TestLabel.ForeColor = Color.Green;
+                            t.TestLabel.Text = Constants.TestLablePassed;
+                            t.TestLabel.ForeColor = Constants.TestPassedColorLable;
                         }
                         else
                         {
-                            t.TestLabel.Text = @"Failed";
-                            t.TestLabel.ForeColor = Color.Red;
+                            t.TestLabel.Text = Constants.TestLableFailed;
+                            t.TestLabel.ForeColor = Constants.TestFailedColorLable;
                         }
                     }
                     else
                     {
-                        t.TestLabel.Text = @"Skipped";
+                        t.TestLabel.Text = Constants.TestLableSkipped;
                     }
                     testsProgressBar.Value += progressBarIncrement;
                 }
@@ -248,84 +247,52 @@ namespace GUI_LDAPUnitTest
         #region Utilities
 
         /// <summary>
-        ///     Set up the LDAPLibrary with minimal configuration.
-        /// </summary>
-        private void SetUpLdapLibrary()
-        {
-            var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                Config.LDAPLibrary["LDAPAuthType"]);
-
-            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
-            {
-                var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
-                    Config.LDAPLibrary["LDAPAdminUserCN"],
-                    Config.LDAPLibrary["LDAPAdminUserSN"],
-                    null);
-
-                adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
-
-
-                _ldapManagerObj = new LdapManager(adminUser,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
-                    );
-            }
-            else
-                _ldapManagerObj = new LdapManager(null,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
-                    );
-        }
-
-        /// <summary>
         ///     add all controls in relation each other like triplets.
         /// </summary>
         private void AddTestTripletsToRepository()
         {
             _testTripletRepository.AddTestTriplet(new TestTriplet(testStandardInitLibraryNoAdminCheckBox,
-                Tests.TestStandardInitLibraryNoAdmin,
+                TestType.TestStandardInitLibraryNoAdmin,
                 stateStandardInitLibraryNoAdminLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testInitLibraryNoAdminCheckBox,
-                Tests.TestInitLibraryNoAdmin,
+                TestType.TestInitLibraryNoAdmin,
                 stateInitLibraryNoAdminLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testInitLibraryCheckBox,
-                Tests.TestInitLibrary,
+                TestType.TestInitLibrary,
                 stateInitLibraryLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testAdminConnectCheckBox,
-                Tests.TestAdminConnection,
+                TestType.TestAdminConnection,
                 stateAdminConnectLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testConnectUserCheckBox,
-                Tests.TestConnectUser,
+                TestType.TestConnectUser,
                 stateConnectUserLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchUserAndConnectCheckBox,
-                Tests.TestSearchUserAndConnect,
+                TestType.TestSearchUserAndConnect,
                 stateSearchUserAndConnectLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchUsersCheckBox,
-                Tests.TestSearchUsers,
+                TestType.TestSearchUsers,
                 stateSearchUsersLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testCreateUserCheckBox,
-                Tests.TestCreateUser,
+                TestType.TestCreateUser,
                 stateCreateUserLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testModifyUserDescriptionCheckBox,
-                Tests.TestModifyUserDescription,
+                TestType.TestModifyUserDescription,
                 stateModifyUserDescriptionLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testUserChangePasswordCheckBox,
-                Tests.TestUserChangePassword,
+                TestType.TestUserChangePassword,
                 stateUserChangePasswordLabel));
 
             _testTripletRepository.AddTestTriplet(new TestTriplet(testDeleteUserCheckBox,
-                Tests.TestDeleteUser,
+                TestType.TestDeleteUser,
                 stateDeleteUserLabel));
         }
 

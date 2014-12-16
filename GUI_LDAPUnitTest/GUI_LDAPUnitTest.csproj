@@ -78,35 +78,49 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="OneItemConfigurationForm.cs">
+    <Compile Include="Constants.cs" />
+    <Compile Include="Forms\OneItemConfigurationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OneItemConfigurationForm.Designer.cs">
+    <Compile Include="Forms\OneItemConfigurationForm.Designer.cs">
       <DependentUpon>OneItemConfigurationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestForm.cs">
+    <Compile Include="Forms\TestForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestForm.Designer.cs">
+    <Compile Include="Forms\TestForm.Designer.cs">
       <DependentUpon>TestForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainEntry.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestManager.cs" />
-    <Compile Include="Tests.cs" />
-    <Compile Include="TestTriplet.cs" />
-    <Compile Include="TestTripletRepository.cs" />
-    <Compile Include="TestUserForm.cs">
+    <Compile Include="Forms\TestUserForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TestUserForm.Designer.cs">
+    <Compile Include="Forms\TestUserForm.Designer.cs">
       <DependentUpon>TestUserForm.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="OneItemConfigurationForm.resx">
+    <Compile Include="LdapLibraryBuilder.cs" />
+    <Compile Include="MainEntry.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Tests\BusinessLogic\TestImplementation.cs" />
+    <Compile Include="Tests\BusinessLogic\TestRepository.cs" />
+    <Compile Include="Tests\BusinessLogic\TestRunner.cs" />
+    <Compile Include="Tests\BusinessLogic\TestType.cs" />
+    <Compile Include="Tests\BusinessLogic\TestUserRepository.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\IOneItemConfiguration.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationDescripiton.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationFactory.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationPassword.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationSearchUsers.cs" />
+    <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationState.cs" />
+    <Compile Include="Tests\GUIStructures\TestTriplet.cs" />
+    <Compile Include="Tests\GUIStructures\TestTripletRepository.cs" />
+    <EmbeddedResource Include="Forms\OneItemConfigurationForm.resx">
       <DependentUpon>OneItemConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="TestForm.resx">
+    <EmbeddedResource Include="Forms\TestForm.resx">
       <DependentUpon>TestForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\TestUserForm.resx">
+      <DependentUpon>TestUserForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -118,13 +132,10 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
-    <EmbeddedResource Include="TestUserForm.resx">
-      <DependentUpon>TestUserForm.cs</DependentUpon>
-    </EmbeddedResource>
     <None Include="App.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="GUI_LDAPUnitTest_TemporaryKey.pfx" />
+    <None Include="Forms\GUI_LDAPUnitTest_TemporaryKey.pfx" />
     <None Include="LDAPCert\Terena-chain.pem" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -162,6 +173,7 @@
       <Name>LDAPLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using GUI_LDAPUnitTest.Forms;
 
 namespace GUI_LDAPUnitTest
 {

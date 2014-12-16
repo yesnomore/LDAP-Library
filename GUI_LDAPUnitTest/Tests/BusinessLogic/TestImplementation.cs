@@ -1,122 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
-    public class TestManager
+    internal class TestImplementation
     {
-        private readonly string[] _ldapMatchSearchField;
-        private readonly Dictionary<Tests, TestMethod> _testList;
-        private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
+        private readonly string[] _ldapMatchSearchField = {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
+        private readonly TestUserRepository _userRepository;
         private ILdapManager _ldapManagerObj;
-        private LdapUser _testUser;
-        private string _testUserNewDescription;
-        private string _testUserNewPassword;
-        private string[] _usersToSearch;
 
-        public TestManager(ILdapManager lm)
+        public TestImplementation(TestUserRepository userRepository, ILdapManager ldapManagerObj)
         {
-            _ldapManagerObj = lm;
-
-            if (_testUser == null)
-            {
-                const string testUserCn = "defaultTestUserCN";
-                const string testUserSn = "defaultTestUserSN";
-                string testUserDn = "no User DN";
-                //Cut the DN of Admin User from his CN and add the default CN of testUser
-                if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
-                    testUserDn = (
-                        "cn=" + testUserCn +
-                        Config.LDAPLibrary["LDAPAdminUserDN"].Substring(
-                            Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(",", StringComparison.Ordinal))
-                        );
-
-                var testUserOtherAttribute = new Dictionary<string, List<string>>
-                {
-                    //aggiungere inizializzare così il dizionario
-                    {"userPassword", new List<string> {"defaultTestUserPassword"}},
-                    {"description", new List<string> {"test"}}
-                };
-
-                SetupTestUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
-            }
-
-            if (string.IsNullOrEmpty(_testUserNewPassword))
-                SetupTestUserNewPassword("defaultNewTestUserPassword");
-
-            if (string.IsNullOrEmpty(_testUserNewDescription))
-                SetupTestUserNewDescription("defaultNewTestUserDescription");
-
-            if (_usersToSearch == null)
-                SetupUsersToSearch(new[] {"defaultNewTestUserCN"});
-
-            _ldapMatchSearchField = new[] {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
-
-            _testList = new Dictionary<Tests, TestMethod>
-            {
-                {Tests.TestAdminConnection, TestAdminConnect},
-                {Tests.TestCreateUser, TestCreateUser},
-                {Tests.TestDeleteUser, TestDeleteUser},
-                {Tests.TestInitLibrary, TestCompleteInitLibrary},
-                {Tests.TestInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {Tests.TestModifyUserDescription, TestModifyUserAttribute},
-                {Tests.TestSearchUsers, TestSearchUser},
-                {Tests.TestStandardInitLibraryNoAdmin, TestStardardInitLibraryNoAdmin},
-                {Tests.TestUserChangePassword, TestChangeUserPassword},
-                {
-                    Tests.TestConnectUser, () =>
-                    {
-                        var testMethod = new TestMethod(TestUserConnectWithoutWritePermissions);
-                        if (_writePermission) testMethod = TestUserConnect;
-                        return testMethod();
-                    }
-                },
-                {
-                    Tests.TestSearchUserAndConnect, () =>
-                    {
-                        var testMethod = new TestMethod(TestSearchUserAndConnectWithoutWritePermissions);
-                        if (_writePermission) testMethod = TestSearchUserAndConnect;
-                        return testMethod();
-                    }
-                }
-            };
+            _userRepository = userRepository;
+            _ldapManagerObj = ldapManagerObj;
         }
-
-        #region Method called for configuration
-
-        public void SetupUsersToSearch(string[] list)
-        {
-            _usersToSearch = list;
-        }
-
-        public void SetupTestUserNewPassword(string p)
-        {
-            _testUserNewPassword = p;
-        }
-
-        public void SetupTestUser(string testUserDn, string testUserCn, string testUserSn,
-            Dictionary<string, List<string>> testUserOtherAttribute)
-        {
-            _testUser = new LdapUser(testUserDn, testUserCn, testUserSn, testUserOtherAttribute);
-        }
-
-        public void SetupTestUserNewDescription(string p)
-        {
-            _testUserNewDescription = p;
-        }
-
-        #endregion
 
         #region Unit Tests
 
-        #region LDAP Library Tests - Base
+        #region LDAP Library TestType - Base
 
-        private bool TestCompleteInitLibrary()
+        public bool TestCompleteInitLibrary()
         {
             try
             {
@@ -153,7 +60,7 @@ namespace GUI_LDAPUnitTest
             }
         }
 
-        private bool TestAdminConnect()
+        public bool TestAdminConnect()
         {
             //Init the DLL
             if (!TestCompleteInitLibrary())
@@ -200,7 +107,6 @@ namespace GUI_LDAPUnitTest
             }
         }
 
-
         public bool TestStardardInitLibraryNoAdmin()
         {
             try
@@ -226,15 +132,15 @@ namespace GUI_LDAPUnitTest
 
         #endregion
 
-        #region LDAP Library Tests - Write Permission Required
+        #region LDAP Library TestType - Write Permission Required
 
-        private bool TestCreateUser()
+        public bool TestCreateUser()
         {
             if (!TestAdminConnect())
                 return false;
 
             //Create user
-            bool result = _ldapManagerObj.CreateUser(_testUser);
+            bool result = _ldapManagerObj.CreateUser(_userRepository.TestUser);
 
             //Assert the correct operations
             if (!result &&
@@ -244,25 +150,25 @@ namespace GUI_LDAPUnitTest
                 return false;
 
 
-            result = _ldapManagerObj.DeleteUser(_testUser);
+            result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
 
             return result;
         }
 
-        private bool TestDeleteUser()
+        public bool TestDeleteUser()
         {
             //Init the DLL and connect the admin
             if (!TestAdminConnect())
                 return false;
 
             //Create LDAPUser to delete.
-            bool result = _ldapManagerObj.CreateUser(_testUser);
+            bool result = _ldapManagerObj.CreateUser(_userRepository.TestUser);
 
             if (!result)
                 return false;
 
             //Delete user
-            result = _ldapManagerObj.DeleteUser(_testUser);
+            result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
 
             if (
                 !result &&
@@ -272,82 +178,84 @@ namespace GUI_LDAPUnitTest
             return true;
         }
 
-        private bool TestModifyUserAttribute()
+        public bool TestModifyUserAttribute()
         {
             string oldDescription;
 
             if (!TestAdminConnect())
                 return false;
 
-            if (!_ldapManagerObj.CreateUser(_testUser))
+            if (!_ldapManagerObj.CreateUser(_userRepository.TestUser))
                 return false;
 
             List<ILdapUser> returnUsers;
 
             try
             {
-                oldDescription = _testUser.GetUserAttribute("description")[0];
+                oldDescription = _userRepository.TestUser.GetUserAttribute("description")[0];
             }
             catch (Exception)
             {
                 oldDescription = "";
             }
-            bool result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, _testUser,
-                "description", _testUserNewDescription);
+            bool result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace,
+                _userRepository.TestUser,
+                "description", _userRepository.TestUserNewDescription);
 
             if (!result)
             {
-                _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.OverwriteUserAttribute("description", oldDescription);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+                _userRepository.TestUser.OverwriteUserAttribute("description", oldDescription);
                 return false;
             }
             switch (_ldapMatchSearchField[0])
             {
                 case "cn":
                     result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
-                        new[] {_testUser.GetUserCn()},
+                        new[] {_userRepository.TestUser.GetUserCn()},
                         out returnUsers);
                     break;
                 case "sn":
                     result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
-                        new[] {_testUser.GetUserSn()},
+                        new[] {_userRepository.TestUser.GetUserSn()},
                         out returnUsers);
                     break;
                 case "dn":
                     result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
-                        new[] {_testUser.GetUserDn()},
+                        new[] {_userRepository.TestUser.GetUserDn()},
                         out returnUsers);
                     break;
                 default:
                     result = _ldapManagerObj.SearchUsers(new List<string> {"description"},
-                        _testUser.GetUserAttribute(_ldapMatchSearchField[0]).ToArray(),
+                        _userRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0]).ToArray(),
                         out returnUsers);
                     break;
             }
 
             if (result &&
-                returnUsers[0].GetUserCn().Equals(_testUser.GetUserCn()) &&
-                returnUsers[0].GetUserAttribute("description")[0].Equals(_testUserNewDescription))
+                returnUsers[0].GetUserCn().Equals(_userRepository.TestUser.GetUserCn()) &&
+                returnUsers[0].GetUserAttribute("description")[0].Equals(_userRepository.TestUserNewDescription))
             {
-                result = _ldapManagerObj.DeleteUser(_testUser);
+                result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
                 if (result)
                     return true;
                 return false;
             }
-            _ldapManagerObj.DeleteUser(_testUser);
-            _testUser.OverwriteUserAttribute("description", returnUsers[0].GetUserAttribute("description"));
+            _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+            _userRepository.TestUser.OverwriteUserAttribute("description",
+                returnUsers[0].GetUserAttribute("description"));
             return false;
         }
 
-        private bool TestChangeUserPassword()
+        public bool TestChangeUserPassword()
         {
             if (!TestAdminConnect())
                 return false;
 
             //Create the user
-            bool result = _ldapManagerObj.CreateUser(_testUser);
+            bool result = _ldapManagerObj.CreateUser(_userRepository.TestUser);
 
-            string oldPassword = _testUser.GetUserAttribute("userPassword")[0];
+            string oldPassword = _userRepository.TestUser.GetUserAttribute("userPassword")[0];
 
             if (!result)
             {
@@ -355,18 +263,18 @@ namespace GUI_LDAPUnitTest
             }
 
             //Perform change of password
-            result = _ldapManagerObj.ChangeUserPassword(_testUser, _testUserNewPassword);
+            result = _ldapManagerObj.ChangeUserPassword(_userRepository.TestUser, _userRepository.TestUserNewPassword);
 
             if (!result)
             {
-                _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+                _userRepository.TestUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
             //Try to connect with the old password
             var testUserCredential = new NetworkCredential(
-                _testUser.GetUserDn(),
+                _userRepository.TestUser.GetUserDn(),
                 oldPassword,
                 "");
 
@@ -377,15 +285,15 @@ namespace GUI_LDAPUnitTest
 
             if (result)
             {
-                _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+                _userRepository.TestUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return false;
             }
 
             //Try to connect with the new password
             testUserCredential = new NetworkCredential(
-                _testUser.GetUserDn(),
-                _testUserNewPassword,
+                _userRepository.TestUser.GetUserDn(),
+                _userRepository.TestUserNewPassword,
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
@@ -397,16 +305,16 @@ namespace GUI_LDAPUnitTest
 
             if (result)
             {
-                result = _ldapManagerObj.DeleteUser(_testUser);
-                _testUser.OverwriteUserAttribute("userPassword", oldPassword);
+                result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+                _userRepository.TestUser.OverwriteUserAttribute("userPassword", oldPassword);
                 return result;
             }
-            _ldapManagerObj.DeleteUser(_testUser);
-            _testUser.OverwriteUserAttribute("userPassword", oldPassword);
+            _ldapManagerObj.DeleteUser(_userRepository.TestUser);
+            _userRepository.TestUser.OverwriteUserAttribute("userPassword", oldPassword);
             return false;
         }
 
-        private bool TestUserConnect()
+        public bool TestUserConnect()
         {
             bool result;
 
@@ -415,15 +323,15 @@ namespace GUI_LDAPUnitTest
                 if (!TestAdminConnect())
                     return false;
 
-                result = _ldapManagerObj.CreateUser(_testUser);
+                result = _ldapManagerObj.CreateUser(_userRepository.TestUser);
 
                 if (!result)
                     return false;
             }
 
             var testUserCredential = new NetworkCredential(
-                _testUser.GetUserDn(),
-                _testUser.GetUserAttribute("userPassword")[0],
+                _userRepository.TestUser.GetUserDn(),
+                _userRepository.TestUser.GetUserAttribute("userPassword")[0],
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
@@ -433,7 +341,7 @@ namespace GUI_LDAPUnitTest
 
             if (!result)
             {
-                _ldapManagerObj.DeleteUser(_testUser);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
                 return false;
             }
 
@@ -442,16 +350,16 @@ namespace GUI_LDAPUnitTest
                 if (!TestAdminConnect())
                     return false;
             }
-            result = _ldapManagerObj.DeleteUser(_testUser);
+            result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
             return result;
         }
 
-        private bool TestSearchUserAndConnect()
+        public bool TestSearchUserAndConnect()
         {
             if (!TestAdminConnect())
                 return false;
 
-            bool result = _ldapManagerObj.CreateUser(_testUser);
+            bool result = _ldapManagerObj.CreateUser(_userRepository.TestUser);
 
             if (!result)
                 return false;
@@ -459,69 +367,69 @@ namespace GUI_LDAPUnitTest
             switch (_ldapMatchSearchField[0])
             {
                 case "cn":
-                    result = _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserCn(),
-                        _testUser.GetUserAttribute("userPassword")[0]);
+                    result = _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserCn(),
+                        _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                     break;
                 case "sn":
-                    result = _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserSn(),
-                        _testUser.GetUserAttribute("userPassword")[0]);
+                    result = _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserSn(),
+                        _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                     break;
                 case "dn":
-                    result = _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserDn(),
-                        _testUser.GetUserAttribute("userPassword")[0]);
+                    result = _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserDn(),
+                        _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                     break;
                 default:
                     result = _ldapManagerObj.SearchUserAndConnect(
-                        _testUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
-                        _testUser.GetUserAttribute("userPassword")[0]);
+                        _userRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
+                        _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                     break;
             }
 
             if (!result)
             {
-                _ldapManagerObj.DeleteUser(_testUser);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
                 return false;
             }
 
             if (!TestAdminConnect())
             {
-                _ldapManagerObj.DeleteUser(_testUser);
+                _ldapManagerObj.DeleteUser(_userRepository.TestUser);
                 return false;
             }
 
-            result = _ldapManagerObj.DeleteUser(_testUser);
+            result = _ldapManagerObj.DeleteUser(_userRepository.TestUser);
 
             return result;
         }
 
         #endregion
 
-        #region LDAP Library Tests - Only Read Permission Required
+        #region LDAP Library TestType - Only Read Permission Required
 
-        private bool TestSearchUser()
+        public bool TestSearchUser()
         {
             if (!TestAdminConnect())
                 return false;
 
             List<ILdapUser> returnUsers;
 
-            bool result = _ldapManagerObj.SearchUsers(null, _usersToSearch, out returnUsers);
+            bool result = _ldapManagerObj.SearchUsers(null, _userRepository.GetUserToSearch(), out returnUsers);
 
             if (result &&
-                returnUsers.Count.Equals(_usersToSearch.Length))
+                returnUsers.Count.Equals(_userRepository.GetUserToSearch().Length))
                 return true;
             return false;
         }
 
-        private bool TestUserConnectWithoutWritePermissions()
+        public bool TestUserConnectWithoutWritePermissions()
         {
             if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
                 if (!TestAdminConnect())
                     return false;
 
             var testUserCredential = new NetworkCredential(
-                _testUser.GetUserDn(),
-                _testUser.GetUserAttribute("userPassword")[0],
+                _userRepository.TestUser.GetUserDn(),
+                _userRepository.TestUser.GetUserAttribute("userPassword")[0],
                 "");
 
             bool result = _ldapManagerObj.Connect(testUserCredential,
@@ -532,7 +440,7 @@ namespace GUI_LDAPUnitTest
             return result;
         }
 
-        private bool TestSearchUserAndConnectWithoutWritePermissions()
+        public bool TestSearchUserAndConnectWithoutWritePermissions()
         {
             if (!TestAdminConnect() || _ldapManagerObj == null)
                 return false;
@@ -541,72 +449,26 @@ namespace GUI_LDAPUnitTest
             {
                 case "cn":
                     return
-                        _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserCn(),
-                            _testUser.GetUserAttribute("userPassword")[0]);
+                        _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserCn(),
+                            _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                 case "sn":
                     return
-                        _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserSn(),
-                            _testUser.GetUserAttribute("userPassword")[0]);
+                        _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserSn(),
+                            _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                 case "dn":
                     return
-                        _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserDn(),
-                            _testUser.GetUserAttribute("userPassword")[0]);
+                        _ldapManagerObj.SearchUserAndConnect(_userRepository.TestUser.GetUserDn(),
+                            _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
                 default:
                     return
-                        _ldapManagerObj.SearchUserAndConnect(_testUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
-                            _testUser.GetUserAttribute("userPassword")[0]);
+                        _ldapManagerObj.SearchUserAndConnect(
+                            _userRepository.TestUser.GetUserAttribute(_ldapMatchSearchField[0])[0],
+                            _userRepository.TestUser.GetUserAttribute("userPassword")[0]);
             }
         }
 
         #endregion
 
         #endregion
-
-        public string GetTestUserCn()
-        {
-            return _testUser.GetUserCn();
-        }
-
-        public string GetTestUserDn()
-        {
-            return _testUser.GetUserDn();
-        }
-
-        public string GetTestUserSn()
-        {
-            return _testUser.GetUserSn();
-        }
-
-        public List<string> GetTestUserOtherAttributes(string attributeKey)
-        {
-            return _testUser.GetUserAttribute(attributeKey);
-        }
-
-        public string[] GetTestUserOtherAttributesKeys()
-        {
-            return _testUser.GetUserAttributeKeys();
-        }
-
-        public string[] GetUserToSearch()
-        {
-            return _usersToSearch;
-        }
-
-        public string GetTestUserNewPassword()
-        {
-            return _testUserNewPassword;
-        }
-
-        public string GetTestUserNewDescription()
-        {
-            return _testUserNewDescription;
-        }
-
-        public bool RunTest(Tests testType)
-        {
-            return _testList[testType]();
-        }
-
-        private delegate bool TestMethod();
     }
 }

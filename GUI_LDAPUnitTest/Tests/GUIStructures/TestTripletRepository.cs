@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
 
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Tests.GUIStructures
 {
     internal class TestTripletRepository
     {

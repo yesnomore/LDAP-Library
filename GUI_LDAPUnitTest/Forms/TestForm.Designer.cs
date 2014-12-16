@@ -1,4 +1,4 @@
-﻿namespace GUI_LDAPUnitTest
+﻿namespace GUI_LDAPUnitTest.Forms
 {
     partial class TestForm
     {
@@ -98,7 +98,7 @@
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(149, 48);
             this.runButton.TabIndex = 4;
-            this.runButton.Text = "Run Tests";
+            this.runButton.Text = "Run TestType";
             this.runButton.UseVisualStyleBackColor = true;
             this.runButton.Click += new System.EventHandler(this.runButton_Click);
             // 
@@ -117,7 +117,7 @@
             this.testsLabel.Name = "testsLabel";
             this.testsLabel.Size = new System.Drawing.Size(135, 25);
             this.testsLabel.TabIndex = 0;
-            this.testsLabel.Text = "Basic Tests";
+            this.testsLabel.Text = "Basic TestType";
             this.testsLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // testInitLibraryLabel
@@ -523,7 +523,7 @@
             this.readTestsLabel.Name = "readTestsLabel";
             this.readTestsLabel.Size = new System.Drawing.Size(501, 31);
             this.readTestsLabel.TabIndex = 33;
-            this.readTestsLabel.Text = "Read Tests";
+            this.readTestsLabel.Text = "Read TestType";
             this.readTestsLabel.Click += new System.EventHandler(this.readTestsLabel_Click);
             // 
             // writeTestsPanel
@@ -578,7 +578,7 @@
             this.WriteTestsLabel.Name = "WriteTestsLabel";
             this.WriteTestsLabel.Size = new System.Drawing.Size(507, 29);
             this.WriteTestsLabel.TabIndex = 31;
-            this.WriteTestsLabel.Text = "Write Tests   ";
+            this.WriteTestsLabel.Text = "Write TestType   ";
             this.WriteTestsLabel.Click += new System.EventHandler(this.WriteTestsLabel_Click);
             // 
             // readWriteTestsPanel

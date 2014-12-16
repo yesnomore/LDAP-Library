@@ -1,6 +1,6 @@
-namespace GUI_LDAPUnitTest
+namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
-    public enum Tests
+    public enum TestType
     {
         TestStandardInitLibraryNoAdmin,
         TestInitLibrary,
