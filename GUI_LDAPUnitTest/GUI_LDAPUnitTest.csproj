@@ -113,6 +113,7 @@
     <Compile Include="Tests\GUIStructures\OneItemConfiguration\OneItemConfigurationState.cs" />
     <Compile Include="Tests\GUIStructures\TestTriplet.cs" />
     <Compile Include="Tests\GUIStructures\TestTripletRepository.cs" />
+    <Compile Include="Tests\GUIStructures\TestUserAttributeStringParser.cs" />
     <EmbeddedResource Include="Forms\OneItemConfigurationForm.resx">
       <DependentUpon>OneItemConfigurationForm.cs</DependentUpon>
     </EmbeddedResource>
