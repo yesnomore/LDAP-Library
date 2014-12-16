@@ -13,7 +13,7 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
             _testTripletList = new List<TestTriplet>();
         }
 
-        public List<TestTriplet> TestTripletList
+        public List<TestTriplet> TestCheckedTripletList
         {
             get
             {
@@ -33,7 +33,7 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
         /// </summary>
         public void SetAllStateLabelText(string text)
         {
-            foreach (TestTriplet t in TestTripletList.Where(t => !string.IsNullOrEmpty(text)))
+            foreach (TestTriplet t in TestCheckedTripletList.Where(t => !string.IsNullOrEmpty(text)))
             {
                 t.TestLabel.Text = text;
                 t.TestLabel.ForeColor = Color.Empty;

@@ -38,22 +38,8 @@ namespace GUI_LDAPUnitTest.Forms
             }
         }
 
-        #region InterfaceEvents
-
-        #region Menu Events
-
-        /// <summary>
-        ///     Application exit.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        #endregion
-
+        #region Interface Events
+        
         #region Setup Buttons
 
         private void configModifyUserDescriptionButton_Click(object sender, EventArgs e)
@@ -205,7 +191,7 @@ namespace GUI_LDAPUnitTest.Forms
             int progressBarIncrement = 100/Enum.GetNames(typeof (TestType)).Length;
             try
             {
-                foreach (TestTriplet t in _testTripletRepository.TestTripletList)
+                foreach (TestTriplet t in _testTripletRepository.TestCheckedTripletList)
                 {
                     t.TestLabel.Text = Constants.TestLableStarted;
                     if (_testRunnerObj.RunTest(t.TestType))
@@ -233,8 +219,6 @@ namespace GUI_LDAPUnitTest.Forms
         }
 
         #endregion
-
-        #region Utilities
 
         /// <summary>
         ///     add all controls in relation each other like triplets.
@@ -285,7 +269,5 @@ namespace GUI_LDAPUnitTest.Forms
                 TestType.TestDeleteUser,
                 stateDeleteUserLabel));
         }
-
-        #endregion
     }
 }
