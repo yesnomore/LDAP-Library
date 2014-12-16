@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows.Forms;
 using GUI_LDAPUnitTest.Tests.BusinessLogic;
 
@@ -6,7 +7,8 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
 {
     internal class OneItemConfigurationSearchUsers : IOneItemConfiguration
     {
-        private TestUserRepository _userRepository;
+        private const string NewSearchUsersMessage = "Set the Users to search (separated by breaklines)";
+        private readonly TestUserRepository _userRepository;
 
         public OneItemConfigurationSearchUsers(TestUserRepository userRepository)
         {
@@ -16,17 +18,24 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
 
         public void SetConfiguraionLabel(Label label)
         {
-            throw new NotImplementedException();
+            label.Text = NewSearchUsersMessage;
         }
 
         public void SetConfiguraionTextBox(TextBox textBox)
         {
-            throw new NotImplementedException();
+            textBox.Multiline = true;
+            textBox.Height = 60;
+            textBox.ScrollBars = ScrollBars.Both;
+            string users = _userRepository.GetUserToSearch()
+                .Aggregate<string, string>(null, (current, user) => current + (user + Environment.NewLine));
+            textBox.Text = users;
         }
 
         public void SaveUserRepositoryConfiguration(TextBox sourceTextBox)
         {
-            throw new NotImplementedException();
+            string[] users = sourceTextBox.Text.Split(new[] {Environment.NewLine},
+                StringSplitOptions.None);
+            _userRepository.SetupUsersToSearch(users);
         }
     }
 }

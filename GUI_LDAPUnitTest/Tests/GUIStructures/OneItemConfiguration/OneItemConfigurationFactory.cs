@@ -1,4 +1,5 @@
-﻿using GUI_LDAPUnitTest.Tests.BusinessLogic;
+﻿using System;
+using GUI_LDAPUnitTest.Tests.BusinessLogic;
 
 namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
 {
@@ -15,6 +16,7 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
                     return new OneItemConfigurationPassword(testUserRepository);
                 case OneItemConfigurationState.UserToSearch:
                     return new OneItemConfigurationSearchUsers(testUserRepository);
+                default: throw new Exception("OneItemConfiguration Value Unespected");
             }
         }
     }

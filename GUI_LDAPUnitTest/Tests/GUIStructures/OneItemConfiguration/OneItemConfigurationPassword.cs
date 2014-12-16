@@ -1,13 +1,12 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 using GUI_LDAPUnitTest.Tests.BusinessLogic;
 
 namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
 {
     internal class OneItemConfigurationPassword : IOneItemConfiguration
     {
-        private readonly TestUserRepository _userRepository;
         private const string NewPasswordMessage = "Set the New Password";
+        private readonly TestUserRepository _userRepository;
 
         public OneItemConfigurationPassword(TestUserRepository userRepository)
         {
