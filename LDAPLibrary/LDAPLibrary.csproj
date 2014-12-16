@@ -64,6 +64,7 @@
     <Compile Include="LdapUser.cs" />
     <Compile Include="LdapUserManipulator.cs" />
     <Compile Include="Logger\ALogger.cs" />
+    <Compile Include="Logger\EventViewerLogger.cs" />
     <Compile Include="Logger\FakeLogger.cs" />
     <Compile Include="Logger\FileLogger.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

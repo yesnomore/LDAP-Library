@@ -9,121 +9,120 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LoggerTest
+    public class FileLoggerTest
     {
-
         private const string Test = "Test Log Message";
         private static readonly string FilePath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
         private readonly ILogger _logger = new FileLogger(FilePath);
 
-        [TestMethod, TestCategory("Logger")]
+        [TestMethod, TestCategory("FileLogger")]
         [ExpectedException(typeof(ArgumentException),
-    "The creation of the logger with path empty throw an exception")]
+    "The creation of the file Logger with path empty throw an exception")]
         public void FileLoggerInitEmptyPath()
         {
             new FileLogger("");
         }
 
-        [TestMethod, TestCategory("Logger")]
+        [TestMethod, TestCategory("FileLogger")]
         [ExpectedException(typeof(ArgumentException),
-    "The creation of the logger with path null throw an exception")]
+    "The creation of the file logger with path null throw an exception")]
         public void FileLoggerInitNullPath()
         {
             new FileLogger(null);
         }
 
-        [TestMethod, TestCategory("Logger")]
+        [TestMethod, TestCategory("FileLogger")]
         [ExpectedException(typeof(ArgumentException),
-    "The creation of the logger with unexisting path throw an exception")]
+    "The creation of the file logger with unexisting path throw an exception")]
         public void FileLoggerNotExistPath()
         {
             new FileLogger(@"C:\CICCIOBAFFONENONESISTE");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapChangeUserPasswordError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapChangeUserPasswordError),
                 "LDAP CHANGE USER PASSWORD ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapConnectionError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapConnectionError),
                 "LDAP CONNECTION ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapConnectionSuccess()
         {
             AssertLogMessage(_logger.BuildLogMessage(Test, LdapState.LdapConnectionSuccess),
                 "LDAP CONNECTION SUCCESS");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapCreateUserError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapCreateUserError),
                 "LDAP CREATE USER ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapDeleteUserError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapDeleteUserError),
                 "LDAP DELETE USER ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapGenericError()
         {
             AssertLogMessage(_logger.BuildLogMessage(Test, LdapState.LdapGenericError),
                 "LDAP GENERIC ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapLibraryInitError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapLibraryInitError),
                 "LDAP LIBRARY INIT ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapLibraryInitSuccess()
         {
             AssertLogMessage(_logger.BuildLogMessage(Test, LdapState.LdapLibraryInitSuccess),
                 "LDAP LIBRARY INIT SUCCESS");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapModifyUserAttributeError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapModifyUserAttributeError),
                 "LDAP MODIFY USER ATTRIBUTE ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapSearchUserError()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapSearchUserError),
                 "LDAP SEARCH USER ERROR");
         }
 
-        [TestMethod,TestCategory("Logger")]
+        [TestMethod,TestCategory("FileLogger")]
         public void LdapUserManipulatorSuccess()
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapUserManipulatorSuccess),
                 "LDAP USER MANIPULATION SUCCESS");
         }
 
-        [TestMethod, TestCategory("Logger")]
+        [TestMethod, TestCategory("FileLogger")]
         public void TestFileLogWrite()
         {
             var fileLogPath = AppDomain.CurrentDomain.BaseDirectory + @"\LDAPLog.txt";
             if (File.Exists(fileLogPath)) File.Delete(fileLogPath);
 
-            _logger.Write("test logger");
+            _logger.Write(Test);
 
             Assert.IsTrue(File.Exists(fileLogPath));
         }
