@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using System.IO;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
@@ -114,6 +115,17 @@ namespace LDAP_Library_UnitTest
         {
             AssertLogMessageWithAddictionMessage(_logger.BuildLogMessage(Test, LdapState.LdapUserManipulatorSuccess),
                 "LDAP USER MANIPULATION SUCCESS");
+        }
+
+        [TestMethod, TestCategory("Logger")]
+        public void TestFileLogWrite()
+        {
+            var fileLogPath = AppDomain.CurrentDomain.BaseDirectory + @"\LDAPLog.txt";
+            if (File.Exists(fileLogPath)) File.Delete(fileLogPath);
+
+            _logger.Write("test logger");
+
+            Assert.IsTrue(File.Exists(fileLogPath));
         }
 
         private static void AssertLogMessageWithAddictionMessage(string logMessage,string logMessageAssertEqual)
