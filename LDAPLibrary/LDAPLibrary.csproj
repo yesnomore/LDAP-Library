@@ -54,6 +54,7 @@
     <Compile Include="Interfarces\ILdapConnectionObserver.cs" />
     <Compile Include="Interfarces\ILdapConnector.cs" />
     <Compile Include="Interfarces\ILDAPManager.cs" />
+    <Compile Include="Interfarces\ILdapModeChecker.cs" />
     <Compile Include="Interfarces\ILdapUser.cs" />
     <Compile Include="Interfarces\ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />

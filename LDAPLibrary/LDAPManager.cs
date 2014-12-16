@@ -18,7 +18,7 @@ namespace LDAPLibrary
         private readonly ILogger _logger;
         private readonly LdapUserManipulator _manageLdapUser;
 
-        private readonly LdapModeChecker _modeChecker;
+        private readonly ILdapModeChecker _modeChecker;
         private LdapState _ldapCurrentState;
 
         #endregion

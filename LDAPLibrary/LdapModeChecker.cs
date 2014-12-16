@@ -5,7 +5,7 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {
-    internal class LdapModeChecker
+    internal class LdapModeChecker : ILdapModeChecker
     {
         private readonly ILdapConfigRepository _configRepository;
 
