@@ -97,6 +97,7 @@
     <Compile Include="Forms\TestUserForm.Designer.cs">
       <DependentUpon>TestUserForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LdapLibraryBuilder.cs" />
     <Compile Include="MainEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Tests\BusinessLogic\TestImplementation.cs" />

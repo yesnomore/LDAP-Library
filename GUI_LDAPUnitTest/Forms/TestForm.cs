@@ -23,7 +23,7 @@ namespace GUI_LDAPUnitTest.Forms
 
                 AddTestTripletsToRepository();
 
-                _testRunnerObj = new TestRunner(SetUpLdapLibrary());
+                _testRunnerObj = new TestRunner(LdapLibraryBuilder.SetupLdapLibrary());
 
                 currentUserLabel.Text = _testRunnerObj.UserRepository.GetTestUserCn();
 
@@ -245,37 +245,6 @@ namespace GUI_LDAPUnitTest.Forms
         #endregion
 
         #region Utilities
-
-        /// <summary>
-        ///     Set up the LDAPLibrary with minimal configuration.
-        /// </summary>
-        private ILdapManager SetUpLdapLibrary()
-        {
-            var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                Config.LDAPLibrary["LDAPAuthType"]);
-
-            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
-            {
-                var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
-                    Config.LDAPLibrary["LDAPAdminUserCN"],
-                    Config.LDAPLibrary["LDAPAdminUserSN"],
-                    null);
-
-                adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
-
-
-                return new LdapManager(adminUser,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
-                    );
-            }
-            return new LdapManager(null,
-                Config.LDAPLibrary["LDAPServer"],
-                Config.LDAPLibrary["LDAPSearchBaseDN"],
-                authType
-                );
-        }
 
         /// <summary>
         ///     add all controls in relation each other like triplets.
