@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace GUI_LDAPUnitTest.Tests.GUIStructures
 {
@@ -14,7 +15,11 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
 
         public List<TestTriplet> TestTripletList
         {
-            get { return _testTripletList; }
+            get
+            {
+                _testTripletList.Where(t => !t.TestCheckbox.Checked).ToList().ForEach(t => t.TestLabel.Text = Constants.TestLableSkipped);
+                return _testTripletList.Where(t => t.TestCheckbox.Checked).ToList();
+            }
         }
 
         public void AddTestTriplet(TestTriplet testTriplet)
@@ -28,12 +33,11 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
         /// </summary>
         public void SetAllStateLabelText(string text)
         {
-            foreach (TestTriplet t in TestTripletList)
-                if (!string.IsNullOrEmpty(text))
-                {
-                    t.TestLabel.Text = text;
-                    t.TestLabel.ForeColor = Color.Empty;
-                }
+            foreach (TestTriplet t in TestTripletList.Where(t => !string.IsNullOrEmpty(text)))
+            {
+                t.TestLabel.Text = text;
+                t.TestLabel.ForeColor = Color.Empty;
+            }
         }
     }
 }

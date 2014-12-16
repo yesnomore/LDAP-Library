@@ -1,11 +1,8 @@
 ﻿using System;
-using System.DirectoryServices.Protocols;
 using System.Drawing;
 using System.Windows.Forms;
 using GUI_LDAPUnitTest.Tests.BusinessLogic;
 using GUI_LDAPUnitTest.Tests.GUIStructures;
-using LDAPLibrary;
-using LDAPLibrary.Interfarces;
 
 namespace GUI_LDAPUnitTest.Forms
 {
@@ -210,23 +207,16 @@ namespace GUI_LDAPUnitTest.Forms
             {
                 foreach (TestTriplet t in _testTripletRepository.TestTripletList)
                 {
-                    if (t.TestCheckbox.Checked)
+                    t.TestLabel.Text = Constants.TestLableStarted;
+                    if (_testRunnerObj.RunTest(t.TestType))
                     {
-                        t.TestLabel.Text = Constants.TestLableStarted;
-                        if (_testRunnerObj.RunTest(t.TestType))
-                        {
-                            t.TestLabel.Text = Constants.TestLablePassed;
-                            t.TestLabel.ForeColor = Constants.TestPassedColorLable;
-                        }
-                        else
-                        {
-                            t.TestLabel.Text = Constants.TestLableFailed;
-                            t.TestLabel.ForeColor = Constants.TestFailedColorLable;
-                        }
+                        t.TestLabel.Text = Constants.TestLablePassed;
+                        t.TestLabel.ForeColor = Constants.TestPassedColorLable;
                     }
                     else
                     {
-                        t.TestLabel.Text = Constants.TestLableSkipped;
+                        t.TestLabel.Text = Constants.TestLableFailed;
+                        t.TestLabel.ForeColor = Constants.TestFailedColorLable;
                     }
                     testsProgressBar.Value += progressBarIncrement;
                 }
