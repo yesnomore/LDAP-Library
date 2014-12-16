@@ -16,7 +16,7 @@ namespace LDAPLibrary
         private readonly ILdapConfigRepository _configRepository;
         private readonly ILdapConnector _connector;
         private readonly ILogger _logger;
-        private readonly LdapUserManipulator _manageLdapUser;
+        private readonly ILdapUserManipulator _manageLdapUser;
 
         private readonly ILdapModeChecker _modeChecker;
         private LdapState _ldapCurrentState;

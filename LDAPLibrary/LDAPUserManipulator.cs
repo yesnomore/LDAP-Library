@@ -7,7 +7,7 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
-    public class LdapUserManipulator : ILdapConnectionObserver
+    public class LdapUserManipulator : ILdapConnectionObserver, ILdapUserManipulator
     {
         private readonly ILogger _logger;
         private readonly ILdapConfigRepository _configRepository;
