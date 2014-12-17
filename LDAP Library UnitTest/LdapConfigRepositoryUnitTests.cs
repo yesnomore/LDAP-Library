@@ -8,7 +8,7 @@ using LDAPLibrary;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LdapConfigRepositoryTest
+    public class LdapConfigRepositoryUnitTests
     {
 
         #region Localhost Configuration

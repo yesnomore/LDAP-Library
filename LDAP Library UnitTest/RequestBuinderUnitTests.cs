@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class RequestBuinderUnitTest
+    public class RequestBuinderUnitTests
     {
         private const string UserCn = "Matteo";
         private const string UserPwd = "1";

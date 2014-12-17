@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class ParameterChecker
+    public class ParameterCheckerUnitTests
     {
         private const string test = "ciccio";
 

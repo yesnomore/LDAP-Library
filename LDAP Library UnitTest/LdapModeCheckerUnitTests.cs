@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LdapModeCheckerTests
+    public class LdapModeCheckerUnitTests
     {
 
         #region Localhost Configuration

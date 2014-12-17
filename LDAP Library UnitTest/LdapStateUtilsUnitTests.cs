@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LdapStateUtilsTest
+    public class LdapStateUtilsUnitTests
     {
         [TestMethod, TestCategory("LdapStateUtils")]
         public void ToBoolean()

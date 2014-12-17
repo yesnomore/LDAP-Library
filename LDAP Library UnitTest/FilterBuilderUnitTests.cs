@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class FilterBuilderTest
+    public class FilterBuilderUnitTests
     {
         private const string ObjectClass = "person";
         private const string FieldUsername = "cn";
