@@ -4,6 +4,7 @@ using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 /*
@@ -24,10 +25,10 @@ namespace LDAP_Library_UnitTest.localhost
     public class LocalhostEnvironment
     {
         //Class fields for the test
-        ILdapManager _ldapManagerObj;                 //LDAPLibrary
+        private ILdapManager _ldapManagerObj; //LDAPLibrary
 
         #region Users
-        
+
         //READ ONLY USER
         private const string ReadOnlyUserCn = "Matteo";
         private const string ReadOnlyUserPwd = "1";
@@ -48,20 +49,22 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapAdminUserCn = "Manager";
         private const string LdapAdminUserSn = "test";
         private const string LdapAdminUserPassword = "secret";
-        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
-            LdapAdminUserCn,
-            LdapAdminUserSn,
-            new Dictionary<string, List<string>> { { "userPassword", new List<string> { LdapAdminUserPassword } } });
 
         private const string LdapSearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
         private const string LdapUserObjectClass = "person";
         private const string LdapMatchFieldUsername = "cn";
-        private const bool EnableLdapLibraryLog = true;
-        private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
+        private const LoggerType EnableLdapLibraryLog = LoggerType.File;
         private const bool SecureSocketLayerFlag = false;
         private const bool TransportSocketLayerFlag = false;
         private const bool ClientCertificationFlag = false;
         private const string ClientCertificatePath = "null";
+
+        private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
+            LdapAdminUserCn,
+            LdapAdminUserSn,
+            new Dictionary<string, List<string>> {{"userPassword", new List<string> {LdapAdminUserPassword}}});
+
+        private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
 
         #endregion
 
@@ -72,17 +75,17 @@ namespace LDAP_Library_UnitTest.localhost
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                LdapUserObjectClass,
-                                                LdapMatchFieldUsername
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT SUCCESS");
@@ -95,122 +98,122 @@ namespace LDAP_Library_UnitTest.localhost
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 "",
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                LdapUserObjectClass,
-                                                LdapMatchFieldUsername
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with Certificate path null or empty throw an exception")]
         public void TestCompleteInitLibraryNoCertificatePath()
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                "",
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                LdapUserObjectClass,
-                                                LdapMatchFieldUsername
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                "",
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with log path null or empty throw an exception")]
         public void TestCompleteInitLibraryNoLogPath()
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                "",
-                                                LdapUserObjectClass,
-                                                LdapMatchFieldUsername
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                "",
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with user class null or empty throw an exception")]
         public void TestCompleteInitLibraryNoUserClass()
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                "",
-                                                LdapMatchFieldUsername
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                "",
+                LdapMatchFieldUsername
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with matchFieldUsername null or empty throw an exception")]
         public void TestCompleteInitLibraryNoMatchFieldUsername()
         {
             _ldapManagerObj = new LdapManager(AdminUser,
                 LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                LdapUserObjectClass,
-                                                ""
-                                                );
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                ""
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with Server null or empty throw an exception")]
         public void TestCompleteInitLibraryNoAdmin()
         {
             _ldapManagerObj = new LdapManager(null,
-                                                LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType,
-                                                SecureSocketLayerFlag,
-                                                TransportSocketLayerFlag,
-                                                ClientCertificationFlag,
-                                                ClientCertificatePath,
-                                                EnableLdapLibraryLog,
-                                                LdapLibraryLogPath,
-                                                LdapUserObjectClass,
-                                                LdapMatchFieldUsername
-                                                );
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
@@ -218,35 +221,62 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestStardardInitLibraryNoAdmin()
         {
             _ldapManagerObj = new LdapManager(null,
-                                                    LdapServer,
-                                                    LdapSearchBaseDn,
-                                                    LdapAuthType
-                                                    );
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
+                );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
-
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestStandardInitLibrary()
         {
             _ldapManagerObj = new LdapManager(AdminUser,
-                                                LdapServer,
-                                                LdapSearchBaseDn,
-                                                LdapAuthType
-                                                );
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
+                );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        [ExpectedException(typeof(ArgumentNullException),
+        public void TestStandardInitLibraryEventViewerLog()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, LdapServer, LdapSearchBaseDn, LdapAuthType,
+                LoggerType.EventViewer, LdapLibraryLogPath);
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestStandardInitLibraryEventViewerLogNoPath()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, LdapServer, LdapSearchBaseDn, LdapAuthType,
+                LoggerType.EventViewer, null);
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the library with Server null or empty throw an exception")]
         public void TestStandardInitLibraryNoServer()
         {
-            _ldapManagerObj = new LdapManager(AdminUser,"",LdapSearchBaseDn,LdapAuthType);
+            _ldapManagerObj = new LdapManager(AdminUser, "", LdapSearchBaseDn, LdapAuthType, EnableLdapLibraryLog,
+                LdapLibraryLogPath);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof (ArgumentNullException),
+            "The creation of the library with log type null or empty throw an exception")]
+        public void TestStandardInitLibraryNologPath()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, LdapServer, LdapSearchBaseDn, LdapAuthType,
+                EnableLdapLibraryLog, null);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestAdminConnect()
         {
@@ -265,13 +295,14 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestCreateUser()
         {
             var tempUser = new LdapUser(WriteUserDn, WriteUserCn, "test", null);
-            var existingUser = new LdapUser(ReadOnlyUserDn, ReadOnlyUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string>{ ReadOnlyUserPwd} } });
+            var existingUser = new LdapUser(ReadOnlyUserDn, ReadOnlyUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {ReadOnlyUserPwd}}});
 
             //Init the DLL and connect the admin
             TestAdminConnect();
 
             //Create existing user
-            var result = _ldapManagerObj.CreateUser(existingUser);
+            bool result = _ldapManagerObj.CreateUser(existingUser);
 
             //Assert the correct operations
             Assert.IsFalse(result);
@@ -282,7 +313,8 @@ namespace LDAP_Library_UnitTest.localhost
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP USER MANIPULATION SUCCESS: ");
 
             result = _ldapManagerObj.DeleteUser(tempUser);
 
@@ -299,7 +331,7 @@ namespace LDAP_Library_UnitTest.localhost
             TestAdminConnect();
 
             //Create LDAPUser to delete.
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
@@ -308,7 +340,8 @@ namespace LDAP_Library_UnitTest.localhost
 
             //Assert the correct operations
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP USER MANIPULATION SUCCESS: ");
 
             //Delete user again with error
             result = _ldapManagerObj.DeleteUser(testLdapUser);
@@ -322,27 +355,32 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestModifyUserAttribute()
         {
             TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "description", new List<string> { "test" } } });
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"description", new List<string> {"test"}}});
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
             List<ILdapUser> returnUsers;
             const string userAttributeValue = "description Modified";
 
-            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Delete, testLdapUser, "ciccio", userAttributeValue);
+            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Delete, testLdapUser, "ciccio",
+                userAttributeValue);
 
             Assert.IsFalse(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP MODIFY USER ATTRIBUTE ERROR: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP MODIFY USER ATTRIBUTE ERROR: ");
 
-            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser, "description", userAttributeValue);
+            result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser,
+                "description", userAttributeValue);
 
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP USER MANIPULATION SUCCESS: ");
 
             result = _ldapManagerObj.SearchUsers(
-                new List<string> { "description" },
-                new[] { WriteUserCn },
+                new List<string> {"description"},
+                new[] {WriteUserCn},
                 out returnUsers);
 
             Assert.IsTrue(result);
@@ -359,16 +397,18 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
             const string newPassword = "pippo";
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
             //Create the user
-            var result = _ldapManagerObj.CreateUser(testUser);
+            bool result = _ldapManagerObj.CreateUser(testUser);
 
             Assert.IsTrue(result);
 
             //Perform change of password
             result = _ldapManagerObj.ChangeUserPassword(testUser, newPassword);
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP USER MANIPULATION SUCCESS: ");
 
             //Try to connect with the old password
             var testUserCredential = new NetworkCredential(
@@ -377,9 +417,9 @@ namespace LDAP_Library_UnitTest.localhost
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        SecureSocketLayerFlag,
-                        TransportSocketLayerFlag,
-                        ClientCertificationFlag);
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
@@ -391,9 +431,9 @@ namespace LDAP_Library_UnitTest.localhost
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        SecureSocketLayerFlag,
-                        TransportSocketLayerFlag,
-                        ClientCertificationFlag);
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
 
             Assert.IsTrue(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
@@ -403,14 +443,17 @@ namespace LDAP_Library_UnitTest.localhost
             result = _ldapManagerObj.DeleteUser(testUser);
 
             Assert.IsTrue(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP USER MANIPULATION SUCCESS: ");
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                "LDAP USER MANIPULATION SUCCESS: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestUserConnect()
         {
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
-            var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { "FakePassword" } } });
+            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
+            var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {"FakePassword"}}});
 
             TestAdminConnect();
 
@@ -428,22 +471,22 @@ namespace LDAP_Library_UnitTest.localhost
                 "");
 
             result = _ldapManagerObj.Connect(faketestUserCredential,
-                        SecureSocketLayerFlag,
-                        TransportSocketLayerFlag,
-                        ClientCertificationFlag);
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
-            
+
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                        SecureSocketLayerFlag,
-                        TransportSocketLayerFlag,
-                        ClientCertificationFlag);
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
 
             Assert.IsTrue(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
-            
+
             TestAdminConnect();
             result = _ldapManagerObj.DeleteUser(testUser);
             Assert.IsTrue(result);
@@ -452,11 +495,11 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestSearchUserAndConnect()
         {
-
             TestAdminConnect();
-            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test", new Dictionary<string, List<string>> { { "userPassword", new List<string> { WriteUserPwd } } });
+            var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
 
-            var result = _ldapManagerObj.CreateUser(testLdapUser);
+            bool result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
@@ -490,12 +533,12 @@ namespace LDAP_Library_UnitTest.localhost
             };
             var userAttributeToReturnBySearch = new List<string>
             {
-				"description"
-			};
+                "description"
+            };
 
             List<ILdapUser> returnUsers;
 
-            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
+            bool result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
@@ -524,12 +567,12 @@ namespace LDAP_Library_UnitTest.localhost
                 TestStandardInitLibrary();
 
 
-            var result = _ldapManagerObj.Connect(new NetworkCredential(
+            bool result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,
                 ""),
-                        SecureSocketLayerFlag,
-                        TransportSocketLayerFlag,
-                        ClientCertificationFlag);
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
 
             Assert.IsTrue(result);
         }
@@ -539,7 +582,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
 
-            var result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
+            bool result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
 
             Assert.IsTrue(result);
         }

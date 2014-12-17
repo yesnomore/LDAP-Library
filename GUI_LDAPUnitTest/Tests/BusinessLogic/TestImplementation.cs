@@ -4,6 +4,7 @@ using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 
 namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
@@ -44,7 +45,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
                     Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
                     Config.LDAPLibrary["clientCertificatePath"],
-                    Convert.ToBoolean(Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
                     Config.LDAPLibrary["LDAPLibraryLogPath"],
                     Config.LDAPLibrary["LDAPUserObjectClass"],
                     Config.LDAPLibrary["LDAPMatchFieldUsername"]
@@ -91,7 +92,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
                     Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
                     Config.LDAPLibrary["clientCertificatePath"],
-                    Convert.ToBoolean(Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
                     Config.LDAPLibrary["LDAPLibraryLogPath"],
                     Config.LDAPLibrary["LDAPUserObjectClass"],
                     Config.LDAPLibrary["LDAPMatchFieldUsername"]
@@ -117,7 +118,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 _ldapManagerObj = new LdapManager(null,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
+                    authType, (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                    Config.LDAPLibrary["LDAPLibraryLogPath"]
                     );
 
                 if (!_ldapManagerObj.Equals(null))

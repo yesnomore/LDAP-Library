@@ -11,14 +11,14 @@ namespace LDAPLibrary.StaticClasses
     {
         public static AddRequest GetAddRequest(ILdapUser user, string objectClass)
         {
-            var addReq = new AddRequest { DistinguishedName = user.GetUserDn() };
+            var addReq = new AddRequest {DistinguishedName = user.GetUserDn()};
             addReq.Attributes.Add(new DirectoryAttribute("objectClass", objectClass));
             addReq.Attributes.Add(new DirectoryAttribute("cn", user.GetUserCn()));
             addReq.Attributes.Add(new DirectoryAttribute("sn", user.GetUserSn()));
 
-            foreach (var attributeName in user.GetUserAttributeKeys())
+            foreach (string attributeName in user.GetUserAttributeKeys())
             {
-                foreach (var attributeValue in user.GetUserAttribute(attributeName))
+                foreach (string attributeValue in user.GetUserAttribute(attributeName))
                 {
                     addReq.Attributes.Add(new DirectoryAttribute(attributeName, attributeValue));
                 }
@@ -32,7 +32,8 @@ namespace LDAPLibrary.StaticClasses
             return new DeleteRequest(user.GetUserDn());
         }
 
-        public static ModifyRequest GetModifyRequest(ILdapUser user, DirectoryAttributeOperation attributeOperation, string attributeName, string attributeValue)
+        public static ModifyRequest GetModifyRequest(ILdapUser user, DirectoryAttributeOperation attributeOperation,
+            string attributeName, string attributeValue)
         {
             return new ModifyRequest(user.GetUserDn(), attributeOperation, attributeName, attributeValue);
         }
@@ -49,7 +50,8 @@ namespace LDAPLibrary.StaticClasses
             return new ModifyRequest(user.GetUserDn(), modifyUserPassword);
         }
 
-        public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter, List<string> searchAttributes)
+        public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter,
+            List<string> searchAttributes)
         {
             return new SearchRequest(baseDn, searchFilter, SearchScope.Subtree, searchAttributes.ToArray());
         }

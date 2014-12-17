@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
@@ -16,9 +17,9 @@ namespace LDAPLibrary
         private readonly ILdapConfigRepository _configRepository;
         private readonly ILdapConnector _connector;
         private readonly ILogger _logger;
-        private readonly LdapUserManipulator _manageLdapUser;
+        private readonly ILdapUserManipulator _manageLdapUser;
 
-        private readonly LdapModeChecker _modeChecker;
+        private readonly ILdapModeChecker _modeChecker;
         private LdapState _ldapCurrentState;
 
         #endregion
@@ -34,14 +35,16 @@ namespace LDAPLibrary
         public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,
-            AuthType authType
+            AuthType authType,
+            LoggerType loggerType,
+            string logPath
             )
         {
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
             try
             {
-                _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
-                _logger = LoggerFactory.GetLogger(false, null);
+                _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType, loggerType, logPath);
+                _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), _configRepository.GetLogPath());
             }
             catch (ArgumentNullException)
             {
@@ -52,7 +55,7 @@ namespace LDAPLibrary
             _modeChecker = new LdapModeChecker(_configRepository);
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
@@ -67,7 +70,7 @@ namespace LDAPLibrary
             bool transportSocketLayerFlag,
             bool clientCertificateFlag,
             string clientCertificatePath,
-            bool writeLogFlag,
+            LoggerType loggerType,
             string logPath,
             string userObjectClass,
             string matchFieldUsername
@@ -75,13 +78,13 @@ namespace LDAPLibrary
             : this(adminUser,
                 ldapServer,
                 ldapSearchBaseDn,
-                authType)
+                authType,
+                loggerType, logPath)
         {
             try
             {
-                _logger = LoggerFactory.GetLogger(writeLogFlag, logPath);
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
-                    clientCertificateFlag, clientCertificatePath, writeLogFlag, logPath, userObjectClass,
+                    clientCertificateFlag, clientCertificatePath, userObjectClass,
                     matchFieldUsername);
             }
             catch (ArgumentNullException e)
@@ -92,7 +95,7 @@ namespace LDAPLibrary
             }
 
             _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector,_logger,_configRepository);
+            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }
@@ -107,7 +110,7 @@ namespace LDAPLibrary
 
         public bool DeleteUser(ILdapUser user)
         {
-            _ldapCurrentState = _manageLdapUser.DeleteUser(user);       
+            _ldapCurrentState = _manageLdapUser.DeleteUser(user);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 

@@ -4,7 +4,7 @@ namespace LDAPLibrary.Factories
 {
     internal static class LdapConnectorFactory
     {
-        public static ILdapConnector GetLdapConnector(LdapModeChecker modeChecker,
+        public static ILdapConnector GetLdapConnector(ILdapModeChecker modeChecker,
             ILdapConfigRepository configRepository, ILogger logger)
         {
             return new LdapConnector(modeChecker, configRepository, logger);

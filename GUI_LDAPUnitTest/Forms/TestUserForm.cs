@@ -37,7 +37,8 @@ namespace GUI_LDAPUnitTest.Forms
             try
             {
                 _testUserRepository.SetupTestUser(
-                    testUserDNTextBox.Text, testUserCNTextBox.Text, testUserSNTextBox.Text, TestUserAttributeStringParser.ParseTestUserAttributes(testUserOtherTextBox.Text));
+                    testUserDNTextBox.Text, testUserCNTextBox.Text, testUserSNTextBox.Text,
+                    TestUserAttributeStringParser.ParseTestUserAttributes(testUserOtherTextBox.Text));
                 DialogResult = DialogResult.OK;
                 Close();
             }

@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
-using LDAPLibrary.Interfarces;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LDAPLibrary;
+using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest
 {
     [TestClass]
-    public class LdapConfigRepositoryTest
+    public class LdapConfigRepositoryUnitTests
     {
-
         #region Localhost Configuration
 
         private const AuthType AuthType = System.DirectoryServices.Protocols.AuthType.Basic;
@@ -20,20 +20,21 @@ namespace LDAP_Library_UnitTest
         private const string AdminUserCn = "Manager";
         private const string AdminUserSn = "test";
         private const string AdminUserPassword = "secret";
-        private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
-            AdminUserCn,
-            AdminUserSn,
-            new Dictionary<string, List<string>> { { "userPassword", new List<string> { AdminUserPassword } } });
 
         private const string SearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
         private const string UserObjectClass = "person";
         private const string MatchFieldUsername = "cn";
-        private const bool EnableLog = true;
+        private const LoggerType EnableLog = LoggerType.File;
         private const string LogPath = @"C:\work\LDAPLibrary\Log\";
         private const bool SecureSocketLayer = false;
         private const bool TransportSocketLayer = false;
         private const bool ClientCertificate = false;
         private const string ClientCertificatePath = "null";
+
+        private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
+            AdminUserCn,
+            AdminUserSn,
+            new Dictionary<string, List<string>> {{"userPassword", new List<string> {AdminUserPassword}}});
 
         #endregion
 
@@ -43,7 +44,7 @@ namespace LDAP_Library_UnitTest
         private const bool StandardTransportSocketLayer = false;
         private const bool StandardClientCertificate = false;
         private const string StandardClientCertificatePath = "";
-        private const bool StandardEnableLog = false;
+        private const LoggerType StandardEnableLog = LoggerType.EventViewer;
         private const string StandardLogPath = "";
         private const string StandardUserObjectClass = "person";
         private const string StandardMatchFieldUsername = "cn";
@@ -56,7 +57,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfig()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, StandardEnableLog, StandardLogPath);
 
             Assert.AreEqual(AdminUser, _configRepository.GetAdminUser());
             Assert.AreEqual(Server, _configRepository.GetServer());
@@ -73,36 +74,35 @@ namespace LDAP_Library_UnitTest
             Assert.AreEqual(StandardLogPath, _configRepository.GetLogPath());
             Assert.AreEqual(StandardUserObjectClass, _configRepository.GetUserObjectClass());
             Assert.AreEqual(StandardMatchFieldUsername, _configRepository.GetMatchFieldName());
-
         }
+
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with Server null or empty throw an exception")]
         public void BasicConfigNoServer()
         {
-            _configRepository.BasicLdapConfig(AdminUser, "", SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, "", SearchBaseDn, AuthType, StandardEnableLog, LogPath);
         }
 
         [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfigNoSearchBaseDn()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, "", AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, "", AuthType, StandardEnableLog, LogPath);
         }
 
         [TestMethod, TestCategory("configRepository no Exception")]
         public void BasicConfigNoAdmin()
         {
-            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType, StandardEnableLog, LogPath);
         }
 
         [TestMethod, TestCategory("configRepository no Exception")]
         public void CompleteConfig()
         {
-
-            _configRepository.BasicLdapConfig(AdminUser,Server,SearchBaseDn,AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(SecureSocketLayer,
-                TransportSocketLayer, ClientCertificate, ClientCertificatePath, EnableLog, LogPath, UserObjectClass, MatchFieldUsername);
+                TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername);
 
             Assert.AreEqual(AdminUser, _configRepository.GetAdminUser());
             Assert.AreEqual(Server, _configRepository.GetServer());
@@ -119,101 +119,79 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with Certificate path null or empty throw an exception")]
         public void CompleteConfigNoCertificatePath()
         {
-            _configRepository.BasicLdapConfig(AdminUser,Server,SearchBaseDn,AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                "",
-                                                EnableLog,
-                                                LogPath,
-                                                UserObjectClass,
-                                                MatchFieldUsername
-                                                );
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                "",
+                UserObjectClass,
+                MatchFieldUsername
+                );
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with log path null or empty throw an exception")]
         public void CompleteConfigNoLogPath()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
-
-            _configRepository.AdditionalLdapConfig(
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                ClientCertificatePath,
-                                                EnableLog,
-                                                "",
-                                                UserObjectClass,
-                                                MatchFieldUsername
-                                                );
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, "");
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with user class null or empty throw an exception")]
         public void CompleteConfigNoUserClass()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                ClientCertificatePath,
-                                                EnableLog,
-                                                LogPath,
-                                                "",
-                                                MatchFieldUsername
-                                                );
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                "",
+                MatchFieldUsername
+                );
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with matchFieldUsername null or empty throw an exception")]
         public void CompleteConfigNoMatchFieldUsername()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                ClientCertificatePath,
-                                                EnableLog,
-                                                LogPath,
-                                                UserObjectClass,
-                                                ""
-                                                );
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                UserObjectClass,
+                ""
+                );
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
+        [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with admin user null or empty throw an exception")]
         public void CompleteConfigNoAdmin()
         {
-            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(
-                                                SecureSocketLayer,
-                                                TransportSocketLayer,
-                                                ClientCertificate,
-                                                ClientCertificatePath,
-                                                EnableLog,
-                                                LogPath,
-                                                UserObjectClass,
-                                                MatchFieldUsername
-                                                );
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                UserObjectClass,
+                MatchFieldUsername
+                );
         }
-
-
-
     }
 }

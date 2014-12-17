@@ -16,7 +16,8 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration
                     return new OneItemConfigurationPassword(testUserRepository);
                 case OneItemConfigurationState.UserToSearch:
                     return new OneItemConfigurationSearchUsers(testUserRepository);
-                default: throw new Exception("OneItemConfiguration Value Unespected");
+                default:
+                    throw new Exception("OneItemConfiguration Value Unespected");
             }
         }
     }

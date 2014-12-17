@@ -131,14 +131,21 @@ namespace LDAPLibrary
         }
 
         //Not tested because i don't know how to test an ACTION
-        public Action GetUserOperation(DirectoryAttributeOperation operationType, string attributeName, string attributeValue)
+        public Action GetUserOperation(DirectoryAttributeOperation operationType, string attributeName,
+            string attributeValue)
         {
             switch (operationType)
             {
-                case DirectoryAttributeOperation.Add: return (() => InsertUserAttribute(attributeName, attributeValue));
-                case DirectoryAttributeOperation.Delete: return (() => DeleteUserAttribute(attributeName, attributeValue));
-                case DirectoryAttributeOperation.Replace: return (() => OverwriteUserAttribute(attributeName, attributeValue));
-                default: throw new Exception("LdapUser GetUserOperation Method: Not valid DirectoryAttributeOperation specified - " + operationType );
+                case DirectoryAttributeOperation.Add:
+                    return (() => InsertUserAttribute(attributeName, attributeValue));
+                case DirectoryAttributeOperation.Delete:
+                    return (() => DeleteUserAttribute(attributeName, attributeValue));
+                case DirectoryAttributeOperation.Replace:
+                    return (() => OverwriteUserAttribute(attributeName, attributeValue));
+                default:
+                    throw new Exception(
+                        "LdapUser GetUserOperation Method: Not valid DirectoryAttributeOperation specified - " +
+                        operationType);
             }
         }
 
