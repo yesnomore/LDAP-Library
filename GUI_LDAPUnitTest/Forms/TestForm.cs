@@ -39,7 +39,7 @@ namespace GUI_LDAPUnitTest.Forms
         }
 
         #region Interface Events
-        
+
         #region Setup Buttons
 
         private void configModifyUserDescriptionButton_Click(object sender, EventArgs e)

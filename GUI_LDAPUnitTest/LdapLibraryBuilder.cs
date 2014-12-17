@@ -2,6 +2,7 @@
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 
 namespace GUI_LDAPUnitTest
 {
@@ -9,14 +10,16 @@ namespace GUI_LDAPUnitTest
     {
         public static ILdapManager SetupLdapLibrary()
         {
-            var authType = (AuthType)Enum.Parse(typeof(AuthType),
+            var authType = (AuthType) Enum.Parse(typeof (AuthType),
                 Config.LDAPLibrary["LDAPAuthType"]);
 
             if (string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
                 return new LdapManager(null,
                     Config.LDAPLibrary["LDAPServer"],
                     Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType
+                    authType,
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                    Config.LDAPLibrary["LDAPLibraryLogPath"]
                     );
 
             var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
@@ -29,7 +32,9 @@ namespace GUI_LDAPUnitTest
             return new LdapManager(adminUser,
                 Config.LDAPLibrary["LDAPServer"],
                 Config.LDAPLibrary["LDAPSearchBaseDN"],
-                authType
+                authType,
+                (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
+                Config.LDAPLibrary["LDAPLibraryLogPath"]
                 );
         }
     }

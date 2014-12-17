@@ -9,9 +9,12 @@ namespace LDAPLibrary.Factories
         {
             switch (type)
             {
-                case LoggerType.File: return new FileLogger(logPath);
-                case LoggerType.EventViewer: return new EventViewerLogger();
-                default: return new FakeLogger();
+                case LoggerType.File:
+                    return new FileLogger(logPath);
+                case LoggerType.EventViewer:
+                    return new EventViewerLogger();
+                default:
+                    return new FakeLogger();
             }
         }
     }

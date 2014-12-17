@@ -1,6 +1,6 @@
-﻿using System;
-using LDAPLibrary;
+﻿using LDAPLibrary;
 using LDAPLibrary.Factories;
+using LDAPLibrary.Interfarces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest
@@ -11,9 +11,9 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LdapConfigRepositoryFactory")]
         public void GetLdapConfigRepository()
         {
-            var configRepo = LdapConfigRepositoryFactory.GetConfigRepository();
+            ILdapConfigRepository configRepo = LdapConfigRepositoryFactory.GetConfigRepository();
 
-            Assert.IsInstanceOfType(configRepo,typeof(LdapConfigRepository));
+            Assert.IsInstanceOfType(configRepo, typeof (LdapConfigRepository));
         }
     }
 }

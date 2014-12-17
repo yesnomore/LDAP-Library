@@ -35,7 +35,7 @@ namespace LDAPLibrary
             {
                 if (_modeChecker.IsCompleteMode())
                 {
-                    var returnState = Connect(
+                    LdapState returnState = Connect(
                         new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
                             _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
                         _configRepository.GetSecureSocketLayerFlag(),

@@ -15,14 +15,14 @@ namespace LDAP_Library_UnitTest
         private const string UserPwd = "1";
         private const string UserDn = "cn=" + UserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
 
+        private const string ObjectClass = "person";
+
         private readonly ILdapUser _testUser = new LdapUser(UserDn, UserCn, "test",
             new Dictionary<string, List<string>>
             {
                 {"userPassword", new List<string> {UserPwd}},
                 {"description", new List<string> {"Test Description"}}
             });
-
-        private const string ObjectClass = "person";
 
 
         [TestMethod, TestCategory("RequestBuilder")]
@@ -35,7 +35,7 @@ namespace LDAP_Library_UnitTest
             Assert.IsTrue(req.Attributes.Count == 5);
 
             //POCHO
-            CollectionAssert.AreEqual(req.Attributes[0],new DirectoryAttribute("objectClass", ObjectClass));
+            CollectionAssert.AreEqual(req.Attributes[0], new DirectoryAttribute("objectClass", ObjectClass));
             CollectionAssert.AreEqual(req.Attributes[1], new DirectoryAttribute("cn", UserCn));
             CollectionAssert.AreEqual(req.Attributes[2], new DirectoryAttribute("sn", "test"));
             CollectionAssert.AreEqual(req.Attributes[3], new DirectoryAttribute("userPassword", UserPwd));
@@ -52,7 +52,8 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("RequestBuilder")]
         public void ModifyRequest()
         {
-            ModifyRequest req = LdapRequestBuilder.GetModifyRequest(_testUser, DirectoryAttributeOperation.Replace, "description",
+            ModifyRequest req = LdapRequestBuilder.GetModifyRequest(_testUser, DirectoryAttributeOperation.Replace,
+                "description",
                 "Test Description 2");
 
             Assert.AreEqual(UserDn, req.DistinguishedName);
@@ -64,8 +65,7 @@ namespace LDAP_Library_UnitTest
             };
             attributeModification.Add("Test Description 2");
 
-            CollectionAssert.AreEqual(req.Modifications[0],attributeModification);
-
+            CollectionAssert.AreEqual(req.Modifications[0], attributeModification);
         }
 
         [TestMethod, TestCategory("RequestBuilder")]
@@ -88,7 +88,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("RequestBuilder")]
         public void SearchRequest()
         {
-            var ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", ObjectClass, "cn", UserCn);
+            string ldapSearchFilter = String.Format("(&(objectClass={0})({1}={2}))", ObjectClass, "cn", UserCn);
             const string baseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
             var attributes = new List<string> {"cn", "sn"};
 

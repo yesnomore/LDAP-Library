@@ -103,13 +103,15 @@ namespace LDAP_Library_UnitTest
 
         private static void AssertLogMessageWithAddictionMessage(string logMessage, string logMessageAssertEqual)
         {
-            var dateSplit = logMessage.Split('-');
+            string[] dateSplit = logMessage.Split('-');
 
             DateTime dateparse;
-            if (!DateTime.TryParseExact(dateSplit[0].Remove(dateSplit[0].Length - 1), "dd/MM/yyyy HH:mm:ss tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateparse))
+            if (
+                !DateTime.TryParseExact(dateSplit[0].Remove(dateSplit[0].Length - 1), "dd/MM/yyyy HH:mm:ss tt",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out dateparse))
                 Assert.Fail();
 
-            var stateSplit = dateSplit[1].Substring(1).Split(':');
+            string[] stateSplit = dateSplit[1].Substring(1).Split(':');
 
             Assert.AreEqual(stateSplit[1].Substring(1), Test);
             Assert.AreEqual(stateSplit[0], logMessageAssertEqual);
@@ -117,10 +119,12 @@ namespace LDAP_Library_UnitTest
 
         private static void AssertLogMessage(string logMessage, string logMessageAssertEqual)
         {
-            var dateSplit = logMessage.Split('-');
+            string[] dateSplit = logMessage.Split('-');
 
             DateTime dateparse;
-            if (!DateTime.TryParseExact(dateSplit[0].Remove(dateSplit[0].Length - 1), "dd/MM/yyyy HH:mm:ss tt", CultureInfo.InvariantCulture, DateTimeStyles.None, out dateparse))
+            if (
+                !DateTime.TryParseExact(dateSplit[0].Remove(dateSplit[0].Length - 1), "dd/MM/yyyy HH:mm:ss tt",
+                    CultureInfo.InvariantCulture, DateTimeStyles.None, out dateparse))
                 Assert.Fail();
 
             Assert.AreEqual(dateSplit[1].Substring(1), logMessageAssertEqual);

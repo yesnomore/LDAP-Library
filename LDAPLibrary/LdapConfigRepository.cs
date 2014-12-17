@@ -9,10 +9,10 @@ namespace LDAPLibrary
     public class LdapConfigRepository : ILdapConfigRepository
     {
         private const string BasicConfigNullParametersErrorMessage =
-            "Server parameter cannot be null or empty";
+            "Server parameter cannot be null or empty and the file log path cannot be null if the logType is 'File' ";
 
         private const string CompleteConfigNullParametersErrorMessage =
-            "One param are null or empty:Search Base DN: {0},Admin User: {1},clientCertificatePath: {2}, logPath: {3}, userObjectClass: {4},matchFieldUsername: {5}";
+            "One param are null or empty:Search Base DN: {0},Admin User: {1},clientCertificatePath: {2}, userObjectClass: {3},matchFieldUsername: {4}";
 
         #region Configuration Parameters
 
@@ -21,13 +21,13 @@ namespace LDAPLibrary
         private bool _clientCertificateFlag;
         private string _clientCertificatePath;
         private string _logPath;
+        private LoggerType _loggerType;
         private string _matchFieldUsername;
         private string _searchBaseDn;
         private bool _secureSocketLayerFlag;
         private string _server;
         private bool _transportSocketLayerFlag;
         private string _userObjectClass;
-        private LoggerType _writeLogFlag;
 
         #endregion
 
@@ -75,7 +75,7 @@ namespace LDAPLibrary
 
         public LoggerType GetWriteLogFlag()
         {
-            return _writeLogFlag;
+            return _loggerType;
         }
 
         public string GetLogPath()
@@ -95,34 +95,36 @@ namespace LDAPLibrary
 
         #endregion
 
-        public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType)
+        public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
+            LoggerType loggerType, string logPath)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {server}))
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {server}) ||
+                (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {logPath})) && loggerType == LoggerType.File)
                 throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
 
             _authType = authType;
             _searchBaseDn = searchBaseDn;
             _server = server;
             _adminUser = adminUser;
+            _loggerType = loggerType;
+            _logPath = logPath;
 
             StandardLdapInformation();
         }
 
         public void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
-            string clientCertificatePath, LoggerType writeLogFlag, string logPath, string userObjectClass,
+            string clientCertificatePath, string userObjectClass,
             string matchFieldUsername)
         {
             if (LdapParameterChecker.ParametersIsNullOrEmpty(new[]
-            {_searchBaseDn, clientCertificatePath, logPath, userObjectClass, matchFieldUsername})
+            {_searchBaseDn, clientCertificatePath, userObjectClass, matchFieldUsername})
                 || _adminUser == null)
                 throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, _searchBaseDn,
-                    _adminUser, clientCertificatePath, logPath, userObjectClass, matchFieldUsername));
+                    _adminUser, clientCertificatePath, userObjectClass, matchFieldUsername));
 
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
-            _logPath = logPath;
-            _writeLogFlag = writeLogFlag;
             _clientCertificatePath = clientCertificatePath;
             _clientCertificateFlag = clientCertificateFlag;
             _transportSocketLayerFlag = transportSocketLayerFlag;
@@ -139,8 +141,6 @@ namespace LDAPLibrary
             _transportSocketLayerFlag = false;
             _clientCertificateFlag = false;
             _clientCertificatePath = "";
-            _writeLogFlag = LoggerType.EventViewer;
-            _logPath = "";
             _userObjectClass = "person";
             _matchFieldUsername = "cn";
         }

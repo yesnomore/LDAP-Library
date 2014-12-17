@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
+
 [assembly: InternalsVisibleTo("LDAP Library UnitTest")]
 
 namespace LDAPLibrary.StaticClasses
 {
-    static class LdapFilterBuilder
+    internal static class LdapFilterBuilder
     {
         private const string SearchFilterTemplate = "(&(objectClass={0})({1}={2}))";
 

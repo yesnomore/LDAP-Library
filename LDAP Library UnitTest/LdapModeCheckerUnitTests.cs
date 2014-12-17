@@ -10,7 +10,6 @@ namespace LDAP_Library_UnitTest
     [TestClass]
     public class LdapModeCheckerUnitTests
     {
-
         #region Localhost Configuration
 
         private const AuthType AuthType = System.DirectoryServices.Protocols.AuthType.Basic;
@@ -20,10 +19,6 @@ namespace LDAP_Library_UnitTest
         private const string AdminUserCn = "Manager";
         private const string AdminUserSn = "test";
         private const string AdminUserPassword = "secret";
-        private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
-            AdminUserCn,
-            AdminUserSn,
-            new Dictionary<string, List<string>> { { "userPassword", new List<string> { AdminUserPassword } } });
 
         private const string SearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
         private const string UserObjectClass = "person";
@@ -34,6 +29,11 @@ namespace LDAP_Library_UnitTest
         private const bool TransportSocketLayer = false;
         private const bool ClientCertificate = false;
         private const string ClientCertificatePath = "null";
+
+        private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
+            AdminUserCn,
+            AdminUserSn,
+            new Dictionary<string, List<string>> {{"userPassword", new List<string> {AdminUserPassword}}});
 
         #endregion
 
@@ -55,7 +55,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("Mode Checker - Basic Mode")]
         public void BasicMode()
         {
-            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             var modeCheckerTests = new LdapModeChecker(_configRepository);
 
@@ -66,10 +66,10 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("Mode Checker - Complete Mode")]
         public void CompleteMode()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType);
+            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(SecureSocketLayer,
-                TransportSocketLayer, ClientCertificate, ClientCertificatePath, EnableLog, LogPath, UserObjectClass, MatchFieldUsername);
+                TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername);
 
             var modeCheckerTests = new LdapModeChecker(_configRepository);
 

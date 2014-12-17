@@ -47,6 +47,7 @@ namespace LDAPLibrary.Interfarces
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult);
+        LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
+            out List<ILdapUser> searchResult);
     }
 }

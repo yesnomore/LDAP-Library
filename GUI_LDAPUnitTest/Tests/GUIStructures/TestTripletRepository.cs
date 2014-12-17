@@ -17,7 +17,9 @@ namespace GUI_LDAPUnitTest.Tests.GUIStructures
         {
             get
             {
-                _testTripletList.Where(t => !t.TestCheckbox.Checked).ToList().ForEach(t => t.TestLabel.Text = Constants.TestLableSkipped);
+                _testTripletList.Where(t => !t.TestCheckbox.Checked)
+                    .ToList()
+                    .ForEach(t => t.TestLabel.Text = Constants.TestLableSkipped);
                 return _testTripletList.Where(t => t.TestCheckbox.Checked).ToList();
             }
         }

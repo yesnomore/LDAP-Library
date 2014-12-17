@@ -3,9 +3,9 @@
     internal static class LdapStateUtils
     {
         /// <summary>
-        /// Convert the state to a boolean
-        /// TRUE - success state
-        /// FALSE - error state
+        ///     Convert the state to a boolean
+        ///     TRUE - success state
+        ///     FALSE - error state
         /// </summary>
         /// <param name="state"></param>
         /// <returns></returns>

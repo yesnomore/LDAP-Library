@@ -7,12 +7,13 @@ namespace LDAPLibrary.Interfarces
     {
         //Configurations Patterns
 
-        void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType);
+        void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
+            LoggerType loggerType, string logPath);
 
         void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
             string clientCertificatePath,
-            LoggerType writeLogFlag, string logPath, string userObjectClass, string matchFieldUsername);
+            string userObjectClass, string matchFieldUsername);
 
         // Getters
 

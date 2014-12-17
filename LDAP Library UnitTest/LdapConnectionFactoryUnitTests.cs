@@ -1,5 +1,6 @@
 ﻿using LDAPLibrary;
 using LDAPLibrary.Factories;
+using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,10 +13,10 @@ namespace LDAP_Library_UnitTest
         public void GetLdapConnector()
         {
             var configRepo = new LdapConfigRepository();
-            var connector = LdapConnectorFactory.GetLdapConnector(new LdapModeChecker(configRepo), configRepo,
+            ILdapConnector connector = LdapConnectorFactory.GetLdapConnector(new LdapModeChecker(configRepo), configRepo,
                 new FakeLogger());
 
-            Assert.IsInstanceOfType(connector,typeof(LdapConnector));
+            Assert.IsInstanceOfType(connector, typeof (LdapConnector));
         }
     }
 }

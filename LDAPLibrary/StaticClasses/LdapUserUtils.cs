@@ -5,15 +5,14 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.StaticClasses
 {
-    static class LdapUserUtils
+    internal static class LdapUserUtils
     {
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
 
         /// <summary>
-        /// This method get the search respose and return a list of users 
-        /// 
-        /// NOT TESTED: Because it's difficult to mockup the SearchResponse Obj
+        ///     This method get the search respose and return a list of users
+        ///     NOT TESTED: Because it's difficult to mockup the SearchResponse Obj
         /// </summary>
         /// <param name="searchResponse"></param>
         /// <returns></returns>
@@ -25,8 +24,8 @@ namespace LDAPLibrary.StaticClasses
             foreach (SearchResultEntry userReturn in searchResponse.Entries)
             {
                 //Required attributes inizialization
-                var tempUserCn = DefaultUserCn;
-                var tempUserSn = DefaultUserSn;
+                string tempUserCn = DefaultUserCn;
+                string tempUserSn = DefaultUserSn;
                 var tempUserOtherAttributes = new Dictionary<string, List<string>>();
 
                 //Cycle attributes
@@ -38,17 +37,22 @@ namespace LDAPLibrary.StaticClasses
                         {
                             case "CN":
                                 tempUserCn =
-                                    (string) userReturnAttribute.GetValues(Type.GetType("System.String"))[0]; break;
+                                    (string) userReturnAttribute.GetValues(Type.GetType("System.String"))[0];
+                                break;
                             case "SN":
-                                tempUserSn = 
-                                    (string) userReturnAttribute.GetValues(Type.GetType("System.String"))[0]; break;
-                            default: tempUserOtherAttributes.Add(
-                                userReturnAttribute.Name, 
-                                new List<string>(Array.ConvertAll(
-                                    userReturnAttribute.GetValues(Type.GetType("System.String")), Convert.ToString))); break;
+                                tempUserSn =
+                                    (string) userReturnAttribute.GetValues(Type.GetType("System.String"))[0];
+                                break;
+                            default:
+                                tempUserOtherAttributes.Add(
+                                    userReturnAttribute.Name,
+                                    new List<string>(Array.ConvertAll(
+                                        userReturnAttribute.GetValues(Type.GetType("System.String")), Convert.ToString)));
+                                break;
                         }
                     }
-                searchResult.Add(new LdapUser(userReturn.DistinguishedName, tempUserCn, tempUserSn, tempUserOtherAttributes));
+                searchResult.Add(new LdapUser(userReturn.DistinguishedName, tempUserCn, tempUserSn,
+                    tempUserOtherAttributes));
             }
             return searchResult;
         }
