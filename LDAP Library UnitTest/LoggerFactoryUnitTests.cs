@@ -10,7 +10,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LoggerFactoryFileLogger")]
         public void LoggerFactoryFileLogger()
         {
-            var logger = LDAPLibrary.Factories.LoggerFactory.GetLogger(true, AppDomain.CurrentDomain.BaseDirectory);
+            var logger = LDAPLibrary.Factories.LoggerFactory.GetLogger(LoggerType.File, AppDomain.CurrentDomain.BaseDirectory);
 
             Assert.IsInstanceOfType(logger, typeof(FileLogger));
         }
@@ -18,9 +18,17 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("LoggerFactoryFakeLogger")]
         public void LoggerFactoryFakeLogger()
         {
-            var logger = LDAPLibrary.Factories.LoggerFactory.GetLogger(false,null);
+            var logger = LDAPLibrary.Factories.LoggerFactory.GetLogger(LoggerType.None,null);
 
             Assert.IsInstanceOfType(logger, typeof(FakeLogger));
+        }
+
+        [TestMethod, TestCategory("LoggerFactoryEventViewerLogger")]
+        public void LoggerFactoryEventViewer()
+        {
+            var logger = LDAPLibrary.Factories.LoggerFactory.GetLogger(LoggerType.EventViewer, null);
+
+            Assert.IsInstanceOfType(logger, typeof(EventViewerLogger));
         }
     }
 }

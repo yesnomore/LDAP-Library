@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
@@ -41,7 +42,7 @@ namespace LDAPLibrary
             try
             {
                 _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType);
-                _logger = LoggerFactory.GetLogger(false, null);
+                _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), null);
             }
             catch (ArgumentNullException)
             {
@@ -67,7 +68,7 @@ namespace LDAPLibrary
             bool transportSocketLayerFlag,
             bool clientCertificateFlag,
             string clientCertificatePath,
-            bool writeLogFlag,
+            LoggerType writeLogFlag,
             string logPath,
             string userObjectClass,
             string matchFieldUsername

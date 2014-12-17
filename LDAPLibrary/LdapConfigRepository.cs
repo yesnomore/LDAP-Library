@@ -1,6 +1,7 @@
 ﻿using System;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
@@ -26,7 +27,7 @@ namespace LDAPLibrary
         private string _server;
         private bool _transportSocketLayerFlag;
         private string _userObjectClass;
-        private bool _writeLogFlag;
+        private LoggerType _writeLogFlag;
 
         #endregion
 
@@ -72,7 +73,7 @@ namespace LDAPLibrary
             return _clientCertificatePath;
         }
 
-        public bool GetWriteLogFlag()
+        public LoggerType GetWriteLogFlag()
         {
             return _writeLogFlag;
         }
@@ -109,7 +110,7 @@ namespace LDAPLibrary
 
         public void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
-            string clientCertificatePath, bool writeLogFlag, string logPath, string userObjectClass,
+            string clientCertificatePath, LoggerType writeLogFlag, string logPath, string userObjectClass,
             string matchFieldUsername)
         {
             if (LdapParameterChecker.ParametersIsNullOrEmpty(new[]
@@ -138,7 +139,7 @@ namespace LDAPLibrary
             _transportSocketLayerFlag = false;
             _clientCertificateFlag = false;
             _clientCertificatePath = "";
-            _writeLogFlag = false;
+            _writeLogFlag = LoggerType.EventViewer;
             _logPath = "";
             _userObjectClass = "person";
             _matchFieldUsername = "cn";

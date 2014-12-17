@@ -5,10 +5,14 @@ namespace LDAPLibrary.Factories
 {
     public static class LoggerFactory
     {
-        public static ILogger GetLogger(bool enableLogger, string logPath)
+        public static ILogger GetLogger(LoggerType type, string logPath)
         {
-            if (enableLogger) return new FileLogger(logPath);
-            return new FakeLogger();
+            switch (type)
+            {
+                case LoggerType.File: return new FileLogger(logPath);
+                case LoggerType.EventViewer: return new EventViewerLogger();
+                default: return new FakeLogger();
+            }
         }
     }
 }

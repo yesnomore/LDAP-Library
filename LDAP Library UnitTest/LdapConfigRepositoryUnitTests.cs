@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using LDAPLibrary;
 
@@ -28,7 +29,7 @@ namespace LDAP_Library_UnitTest
         private const string SearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
         private const string UserObjectClass = "person";
         private const string MatchFieldUsername = "cn";
-        private const bool EnableLog = true;
+        private const LoggerType EnableLog = LoggerType.File;
         private const string LogPath = @"C:\work\LDAPLibrary\Log\";
         private const bool SecureSocketLayer = false;
         private const bool TransportSocketLayer = false;
@@ -43,7 +44,7 @@ namespace LDAP_Library_UnitTest
         private const bool StandardTransportSocketLayer = false;
         private const bool StandardClientCertificate = false;
         private const string StandardClientCertificatePath = "";
-        private const bool StandardEnableLog = false;
+        private const LoggerType StandardEnableLog = LoggerType.EventViewer;
         private const string StandardLogPath = "";
         private const string StandardUserObjectClass = "person";
         private const string StandardMatchFieldUsername = "cn";

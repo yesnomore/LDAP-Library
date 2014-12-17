@@ -1,4 +1,5 @@
 ﻿using System.DirectoryServices.Protocols;
+using LDAPLibrary.Logger;
 
 namespace LDAPLibrary.Interfarces
 {
@@ -11,7 +12,7 @@ namespace LDAPLibrary.Interfarces
         void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
             string clientCertificatePath,
-            bool writeLogFlag, string logPath, string userObjectClass, string matchFieldUsername);
+            LoggerType writeLogFlag, string logPath, string userObjectClass, string matchFieldUsername);
 
         // Getters
 
@@ -23,7 +24,7 @@ namespace LDAPLibrary.Interfarces
         bool GetTransportSocketLayerFlag();
         bool GetClientCertificateFlag();
         string GetClientCertificatePath();
-        bool GetWriteLogFlag();
+        LoggerType GetWriteLogFlag();
         string GetLogPath();
         string GetUserObjectClass();
         string GetMatchFieldName();

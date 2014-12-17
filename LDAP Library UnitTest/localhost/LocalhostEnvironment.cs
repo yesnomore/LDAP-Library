@@ -4,6 +4,7 @@ using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 /*
@@ -56,7 +57,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const string LdapSearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
         private const string LdapUserObjectClass = "person";
         private const string LdapMatchFieldUsername = "cn";
-        private const bool EnableLdapLibraryLog = true;
+        private const LoggerType EnableLdapLibraryLog = LoggerType.File;
         private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
         private const bool SecureSocketLayerFlag = false;
         private const bool TransportSocketLayerFlag = false;
