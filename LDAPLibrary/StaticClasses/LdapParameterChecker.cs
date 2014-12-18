@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 
-[assembly: InternalsVisibleTo("LDAP Library UnitTest")]
+[assembly: InternalsVisibleTo("LDAPLibraryUnitTest")]
 
 namespace LDAPLibrary.StaticClasses
 {

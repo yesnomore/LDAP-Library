@@ -1,11 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibrary", "LDAPLibrary\LDAPLibrary.csproj", "{A31E343A-C1DA-40A1-9BFA-2200D892E83D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAP Library UnitTest", "LDAP Library UnitTest\LDAP Library UnitTest.csproj", "{2C87EE7A-B569-49E1-860F-55B49BC755DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibraryUnitTest", "LDAPLibraryUnitTest\LDAPLibraryUnitTest.csproj", "{2C87EE7A-B569-49E1-860F-55B49BC755DA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUI_LDAPUnitTest", "GUI_LDAPUnitTest\GUI_LDAPUnitTest.csproj", "{62F5E637-3C0D-406A-A3A1-03F09244C8A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{B5083EEA-FCA8-4AE9-87CB-D81D232C536A}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\packages.config = .nuget\packages.config
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

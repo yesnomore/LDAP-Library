@@ -1,4 +1,8 @@
-﻿namespace LDAPLibrary.StaticClasses
+﻿using System.Runtime.CompilerServices;
+
+[assembly: InternalsVisibleTo("LDAPLibraryUnitTest")]
+
+namespace LDAPLibrary.StaticClasses
 {
     internal static class LdapStateUtils
     {
