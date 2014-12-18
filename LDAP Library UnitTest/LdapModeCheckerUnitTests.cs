@@ -37,19 +37,6 @@ namespace LDAP_Library_UnitTest
 
         #endregion
 
-        #region StandardConfigValues
-
-        private const bool StandardSecureSocketLayer = false;
-        private const bool StandardTransportSocketLayer = false;
-        private const bool StandardClientCertificate = false;
-        private const string StandardClientCertificatePath = "";
-        private const bool StandardEnableLog = false;
-        private const string StandardLogPath = "";
-        private const string StandardUserObjectClass = "person";
-        private const string StandardMatchFieldUsername = "cn";
-
-        #endregion
-
         private readonly ILdapConfigRepository _configRepository = new LdapConfigRepository();
 
         [TestMethod, TestCategory("Mode Checker - Basic Mode")]
