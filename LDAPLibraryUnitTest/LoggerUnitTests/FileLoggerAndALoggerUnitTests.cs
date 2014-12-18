@@ -6,10 +6,10 @@ using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace LDAP_Library_UnitTest
+namespace LDAP_Library_UnitTest.LoggerUnitTests
 {
     [TestClass]
-    public class FileLoggerUnitTests
+    public class FileLoggerAndALoggerUnitTests
     {
         private const string Test = "Test Log Message";
         private static readonly string FilePath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
