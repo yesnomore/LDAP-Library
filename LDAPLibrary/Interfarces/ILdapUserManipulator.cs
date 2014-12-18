@@ -9,7 +9,6 @@ namespace LDAPLibrary.Interfarces
         ///     Create a new LDAPUser
         /// </summary>
         /// <param name="newUser">User to create</param>
-        /// <param name="objectClass"></param>
         /// <returns> Success or Failed</returns>
         LdapState CreateUser(ILdapUser newUser);
 

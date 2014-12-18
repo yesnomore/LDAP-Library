@@ -32,6 +32,8 @@ namespace LDAPLibrary
         /// <param name="ldapServer">LDAP Server with port</param>
         /// <param name="ldapSearchBaseDn">Base DN where start the search.</param>
         /// <param name="authType"></param>
+        /// <param name="loggerType"></param>
+        /// <param name="logPath"></param>
         public LdapManager(ILdapUser adminUser,
             string ldapServer,
             string ldapSearchBaseDn,

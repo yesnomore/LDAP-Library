@@ -10,7 +10,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
     internal class TestImplementation
     {
-        private readonly string[] _ldapMatchSearchField = {Config.LDAPLibrary["LDAPMatchFieldUsername"]};
+        private readonly string[] _ldapMatchSearchField = {Config.LdapLibrary["LDAPMatchFieldUsername"]};
         private readonly TestUserRepository _userRepository;
         private ILdapManager _ldapManagerObj;
 
@@ -28,27 +28,27 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         {
             try
             {
-                var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
-                    Config.LDAPLibrary["LDAPAdminUserCN"],
-                    Config.LDAPLibrary["LDAPAdminUserSN"],
+                var adminUser = new LdapUser(Config.LdapLibrary["LDAPAdminUserDN"],
+                    Config.LdapLibrary["LDAPAdminUserCN"],
+                    Config.LdapLibrary["LDAPAdminUserSN"],
                     null);
-                adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+                adminUser.CreateUserAttribute("userPassword", Config.LdapLibrary["LDAPAdminUserPassword"]);
 
                 var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                    Config.LDAPLibrary["LDAPAuthType"]);
+                    Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(adminUser,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                    Config.LdapLibrary["LDAPServer"],
+                    Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
-                    Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                    Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                    Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
-                    Config.LDAPLibrary["clientCertificatePath"],
-                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                    Config.LDAPLibrary["LDAPLibraryLogPath"],
-                    Config.LDAPLibrary["LDAPUserObjectClass"],
-                    Config.LDAPLibrary["LDAPMatchFieldUsername"]
+                    Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                    Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                    Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]),
+                    Config.LdapLibrary["clientCertificatePath"],
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
+                    Config.LdapLibrary["LDAPLibraryLogPath"],
+                    Config.LdapLibrary["LDAPUserObjectClass"],
+                    Config.LdapLibrary["LDAPMatchFieldUsername"]
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -82,20 +82,20 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
             try
             {
                 var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                    Config.LDAPLibrary["LDAPAuthType"]);
+                    Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                    Config.LdapLibrary["LDAPServer"],
+                    Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
-                    Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                    Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                    Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]),
-                    Config.LDAPLibrary["clientCertificatePath"],
-                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                    Config.LDAPLibrary["LDAPLibraryLogPath"],
-                    Config.LDAPLibrary["LDAPUserObjectClass"],
-                    Config.LDAPLibrary["LDAPMatchFieldUsername"]
+                    Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                    Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                    Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]),
+                    Config.LdapLibrary["clientCertificatePath"],
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
+                    Config.LdapLibrary["LDAPLibraryLogPath"],
+                    Config.LdapLibrary["LDAPUserObjectClass"],
+                    Config.LdapLibrary["LDAPMatchFieldUsername"]
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -113,13 +113,13 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
             try
             {
                 var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                    Config.LDAPLibrary["LDAPAuthType"]);
+                    Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
-                    authType, (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                    Config.LDAPLibrary["LDAPLibraryLogPath"]
+                    Config.LdapLibrary["LDAPServer"],
+                    Config.LdapLibrary["LDAPSearchBaseDN"],
+                    authType, (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
+                    Config.LdapLibrary["LDAPLibraryLogPath"]
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -281,9 +281,9 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
+                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
 
             if (result)
             {
@@ -299,9 +299,9 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
+                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
 
             TestAdminConnect();
 
@@ -320,7 +320,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         {
             bool result;
 
-            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            if (!string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))
             {
                 if (!TestAdminConnect())
                     return false;
@@ -337,9 +337,9 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 "");
 
             result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
+                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
 
             if (!result)
             {
@@ -347,7 +347,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 return false;
             }
 
-            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            if (!string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))
             {
                 if (!TestAdminConnect())
                     return false;
@@ -425,7 +425,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 
         public bool TestUserConnectWithoutWritePermissions()
         {
-            if (!string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            if (!string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))
                 if (!TestAdminConnect())
                     return false;
 
@@ -435,9 +435,9 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 "");
 
             bool result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LDAPLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LDAPLibrary["ClientCertificationFlag"]));
+                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
+                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
 
             return result;
         }

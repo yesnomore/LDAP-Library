@@ -11,30 +11,30 @@ namespace GUI_LDAPUnitTest
         public static ILdapManager SetupLdapLibrary()
         {
             var authType = (AuthType) Enum.Parse(typeof (AuthType),
-                Config.LDAPLibrary["LDAPAuthType"]);
+                Config.LdapLibrary["LDAPAuthType"]);
 
-            if (string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"]))
+            if (string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))
                 return new LdapManager(null,
-                    Config.LDAPLibrary["LDAPServer"],
-                    Config.LDAPLibrary["LDAPSearchBaseDN"],
+                    Config.LdapLibrary["LDAPServer"],
+                    Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
-                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                    Config.LDAPLibrary["LDAPLibraryLogPath"]
+                    (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
+                    Config.LdapLibrary["LDAPLibraryLogPath"]
                     );
 
-            var adminUser = new LdapUser(Config.LDAPLibrary["LDAPAdminUserDN"],
-                Config.LDAPLibrary["LDAPAdminUserCN"],
-                Config.LDAPLibrary["LDAPAdminUserSN"],
+            var adminUser = new LdapUser(Config.LdapLibrary["LDAPAdminUserDN"],
+                Config.LdapLibrary["LDAPAdminUserCN"],
+                Config.LdapLibrary["LDAPAdminUserSN"],
                 null);
 
-            adminUser.CreateUserAttribute("userPassword", Config.LDAPLibrary["LDAPAdminUserPassword"]);
+            adminUser.CreateUserAttribute("userPassword", Config.LdapLibrary["LDAPAdminUserPassword"]);
 
             return new LdapManager(adminUser,
-                Config.LDAPLibrary["LDAPServer"],
-                Config.LDAPLibrary["LDAPSearchBaseDN"],
+                Config.LdapLibrary["LDAPServer"],
+                Config.LdapLibrary["LDAPSearchBaseDN"],
                 authType,
-                (LoggerType) Enum.Parse(typeof (LoggerType), Config.LDAPLibrary["enableLDAPLibraryLog"]),
-                Config.LDAPLibrary["LDAPLibraryLogPath"]
+                (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
+                Config.LdapLibrary["LDAPLibraryLogPath"]
                 );
         }
     }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using GUI_LDAPUnitTest.Tests.BusinessLogic;
 using GUI_LDAPUnitTest.Tests.GUIStructures;
+using GUI_LDAPUnitTest.Tests.GUIStructures.OneItemConfiguration;
 
 namespace GUI_LDAPUnitTest.Forms
 {

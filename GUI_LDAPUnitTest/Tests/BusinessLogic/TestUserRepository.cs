@@ -11,12 +11,12 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 
         public TestUserRepository()
         {
-            string testUserDn = string.IsNullOrEmpty(Config.LDAPLibrary["LDAPAdminUserDN"])
+            string testUserDn = string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"])
                 ? "no User DN"
                 : (
                     "cn=" + Constants.TestUserDefaultCn +
-                    Config.LDAPLibrary["LDAPAdminUserDN"].Substring(
-                        Config.LDAPLibrary["LDAPAdminUserDN"].IndexOf(",", StringComparison.Ordinal))
+                    Config.LdapLibrary["LDAPAdminUserDN"].Substring(
+                        Config.LdapLibrary["LDAPAdminUserDN"].IndexOf(",", StringComparison.Ordinal))
                     );
 
             var testUserOtherAttribute = new Dictionary<string, List<string>>

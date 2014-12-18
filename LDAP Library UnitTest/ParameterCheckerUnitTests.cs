@@ -6,24 +6,24 @@ namespace LDAP_Library_UnitTest
     [TestClass]
     public class ParameterCheckerUnitTests
     {
-        private const string test = "ciccio";
+        private const string Test = "ciccio";
 
         [TestMethod, TestCategory("Parameter Checker")]
         public void ParametersNotNull()
         {
-            Assert.IsFalse(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {test, test}));
+            Assert.IsFalse(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {Test, Test}));
         }
 
         [TestMethod, TestCategory("Parameter Checker")]
         public void ParametersNull()
         {
-            Assert.IsTrue(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {null, test}));
+            Assert.IsTrue(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {null, Test}));
         }
 
         [TestMethod, TestCategory("Parameter Checker")]
         public void ParametersEmpty()
         {
-            Assert.IsTrue(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {"", test}));
+            Assert.IsTrue(LdapParameterChecker.ParametersIsNullOrEmpty(new[] {"", Test}));
         }
 
         [TestMethod, TestCategory("Parameter Checker")]

@@ -28,7 +28,6 @@ namespace LDAPLibrary
         ///     Create a new LDAPUser
         /// </summary>
         /// <param name="newUser">User to create</param>
-        /// <param name="objectClass"></param>
         /// <returns> Success or Failed</returns>
         public LdapState CreateUser(ILdapUser newUser)
         {

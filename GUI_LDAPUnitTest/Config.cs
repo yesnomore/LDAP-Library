@@ -8,16 +8,16 @@ namespace GUI_LDAPUnitTest
     /// </summary>
     public static class Config
     {
-        private static NameValueCollection ldapLibrary =
+        private static NameValueCollection _ldapLibrary =
             (NameValueCollection) ConfigurationManager.GetSection("LDAPLibrary");
 
         /// <summary>
         ///     Constants section
         /// </summary>
-        public static NameValueCollection LDAPLibrary
+        public static NameValueCollection LdapLibrary
         {
-            get { return ldapLibrary; }
-            set { ldapLibrary = value; }
+            get { return _ldapLibrary; }
+            set { _ldapLibrary = value; }
         }
     }
 }
