@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.DirectoryServices.Protocols;
 using System.Linq;
 using LDAPLibrary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -21,7 +22,7 @@ namespace LDAP_Library_UnitTest
                 {"telephoneNumber", new List<string> {"555-54321"}}
             };
 
-        private readonly LdapUser _testUser = new LdapUser(LdapUserDn,
+        private LdapUser _testUser = new LdapUser(LdapUserDn,
             LdapUserCn,
             LdapUserSn,
             LdapUserAttributes);
@@ -306,5 +307,75 @@ namespace LDAP_Library_UnitTest
         }
 
         #endregion
+
+        [TestMethod, TestCategory("LDAPUser Operations")]
+        public void GetUserOperationAdd()
+        {
+            const string testAttributeName = "description";
+            const string testAttributeValue = "test description adding";
+            var action = _testUser.GetUserOperation(DirectoryAttributeOperation.Add, testAttributeName, testAttributeValue);
+
+            Assert.IsInstanceOfType(action,typeof(Action));
+
+            action();
+
+            Assert.IsTrue(
+                _testUser.GetUserAttributeKeys().Contains(testAttributeName) &&
+                _testUser.GetUserAttribute(testAttributeName).Exists(x => x.Equals(testAttributeValue)) 
+                );
+
+            ResetTestUser();
+        }
+
+        private void ResetTestUser()
+        {
+            _testUser = new LdapUser(LdapUserDn,
+            LdapUserCn,
+            LdapUserSn,
+            LdapUserAttributes);
+        }
+
+        [TestMethod, TestCategory("LDAPUser Operations")]
+        public void GetUserOperationDelete()
+        {
+            const string testAttributeName = "description";
+            const string testAttributeValue = "test description deletion";
+
+            _testUser.GetUserOperation(DirectoryAttributeOperation.Add, testAttributeName, testAttributeValue)();
+
+            var action = _testUser.GetUserOperation(DirectoryAttributeOperation.Delete, testAttributeName, testAttributeValue);
+
+            Assert.IsInstanceOfType(action, typeof(Action));
+
+            action();
+
+            Assert.IsTrue(
+                _testUser.GetUserAttributeKeys().Contains(testAttributeName) &&
+                _testUser.GetUserAttribute(testAttributeName).All(x => !x.Equals(testAttributeValue))
+                );
+
+            ResetTestUser();
+        }
+
+        [TestMethod, TestCategory("LDAPUser Operations")]
+        public void GetUserOperationReplace()
+        {
+            const string testAttributeName = "description";
+            const string testAttributeValue = "test description replace";
+
+            var action = _testUser.GetUserOperation(DirectoryAttributeOperation.Replace, testAttributeName, testAttributeValue);
+
+            Assert.IsInstanceOfType(action, typeof(Action));
+
+            action();
+
+            Assert.IsTrue(
+                _testUser.GetUserAttributeKeys().Contains(testAttributeName) &&
+                _testUser.GetUserAttribute(testAttributeName).All(x => x.Equals(testAttributeValue)) &&
+                _testUser.GetUserAttribute(testAttributeName).Count == 1
+                );
+
+            ResetTestUser();
+        }
     }
 }
