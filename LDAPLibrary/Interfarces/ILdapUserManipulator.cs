@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
+using LDAPLibrary.Enums;
 
 namespace LDAPLibrary.Interfarces
 {

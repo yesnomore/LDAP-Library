@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using LDAPLibrary.Enums;
 
 namespace LDAPLibrary.Interfarces
 {

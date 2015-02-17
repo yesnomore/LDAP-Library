@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;

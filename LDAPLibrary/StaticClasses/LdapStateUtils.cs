@@ -1,4 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
+using LDAPLibrary.Enums;
 
 [assembly: InternalsVisibleTo("LDAPLibraryUnitTest")]
 

@@ -1,4 +1,6 @@
-﻿namespace LDAPLibrary.Interfarces
+﻿using LDAPLibrary.Enums;
+
+namespace LDAPLibrary.Interfarces
 {
     public interface ILogger
     {

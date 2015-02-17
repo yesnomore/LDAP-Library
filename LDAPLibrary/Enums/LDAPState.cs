@@ -1,4 +1,4 @@
-﻿namespace LDAPLibrary
+﻿namespace LDAPLibrary.Enums
 {
     public enum LdapState
     {

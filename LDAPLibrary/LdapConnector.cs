@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
