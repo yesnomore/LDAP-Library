@@ -37,7 +37,7 @@ namespace LDAPLibrary
 
         public ILdapUser GetAdminUser()
         {
-            return _adminUser;
+            return _adminUser ?? new FakeLdapUser();
         }
 
         public string GetServer()

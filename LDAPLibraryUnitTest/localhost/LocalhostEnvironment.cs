@@ -94,18 +94,6 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
-        public void TestStandardInitLibrary()
-        {
-            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
-                LdapServer,
-                LdapSearchBaseDn,
-                LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
-                );
-
-            Assert.IsFalse(_ldapManagerObj.Equals(null));
-        }
-
-        [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestAdminConnect()
         {
             //Init the DLL
@@ -388,12 +376,7 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
         public void TestUserConnectWithoutWritePermissions()
         {
-            if (!string.IsNullOrEmpty(LdapAdminUserDn))
-                TestAdminConnect();
-            else
-                //Init the DLL
-                TestStandardInitLibrary();
-
+            TestAdminConnect();
 
             bool result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,

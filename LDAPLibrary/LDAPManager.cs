@@ -20,7 +20,7 @@ namespace LDAPLibrary
         private readonly ILogger _logger;
         private readonly ILdapUserManipulator _manageLdapUser;
 
-        private readonly ILdapModeChecker _modeChecker;
+        private readonly ILdapAdminModeChecker _adminModeChecker;
         private LdapState _ldapCurrentState;
 
         #endregion
@@ -55,9 +55,9 @@ namespace LDAPLibrary
                 throw;
             }
 
-            _modeChecker = new LdapModeChecker(_configRepository);
+            _adminModeChecker = new LdapAdminModeChecker(_configRepository);
 
-            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
@@ -97,7 +97,7 @@ namespace LDAPLibrary
                 throw;
             }
 
-            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));

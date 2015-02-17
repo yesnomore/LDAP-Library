@@ -23,15 +23,9 @@ namespace LDAP_Library_UnitTest
         private const string AdminUserPassword = "secret";
 
         private const string SearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
-        private const string UserObjectClass = "person";
-        private const string MatchFieldUsername = "cn";
         private const LoggerType EnableLog = LoggerType.File;
         private const string LogPath = @"C:\work\LDAPLibrary\Log";
-        private const bool SecureSocketLayer = false;
-        private const bool TransportSocketLayer = false;
-        private const bool ClientCertificate = false;
-        private const string ClientCertificatePath = "null";
-        private const LDAPAdminMode AdminMode = LDAPAdminMode.Admin;
+
 
         private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
             AdminUserCn,
@@ -42,29 +36,40 @@ namespace LDAP_Library_UnitTest
 
         private readonly ILdapConfigRepository _configRepository = new LdapConfigRepository();
 
-        [TestMethod, TestCategory("Mode Checker - Basic Mode")]
-        public void BasicModeNoAdmin()
+        [TestMethod, TestCategory("Mode Checker - Admin Mode")]
+        public void AdminMode()
         {
-            _configRepository.BasicLdapConfig(null,LDAPAdminMode.NoAdmin, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+            _configRepository.BasicLdapConfig(AdminUser,LDAPAdminMode.Admin, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
-            var modeCheckerTests = new LdapModeChecker(_configRepository);
+            var modeCheckerTests = new LdapAdminModeChecker(_configRepository);
 
-            Assert.IsTrue(modeCheckerTests.IsBasicMode());
-            Assert.IsFalse(modeCheckerTests.IsCompleteMode());
+            Assert.IsTrue(modeCheckerTests.IsAdminMode());
+            Assert.IsFalse(modeCheckerTests.IsNoAdminMode());
+            Assert.IsFalse(modeCheckerTests.IsAnonymousMode());
         }
 
-        [TestMethod, TestCategory("Mode Checker - Complete Mode")]
-        public void CompleteMode()
+        [TestMethod, TestCategory("Mode Checker - NoAdmin Mode")]
+        public void NoAdminMode()
         {
-            _configRepository.BasicLdapConfig(AdminUser,AdminMode, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+            _configRepository.BasicLdapConfig(AdminUser, LDAPAdminMode.NoAdmin, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
-            _configRepository.AdditionalLdapConfig(SecureSocketLayer,
-                TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername);
+            var modeCheckerTests = new LdapAdminModeChecker(_configRepository);
 
-            var modeCheckerTests = new LdapModeChecker(_configRepository);
+            Assert.IsTrue(modeCheckerTests.IsNoAdminMode());
+            Assert.IsFalse(modeCheckerTests.IsAdminMode());
+            Assert.IsFalse(modeCheckerTests.IsAnonymousMode());
+        }
 
-            Assert.IsFalse(modeCheckerTests.IsBasicMode());
-            Assert.IsTrue(modeCheckerTests.IsCompleteMode());
+        [TestMethod, TestCategory("Mode Checker - NoAdmin Mode")]
+        public void AnonymousMode()
+        {
+            _configRepository.BasicLdapConfig(AdminUser, LDAPAdminMode.Anonymous, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+
+            var modeCheckerTests = new LdapAdminModeChecker(_configRepository);
+
+            Assert.IsTrue(modeCheckerTests.IsAnonymousMode());
+            Assert.IsFalse(modeCheckerTests.IsAdminMode());
+            Assert.IsFalse(modeCheckerTests.IsNoAdminMode());
         }
     }
 }
