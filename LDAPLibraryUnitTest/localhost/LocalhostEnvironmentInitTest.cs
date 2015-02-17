@@ -187,6 +187,27 @@ namespace LDAP_Library_UnitTest.localhost
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the library with SearchBaseDn null or empty throw an exception")]
+        public void TestCompleteInitLibraryNoSearchBaseDn()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                "",
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with Admin null or empty and LDAPAdminMode.Admin throw an exception")]
         public void TestCompleteInitLibraryNoAdmin_LDAPAdminMode_Admin()
         {
@@ -222,13 +243,12 @@ namespace LDAP_Library_UnitTest.localhost
                 LdapUserObjectClass,
                 LdapMatchFieldUsername
                 );
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestCompleteInitLibraryNoAdmin_LDAPAdminMode_Anonymous()
         {
-            _ldapManagerObj = new LdapManager(null, LDAPAdminMode.NoAdmin,
+            _ldapManagerObj = new LdapManager(null, LDAPAdminMode.Anonymous,
                 LdapServer,
                 LdapSearchBaseDn,
                 LdapAuthType,
@@ -241,7 +261,6 @@ namespace LDAP_Library_UnitTest.localhost
                 LdapUserObjectClass,
                 LdapMatchFieldUsername
                 );
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -292,6 +311,16 @@ namespace LDAP_Library_UnitTest.localhost
         public void TestStandardInitLibraryNoServer()
         {
             _ldapManagerObj = new LdapManager(AdminUser, AdminMode, "", LdapSearchBaseDn, LdapAuthType, EnableLdapLibraryLog,
+                LdapLibraryLogPath);
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the library with SearchBaseDn null or empty throw an exception")]
+        public void TestStandardInitLibraryNoSearchBaseDn()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode, LdapServer, "", LdapAuthType, EnableLdapLibraryLog,
                 LdapLibraryLogPath);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }

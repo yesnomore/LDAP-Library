@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Configuration;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -29,6 +31,7 @@ namespace LDAP_Library_UnitTest
         private const bool TransportSocketLayer = false;
         private const bool ClientCertificate = false;
         private const string ClientCertificatePath = "null";
+        private const LDAPAdminMode AdminMode = LDAPAdminMode.Admin;
 
         private static readonly LdapUser AdminUser = new LdapUser(AdminUserDn,
             AdminUserCn,
@@ -40,9 +43,9 @@ namespace LDAP_Library_UnitTest
         private readonly ILdapConfigRepository _configRepository = new LdapConfigRepository();
 
         [TestMethod, TestCategory("Mode Checker - Basic Mode")]
-        public void BasicMode()
+        public void BasicModeNoAdmin()
         {
-            _configRepository.BasicLdapConfig(null, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+            _configRepository.BasicLdapConfig(null,LDAPAdminMode.NoAdmin, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             var modeCheckerTests = new LdapModeChecker(_configRepository);
 
@@ -53,7 +56,7 @@ namespace LDAP_Library_UnitTest
         [TestMethod, TestCategory("Mode Checker - Complete Mode")]
         public void CompleteMode()
         {
-            _configRepository.BasicLdapConfig(AdminUser, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+            _configRepository.BasicLdapConfig(AdminUser,AdminMode, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(SecureSocketLayer,
                 TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername);

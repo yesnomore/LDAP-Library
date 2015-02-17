@@ -46,7 +46,7 @@ namespace LDAPLibrary
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
             try
             {
-                _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType, loggerType, logPath);
+                _configRepository.BasicLdapConfig(adminUser,adminMode, ldapServer, ldapSearchBaseDn, authType, loggerType, logPath);
                 _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), _configRepository.GetLogPath());
             }
             catch (ArgumentNullException)

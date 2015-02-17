@@ -88,6 +88,8 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository no Exception")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the configRepository with Server null or empty throw an exception")]
         public void BasicConfigNoSearchBaseDn()
         {
             _configRepository.BasicLdapConfig(AdminUser,AdminMode, Server, "", AuthType, StandardEnableLog, LogPath);
@@ -99,7 +101,7 @@ namespace LDAP_Library_UnitTest
             _configRepository.BasicLdapConfig(null, LDAPAdminMode.NoAdmin, Server, SearchBaseDn, AuthType, StandardEnableLog, LogPath);
         }
 
-        [TestMethod, TestCategory("configRepository no Exception")]
+        [TestMethod, TestCategory("configRepository Exceptions")]
         [ExpectedException(typeof(ArgumentNullException),
             "The creation of the configRepository with Server null or empty throw an exception")]
         public void BasicConfigNoAdmin_LDAPAdminMode_Admin()
@@ -108,8 +110,6 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository no Exception")]
-        [ExpectedException(typeof(ArgumentNullException),
-            "The creation of the configRepository with Server null or empty throw an exception")]
         public void BasicConfigNoAdmin_LDAPAdminMode_Anonymous()
         {
             _configRepository.BasicLdapConfig(null, LDAPAdminMode.Anonymous, Server, SearchBaseDn, AuthType, StandardEnableLog, LogPath);
@@ -181,6 +181,23 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
+        [ExpectedException(typeof(ArgumentNullException),
+            "The creation of the configRepository with SearchBaseDn null or empty throw an exception")]
+        public void CompleteConfigNoSearchBaseDn()
+        {
+            _configRepository.BasicLdapConfig(AdminUser, AdminMode, Server, "", AuthType, EnableLog, LogPath);
+
+            _configRepository.AdditionalLdapConfig(
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                UserObjectClass,
+                MatchFieldUsername
+                );
+        }
+
+        [TestMethod, TestCategory("configRepository Exceptions")]
         [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with matchFieldUsername null or empty throw an exception")]
         public void CompleteConfigNoMatchFieldUsername()
@@ -230,8 +247,6 @@ namespace LDAP_Library_UnitTest
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
-        [ExpectedException(typeof(ArgumentNullException),
-            "The creation of the configRepository with admin user null or empty throw an exception")]
         public void CompleteConfigNoAdmin_LDAPAdminMode_Anonymous()
         {
             _configRepository.BasicLdapConfig(null,LDAPAdminMode.Anonymous, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
