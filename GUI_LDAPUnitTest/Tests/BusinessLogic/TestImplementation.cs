@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using LDAPLibrary;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 
@@ -38,6 +39,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(adminUser,
+                    (LDAPAdminMode) Enum.Parse(typeof (LDAPAdminMode),Config.LdapLibrary["LDAPAdminMode"]),
                     Config.LdapLibrary["LDAPServer"],
                     Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
@@ -85,6 +87,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
+                    (LDAPAdminMode)Enum.Parse(typeof(LDAPAdminMode), Config.LdapLibrary["LDAPAdminMode"]),
                     Config.LdapLibrary["LDAPServer"],
                     Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
@@ -116,6 +119,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                     Config.LdapLibrary["LDAPAuthType"]);
 
                 _ldapManagerObj = new LdapManager(null,
+                    (LDAPAdminMode)Enum.Parse(typeof(LDAPAdminMode), Config.LdapLibrary["LDAPAdminMode"]),
                     Config.LdapLibrary["LDAPServer"],
                     Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType, (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
