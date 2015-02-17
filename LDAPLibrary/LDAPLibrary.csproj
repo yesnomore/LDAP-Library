@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\LDAPAdminMode.cs" />
     <Compile Include="Enums\LDAPState.cs" />
     <Compile Include="Factories\LdapConfigRepositoryFactory.cs" />
     <Compile Include="Factories\LdapConnectorFactory.cs" />
