@@ -53,7 +53,9 @@
   </Choose>
   <ItemGroup>
     <Compile Include="LdapModeCheckerUnitTests.cs" />
+    <Compile Include="localhost\LocalhostEnvironmentAnonymous.cs" />
     <Compile Include="localhost\LocalhostEnvironment.cs" />
+    <Compile Include="localhost\LocalhostEnvironmentInitTest.cs" />
     <Compile Include="LoggerUnitTests\EventViewerLoggerUnitTests.cs" />
     <Compile Include="LoggerUnitTests\FakeLoggerUnitTest.cs" />
     <Compile Include="LoggerUnitTests\FileLoggerAndALoggerUnitTests.cs" />

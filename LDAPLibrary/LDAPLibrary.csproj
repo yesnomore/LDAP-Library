@@ -45,23 +45,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Enums\LDAPAdminMode.cs" />
+    <Compile Include="Enums\LDAPState.cs" />
     <Compile Include="Factories\LdapConfigRepositoryFactory.cs" />
     <Compile Include="Factories\LdapConnectorFactory.cs" />
     <Compile Include="Factories\LdapUserManipulatorFactory.cs" />
     <Compile Include="Factories\LoggerFactory.cs" />
+    <Compile Include="FakeLdapUser.cs" />
     <Compile Include="Interfarces\ILdapConfigRepository.cs" />
     <Compile Include="Interfarces\ILdapConnectionObservable.cs" />
     <Compile Include="Interfarces\ILdapConnectionObserver.cs" />
     <Compile Include="Interfarces\ILdapConnector.cs" />
     <Compile Include="Interfarces\ILDAPManager.cs" />
-    <Compile Include="Interfarces\ILdapModeChecker.cs" />
+    <Compile Include="Interfarces\ILdapAdminModeChecker.cs" />
     <Compile Include="Interfarces\ILdapUser.cs" />
     <Compile Include="Interfarces\ILdapUserManipulator.cs" />
     <Compile Include="Interfarces\ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />
     <Compile Include="LdapConnector.cs" />
-    <Compile Include="LdapModeChecker.cs" />
-    <Compile Include="LdapState.cs" />
+    <Compile Include="LdapAdminModeChecker.cs" />
     <Compile Include="LdapManager.cs" />
     <Compile Include="LdapUser.cs" />
     <Compile Include="LdapUserManipulator.cs" />

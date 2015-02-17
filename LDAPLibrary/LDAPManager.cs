@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
 using System.Net;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
@@ -19,7 +20,7 @@ namespace LDAPLibrary
         private readonly ILogger _logger;
         private readonly ILdapUserManipulator _manageLdapUser;
 
-        private readonly ILdapModeChecker _modeChecker;
+        private readonly ILdapAdminModeChecker _adminModeChecker;
         private LdapState _ldapCurrentState;
 
         #endregion
@@ -34,7 +35,7 @@ namespace LDAPLibrary
         /// <param name="authType"></param>
         /// <param name="loggerType"></param>
         /// <param name="logPath"></param>
-        public LdapManager(ILdapUser adminUser,
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -45,7 +46,7 @@ namespace LDAPLibrary
             _configRepository = LdapConfigRepositoryFactory.GetConfigRepository();
             try
             {
-                _configRepository.BasicLdapConfig(adminUser, ldapServer, ldapSearchBaseDn, authType, loggerType, logPath);
+                _configRepository.BasicLdapConfig(adminUser,adminMode, ldapServer, ldapSearchBaseDn, authType, loggerType, logPath);
                 _logger = LoggerFactory.GetLogger(_configRepository.GetWriteLogFlag(), _configRepository.GetLogPath());
             }
             catch (ArgumentNullException)
@@ -54,9 +55,9 @@ namespace LDAPLibrary
                 throw;
             }
 
-            _modeChecker = new LdapModeChecker(_configRepository);
+            _adminModeChecker = new LdapAdminModeChecker(_configRepository);
 
-            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
@@ -64,7 +65,7 @@ namespace LDAPLibrary
         /// <summary>
         ///     More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser,
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -77,7 +78,7 @@ namespace LDAPLibrary
             string userObjectClass,
             string matchFieldUsername
             )
-            : this(adminUser,
+            : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
                 authType,
@@ -96,7 +97,7 @@ namespace LDAPLibrary
                 throw;
             }
 
-            _connector = LdapConnectorFactory.GetLdapConnector(_modeChecker, _configRepository, _logger);
+            _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));

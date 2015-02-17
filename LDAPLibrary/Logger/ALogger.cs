@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.Logger

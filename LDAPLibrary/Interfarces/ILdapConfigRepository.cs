@@ -1,4 +1,5 @@
 ﻿using System.DirectoryServices.Protocols;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Logger;
 
 namespace LDAPLibrary.Interfarces
@@ -7,8 +8,7 @@ namespace LDAPLibrary.Interfarces
     {
         //Configurations Patterns
 
-        void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
-            LoggerType loggerType, string logPath);
+        void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath);
 
         void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
@@ -29,5 +29,6 @@ namespace LDAPLibrary.Interfarces
         string GetLogPath();
         string GetUserObjectClass();
         string GetMatchFieldName();
+        LDAPAdminMode GetAdminMode();
     }
 }

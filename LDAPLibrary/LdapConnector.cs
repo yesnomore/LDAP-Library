@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
@@ -17,13 +18,13 @@ namespace LDAPLibrary
 
         private readonly ILdapConfigRepository _configRepository;
         private readonly ILogger _logger;
-        private readonly ILdapModeChecker _modeChecker;
+        private readonly ILdapAdminModeChecker _adminModeChecker;
         private readonly List<ILdapConnectionObserver> _observers;
         private LdapConnection _ldapConnection;
 
-        public LdapConnector(ILdapModeChecker modeChecker, ILdapConfigRepository configRepository, ILogger logger)
+        public LdapConnector(ILdapAdminModeChecker adminModeChecker, ILdapConfigRepository configRepository, ILogger logger)
         {
-            _modeChecker = modeChecker;
+            _adminModeChecker = adminModeChecker;
             _configRepository = configRepository;
             _logger = logger;
             _observers = new List<ILdapConnectionObserver>();
@@ -33,7 +34,7 @@ namespace LDAPLibrary
         {
             try
             {
-                if (_modeChecker.IsCompleteMode())
+                if (!_adminModeChecker.IsNoAdminMode())
                 {
                     LdapState returnState = Connect(
                         new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
@@ -86,7 +87,8 @@ namespace LDAPLibrary
 
                 #endregion
 
-                _ldapConnection.Bind(credential);
+                if (_adminModeChecker.IsAdminMode()) _ldapConnection.Bind(credential);
+                if (_adminModeChecker.IsAnonymousMode()) _ldapConnection.Bind(credential);
             }
             catch (Exception e)
             {
@@ -106,7 +108,7 @@ namespace LDAPLibrary
                 (secureSocketLayer ? "\n With SSL " : ""),
                 (transportSocketLayer ? "\n With TLS " : ""),
                 (clientCertificate ? "\n With Client Certificate" : ""));
-            if (_modeChecker.IsBasicMode())
+            if (_adminModeChecker.IsNoAdminMode())
                 _ldapConnection.Dispose();
             _logger.Write(_logger.BuildLogMessage(successConnectionMessage, LdapState.LdapConnectionSuccess));
             return LdapState.LdapConnectionSuccess;

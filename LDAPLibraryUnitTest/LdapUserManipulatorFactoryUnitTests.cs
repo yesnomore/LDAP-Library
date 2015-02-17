@@ -14,7 +14,7 @@ namespace LDAP_Library_UnitTest
         {
             var configRepo = new LdapConfigRepository();
             var logger = new FakeLogger();
-            var ldapConnector = new LdapConnector(new LdapModeChecker(configRepo), configRepo, logger);
+            var ldapConnector = new LdapConnector(new LdapAdminModeChecker(configRepo), configRepo, logger);
             ILdapUserManipulator ldapUserManipulator = LdapUserManipulatorFactory.GetUserManipulator(ldapConnector,
                 logger, configRepo);
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.StaticClasses;
 

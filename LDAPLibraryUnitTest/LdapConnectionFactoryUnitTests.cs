@@ -13,7 +13,7 @@ namespace LDAP_Library_UnitTest
         public void GetLdapConnector()
         {
             var configRepo = new LdapConfigRepository();
-            ILdapConnector connector = LdapConnectorFactory.GetLdapConnector(new LdapModeChecker(configRepo), configRepo,
+            ILdapConnector connector = LdapConnectorFactory.GetLdapConnector(new LdapAdminModeChecker(configRepo), configRepo,
                 new FakeLogger());
 
             Assert.IsInstanceOfType(connector, typeof (LdapConnector));

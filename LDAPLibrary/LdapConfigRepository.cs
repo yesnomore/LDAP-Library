@@ -1,5 +1,6 @@
 ﻿using System;
 using System.DirectoryServices.Protocols;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 using LDAPLibrary.StaticClasses;
@@ -9,10 +10,10 @@ namespace LDAPLibrary
     public class LdapConfigRepository : ILdapConfigRepository
     {
         private const string BasicConfigNullParametersErrorMessage =
-            "Server parameter cannot be null or empty and the file log path cannot be null if the logType is 'File' ";
+            "Server or SearchBaseDn parameter cannot be null or empty and the file log path cannot be null if the logType is 'File' ";
 
         private const string CompleteConfigNullParametersErrorMessage =
-            "One param are null or empty:Search Base DN: {0},Admin User: {1},clientCertificatePath: {2}, userObjectClass: {3},matchFieldUsername: {4}";
+            "One param are null or empty:Admin User: {0},clientCertificatePath: {1}, userObjectClass: {2},matchFieldUsername: {3}";
 
         #region Configuration Parameters
 
@@ -28,6 +29,7 @@ namespace LDAPLibrary
         private string _server;
         private bool _transportSocketLayerFlag;
         private string _userObjectClass;
+        private LDAPAdminMode _adminMode;
 
         #endregion
 
@@ -35,7 +37,7 @@ namespace LDAPLibrary
 
         public ILdapUser GetAdminUser()
         {
-            return _adminUser;
+            return _adminUser ?? new FakeLdapUser();
         }
 
         public string GetServer()
@@ -93,14 +95,16 @@ namespace LDAPLibrary
             return _matchFieldUsername;
         }
 
+        public LDAPAdminMode GetAdminMode()
+        {
+            return _adminMode;
+        }
+
         #endregion
 
-        public void BasicLdapConfig(ILdapUser adminUser, string server, string searchBaseDn, AuthType authType,
-            LoggerType loggerType, string logPath)
+        public void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {server}) ||
-                (LdapParameterChecker.ParametersIsNullOrEmpty(new[] {logPath})) && loggerType == LoggerType.File)
-                throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
+            BasicLdapConfigValidator(server, loggerType, logPath,searchBaseDn,adminUser,adminMode);
 
             _authType = authType;
             _searchBaseDn = searchBaseDn;
@@ -108,6 +112,7 @@ namespace LDAPLibrary
             _adminUser = adminUser;
             _loggerType = loggerType;
             _logPath = logPath;
+            _adminMode = adminMode;
 
             StandardLdapInformation();
         }
@@ -117,11 +122,7 @@ namespace LDAPLibrary
             string clientCertificatePath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[]
-            {_searchBaseDn, clientCertificatePath, userObjectClass, matchFieldUsername})
-                || _adminUser == null)
-                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage, _searchBaseDn,
-                    _adminUser, clientCertificatePath, userObjectClass, matchFieldUsername));
+            AddictionalLdapConfigValidator(clientCertificatePath, userObjectClass, matchFieldUsername);
 
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
@@ -143,6 +144,22 @@ namespace LDAPLibrary
             _clientCertificatePath = "";
             _userObjectClass = "person";
             _matchFieldUsername = "cn";
+        }
+
+        private static void BasicLdapConfigValidator(string server, LoggerType loggerType, string logPath, string searchBaseDn, ILdapUser admin, LDAPAdminMode adminMode)
+        {
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { server, searchBaseDn }) ||
+                (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { logPath })) && loggerType == LoggerType.File ||
+                (adminMode == LDAPAdminMode.Admin && admin == null))
+                throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
+        }
+
+        private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass,
+            string matchFieldUsername)
+        {
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { clientCertificatePath, userObjectClass, matchFieldUsername }))
+                throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage,
+                    _adminUser, clientCertificatePath, userObjectClass, matchFieldUsername));
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 
@@ -15,6 +16,7 @@ namespace GUI_LDAPUnitTest
 
             if (string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))
                 return new LdapManager(null,
+                    (LDAPAdminMode)Enum.Parse(typeof(LDAPAdminMode), Config.LdapLibrary["LDAPAdminMode"]),
                     Config.LdapLibrary["LDAPServer"],
                     Config.LdapLibrary["LDAPSearchBaseDN"],
                     authType,
@@ -30,6 +32,7 @@ namespace GUI_LDAPUnitTest
             adminUser.CreateUserAttribute("userPassword", Config.LdapLibrary["LDAPAdminUserPassword"]);
 
             return new LdapManager(adminUser,
+                (LDAPAdminMode)Enum.Parse(typeof(LDAPAdminMode), Config.LdapLibrary["LDAPAdminMode"]),
                 Config.LdapLibrary["LDAPServer"],
                 Config.LdapLibrary["LDAPSearchBaseDN"],
                 authType,
