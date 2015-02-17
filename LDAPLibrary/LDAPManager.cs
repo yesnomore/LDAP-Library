@@ -35,7 +35,7 @@ namespace LDAPLibrary
         /// <param name="authType"></param>
         /// <param name="loggerType"></param>
         /// <param name="logPath"></param>
-        public LdapManager(ILdapUser adminUser,
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -65,7 +65,7 @@ namespace LDAPLibrary
         /// <summary>
         ///     More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser,
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
             string ldapSearchBaseDn,
             AuthType authType,
@@ -78,7 +78,7 @@ namespace LDAPLibrary
             string userObjectClass,
             string matchFieldUsername
             )
-            : this(adminUser,
+            : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
                 authType,

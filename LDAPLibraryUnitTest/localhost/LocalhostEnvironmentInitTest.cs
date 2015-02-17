@@ -207,6 +207,44 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoAdmin_LDAPAdminMode_NoAdmin()
+        {
+            _ldapManagerObj = new LdapManager(null, LDAPAdminMode.NoAdmin,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoAdmin_LDAPAdminMode_Anonymous()
+        {
+            _ldapManagerObj = new LdapManager(null, LDAPAdminMode.NoAdmin,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
         [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with Admin null or empty and LDAPAdminMode.Admin throw an exception")]
         public void TestStardardInitLibraryNoAdmin()

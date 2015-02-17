@@ -94,6 +94,18 @@ namespace LDAP_Library_UnitTest.localhost
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestStandardInitLibrary()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
+                );
+
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
         public void TestAdminConnect()
         {
             //Init the DLL
