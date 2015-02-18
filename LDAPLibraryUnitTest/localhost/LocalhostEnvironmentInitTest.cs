@@ -125,7 +125,7 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with log path null or empty throw an exception")]
-        public void TestCompleteInitLibraryNoLogPath()
+        public void TestCompleteInitLibraryNoLogPath_File()
         {
             _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
                 LdapServer,
@@ -141,6 +141,42 @@ namespace LDAP_Library_UnitTest.localhost
                 LdapMatchFieldUsername
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoLogPath_EventViewer()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                LoggerType.EventViewer,
+                "",
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoLogPath_None()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                LoggerType.None,
+                "",
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
@@ -328,11 +364,25 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with log type null or empty throw an exception")]
-        public void TestStandardInitLibraryNologPath()
+        public void TestStandardInitLibraryNologPath_File()
         {
             _ldapManagerObj = new LdapManager(AdminUser, AdminMode, LdapServer, LdapSearchBaseDn, LdapAuthType,
                 EnableLdapLibraryLog, null);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestStandardInitLibraryNologPath_EventViewer()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode, LdapServer, LdapSearchBaseDn, LdapAuthType,
+                LoggerType.EventViewer, null);
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestStandardInitLibraryNologPath_None()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode, LdapServer, LdapSearchBaseDn, LdapAuthType,
+                LoggerType.None, null);
         }
         #endregion
     }
