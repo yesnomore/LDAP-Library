@@ -1,9 +1,10 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using LDAPLibrary.Enums;
 
 namespace LDAPLibrary.Interfarces
 {
-    internal interface ILdapConnector : ILdapConnectionObservable
+    internal interface ILdapConnector : ILdapConnectionObservable, IDisposable
     {
         /// <summary>
         ///     Instance the Ldap connection with admin config credential

@@ -16,10 +16,10 @@ namespace LDAPLibrary
         private const string AdminConnectionErrorMessageBasicMode =
             "unable to connect with administrator in basic mode, see the config file";
 
-        private readonly ILdapConfigRepository _configRepository;
-        private readonly ILogger _logger;
-        private readonly ILdapAdminModeChecker _adminModeChecker;
-        private readonly List<ILdapConnectionObserver> _observers;
+        private ILdapConfigRepository _configRepository;
+        private ILogger _logger;
+        private ILdapAdminModeChecker _adminModeChecker;
+        private List<ILdapConnectionObserver> _observers;
         private LdapConnection _ldapConnection;
 
         public LdapConnector(ILdapAdminModeChecker adminModeChecker, ILdapConfigRepository configRepository, ILogger logger)
@@ -122,6 +122,15 @@ namespace LDAPLibrary
         public void LdapConnectionUnsubscribe(ILdapConnectionObserver observer)
         {
             _observers.Remove(observer);
+        }
+
+        public void Dispose()
+        {
+            _configRepository = null;
+            _logger = null;
+            _adminModeChecker = null;
+            _observers = null;
+            _ldapConnection.Dispose();
         }
     }
 }

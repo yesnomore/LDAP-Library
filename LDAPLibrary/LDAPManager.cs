@@ -15,12 +15,12 @@ namespace LDAPLibrary
     {
         #region Class Variables
 
-        private readonly ILdapConfigRepository _configRepository;
+        private ILdapConfigRepository _configRepository;
         private readonly ILdapConnector _connector;
-        private readonly ILogger _logger;
+        private ILogger _logger;
         private readonly ILdapUserManipulator _manageLdapUser;
 
-        private readonly ILdapAdminModeChecker _adminModeChecker;
+        private ILdapAdminModeChecker _adminModeChecker;
         private LdapState _ldapCurrentState;
 
         #endregion
@@ -177,6 +177,15 @@ namespace LDAPLibrary
                                _configRepository.GetTransportSocketLayerFlag(),
                                _configRepository.GetClientCertificateFlag()))
                        .Any(connectResult => connectResult);
+        }
+
+        public void Dispose()
+        {
+            _manageLdapUser.Dispose();
+            _connector.Dispose();
+            _configRepository = null;
+            _logger = null;
+            _adminModeChecker = null;
         }
     }
 }

@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
 
 namespace LDAPLibrary.Interfarces
 {
-    public interface ILdapManager
+    public interface ILdapManager : IDisposable
     {
         /// <summary>
         ///     Create a new LDAP User

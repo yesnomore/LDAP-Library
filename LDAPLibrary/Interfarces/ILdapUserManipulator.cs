@@ -1,10 +1,11 @@
+using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary.Enums;
 
 namespace LDAPLibrary.Interfarces
 {
-    public interface ILdapUserManipulator
+    public interface ILdapUserManipulator : ILdapConnectionObserver, IDisposable
     {
         /// <summary>
         ///     Create a new LDAPUser

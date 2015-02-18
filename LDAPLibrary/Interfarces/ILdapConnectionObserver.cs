@@ -2,7 +2,7 @@
 
 namespace LDAPLibrary.Interfarces
 {
-    internal interface ILdapConnectionObserver
+    public interface ILdapConnectionObserver
     {
         void SetLdapConnection(LdapConnection ldapConnection);
     }

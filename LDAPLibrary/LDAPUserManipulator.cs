@@ -8,10 +8,10 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
-    public class LdapUserManipulator : ILdapConnectionObserver, ILdapUserManipulator
+    public class LdapUserManipulator : ILdapUserManipulator
     {
-        private readonly ILdapConfigRepository _configRepository;
-        private readonly ILogger _logger;
+        private ILdapConfigRepository _configRepository;
+        private ILogger _logger;
         private LdapConnection _ldapConnection;
 
         public LdapUserManipulator(ILogger logger, ILdapConfigRepository configRepository)
@@ -161,6 +161,13 @@ namespace LDAPLibrary
             }
             _logger.Write(_logger.BuildLogMessage("Search Operation Success", LdapState.LdapUserManipulatorSuccess));
             return LdapState.LdapUserManipulatorSuccess;
+        }
+
+        public void Dispose()
+        {
+            _configRepository = null;
+            _logger = null;
+            _ldapConnection.Dispose();
         }
     }
 }
