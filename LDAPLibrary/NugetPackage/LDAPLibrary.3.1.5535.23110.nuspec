@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>LDAPLibrary</id>
+        <version>3.1.5535.23110</version>
+        <title>LDAPLibrary</title>
+        <authors>Enrico Benini</authors>
+        <owners>Enrico Benini</owners>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infostructures</description>
+        <copyright>Enrico Benini Copyright ©  2013</copyright>
+    </metadata>
+    <files>
+        <file src="bin\Release\net40\LDAPLibrary.dll" target="lib\net40\LDAPLibrary.dll" />
+        <file src="lib\net45\LDAPLibrary.dll" target="lib\net45\LDAPLibrary.dll" />
+    </files>
+</package>
