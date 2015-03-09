@@ -25,7 +25,6 @@ The philosophy used in this library bargains for the presence of an administrato
 So to make all things work the library must be configured properly through a config file like the app.config in the unit test project.
 
 Input Parameters List
-
 =====================
 
 |        Parameter Name        |                                                                         Meaning                                                                         |           Example           | Optional Value                                       | Default Value |
