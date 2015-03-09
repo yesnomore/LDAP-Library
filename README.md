@@ -26,18 +26,21 @@ So to make all things work the library must be configured properly through a con
 
 Parameters underlined are required, the others can be an arbitrary value
 
-    LDAPServer: URL of the LDAP server with port (address:port - 127.0.0.1:389)
-    LDAPAuthType: see this page for the correct value, tipically "Basic" works with OpenLDAP and "Negotiate" with AD
-    LDAPAdminUserDN: the DN of the user admin
-    LDAPAdminUserCN: the CN of the user admin
-    LDAPAdminUserSN: the SN of the user admin
-    LDAPAdminUserPassword: the password of the user admin
-    LDAPUserObjectClass: the attribute ObjectClass used to indentify an user
-    LDAPMatchFieldUsername: field used in search filter to know what is the LDAP attribute to match with username
-    LDAPSearchBaseDN: base node where admin user can operate
-    enableLDAPLibraryLog[Boolean Type]: enable the write of a log file
-    LDAPLibraryLogPath: path of a log file (KEEP ATTENTION AT THE final '/' in the path)
-    secureSocketLayerFlag[Boolean Type]: specify if establish the connection through SecureSocketLayer
-    transportSocketLayerFlag[Boolean Type]: specify if establish the connection through TransportSocketLayer
-    ClientCertificationFlag[Boolean Type]: specify if establish the connection through ClientCertification
-    clientCertificatePath: path of a certificate file ( insert the name in the value )
+|        Parameter Name        |                                                                         Meaning                                                                         |           Example           | Optional Value                                       | Default Value |
+|:----------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------:|------------------------------------------------------|---------------|
+|        **LDAPServer**        | URL of the LDAP server with port                                                                                                                        |        127.0.0.1:389        | No                                                   |               |
+|       **LDAPAuthType**       | see [this](http://msdn.microsoft.com/it-it/library/system.directoryservices.protocols.authtype.aspx) page for the correct value.                        |            Basic            | No                                                   |               |
+|       **LDAPAdminMode**      | used to specify if the LDAP Library need to connect with: *Admin*, *NoAdmin* or *Anonymous* mode to the LDAP server in order to perform the operations. |            Admin            | No                                                   |               |
+|      **LDAPAdminUserDN**     | Distinguished Name of the Admin User                                                                                                                    | cn=Manager,dc=maxcrc,dc=com | No, if the *LDAPAdminMode* in *Admin*. Yes Otherwise |               |
+|      **LDAPAdminUserCN**     | Common Name of the Admin User                                                                                                                           |           Manager           | No, if the *LDAPAdminMode* in *Admin*. Yes Otherwise |               |
+|      **LDAPAdminUserSN**     | Surename of the Admin User                                                                                                                              |             Cool            | No, if the *LDAPAdminMode* in *Admin*. Yes Otherwise |               |
+|   **LDAPAdminUserPassword**  | Password of the Admin User                                                                                                                              |            secret           | No, if the *LDAPAdminMode* in *Admin*. Yes Otherwise |               |
+|    **LDAPUserObjectClass**   | The attribute *ObjectClass* used to indentify an user                                                                                                   |            person           | Requested only in the Full Library Constructor       | person        |
+|  **LDAPMatchFieldUsername**  | Field used in search filter to know what is the LDAP attribute to match with username                                                                   |              cn             | Requested only in the Full Library Constructor       | cn            |
+|     **LDAPSearchBaseDN**     | Base node where the library can operate (search, connect, create, modify)                                                                               |  ou=People,dc=maxcrc,dc=com | No                                                   |               |
+|   **enableLDAPLibraryLog**   | Show where log the library. Possible values: *File*, *EventViewer*, *None*                                                                              |             File            | No                                                   |               |
+|    **LDAPLibraryLogPath**    | Location into write the log file if the enableLDAPLibraryLog has value File. (optional value)                                                           |           C:\.....          | No, if theenableLDAPLibraryLog is *File*             |               |
+|   **secureSocketLayerFlag**  | Specify if establish the connection through SecureSocketLayer                                                                                           |             true            | Requested only in the Full Library Constructor       | false         |
+| **transportSocketLayerFlag** | Specify if establish the connection through TransportSocketLayer                                                                                        |             true            | Requested only in the Full Library Constructor       | false         |
+|  **ClientCertificationFlag** | Specify if establish the connection through a specific Certification file                                                                               |             true            | Requested only in the Full Library Constructor       | false         |
+|   **clientCertificatePath**  | Path of a certificate file                                                                                                                              |          C:\......          | Requested only in the Full Library Constructor       | ""            |
