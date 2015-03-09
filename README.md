@@ -24,7 +24,9 @@ Watch the relative interface in the ILDAPManager.cs file.
 The philosophy used in this library bargains for the presence of an administrator user that have permission on a specified node of the LDAP tree where he can operate some of the previous operations ( it depends on the kind of permission, read or write ). After the successfull connection of that user through the Connect method it can make one or more operation listed above.
 So to make all things work the library must be configured properly through a config file like the app.config in the unit test project.
 
-Parameters underlined are required, the others can be an arbitrary value
+Input Parameters List
+
+=====================
 
 |        Parameter Name        |                                                                         Meaning                                                                         |           Example           | Optional Value                                       | Default Value |
 |:----------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------:|------------------------------------------------------|---------------|
