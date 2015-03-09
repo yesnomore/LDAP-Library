@@ -2,30 +2,22 @@ LDAP-Library
 ============
 
 
-The library is based on System.DirectoryServices.Protocols methods see http://msdn.microsoft.com/en-us/library/bb332056.aspx for more information
+The library is based on System.DirectoryServices.Protocols methods see [here](http://msdn.microsoft.com/en-us/library/bb332056.aspx) for more information about the middleware.
 With this you can manage the LDAP tree/subtree with read and write operations like:
 
-Write Operations
+- **CRUD OPERATION** on an user 
+- Search for an user under a specified node of the LDAP tree.
+- Check the credential of a specified user
 
-    Create an user
-    Delete an user
-    Modify an user attribute
-    Change the user password
+Watch the relative interface in the [ILDAPManager.cs](https://github.com/Apex-net/LDAP-Library/blob/master/LDAPLibrary/Interfarces/ILDAPManager.cs) file.
 
-Read Operations
-
-    Read an user attribute
-    Connect the Admin User ( see below for more information )
-    Check user connection through proper credential, TSL,SSL and a certificate
-    Search an user and try to connect it 
-
-Watch the relative interface in the ILDAPManager.cs file.
-
-The philosophy used in this library bargains for the presence of an administrator user that have permission on a specified node of the LDAP tree where he can operate some of the previous operations ( it depends on the kind of permission, read or write ). After the successfull connection of that user through the Connect method it can make one or more operation listed above.
-So to make all things work the library must be configured properly through a config file like the app.config in the unit test project.
+The philosophy used in this library bargains for the presence of an administrator user that have permissions, on a specified node of the LDAP tree where he can operate some of the previous operations. 
+There's also some particular configuration of the library where the presence of the Administrator user is not needed.
 
 Input Parameters List
-=====================
+---------------------
+
+To make all things work the library needs a set of input parameters. Check the table below for the details of this parameters
 
 |        Parameter Name        |                                                                         Meaning                                                                         |           Example           | Optional Value                                       | Default Value |
 |:----------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------:|:---------------------------:|------------------------------------------------------|---------------|
@@ -45,3 +37,14 @@ Input Parameters List
 | **transportSocketLayerFlag** | Specify if establish the connection through TransportSocketLayer                                                                                        |             true            | Requested only in the Full Library Constructor       | false         |
 |  **ClientCertificationFlag** | Specify if establish the connection through a specific Certification file                                                                               |             true            | Requested only in the Full Library Constructor       | false         |
 |   **clientCertificatePath**  | Path of a certificate file                                                                                                                              |          C:\......          | Requested only in the Full Library Constructor       | ""            |
+
+Code Snippets
+=============
+
+Here some example of how to use the library to perform the main operations. You can see this code in action in the unit test project inside the repository.
+
+Parameters used in those snippets:
+
+```cs
+Console.WriteLine("Fenced code blocks ftw!");
+```
