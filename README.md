@@ -46,5 +46,44 @@ Here some example of how to use the library to perform the main operations. You 
 Parameters used in those snippets:
 
 ```cs
-Console.WriteLine("Fenced code blocks ftw!");
+#region Users
+
+//READ ONLY USER
+private const string ReadOnlyUserCn = "Matteo";
+private const string ReadOnlyUserPwd = "1";
+private const string ReadOnlyUserDn = "cn=" + ReadOnlyUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
+//WRITE USER THIS MUST NOT EXIST INITIALLY
+private const string WriteUserCn = "Fabio";
+private const string WriteUserPwd = "1";
+private const string WriteUserDn = "cn=" + WriteUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
+
+#endregion
+
+#region Localhost Configuration
+
+private const AuthType LdapAuthType = AuthType.Basic;
+private const string LdapServer = "127.0.0.1:389";
+
+private const string LdapAdminUserDn = "cn=Manager,dc=maxcrc,dc=com";
+private const string LdapAdminUserCn = "Manager";
+private const string LdapAdminUserSn = "test";
+private const string LdapAdminUserPassword = "secret";
+
+private const string LdapSearchBaseDn = "o=ApexNet,ou=People,dc=maxcrc,dc=com";
+private const string LdapUserObjectClass = "person";
+private const string LdapMatchFieldUsername = "cn";
+private const LoggerType EnableLdapLibraryLog = LoggerType.File;
+private const bool SecureSocketLayerFlag = false;
+private const bool TransportSocketLayerFlag = false;
+private const bool ClientCertificationFlag = false;
+private const string ClientCertificatePath = "null";
+private const LDAPAdminMode AdminMode = LDAPAdminMode.Admin;
+
+private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
+    LdapAdminUserCn,
+    LdapAdminUserSn,
+    new Dictionary<string, List<string>> {{"userPassword", new List<string> {LdapAdminUserPassword}}});
+
+private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
+
 ```
