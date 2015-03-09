@@ -96,7 +96,7 @@ Init of the Library
 -------------
 Here's how to init the library with all the parameters and with another simplest constructor with only the needed parameters. The optional parameters in this case will be inizialized with the default values.
 ```cs
-ILdapManager ldapManagerObj = new LdapManager(AdminUser,AdminMode,
+ILdapManager _ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                LdapServer,
 			                LdapSearchBaseDn,
 			                LdapAuthType,
@@ -110,10 +110,47 @@ ILdapManager ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                LdapMatchFieldUsername
 			                );
 
-ILdapManager ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+ILdapManager _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
                 LdapServer,
                 LdapSearchBaseDn,
                 LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
                 );			                
 ```
+
+Connect of the Administator User
+-------------
+In order to use the library with CRUD operations, first of all, it's required to connect the admin user with this call:
+
+```cs
+_ldapManagerObj.Connect()
+```
+
+with the *Anonymous* and *noAdmin* mode this operation is not required, but probably the library will be unable to perform the write operations on the user. It depends from the policy of the LDAP system to query.
+
+Create an User
+-------------
+
+Here's a snippet to create a new user:
+
+```cs
+//Init the DLL and connect the admin
+TestAdminConnect();
+
+//Create existing user
+bool result = _ldapManagerObj.CreateUser(existingUser);
+
+//Assert the correct operations
+Assert.IsFalse(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CREATE USER ERROR: ");
+
+//Create user
+result = _ldapManagerObj.CreateUser(tempUser);
+
+//Assert the correct operations
+Assert.IsTrue(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+    "LDAP USER MANIPULATION SUCCESS: ");
+```
+
+As you can see, in the first call to the *CreateUser* method it return false because the user already exist in the system, but in the second call the result is true for a new user. Another thing to mention here is the call at the *GetLdapMessage* method that return the last executed operation output message.
 
