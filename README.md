@@ -154,3 +154,24 @@ Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
 
 As you can see, in the first call to the *CreateUser* method it return false because the user already exist in the system, but in the second call the result is true for a new user. Another thing to mention here is the call at the *GetLdapMessage* method that return the last executed operation output message.
 
+Delete an User
+-------------
+
+In the same way for the create user here you can see two call of the *DeleteUser* and the relative out message.
+
+```cs
+//Delete user
+result = _ldapManagerObj.DeleteUser(testLdapUser);
+
+//Assert the correct operations
+Assert.IsTrue(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+    "LDAP USER MANIPULATION SUCCESS: ");
+
+//Delete user again with error
+result = _ldapManagerObj.DeleteUser(testLdapUser);
+
+//Assert the correct operations
+Assert.IsFalse(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP DELETE USER ERROR: ");
+```
