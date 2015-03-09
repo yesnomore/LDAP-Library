@@ -94,7 +94,7 @@ I suggest to install with the MDB (Memory Mapped Database) option.
 
 Init of the Library
 -------------
-Here's how to init the library with all the parameters:
+Here's how to init the library with all the parameters and with another simplest constructor with only the needed parameters. The optional parameters in this case will be inizialized with the default values.
 ```cs
 ILdapManager ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                LdapServer,
@@ -109,5 +109,11 @@ ILdapManager ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                LdapUserObjectClass,
 			                LdapMatchFieldUsername
 			                );
+
+ILdapManager ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
+                );			                
 ```
 
