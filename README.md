@@ -87,3 +87,27 @@ private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
 private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
 
 ```
+
+those parameters are a localhost installation of [openLDAP for windows](http://www.userbooster.de/en/download/openldap-for-windows.aspx)
+Here a [guide](http://www.userbooster.de/en/support/feature-articles/openldap-for-windows-installation.aspx) to the installation.
+I suggest to install with the MDB (Memory Mapped Database) option.
+
+Init of the Library
+-------------
+Here's how to init the library with all the parameters:
+```cs
+ILdapManager ldapManagerObj = new LdapManager(AdminUser,AdminMode,
+			                LdapServer,
+			                LdapSearchBaseDn,
+			                LdapAuthType,
+			                SecureSocketLayerFlag,
+			                TransportSocketLayerFlag,
+			                ClientCertificationFlag,
+			                ClientCertificatePath,
+			                EnableLdapLibraryLog,
+			                LdapLibraryLogPath,
+			                LdapUserObjectClass,
+			                LdapMatchFieldUsername
+			                );
+```
+
