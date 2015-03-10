@@ -92,6 +92,8 @@ those parameters are a localhost installation of [openLDAP for windows](http://w
 Here a [guide](http://www.userbooster.de/en/support/feature-articles/openldap-for-windows-installation.aspx) to the installation.
 I suggest to install with the MDB (Memory Mapped Database) option.
 
+The *ReadOnlyUser* already exist in the LDAP localhost test enviroment, the *WriteUser* not. Either will be instantiate in the tests.
+
 Init of the Library
 -------------
 Here's how to init the library with all the parameters and with another simplest constructor with only the needed parameters. The optional parameters in this case will be inizialized with the default values.
@@ -126,6 +128,86 @@ _ldapManagerObj.Connect()
 ```
 
 with the *Anonymous* and *NoAdmin* mode this operation is not required, but probably the library will be unable to perform the write operations on the user. It depends from the policy of the LDAP system to query.
+
+READ OPERATIONS (can be done in any library mode)
+=============
+
+For every read operation there's a test also with write permission.
+Check the [Unit Test Project code](https://github.com/Apex-net/LDAP-Library/tree/documentation/LDAPLibraryUnitTest) for details.
+
+Direct User Connect
+-------------
+
+Here's how to test directly the connection of an user.
+It can be usefull in case you want to check the connection of a specified user after a large search in the LDAP system or in case of a *NoAdmin* mode, where the ldap system respond directly to the connect method and you don't need to provide a dn attribute for instance.
+
+```cs 
+bool result = _ldapManagerObj.Connect(new NetworkCredential(
+                ReadOnlyUserDn, ReadOnlyUserPwd,
+                ""),
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag);
+
+Assert.IsTrue(result);
+```
+
+Search User and Connect
+-------------
+Here's how to search an user and try directly to connect it.
+This method is a syntactic sugar, it can be done executing first the search operation and after the connect one.
+
+```cs
+bool result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
+
+Assert.IsTrue(result);
+```
+
+Search Users 
+-------------
+
+In this snippet there's showed how to search a set of users and also how to specify a particular set of returning attributes of the users result.
+The search operation happens using *LDAPSearchBaseDN* as a base root node and the *LDAPMatchFieldUsername* after the result of the search, in order to know what is the parameter to match the username, and try the connect operation.
+
+```cs
+string[] userIdToSearch =
+{
+    ReadOnlyUserCn
+};
+string[] fakeuserIdToSearch =
+{
+    WriteUserCn
+};
+var userAttributeToReturnBySearch = new List<string>
+{
+    "description"
+};
+
+List<ILdapUser> returnUsers;
+
+bool result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
+
+Assert.IsFalse(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
+
+result = _ldapManagerObj.SearchUsers(null, userIdToSearch, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
+Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+Assert.IsTrue(returnUsers[0].GetUserAttributes().Count == 0);
+
+result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, userIdToSearch, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, userIdToSearch.Length);
+Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+```
+
+
+
+CUD OPERATIONS (require the administrator user and write permissions )
+=============
 
 Create an User
 -------------
@@ -230,70 +312,3 @@ Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
 "LDAP USER MANIPULATION SUCCESS: ");
 ```
 
-Direct User Connect
--------------
-
-Here's how to test directly the connection of an user.
-It can be usefull in case you want to check the connection of a specified user after a large search in the LDAP system or in case of a *NoAdmin* mode, where the ldap system respond directly to the connect method and you don't need to provide a dn attribute for instance.
-
-```cs 
-var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
-    new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
-var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
-    new Dictionary<string, List<string>> {{"userPassword", new List<string> {"FakePassword"}}});
-
-TestAdminConnect();
-
-bool result = _ldapManagerObj.CreateUser(testUser);
-Assert.IsTrue(result);
-
-var testUserCredential = new NetworkCredential(
-    testUser.GetUserDn(),
-    testUser.GetUserAttribute("userPassword")[0],
-    "");
-var faketestUserCredential = new NetworkCredential(
-    faketestUser.GetUserDn(),
-    faketestUser.GetUserAttribute("userPassword")[0],
-    "");
-
-result = _ldapManagerObj.Connect(faketestUserCredential,
-    SecureSocketLayerFlag,
-    TransportSocketLayerFlag,
-    ClientCertificationFlag);
-
-Assert.IsFalse(result);
-Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
-
-result = _ldapManagerObj.Connect(testUserCredential,
-    SecureSocketLayerFlag,
-    TransportSocketLayerFlag,
-    ClientCertificationFlag);
-
-Assert.IsTrue(result);
-Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
-```
-
-Search User and Connect
--------------
-Here's how to search an user and try directly to connect it.
-The search operation happens using *LDAPSearchBaseDN* as a base root node and the *LDAPMatchFieldUsername* after the result of the search, in order to know what is the parameter to match the username, and try the connect operation.
-This method is a syntactic sugar, it can be done executing first the search operation and after the connect one.
-
-```cs
-var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
-                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
-
-bool result = _ldapManagerObj.CreateUser(testLdapUser);
-
-Assert.IsTrue(result);
-
-result = _ldapManagerObj.SearchUserAndConnect(WriteUserCn, WriteUserPwd);
-
-Assert.IsTrue(result);
-
-TestAdminConnect();
-
-result = _ldapManagerObj.DeleteUser(testLdapUser);
-
-Assert.IsTrue(result);
-```
