@@ -1,0 +1,368 @@
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user}{}\section{L\+D\+A\+P\+Library.\+Fake\+Ldap\+User Class Reference}
+\label{class_l_d_a_p_library_1_1_fake_ldap_user}\index{L\+D\+A\+P\+Library.\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library.\+Fake\+Ldap\+User}}
+
+
+Fake user. Used in the No\+Admin Mode to simulate his presence.  
+
+
+Inheritance diagram for L\+D\+A\+P\+Library.\+Fake\+Ldap\+User\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_l_d_a_p_library_1_1_fake_ldap_user}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+List$<$ string $>$ \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_af902518a89a2b51531a12ef09cf3b5bd}{Get\+User\+Attribute} (string attribute\+Name)
+\begin{DoxyCompactList}\small\item\em Returns the values for the specified attribute name \end{DoxyCompactList}\item 
+string\mbox{[}$\,$\mbox{]} \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_aa84ff42fd32baded585d7cc1e33b08ba}{Get\+User\+Attribute\+Keys} ()
+\begin{DoxyCompactList}\small\item\em Get all the Attribute Names of an L\+D\+A\+P\+User \end{DoxyCompactList}\item 
+Dictionary$<$ string, List$<$ string $>$ $>$ \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a98292dfb6af91b64f8e1378331b422c6}{Get\+User\+Attributes} ()
+\item 
+string \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a632602fc00b15975f50b9feaa2fa31f3}{Get\+User\+Cn} ()
+\begin{DoxyCompactList}\small\item\em Get User C\+N \end{DoxyCompactList}\item 
+string \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a095d24dc1e2358a4440021cd3001ca43}{Get\+User\+Sn} ()
+\begin{DoxyCompactList}\small\item\em Get User S\+N \end{DoxyCompactList}\item 
+string \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_ac29eaa7b10a2f951e81279c61c65cc4a}{Get\+User\+Dn} ()
+\begin{DoxyCompactList}\small\item\em Get User D\+N \end{DoxyCompactList}\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a925852deb067585fde60b2aa6713fb53}{Overwrite\+User\+Attribute} (string attribute\+Name, List$<$ string $>$ attribute\+Values)
+\begin{DoxyCompactList}\small\item\em Set the user attribute values list with a new one \end{DoxyCompactList}\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a624c08c87cd235bc6c424000443fdcaa}{Overwrite\+User\+Attribute} (string attribute\+Name, string attribute\+Value)
+\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a43d9c13866411b42b3a96b1539d97bf6}{Create\+User\+Attribute} (string attribute\+Name, List$<$ string $>$ attribute\+Values)
+\begin{DoxyCompactList}\small\item\em Create a new user attribute with the given attribute values \end{DoxyCompactList}\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a61b894b8f3d68a629175c74f8109a259}{Create\+User\+Attribute} (string attribute\+Name, string attribute\+Value)
+\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_a6774a1815781480d02bd5f54c903e1cd}{Insert\+User\+Attribute} (string attribute\+Name, string attribute\+Value)
+\begin{DoxyCompactList}\small\item\em Add a new value to the existing user attribute list \end{DoxyCompactList}\item 
+void \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_aa60d7cada3a25c51850ccd4466910035}{Delete\+User\+Attribute} (string attribute\+Name, string attribute\+Value)
+\begin{DoxyCompactList}\small\item\em Delete an User attribute. \end{DoxyCompactList}\item 
+Action \hyperlink{class_l_d_a_p_library_1_1_fake_ldap_user_af9c494f251bf32394de48296b1f5ac91}{Get\+User\+Operation} (Directory\+Attribute\+Operation operation\+Type, string attribute\+Name, string attribute\+Value)
+\begin{DoxyCompactList}\small\item\em Retun an Action method from the above depending on the value of the operation type. If the operation type in different from\+: Add, Replace, Remove it throw an exception \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Fake user. Used in the No\+Admin Mode to simulate his presence. 
+
+
+
+Definition at line 18 of file Fake\+Ldap\+User.\+cs.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a43d9c13866411b42b3a96b1539d97bf6}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Create\+User\+Attribute@{Create\+User\+Attribute}}
+\index{Create\+User\+Attribute@{Create\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Create\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Create\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{List$<$ string $>$}]{attribute\+Values}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a43d9c13866411b42b3a96b1539d97bf6}
+
+
+Create a new user attribute with the given attribute values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute\+Name} & \\
+\hline
+{\em attribute\+Values} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a240c54768b0de646b98b7f6971b42322}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 58 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a61b894b8f3d68a629175c74f8109a259}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Create\+User\+Attribute@{Create\+User\+Attribute}}
+\index{Create\+User\+Attribute@{Create\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Create\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Create\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a61b894b8f3d68a629175c74f8109a259}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a6073df689eb89d446015432313ac35e8}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 62 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_aa60d7cada3a25c51850ccd4466910035}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Delete\+User\+Attribute@{Delete\+User\+Attribute}}
+\index{Delete\+User\+Attribute@{Delete\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Delete\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Delete\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_aa60d7cada3a25c51850ccd4466910035}
+
+
+Delete an User attribute. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute\+Name} & \\
+\hline
+{\em attribute\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_ac2ec74cb853617c0d8199565b757d55c}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 70 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_af902518a89a2b51531a12ef09cf3b5bd}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Attribute@{Get\+User\+Attribute}}
+\index{Get\+User\+Attribute@{Get\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}List$<$string$>$ L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_af902518a89a2b51531a12ef09cf3b5bd}
+
+
+Returns the values for the specified attribute name 
+
+T\+H\+R\+O\+W E\+X\+C\+E\+P\+T\+I\+O\+N if attribute name isn\textquotesingle{}t found 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute\+Name} & Attribute Name to search of\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Values in string array
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_ad9fb0415b7c5f1ecea9bcca568dc4d5b}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 20 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_aa84ff42fd32baded585d7cc1e33b08ba}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Attribute\+Keys@{Get\+User\+Attribute\+Keys}}
+\index{Get\+User\+Attribute\+Keys@{Get\+User\+Attribute\+Keys}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Attribute\+Keys}]{\setlength{\rightskip}{0pt plus 5cm}string \mbox{[}$\,$\mbox{]} L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Attribute\+Keys (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_aa84ff42fd32baded585d7cc1e33b08ba}
+
+
+Get all the Attribute Names of an L\+D\+A\+P\+User 
+
+\begin{DoxyReturn}{Returns}
+All the Attribute Names
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_ae0f3bc0df76d36f5ae90508c16560c84}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 25 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a98292dfb6af91b64f8e1378331b422c6}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Attributes@{Get\+User\+Attributes}}
+\index{Get\+User\+Attributes@{Get\+User\+Attributes}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Attributes}]{\setlength{\rightskip}{0pt plus 5cm}Dictionary$<$string, List$<$string$>$ $>$ L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Attributes (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a98292dfb6af91b64f8e1378331b422c6}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a82357f34323abea928b5424e3d4ef8bc}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 30 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a632602fc00b15975f50b9feaa2fa31f3}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Cn@{Get\+User\+Cn}}
+\index{Get\+User\+Cn@{Get\+User\+Cn}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Cn}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Cn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a632602fc00b15975f50b9feaa2fa31f3}
+
+
+Get User C\+N 
+
+\begin{DoxyReturn}{Returns}
+User C\+N
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a2915de8e56c27d96660ff0b11cd5a61c}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 35 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_ac29eaa7b10a2f951e81279c61c65cc4a}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Dn@{Get\+User\+Dn}}
+\index{Get\+User\+Dn@{Get\+User\+Dn}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Dn}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Dn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_ac29eaa7b10a2f951e81279c61c65cc4a}
+
+
+Get User D\+N 
+
+\begin{DoxyReturn}{Returns}
+User D\+N
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_aa9f1f36bd5918eb9a7feaa05bab098c2}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 45 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_af9c494f251bf32394de48296b1f5ac91}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Operation@{Get\+User\+Operation}}
+\index{Get\+User\+Operation@{Get\+User\+Operation}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Operation}]{\setlength{\rightskip}{0pt plus 5cm}Action L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Operation (
+\begin{DoxyParamCaption}
+\item[{Directory\+Attribute\+Operation}]{operation\+Type, }
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_af9c494f251bf32394de48296b1f5ac91}
+
+
+Retun an Action method from the above depending on the value of the operation type. If the operation type in different from\+: Add, Replace, Remove it throw an exception 
+
+
+\begin{DoxyParams}{Parameters}
+{\em operation\+Type} & \\
+\hline
+{\em attribute\+Name} & \\
+\hline
+{\em attribute\+Value} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a761d7eb5b8ad8dc4eff77ecac9ffaafd}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 74 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a095d24dc1e2358a4440021cd3001ca43}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Get\+User\+Sn@{Get\+User\+Sn}}
+\index{Get\+User\+Sn@{Get\+User\+Sn}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Get\+User\+Sn}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Get\+User\+Sn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a095d24dc1e2358a4440021cd3001ca43}
+
+
+Get User S\+N 
+
+\begin{DoxyReturn}{Returns}
+User S\+N
+\end{DoxyReturn}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_ae80532025ebf42ca45298afac2bdcd2a}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 40 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a6774a1815781480d02bd5f54c903e1cd}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Insert\+User\+Attribute@{Insert\+User\+Attribute}}
+\index{Insert\+User\+Attribute@{Insert\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Insert\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Insert\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a6774a1815781480d02bd5f54c903e1cd}
+
+
+Add a new value to the existing user attribute list 
+
+T\+H\+O\+W E\+X\+C\+E\+P\+T\+I\+O\+N if attribute name isn\textquotesingle{}t found 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute\+Name} & \\
+\hline
+{\em attribute\+Value} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a9a5c6edf227442d352988d85ff6203dd}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 66 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a925852deb067585fde60b2aa6713fb53}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Overwrite\+User\+Attribute@{Overwrite\+User\+Attribute}}
+\index{Overwrite\+User\+Attribute@{Overwrite\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Overwrite\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Overwrite\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{List$<$ string $>$}]{attribute\+Values}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a925852deb067585fde60b2aa6713fb53}
+
+
+Set the user attribute values list with a new one 
+
+E\+R\+A\+S\+E T\+H\+E O\+L\+D O\+N\+E!! 
+
+
+\begin{DoxyParams}{Parameters}
+{\em attribute\+Name} & \\
+\hline
+{\em attribute\+Values} & \\
+\hline
+\end{DoxyParams}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a6167e8f24247a123bfd041521a254a61}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 50 of file Fake\+Ldap\+User.\+cs.
+
+\hypertarget{class_l_d_a_p_library_1_1_fake_ldap_user_a624c08c87cd235bc6c424000443fdcaa}{}\index{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}!Overwrite\+User\+Attribute@{Overwrite\+User\+Attribute}}
+\index{Overwrite\+User\+Attribute@{Overwrite\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User@{L\+D\+A\+P\+Library\+::\+Fake\+Ldap\+User}}
+\subsubsection[{Overwrite\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Fake\+Ldap\+User.\+Overwrite\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{class_l_d_a_p_library_1_1_fake_ldap_user_a624c08c87cd235bc6c424000443fdcaa}
+
+
+Implements \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_a16acedbe659f578b4d2767e631362043}{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User}.
+
+
+
+Definition at line 54 of file Fake\+Ldap\+User.\+cs.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/work/\+L\+D\+A\+P-\/\+Library/\+L\+D\+A\+P\+Library/\hyperlink{_fake_ldap_user_8cs}{Fake\+Ldap\+User.\+cs}\end{DoxyCompactItemize}

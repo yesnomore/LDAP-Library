@@ -1,0 +1,272 @@
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository}{}\section{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository Interface Reference}
+\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository}\index{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository}}
+Inheritance diagram for L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a02e4f8f798a2884f47eac5a194ea89c4}{Basic\+Ldap\+Config} (\hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} admin\+User, \hyperlink{namespace_l_d_a_p_library_1_1_enums_aaaf5c3ff906b84752d719f58d502f15e}{L\+D\+A\+P\+Admin\+Mode} admin\+Mode, string server, string search\+Base\+Dn, Auth\+Type auth\+Type, \hyperlink{namespace_l_d_a_p_library_1_1_logger_a398123fc2bb2443d0e0821044d077795}{Logger\+Type} logger\+Type, string log\+Path)
+\begin{DoxyCompactList}\small\item\em Check the validity of parameters Set the basic Ldap Configuration from parameters Set the others to the standard values \end{DoxyCompactList}\item 
+void \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a3ba23f03d9f9a005f578d0e554d1a3dd}{Additional\+Ldap\+Config} (bool secure\+Socket\+Layer\+Flag, bool transport\+Socket\+Layer\+Flag, bool client\+Certificate\+Flag, string client\+Certificate\+Path, string user\+Object\+Class, string match\+Field\+Username)
+\begin{DoxyCompactList}\small\item\em Check the validity of the parameters Set addiitonal configuration form the parameters \end{DoxyCompactList}\item 
+\hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_abc93789c2f541a07bb5f0200484c7450}{Get\+Admin\+User} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5c70eefce4b989717725c3fa37ee9982}{Get\+Server} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5844821d9f540b8bff52faa61231009b}{Get\+Search\+Base\+Dn} ()
+\item 
+Auth\+Type \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a9848877d9e19a28908e1ada8abf563d7}{Get\+Auth\+Type} ()
+\item 
+bool \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_afbaa38bdae4690c499e72691d5733c2f}{Get\+Secure\+Socket\+Layer\+Flag} ()
+\item 
+bool \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad03509ec78ec51b28c322331ed33a939}{Get\+Transport\+Socket\+Layer\+Flag} ()
+\item 
+bool \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ae5ac45043a0ca995848ee6fe36d6f0cb}{Get\+Client\+Certificate\+Flag} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a1588544b9b3d97f1a03e577190643146}{Get\+Client\+Certificate\+Path} ()
+\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_logger_a398123fc2bb2443d0e0821044d077795}{Logger\+Type} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a822fdeb0cc049d922e5d18c9a280afc1}{Get\+Write\+Log\+Flag} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a8340bfe99af1222b9f231393cdd7a063}{Get\+Log\+Path} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad797d15a7d56cd9e2f90456a1903a5a6}{Get\+User\+Object\+Class} ()
+\item 
+string \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a53752b3b11c70ce04379694ccde42050}{Get\+Match\+Field\+Name} ()
+\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_aaaf5c3ff906b84752d719f58d502f15e}{L\+D\+A\+P\+Admin\+Mode} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a510a9c5dde4b4fb5e4647c51997eac7e}{Get\+Admin\+Mode} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 7 of file I\+Ldap\+Config\+Repository.\+cs.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a3ba23f03d9f9a005f578d0e554d1a3dd}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Additional\+Ldap\+Config@{Additional\+Ldap\+Config}}
+\index{Additional\+Ldap\+Config@{Additional\+Ldap\+Config}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Additional\+Ldap\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Additional\+Ldap\+Config (
+\begin{DoxyParamCaption}
+\item[{bool}]{secure\+Socket\+Layer\+Flag, }
+\item[{bool}]{transport\+Socket\+Layer\+Flag, }
+\item[{bool}]{client\+Certificate\+Flag, }
+\item[{string}]{client\+Certificate\+Path, }
+\item[{string}]{user\+Object\+Class, }
+\item[{string}]{match\+Field\+Username}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a3ba23f03d9f9a005f578d0e554d1a3dd}
+
+
+Check the validity of the parameters Set addiitonal configuration form the parameters 
+
+
+\begin{DoxyParams}{Parameters}
+{\em secure\+Socket\+Layer\+Flag} & \\
+\hline
+{\em transport\+Socket\+Layer\+Flag} & \\
+\hline
+{\em client\+Certificate\+Flag} & \\
+\hline
+{\em client\+Certificate\+Path} & Path of the certificate file\\
+\hline
+{\em user\+Object\+Class} & Object class that rapresent an user\\
+\hline
+{\em match\+Field\+Username} & Attribute that rapresent the username\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a2dd4a1750c9ec339cd445022caab5bfb}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a02e4f8f798a2884f47eac5a194ea89c4}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Basic\+Ldap\+Config@{Basic\+Ldap\+Config}}
+\index{Basic\+Ldap\+Config@{Basic\+Ldap\+Config}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Basic\+Ldap\+Config}]{\setlength{\rightskip}{0pt plus 5cm}void L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Basic\+Ldap\+Config (
+\begin{DoxyParamCaption}
+\item[{{\bf I\+Ldap\+User}}]{admin\+User, }
+\item[{{\bf L\+D\+A\+P\+Admin\+Mode}}]{admin\+Mode, }
+\item[{string}]{server, }
+\item[{string}]{search\+Base\+Dn, }
+\item[{Auth\+Type}]{auth\+Type, }
+\item[{{\bf Logger\+Type}}]{logger\+Type, }
+\item[{string}]{log\+Path}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a02e4f8f798a2884f47eac5a194ea89c4}
+
+
+Check the validity of parameters Set the basic Ldap Configuration from parameters Set the others to the standard values 
+
+
+\begin{DoxyParams}{Parameters}
+{\em admin\+User} & Admin User\\
+\hline
+{\em admin\+Mode} & Library Admin Mode\\
+\hline
+{\em server} & Server U\+R\+L\\
+\hline
+{\em search\+Base\+Dn} & Root Search Node\\
+\hline
+{\em auth\+Type} & \\
+\hline
+{\em logger\+Type} & \\
+\hline
+{\em log\+Path} & Path of the log file\\
+\hline
+\end{DoxyParams}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_aac8007314f366acc1f50442e28e5e694}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a510a9c5dde4b4fb5e4647c51997eac7e}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Admin\+Mode@{Get\+Admin\+Mode}}
+\index{Get\+Admin\+Mode@{Get\+Admin\+Mode}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Admin\+Mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+D\+A\+P\+Admin\+Mode} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Admin\+Mode (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a510a9c5dde4b4fb5e4647c51997eac7e}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_abec1034ddd6ca6cd8a9f6f372eed3a18}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_abc93789c2f541a07bb5f0200484c7450}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Admin\+User@{Get\+Admin\+User}}
+\index{Get\+Admin\+User@{Get\+Admin\+User}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Admin\+User}]{\setlength{\rightskip}{0pt plus 5cm}{\bf I\+Ldap\+User} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Admin\+User (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_abc93789c2f541a07bb5f0200484c7450}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a267f26a77a9f88dacda920a3627097f4}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a9848877d9e19a28908e1ada8abf563d7}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Auth\+Type@{Get\+Auth\+Type}}
+\index{Get\+Auth\+Type@{Get\+Auth\+Type}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Auth\+Type}]{\setlength{\rightskip}{0pt plus 5cm}Auth\+Type L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Auth\+Type (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a9848877d9e19a28908e1ada8abf563d7}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_aa5fcfea3fdc2294b532bebf7b312d050}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ae5ac45043a0ca995848ee6fe36d6f0cb}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Client\+Certificate\+Flag@{Get\+Client\+Certificate\+Flag}}
+\index{Get\+Client\+Certificate\+Flag@{Get\+Client\+Certificate\+Flag}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Client\+Certificate\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}bool L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Client\+Certificate\+Flag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ae5ac45043a0ca995848ee6fe36d6f0cb}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_aa4970d1628065d7ebbd0ff77b122b36e}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a1588544b9b3d97f1a03e577190643146}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Client\+Certificate\+Path@{Get\+Client\+Certificate\+Path}}
+\index{Get\+Client\+Certificate\+Path@{Get\+Client\+Certificate\+Path}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Client\+Certificate\+Path}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Client\+Certificate\+Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a1588544b9b3d97f1a03e577190643146}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a089c164784a54bb46207d27f991cb4a0}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a8340bfe99af1222b9f231393cdd7a063}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Log\+Path@{Get\+Log\+Path}}
+\index{Get\+Log\+Path@{Get\+Log\+Path}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Log\+Path}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Log\+Path (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a8340bfe99af1222b9f231393cdd7a063}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a56d63bbf67e3f9424f7447773a7c0bd9}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a53752b3b11c70ce04379694ccde42050}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Match\+Field\+Name@{Get\+Match\+Field\+Name}}
+\index{Get\+Match\+Field\+Name@{Get\+Match\+Field\+Name}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Match\+Field\+Name}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Match\+Field\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a53752b3b11c70ce04379694ccde42050}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a90c1ff69830ff68a26d5f05deb29bbc5}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5844821d9f540b8bff52faa61231009b}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Search\+Base\+Dn@{Get\+Search\+Base\+Dn}}
+\index{Get\+Search\+Base\+Dn@{Get\+Search\+Base\+Dn}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Search\+Base\+Dn}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Search\+Base\+Dn (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5844821d9f540b8bff52faa61231009b}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a81de9f7bbba70b3733eb5294198eac67}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_afbaa38bdae4690c499e72691d5733c2f}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Secure\+Socket\+Layer\+Flag@{Get\+Secure\+Socket\+Layer\+Flag}}
+\index{Get\+Secure\+Socket\+Layer\+Flag@{Get\+Secure\+Socket\+Layer\+Flag}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Secure\+Socket\+Layer\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}bool L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Secure\+Socket\+Layer\+Flag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_afbaa38bdae4690c499e72691d5733c2f}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_ab2fd6ed6d86bff36f7b7d2c38af58a1a}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5c70eefce4b989717725c3fa37ee9982}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Server@{Get\+Server}}
+\index{Get\+Server@{Get\+Server}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Server}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Server (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a5c70eefce4b989717725c3fa37ee9982}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_aa571589e5bc057e67af97898ec9b445d}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad03509ec78ec51b28c322331ed33a939}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Transport\+Socket\+Layer\+Flag@{Get\+Transport\+Socket\+Layer\+Flag}}
+\index{Get\+Transport\+Socket\+Layer\+Flag@{Get\+Transport\+Socket\+Layer\+Flag}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Transport\+Socket\+Layer\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}bool L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Transport\+Socket\+Layer\+Flag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad03509ec78ec51b28c322331ed33a939}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_a550614c9d98ffd3faf9d6f899cd2b742}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad797d15a7d56cd9e2f90456a1903a5a6}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+User\+Object\+Class@{Get\+User\+Object\+Class}}
+\index{Get\+User\+Object\+Class@{Get\+User\+Object\+Class}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+User\+Object\+Class}]{\setlength{\rightskip}{0pt plus 5cm}string L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+User\+Object\+Class (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_ad797d15a7d56cd9e2f90456a1903a5a6}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_abc62eeccfe7edd613048befa27159d41}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a822fdeb0cc049d922e5d18c9a280afc1}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}!Get\+Write\+Log\+Flag@{Get\+Write\+Log\+Flag}}
+\index{Get\+Write\+Log\+Flag@{Get\+Write\+Log\+Flag}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+Config\+Repository}}
+\subsubsection[{Get\+Write\+Log\+Flag}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Logger\+Type} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+Config\+Repository.\+Get\+Write\+Log\+Flag (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository_a822fdeb0cc049d922e5d18c9a280afc1}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_config_repository_af6c64e056a1b7b835815388fe9b5e88b}{L\+D\+A\+P\+Library.\+Ldap\+Config\+Repository}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/work/\+L\+D\+A\+P-\/\+Library/\+L\+D\+A\+P\+Library/\+Interfarces/\hyperlink{_i_ldap_config_repository_8cs}{I\+Ldap\+Config\+Repository.\+cs}\end{DoxyCompactItemize}

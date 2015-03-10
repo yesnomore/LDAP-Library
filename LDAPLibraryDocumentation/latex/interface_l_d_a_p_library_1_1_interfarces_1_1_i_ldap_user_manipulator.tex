@@ -1,0 +1,169 @@
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator}{}\section{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator Interface Reference}
+\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator}\index{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator}}
+Inheritance diagram for L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.692308cm]{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_a052eaa58cba3f62d4c008a3b1b347e03}{Ldap\+State} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6ecd3285856a732113d40b07161140b1}{Create\+User} (\hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} new\+User)
+\begin{DoxyCompactList}\small\item\em Create a new L\+D\+A\+P\+User \end{DoxyCompactList}\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_a052eaa58cba3f62d4c008a3b1b347e03}{Ldap\+State} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a8129defc9180daba0d8d5c8b601829f8}{Delete\+User} (\hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} user)
+\begin{DoxyCompactList}\small\item\em Delete an L\+D\+A\+P\+User \end{DoxyCompactList}\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_a052eaa58cba3f62d4c008a3b1b347e03}{Ldap\+State} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6e5ca95b85d2be5e022cbe53513edeb2}{Modify\+User\+Attribute} (Directory\+Attribute\+Operation operation\+Type, \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} user, string attribute\+Name, string attribute\+Value)
+\begin{DoxyCompactList}\small\item\em Modify an L\+D\+A\+P\+User Attribute \end{DoxyCompactList}\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_a052eaa58cba3f62d4c008a3b1b347e03}{Ldap\+State} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a479cc768d15ee607612eb46d1341d090}{Change\+User\+Password} (\hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} user, string new\+Pwd)
+\begin{DoxyCompactList}\small\item\em Change an L\+D\+A\+P\+User\textquotesingle{}s Password \end{DoxyCompactList}\item 
+\hyperlink{namespace_l_d_a_p_library_1_1_enums_a052eaa58cba3f62d4c008a3b1b347e03}{Ldap\+State} \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a9384f3c3e3a8820ed423a8a828187f2c}{Search\+Users} (List$<$ string $>$ other\+Returned\+Attributes, string\mbox{[}$\,$\mbox{]} searched\+Users, out List$<$ \hyperlink{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user}{I\+Ldap\+User} $>$ search\+Result)
+\begin{DoxyCompactList}\small\item\em Search Users in the L\+D\+A\+P system \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 8 of file I\+Ldap\+User\+Manipulator.\+cs.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a479cc768d15ee607612eb46d1341d090}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}!Change\+User\+Password@{Change\+User\+Password}}
+\index{Change\+User\+Password@{Change\+User\+Password}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}}
+\subsubsection[{Change\+User\+Password}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ldap\+State} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator.\+Change\+User\+Password (
+\begin{DoxyParamCaption}
+\item[{{\bf I\+Ldap\+User}}]{user, }
+\item[{string}]{new\+Pwd}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a479cc768d15ee607612eb46d1341d090}
+
+
+Change an L\+D\+A\+P\+User\textquotesingle{}s Password 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & L\+D\+A\+P\+User to change the password\\
+\hline
+{\em new\+Pwd} & New Passowrd\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or Failed
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_user_manipulator_affe5f315a699bbc17f8a97a010281b80}{L\+D\+A\+P\+Library.\+Ldap\+User\+Manipulator}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6ecd3285856a732113d40b07161140b1}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}!Create\+User@{Create\+User}}
+\index{Create\+User@{Create\+User}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}}
+\subsubsection[{Create\+User}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ldap\+State} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator.\+Create\+User (
+\begin{DoxyParamCaption}
+\item[{{\bf I\+Ldap\+User}}]{new\+User}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6ecd3285856a732113d40b07161140b1}
+
+
+Create a new L\+D\+A\+P\+User 
+
+
+\begin{DoxyParams}{Parameters}
+{\em new\+User} & User to create\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or Failed
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_user_manipulator_a7bf53fbd524b9f7ce775097be0d1a81e}{L\+D\+A\+P\+Library.\+Ldap\+User\+Manipulator}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a8129defc9180daba0d8d5c8b601829f8}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}!Delete\+User@{Delete\+User}}
+\index{Delete\+User@{Delete\+User}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}}
+\subsubsection[{Delete\+User}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ldap\+State} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator.\+Delete\+User (
+\begin{DoxyParamCaption}
+\item[{{\bf I\+Ldap\+User}}]{user}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a8129defc9180daba0d8d5c8b601829f8}
+
+
+Delete an L\+D\+A\+P\+User 
+
+
+\begin{DoxyParams}{Parameters}
+{\em user} & User to delete\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or Failed
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_user_manipulator_a27fb5fed7443ac3b7e626168d579eb51}{L\+D\+A\+P\+Library.\+Ldap\+User\+Manipulator}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6e5ca95b85d2be5e022cbe53513edeb2}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}!Modify\+User\+Attribute@{Modify\+User\+Attribute}}
+\index{Modify\+User\+Attribute@{Modify\+User\+Attribute}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}}
+\subsubsection[{Modify\+User\+Attribute}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ldap\+State} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator.\+Modify\+User\+Attribute (
+\begin{DoxyParamCaption}
+\item[{Directory\+Attribute\+Operation}]{operation\+Type, }
+\item[{{\bf I\+Ldap\+User}}]{user, }
+\item[{string}]{attribute\+Name, }
+\item[{string}]{attribute\+Value}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a6e5ca95b85d2be5e022cbe53513edeb2}
+
+
+Modify an L\+D\+A\+P\+User Attribute 
+
+
+\begin{DoxyParams}{Parameters}
+{\em operation\+Type} & Operation to execute on the attribute\\
+\hline
+{\em user} & L\+D\+A\+P\+User\textquotesingle{}s Attribute\\
+\hline
+{\em attribute\+Name} & Attribute name\\
+\hline
+{\em attribute\+Value} & Attribute Value\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Success or Failed
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_user_manipulator_a07f112397d2bd92de2389de22de15da6}{L\+D\+A\+P\+Library.\+Ldap\+User\+Manipulator}.
+
+\hypertarget{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a9384f3c3e3a8820ed423a8a828187f2c}{}\index{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}!Search\+Users@{Search\+Users}}
+\index{Search\+Users@{Search\+Users}!L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator@{L\+D\+A\+P\+Library\+::\+Interfarces\+::\+I\+Ldap\+User\+Manipulator}}
+\subsubsection[{Search\+Users}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Ldap\+State} L\+D\+A\+P\+Library.\+Interfarces.\+I\+Ldap\+User\+Manipulator.\+Search\+Users (
+\begin{DoxyParamCaption}
+\item[{List$<$ string $>$}]{other\+Returned\+Attributes, }
+\item[{string\mbox{[}$\,$\mbox{]}}]{searched\+Users, }
+\item[{out List$<$ {\bf I\+Ldap\+User} $>$}]{search\+Result}
+\end{DoxyParamCaption}
+)}\label{interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator_a9384f3c3e3a8820ed423a8a828187f2c}
+
+
+Search Users in the L\+D\+A\+P system 
+
+
+\begin{DoxyParams}{Parameters}
+{\em other\+Returned\+Attributes} & Addictional attributes added to the results L\+D\+A\+P\+Users objects\\
+\hline
+{\em searched\+Users} & Credential for the search\\
+\hline
+{\em search\+Result} & L\+D\+A\+P\+Users object returned in the search\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Boolean that comunicate the result of search
+\end{DoxyReturn}
+
+
+Implemented in \hyperlink{class_l_d_a_p_library_1_1_ldap_user_manipulator_ab881e29e6737faaeaefbe999e5d7f3d7}{L\+D\+A\+P\+Library.\+Ldap\+User\+Manipulator}.
+
+
+
+The documentation for this interface was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/work/\+L\+D\+A\+P-\/\+Library/\+L\+D\+A\+P\+Library/\+Interfarces/\hyperlink{_i_ldap_user_manipulator_8cs}{I\+Ldap\+User\+Manipulator.\+cs}\end{DoxyCompactItemize}
