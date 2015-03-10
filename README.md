@@ -94,6 +94,23 @@ I suggest to install with the MDB (Memory Mapped Database) option.
 
 The *ReadOnlyUser* already exist in the LDAP localhost test enviroment, the *WriteUser* not. Either will be instantiate in the tests.
 
+Create a LDAP User
+-------------
+
+The LDAP User object is an entity used inside the library to manage the users and their attributes.
+It's used in the whole library as input and output parameters.
+Here's a simple snippet showing how to create one of this entities.
+
+```cs
+private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
+    LdapAdminUserCn,
+    LdapAdminUserSn,
+    new Dictionary<string, List<string>> {{"userPassword", new List<string> {LdapAdminUserPassword}}});
+```
+
+As you can see the DN, CN and SN attribute are required for the creation. The last parameter specify the key-value pairs of attributes for the specific user.
+Attention: with this creation the ldap system is not modified, no operation will be perform. To apply some change use the operations below.
+
 Init of the Library
 -------------
 Here's how to init the library with all the parameters and with another simplest constructor with only the needed parameters. The optional parameters in this case will be inizialized with the default values.
