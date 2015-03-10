@@ -175,3 +175,38 @@ result = _ldapManagerObj.DeleteUser(testLdapUser);
 Assert.IsFalse(result);
 Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP DELETE USER ERROR: ");
 ```
+
+Modify User Attribute
+-------------
+
+In this snippet is used the *ModifyUserAttribute*. 
+The first few lines is showed the creation of the testuser object, so you can see what attributes it has.
+In the first call of the modify method is showed a wrong call that return a false value. This is because the attribute involved is a fake one and don't exist in the user's attributes set ("ciccio").
+The second one is a successfull call that change the value of description attribute.
+As always is also showed the output message of the library.
+
+```cs
+
+var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+    new Dictionary<string, List<string>> {{"description", new List<string> {"test"}}});
+bool result = _ldapManagerObj.CreateUser(testLdapUser);
+
+Assert.IsTrue(result);
+
+List<ILdapUser> returnUsers;
+const string userAttributeValue = "description Modified";
+
+result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Delete, testLdapUser, "ciccio",
+    userAttributeValue);
+
+Assert.IsFalse(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+    "LDAP MODIFY USER ATTRIBUTE ERROR: ");
+
+result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace, testLdapUser,
+    "description", userAttributeValue);
+
+Assert.IsTrue(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+    "LDAP USER MANIPULATION SUCCESS: ");
+```    
