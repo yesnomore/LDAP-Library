@@ -6,6 +6,10 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Check the ldap library mode.
+    /// Simply check the value of AdminMode in the config repository object passed in the constructor.
+    /// </summary>
     internal class LdapAdminModeChecker : ILdapAdminModeChecker
     {
         private readonly ILdapConfigRepository _configRepository;

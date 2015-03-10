@@ -11,6 +11,10 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Fake user.
+    /// Used in the NoAdmin Mode to simulate his presence.
+    /// </summary>
     class FakeLdapUser : ILdapUser
     {
         public List<string> GetUserAttribute(string attributeName)

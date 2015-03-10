@@ -8,21 +8,21 @@ namespace LDAPLibrary.Interfarces
     public interface ILdapUserManipulator : ILdapConnectionObserver, IDisposable
     {
         /// <summary>
-        ///     Create a new LDAPUser
+        /// Create a new LDAPUser
         /// </summary>
         /// <param name="newUser">User to create</param>
         /// <returns> Success or Failed</returns>
         LdapState CreateUser(ILdapUser newUser);
 
         /// <summary>
-        ///     Delete an LDAPUser
+        /// Delete an LDAPUser
         /// </summary>
         /// <param name="user">User to delete</param>
         /// <returns>Success or Failed</returns>
         LdapState DeleteUser(ILdapUser user);
 
         /// <summary>
-        ///     Modify an LDAPUser Attribute
+        /// Modify an LDAPUser Attribute
         /// </summary>
         /// <param name="operationType">Operation to execute on the attribute</param>
         /// <param name="user">LDAPUser's Attribute</param>
@@ -34,7 +34,7 @@ namespace LDAPLibrary.Interfarces
             string attributeValue);
 
         /// <summary>
-        ///     Change an LDAPUser's Password
+        /// Change an LDAPUser's Password
         /// </summary>
         /// <param name="user">LDAPUser to change the password</param>
         /// <param name="newPwd">New Passowrd</param>
@@ -42,7 +42,7 @@ namespace LDAPLibrary.Interfarces
         LdapState ChangeUserPassword(ILdapUser user, string newPwd);
 
         /// <summary>
-        ///     Search Users in the LDAP system
+        /// Search Users in the LDAP system
         /// </summary>
         /// <param name="otherReturnedAttributes">Addictional attributes added to the results LDAPUsers objects</param>
         /// <param name="searchedUsers">Credential for the search</param>

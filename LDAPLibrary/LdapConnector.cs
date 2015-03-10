@@ -8,6 +8,11 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Create an Ldap connection for the admin and for the direct connect of the users.
+    /// Implement the pattern observer for passing the admin connection to the operational objects
+    /// Can throw exceptions or return a specific message and state if used in wrong way.
+    /// </summary>
     internal class LdapConnector : ILdapConnector
     {
         private const string AdminConnectionErrorMessage =
@@ -124,6 +129,9 @@ namespace LDAPLibrary
             _observers.Remove(observer);
         }
 
+        /// <summary>
+        /// Purge the connection and the object reference in the class
+        /// </summary>
         public void Dispose()
         {
             _configRepository = null;

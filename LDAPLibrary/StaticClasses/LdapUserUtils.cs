@@ -6,14 +6,18 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.StaticClasses
 {
+    /// <summary>
+    /// Utils to convert to LDAP user from a search result 
+    /// </summary>
     internal static class LdapUserUtils
     {
         private const string DefaultUserSn = "Default Surname";
         private const string DefaultUserCn = "Default CommonName";
 
         /// <summary>
-        ///     This method get the search respose and return a list of users
-        ///     NOT TESTED: Because it's difficult to mockup the SearchResponse Obj
+        /// This method get the search respose and return a list of users
+        /// 
+        /// NOT TESTED: Because it's difficult to mockup the SearchResponse Obj
         /// </summary>
         /// <param name="searchResponse"></param>
         /// <returns></returns>
@@ -28,7 +32,14 @@ namespace LDAPLibrary.StaticClasses
             return searchResult;
         }
 
-        public static ILdapUser ConvertToLdapUser(SearchResultEntry searchResultEntry)
+        /// <summary>
+        /// Convert an search result entry to the LDAP User Entity
+        /// 
+        /// NOT TESTED: Because it's difficult to mockup the SearchResultEntry Obj
+        /// </summary>
+        /// <param name="searchResultEntry">Result of a ldap search operation</param>
+        /// <returns></returns>
+        private static ILdapUser ConvertToLdapUser(SearchResultEntry searchResultEntry)
         {
             //Required attributes inizialization
             var tempUserCn = DefaultUserCn;

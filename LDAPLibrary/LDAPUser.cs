@@ -7,6 +7,9 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Entity used to rapresent an LDAP User
+    /// </summary>
     [Serializable]
     public class LdapUser : ILdapUser
     {

@@ -8,6 +8,9 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Class used to perform all the LDAP CUD operations
+    /// </summary>
     public class LdapUserManipulator : ILdapUserManipulator
     {
         private ILdapConfigRepository _configRepository;

@@ -11,6 +11,9 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
+    /// <summary>
+    /// Entry class of the Library
+    /// </summary>
     public class LdapManager : ILdapManager
     {
         #region Class Variables
@@ -26,15 +29,16 @@ namespace LDAPLibrary
         #endregion
 
         /// <summary>
-        ///     LDAP library constructior where all the class variables are initialized
-        ///     The variables not specified in definition will be set at default values.
+        /// LDAP library constructior where all the class variables are initialized
+        /// The variables not specified in definition will be set at default values.
         /// </summary>
-        /// <param name="adminUser"></param>
+        /// <param name="adminUser">Admin user</param>
+        /// <param name="adminMode">Admin User</param>
         /// <param name="ldapServer">LDAP Server with port</param>
         /// <param name="ldapSearchBaseDn">Base DN where start the search.</param>
         /// <param name="authType"></param>
-        /// <param name="loggerType"></param>
-        /// <param name="logPath"></param>
+        /// <param name="loggerType">Mode to log</param>
+        /// <param name="logPath">Path of the logger File</param>
         public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
             string ldapSearchBaseDn,
@@ -63,7 +67,7 @@ namespace LDAPLibrary
         }
 
         /// <summary>
-        ///     More detailed contructor that user the default constructor and the addictionalLDAPInformation method
+        /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
         public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
             string ldapServer,
@@ -179,6 +183,9 @@ namespace LDAPLibrary
                        .Any(connectResult => connectResult);
         }
 
+        /// <summary>
+        /// Call the dispose method of his fields and set to null the reference fo the others
+        /// </summary>
         public void Dispose()
         {
             _manageLdapUser.Dispose();
