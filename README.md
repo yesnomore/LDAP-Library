@@ -125,7 +125,7 @@ In order to use the library with CRUD operations, first of all, it's required to
 _ldapManagerObj.Connect()
 ```
 
-with the *Anonymous* and *noAdmin* mode this operation is not required, but probably the library will be unable to perform the write operations on the user. It depends from the policy of the LDAP system to query.
+with the *Anonymous* and *NoAdmin* mode this operation is not required, but probably the library will be unable to perform the write operations on the user. It depends from the policy of the LDAP system to query.
 
 Create an User
 -------------
@@ -209,4 +209,68 @@ result = _ldapManagerObj.ModifyUserAttribute(DirectoryAttributeOperation.Replace
 Assert.IsTrue(result);
 Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
     "LDAP USER MANIPULATION SUCCESS: ");
-```    
+```
+Change User Password
+-------------
+In this case there's only a success call of the Change User Password.
+Later is test the connection with the old and new credentials using the *Connect(NetworkCredential)* method, you can check out this part in the unit test project. 
+
+```cs
+var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
+//Create the user
+bool result = _ldapManagerObj.CreateUser(testUser);
+
+Assert.IsTrue(result);
+
+//Perform change of password
+result = _ldapManagerObj.ChangeUserPassword(testUser, newPassword);
+Assert.IsTrue(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+"LDAP USER MANIPULATION SUCCESS: ");
+```
+
+Direct User Connect
+-------------
+
+Here's how to test directly the connection of an user.
+It can be usefull in case you want to check the connection of a specified user after a large search in the LDAP system or in case of a *NoAdmin* mode, where the ldap system respond directly to the connect method and you don't need to provide a dn attribute.
+
+```cs 
+var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+    new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
+var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+    new Dictionary<string, List<string>> {{"userPassword", new List<string> {"FakePassword"}}});
+
+TestAdminConnect();
+
+
+bool result = _ldapManagerObj.CreateUser(testUser);
+Assert.IsTrue(result);
+
+var testUserCredential = new NetworkCredential(
+    testUser.GetUserDn(),
+    testUser.GetUserAttribute("userPassword")[0],
+    "");
+var faketestUserCredential = new NetworkCredential(
+    faketestUser.GetUserDn(),
+    faketestUser.GetUserAttribute("userPassword")[0],
+    "");
+
+result = _ldapManagerObj.Connect(faketestUserCredential,
+    SecureSocketLayerFlag,
+    TransportSocketLayerFlag,
+    ClientCertificationFlag);
+
+Assert.IsFalse(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
+
+
+result = _ldapManagerObj.Connect(testUserCredential,
+    SecureSocketLayerFlag,
+    TransportSocketLayerFlag,
+    ClientCertificationFlag);
+
+Assert.IsTrue(result);
+Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
+```
