@@ -328,4 +328,6 @@ Assert.IsTrue(result);
 Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
 "LDAP USER MANIPULATION SUCCESS: ");
 ```
-
+Extended Documentation and Code Coverage References
+-------------
+If you want to explore every part of the library, you can check [the online documentation](http://doc.apexnet.it/LDAPLibraryDocumentation/) and the [CodeCoverage] (http://doc.apexnet.it/LDAPLibraryDocumentation/)
