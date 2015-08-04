@@ -330,4 +330,4 @@ Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
 ```
 Extended Documentation and Code Coverage References
 -------------
-If you want to explore every part of the library, you can check [the online documentation](http://doc.apexnet.it/LDAPLibraryDocumentation/) and the [CodeCoverage] (http://doc.apexnet.it/LDAPLibraryCodeCoverage/)
+If you want to explore every part of the library, you can check [the online documentation](http://apex-net.github.io/LDAP-Library/LDAPLibraryDocumentation/) and the [CodeCoverage] (http://apex-net.github.io/LDAP-Library/LDAPLibraryCodeCoverage/)
