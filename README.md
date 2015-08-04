@@ -1,7 +1,6 @@
 LDAP-Library
 ============
 
-
 The library is based on System.DirectoryServices.Protocols methods see [here](http://msdn.microsoft.com/en-us/library/bb332056.aspx) for more information about the middleware.
 With this you can manage the LDAP tree/subtree with read and write operations like:
 
