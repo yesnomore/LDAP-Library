@@ -185,3 +185,4 @@ FakesAssemblies/
 
 # CodeCoverage
 OpenCoverOut/
+doxygen/
