@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -o errexit #abort if any command fails
 
-deploy_directory=${GIT_DEPLOY_DIR:-_doxygen}
+deploy_directory=${GIT_DEPLOY_DIR:-_website}
 deploy_branch=${GIT_DEPLOY_BRANCH:-gh-pages}
 
 #if no user identity is already set in the current git environment, use this:
