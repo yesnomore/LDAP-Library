@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\temp\GUI_LDAPUnitTest\</PublishUrl>
+    <PublishUrl>C:\Users\Enrico Benini\Desktop\temp\GUI_LDAPUnitTest\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
