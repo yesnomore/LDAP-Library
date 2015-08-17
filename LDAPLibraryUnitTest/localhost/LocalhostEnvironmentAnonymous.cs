@@ -155,10 +155,7 @@ namespace LDAP_Library_UnitTest.localhost
 
             bool result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,
-                ""),
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+                ""));
 
             Assert.IsTrue(result);
         }

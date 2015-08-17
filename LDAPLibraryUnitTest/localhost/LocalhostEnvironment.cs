@@ -232,10 +232,7 @@ namespace LDAP_Library_UnitTest.localhost
                 WriteUserPwd,
                 "");
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
@@ -246,10 +243,7 @@ namespace LDAP_Library_UnitTest.localhost
                 newPassword,
                 "");
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             Assert.IsTrue(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
@@ -286,19 +280,13 @@ namespace LDAP_Library_UnitTest.localhost
                 faketestUser.GetUserAttribute("userPassword")[0],
                 "");
 
-            result = _ldapManagerObj.Connect(faketestUserCredential,
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+            result = _ldapManagerObj.Connect(faketestUserCredential);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
 
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             Assert.IsTrue(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
@@ -380,10 +368,7 @@ namespace LDAP_Library_UnitTest.localhost
 
             bool result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,
-                ""),
-                SecureSocketLayerFlag,
-                TransportSocketLayerFlag,
-                ClientCertificationFlag);
+                ""));
 
             Assert.IsTrue(result);
         }

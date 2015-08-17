@@ -21,14 +21,10 @@ namespace LDAPLibrary.Interfarces
         /// Connect to the LDAP using the credential in input and the parameters of TSL,SSL and certificate.
         /// </summary>
         /// <param name="credential">Credential to connect</param>
-        /// <param name="secureSocketLayer">SSL Flag</param>
-        /// <param name="transportSocketLayer">TSL Flag</param>
-        /// <param name="clientCertificate">Certification Flag</param>
         /// <returns>
         /// * LdapConnectionSuccess
         /// * LdapConnectionError
         /// </returns>
-        LdapState Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
-            bool clientCertificate);
+        LdapState Connect(NetworkCredential credential);
     }
 }

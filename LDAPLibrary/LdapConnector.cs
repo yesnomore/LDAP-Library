@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
-using System.Security.Cryptography.X509Certificates;
 using LDAPLibrary.Enums;
+using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary
@@ -41,12 +41,9 @@ namespace LDAPLibrary
             {
                 if (!_adminModeChecker.IsNoAdminMode())
                 {
-                    LdapState returnState = Connect(
+                    var returnState = Connect(
                         new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
-                            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]),
-                        _configRepository.GetSecureSocketLayerFlag(),
-                        _configRepository.GetTransportSocketLayerFlag(),
-                        _configRepository.GetClientCertificateFlag());
+                            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]));
                     _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
                     return returnState;
                 }
@@ -61,37 +58,11 @@ namespace LDAPLibrary
             }
         }
 
-        public LdapState Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
-            bool clientCertificate)
+        public LdapState Connect(NetworkCredential credential)
         {
             try
             {
-                _ldapConnection = new LdapConnection(_configRepository.GetServer())
-                {
-                    AuthType = _configRepository.GetAuthType()
-                };
-                _ldapConnection.SessionOptions.ProtocolVersion = 3;
-
-                #region secure Layer Options
-
-                if (secureSocketLayer)
-                    _ldapConnection.SessionOptions.SecureSocketLayer = true;
-
-                if (transportSocketLayer)
-                {
-                    LdapSessionOptions options = _ldapConnection.SessionOptions;
-                    options.StartTransportLayerSecurity(null);
-                }
-
-                if (clientCertificate)
-                {
-                    var clientCertificateFile = new X509Certificate();
-                    clientCertificateFile.Import(_configRepository.GetClientCertificatePath());
-                    _ldapConnection.ClientCertificates.Add(clientCertificateFile);
-                }
-
-                #endregion
-
+                _ldapConnection = LdapConnectionFactory.GetLdapConnection(credential, _configRepository);
                 if (_adminModeChecker.IsAdminMode()) _ldapConnection.Bind(credential);
                 if (_adminModeChecker.IsAnonymousMode()) _ldapConnection.Bind(credential);
             }
@@ -101,18 +72,19 @@ namespace LDAPLibrary
                     e.Message,
                     credential.UserName,
                     credential.Password,
-                    (secureSocketLayer ? "\n With SSL " : ""),
-                    (transportSocketLayer ? "\n With TLS " : ""),
-                    (clientCertificate ? "\n With Client Certificate" : ""));
+                    (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
+                    (_configRepository.GetTransportSocketLayerFlag()? "\n With TLS " : ""),
+                    (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
                 _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, LdapState.LdapConnectionError));
                 return LdapState.LdapConnectionError;
             }
-            string successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
+
+            var successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
                 credential.UserName,
                 credential.Password,
-                (secureSocketLayer ? "\n With SSL " : ""),
-                (transportSocketLayer ? "\n With TLS " : ""),
-                (clientCertificate ? "\n With Client Certificate" : ""));
+                (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
+                (_configRepository.GetTransportSocketLayerFlag() ? "\n With TLS " : ""),
+                (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
             if (_adminModeChecker.IsNoAdminMode())
                 _ldapConnection.Dispose();
             _logger.Write(_logger.BuildLogMessage(successConnectionMessage, LdapState.LdapConnectionSuccess));

@@ -61,8 +61,7 @@ namespace LDAPLibrary.Interfarces
         /// <returns></returns>
         bool Connect();
 
-        bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
-            bool clientCertificate);
+        bool Connect(NetworkCredential credential);
 
         /// <summary>
         /// BuildLogMessage that wrap SearchUsers and Connect in one operation

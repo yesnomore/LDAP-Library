@@ -284,10 +284,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 oldPassword,
                 "");
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             if (result)
             {
@@ -302,10 +299,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 _userRepository.TestUserNewPassword,
                 "");
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             TestAdminConnect();
 
@@ -340,10 +334,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 _userRepository.TestUser.GetUserAttribute("userPassword")[0],
                 "");
 
-            result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
+            result = _ldapManagerObj.Connect(testUserCredential);
 
             if (!result)
             {
@@ -438,10 +429,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                 _userRepository.TestUser.GetUserAttribute("userPassword")[0],
                 "");
 
-            bool result = _ldapManagerObj.Connect(testUserCredential,
-                Convert.ToBoolean(Config.LdapLibrary["secureSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["transportSocketLayerFlag"]),
-                Convert.ToBoolean(Config.LdapLibrary["ClientCertificationFlag"]));
+            bool result = _ldapManagerObj.Connect(testUserCredential);
 
             return result;
         }

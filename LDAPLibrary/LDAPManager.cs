@@ -156,11 +156,9 @@ namespace LDAPLibrary
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        public bool Connect(NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer,
-            bool clientCertificate)
+        public bool Connect(NetworkCredential credential)
         {
-            _ldapCurrentState = _connector.Connect(credential, secureSocketLayer, transportSocketLayer,
-                clientCertificate);
+            _ldapCurrentState = _connector.Connect(credential);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
@@ -176,10 +174,7 @@ namespace LDAPLibrary
             return searchResult &&
                    searchReturn.Select(
                        searchedUser =>
-                           Connect(new NetworkCredential(searchedUser.GetUserDn(), password),
-                               _configRepository.GetSecureSocketLayerFlag(),
-                               _configRepository.GetTransportSocketLayerFlag(),
-                               _configRepository.GetClientCertificateFlag()))
+                           Connect(new NetworkCredential(searchedUser.GetUserDn(), password)))
                        .Any(connectResult => connectResult);
         }
 
