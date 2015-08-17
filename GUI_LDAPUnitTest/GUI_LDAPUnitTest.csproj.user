@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectView>ShowAllFiles</ProjectView>
-    <PublishUrlHistory>C:\temp\GUI_LDAPUnitTest\</PublishUrlHistory>
+    <PublishUrlHistory>C:\Users\Enrico Benini\Desktop\temp\GUI_LDAPUnitTest\|C:\temp\GUI_LDAPUnitTest\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
     <UpdateUrlHistory />
