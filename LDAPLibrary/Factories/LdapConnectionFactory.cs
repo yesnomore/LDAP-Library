@@ -5,8 +5,17 @@ using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.Factories
 {
+    /// <summary>
+    /// Factory Class used to create teh LDAP connection Object
+    /// </summary>
     class LdapConnectionFactory
     {
+        /// <summary>
+        /// Static Method used to create an LDAP connection object
+        /// </summary>
+        /// <param name="credential">User Credential</param>
+        /// <param name="ldapConfigRepository">Repository of all LDAP configuration</param>
+        /// <returns></returns>
         public static LdapConnection GetLdapConnection(NetworkCredential credential,
             ILdapConfigRepository ldapConfigRepository)
         {
