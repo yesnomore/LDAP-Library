@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
     <metadata>
         <id>LDAPLibrary</id>
-        <version>3.1.5535.23110</version>
+        <version>3.2</version>
         <title>LDAPLibrary</title>
         <authors>Enrico Benini</authors>
         <owners>Enrico Benini</owners>
@@ -12,6 +12,6 @@
     </metadata>
     <files>
         <file src="bin\Release\net40\LDAPLibrary.dll" target="lib\net40\LDAPLibrary.dll" />
-        <file src="lib\net45\LDAPLibrary.dll" target="lib\net45\LDAPLibrary.dll" />
+        <file src="bin\Release\net45\LDAPLibrary.dll" target="lib\net45\LDAPLibrary.dll" />
     </files>
 </package>
