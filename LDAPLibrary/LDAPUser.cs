@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Linq;
+using System.Reflection.Emit;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.StaticClasses;
 
@@ -17,6 +18,9 @@ namespace LDAPLibrary
         private readonly string _dn;
         private readonly Dictionary<string, List<string>> _otherAttributes;
         private readonly string _sn;
+        private const string AttributeUserRemoveError = "Cannot remove the value of user's attribute : {0}";
+        private const string AttributeNotFoundError = "The attribute is not in the dictionary of the user's attributes";
+        private const string AttributeAlreadyExistError = "The attribute you want to create already exist";
 
         public LdapUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
         {
@@ -31,7 +35,7 @@ namespace LDAPLibrary
             }
             else
             {
-                throw new ArgumentException("I valori dei primi 3 argomenti non possono essere null o vuoti");
+                throw new ArgumentException("The first 3 parameters cannot be null or empty");
             }
         }
 
@@ -43,8 +47,7 @@ namespace LDAPLibrary
             {
                 return _otherAttributes[attributeName];
             }
-            throw new ArgumentException(
-                "L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
+            throw new ArgumentException(AttributeNotFoundError, attributeName);
         }
 
         public string[] GetUserAttributeKeys()
@@ -82,7 +85,7 @@ namespace LDAPLibrary
                 _otherAttributes[attributeName] = attributeValues;
             else
                 throw new ArgumentException(
-                    "L'attributo di cui si vuole sovrascrivere i valori non è presente nel dizionario degli attributi dell'utente",
+                    AttributeNotFoundError,
                     attributeName);
         }
 
@@ -92,7 +95,7 @@ namespace LDAPLibrary
                 _otherAttributes[attributeName] = new List<string> {attributeValue};
             else
                 throw new ArgumentException(
-                    "L'attributo di cui si vuole sovrascrivere i valori non è presente nel dizionario degli attributi dell'utente",
+                    AttributeNotFoundError,
                     attributeName);
         }
 
@@ -101,8 +104,7 @@ namespace LDAPLibrary
             if (!_otherAttributes.ContainsKey(attributeName))
                 _otherAttributes.Add(attributeName, attributeValues);
             else
-                throw new ArgumentException(
-                    "L'attributo da creare è gia' presente nel dizionario degli attributi dell'utente", attributeName);
+                throw new ArgumentException(AttributeAlreadyExistError, attributeName);
         }
 
         public void CreateUserAttribute(string attributeName, string attributeValue)
@@ -110,15 +112,14 @@ namespace LDAPLibrary
             if (!_otherAttributes.ContainsKey(attributeName))
                 _otherAttributes.Add(attributeName, new List<string> {attributeValue});
             else
-                throw new ArgumentException(
-                    "L'attributo da creare è gia' presente nel dizionario degli attributi dell'utente", attributeName);
+                throw new ArgumentException(AttributeAlreadyExistError, attributeName);
         }
 
         public void InsertUserAttribute(string attributeName, string attributeValue)
         {
             if (!_otherAttributes.ContainsKey(attributeName))
                 throw new ArgumentException(
-                    "L'attributo cercato non è presente nel dizionario degli attributi dell'utente", attributeName);
+                    AttributeNotFoundError, attributeName);
             if (!string.IsNullOrEmpty(attributeValue))
                 _otherAttributes[attributeName].Add(attributeValue);
         }
@@ -130,7 +131,7 @@ namespace LDAPLibrary
                 OverwriteUserAttribute(attributeName, tempUserAttriutes);
             else
                 throw new ArgumentException(
-                    string.Format("Impossibile rimuovere il valore dagli attributi dell'utente: {0}", attributeValue));
+                    string.Format(AttributeUserRemoveError, attributeValue));
         }
 
         //Not tested because i don't know how to test an ACTION
