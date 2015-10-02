@@ -149,7 +149,7 @@ READ OPERATIONS (can be done in any library mode)
 =============
 
 For every read operation there's a test also with write permission.
-Check the [Unit Test Project code](https://github.com/Apex-net/LDAP-Library/tree/documentation/LDAPLibraryUnitTest) for details.
+Check the [Unit Test Project code](https://github.com/Apex-net/LDAP-Library/tree/master/LDAPLibraryUnitTest) for details.
 
 Direct User Connect
 -------------
