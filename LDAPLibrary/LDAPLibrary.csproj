@@ -56,6 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Connectors\AdminLdapConnector.cs" />
+    <Compile Include="Connectors\ALdapConnector.cs" />
+    <Compile Include="Connectors\AnonymousLdapConnector.cs" />
+    <Compile Include="Connectors\NoAdminLdapConnector.cs" />
     <Compile Include="Enums\LDAPAdminMode.cs" />
     <Compile Include="Enums\LDAPState.cs" />
     <Compile Include="Factories\LdapConfigRepositoryFactory.cs" />
@@ -74,7 +78,6 @@
     <Compile Include="Interfarces\ILdapUserManipulator.cs" />
     <Compile Include="Interfarces\ILogger.cs" />
     <Compile Include="LdapConfigRepository.cs" />
-    <Compile Include="LdapConnector.cs" />
     <Compile Include="LdapAdminModeChecker.cs" />
     <Compile Include="LdapManager.cs" />
     <Compile Include="LdapUser.cs" />

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
+using System.Linq;
 using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Enums;
@@ -34,10 +35,24 @@ namespace LDAP_Library_UnitTest.localhost
         private const string ReadOnlyUserCn = "Matteo";
         private const string ReadOnlyUserPwd = "1";
         private const string ReadOnlyUserDn = "cn=" + ReadOnlyUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
+
+        private LdapUser _readOnlyUser = new LdapUser(ReadOnlyUserDn, ReadOnlyUserCn, "test",
+            new Dictionary<string, List<string>> {{"userPassword", new List<string> {ReadOnlyUserPwd}}});
         //WRITE USER THIS MUST NOT EXIST INITIALLY
         private const string WriteUserCn = "Fabio";
         private const string WriteUserPwd = "1";
         private const string WriteUserDn = "cn=" + WriteUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
+        private readonly LdapUser _testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
+        
+        
+        private readonly LdapUser[] _fakeUsers =
+        {
+            new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {"FakePassword"}}}),
+            new LdapUser(WriteUserDn, WriteUserCn, "test",
+                new Dictionary<string, List<string>> {{"userPassword", new List<string> {""}}})
+        };
 
         #endregion
 
@@ -118,7 +133,7 @@ namespace LDAP_Library_UnitTest.localhost
             TestAdminConnect();
 
             //Create existing user
-            bool result = _ldapManagerObj.CreateUser(existingUser);
+            var result = _ldapManagerObj.CreateUser(existingUser);
 
             //Assert the correct operations
             Assert.IsFalse(result);
@@ -147,7 +162,7 @@ namespace LDAP_Library_UnitTest.localhost
             TestAdminConnect();
 
             //Create LDAPUser to delete.
-            bool result = _ldapManagerObj.CreateUser(testLdapUser);
+            var result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
@@ -173,7 +188,7 @@ namespace LDAP_Library_UnitTest.localhost
             TestAdminConnect();
             var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
                 new Dictionary<string, List<string>> {{"description", new List<string> {"test"}}});
-            bool result = _ldapManagerObj.CreateUser(testLdapUser);
+            var result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
@@ -216,7 +231,7 @@ namespace LDAP_Library_UnitTest.localhost
             var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
                 new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
             //Create the user
-            bool result = _ldapManagerObj.CreateUser(testUser);
+            var result = _ldapManagerObj.CreateUser(testUser);
 
             Assert.IsTrue(result);
 
@@ -260,31 +275,19 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
         public void TestUserConnect()
         {
-            var testUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
-                new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
-            var faketestUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
-                new Dictionary<string, List<string>> {{"userPassword", new List<string> {"FakePassword"}}});
-
             TestAdminConnect();
 
 
-            bool result = _ldapManagerObj.CreateUser(testUser);
+            var result = _ldapManagerObj.CreateUser(_testUser);
             Assert.IsTrue(result);
 
             var testUserCredential = new NetworkCredential(
-                testUser.GetUserDn(),
-                testUser.GetUserAttribute("userPassword")[0],
+                _testUser.GetUserDn(),
+                _testUser.GetUserAttribute("userPassword")[0],
                 "");
-            var faketestUserCredential = new NetworkCredential(
-                faketestUser.GetUserDn(),
-                faketestUser.GetUserAttribute("userPassword")[0],
-                "");
-
-            result = _ldapManagerObj.Connect(faketestUserCredential);
-
-            Assert.IsFalse(result);
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION ERROR: ");
-
+            
+            TestConnectFakeUsers();
+            
 
             result = _ldapManagerObj.Connect(testUserCredential);
 
@@ -292,8 +295,24 @@ namespace LDAP_Library_UnitTest.localhost
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP CONNECTION SUCCESS");
 
             TestAdminConnect();
-            result = _ldapManagerObj.DeleteUser(testUser);
+            result = _ldapManagerObj.DeleteUser(_testUser);
             Assert.IsTrue(result);
+        }
+
+        private void TestConnectFakeUsers()
+        {
+            _fakeUsers.Select(user => new NetworkCredential(user.GetUserDn(), user.GetUserAttribute("userPassword")[0], ""))
+                .ToList()
+                .ForEach(
+                    nc =>
+                    {
+                        var result = _ldapManagerObj.Connect(nc);
+
+                        Assert.IsFalse(result);
+                        Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1),
+                            "LDAP CONNECTION ERROR: ");
+                    }
+                );
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Write Permissions")]
@@ -303,7 +322,7 @@ namespace LDAP_Library_UnitTest.localhost
             var testLdapUser = new LdapUser(WriteUserDn, WriteUserCn, "test",
                 new Dictionary<string, List<string>> {{"userPassword", new List<string> {WriteUserPwd}}});
 
-            bool result = _ldapManagerObj.CreateUser(testLdapUser);
+            var result = _ldapManagerObj.CreateUser(testLdapUser);
 
             Assert.IsTrue(result);
 
@@ -342,7 +361,7 @@ namespace LDAP_Library_UnitTest.localhost
 
             List<ILdapUser> returnUsers;
 
-            bool result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
+            var result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, fakeuserIdToSearch, out returnUsers);
 
             Assert.IsFalse(result);
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP SEARCH USER ERROR: ");
@@ -366,11 +385,13 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
 
-            bool result = _ldapManagerObj.Connect(new NetworkCredential(
+            var result = _ldapManagerObj.Connect(new NetworkCredential(
                 ReadOnlyUserDn, ReadOnlyUserPwd,
                 ""));
 
             Assert.IsTrue(result);
+
+            TestConnectFakeUsers();
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Read Permissions")]
@@ -378,7 +399,7 @@ namespace LDAP_Library_UnitTest.localhost
         {
             TestAdminConnect();
 
-            bool result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
+            var result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserPwd);
 
             Assert.IsTrue(result);
         }

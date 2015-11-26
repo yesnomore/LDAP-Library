@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using LDAPLibrary;
+using LDAPLibrary.Connectors;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
@@ -27,7 +28,7 @@ namespace LDAP_Library_UnitTest
             ILdapConnector connector = LdapConnectorFactory.GetLdapConnector(new LdapAdminModeChecker(configRepo), configRepo,
                 new FakeLogger());
 
-            Assert.IsInstanceOfType(connector, typeof (LdapConnector));
+            Assert.IsInstanceOfType(connector, typeof (ALdapConnector));
         }
 
         [TestMethod, TestCategory("LdapConnectionFactory")]

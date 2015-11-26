@@ -1,4 +1,5 @@
-﻿using LDAPLibrary.Interfarces;
+﻿using LDAPLibrary.Connectors;
+using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.Factories
 {
@@ -7,7 +8,9 @@ namespace LDAPLibrary.Factories
         public static ILdapConnector GetLdapConnector(ILdapAdminModeChecker adminModeChecker,
             ILdapConfigRepository configRepository, ILogger logger)
         {
-            return new LdapConnector(adminModeChecker, configRepository, logger);
+            if (adminModeChecker.IsAnonymousMode()) return new AnonymousLdapConnector(configRepository,logger);
+            if (adminModeChecker.IsNoAdminMode()) return new NoAdminLdapConnector(configRepository, logger);
+            return new AdminLdapConnector(configRepository, logger);
         }
     }
 }
