@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
 using System.Net;
+using System.Security.Authentication;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
@@ -62,6 +63,9 @@ namespace LDAPLibrary
         {
             try
             {
+                if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
+                if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
+
                 _ldapConnection = LdapConnectionFactory.GetLdapConnection(credential, _configRepository);
                 if (_adminModeChecker.IsAdminMode()) _ldapConnection.Bind(credential);
                 if (_adminModeChecker.IsAnonymousMode()) _ldapConnection.Bind(credential);
