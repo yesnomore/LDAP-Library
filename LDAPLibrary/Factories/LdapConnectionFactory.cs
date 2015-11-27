@@ -1,5 +1,4 @@
 ﻿using System.DirectoryServices.Protocols;
-using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using LDAPLibrary.Interfarces;
 

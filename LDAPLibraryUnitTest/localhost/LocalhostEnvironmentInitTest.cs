@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.DirectoryServices.Protocols;
-using System.Net;
 using LDAPLibrary;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
@@ -307,6 +306,24 @@ namespace LDAP_Library_UnitTest.localhost
             _ldapManagerObj = new LdapManager(null, LDAPAdminMode.Anonymous,
                 LdapServer,
                 LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                ClientCertificationFlag,
+                ClientCertificatePath,
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoAdmin_SearchBaseDN_Null()
+        {
+            _ldapManagerObj = new LdapManager(null, LDAPAdminMode.NoAdmin,
+                LdapServer,
+                "",
                 LdapAuthType,
                 SecureSocketLayerFlag,
                 TransportSocketLayerFlag,

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Configuration;
 using System.DirectoryServices.Protocols;
 using LDAPLibrary;
 using LDAPLibrary.Enums;

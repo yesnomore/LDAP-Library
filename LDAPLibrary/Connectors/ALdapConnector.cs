@@ -22,9 +22,28 @@ namespace LDAPLibrary.Connectors
         protected const string AdminConnectionErrorMessageBasicMode =
             "unable to connect with administrator in basic mode, see the config file";
 
-        protected ILdapConfigRepository _configRepository;
+        protected string SuccessConnectionMessage(NetworkCredential credential)
+        {
+            return String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}", credential.UserName,
+                credential.Password,
+                (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
+                (_configRepository.GetTransportSocketLayerFlag() ? "\n With TLS " : ""),
+                (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
+        }
+
+        protected string ErrorConnectionMessage(NetworkCredential credential, string exceptionMessage){ 
+            return String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
+            exceptionMessage,
+            credential.UserName,
+            credential.Password,
+            (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
+            (_configRepository.GetTransportSocketLayerFlag() ? "\n With TLS " : ""),
+            (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
+        }
+
+    protected ILdapConfigRepository _configRepository;
         protected ILogger _logger;
-        private List<ILdapConnectionObserver> _observers;
+        protected List<ILdapConnectionObserver> _observers;
         protected LdapConnection _ldapConnection;
 
         protected ALdapConnector(ILdapConfigRepository configRepository, ILogger logger)
@@ -34,13 +53,20 @@ namespace LDAPLibrary.Connectors
             _observers = new List<ILdapConnectionObserver>();
         }
 
-        protected LdapState StandardAdminConnect()
+        //~~~~~~~~~~~~~~~~~~~~~~~~Abstract Methods~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        protected abstract LdapState ConnectAdmin();
+        protected abstract void ConnectUser(NetworkCredential credential);
+
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+        protected void StandardConnect(NetworkCredential credential)
         {
-            var returnState = Connect(
-                        new NetworkCredential(  _configRepository.GetAdminUser().GetUserDn(),
-                                                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]));
-            _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
-            return returnState;
+            if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
+            if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
+
+            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
+            _ldapConnection.Bind(credential);
         }
 
         public LdapState Connect()
@@ -48,17 +74,6 @@ namespace LDAPLibrary.Connectors
             try
             {
                 return ConnectAdmin();
-                //if (!_adminModeChecker.IsNoAdminMode())
-                //{
-                //    var returnState = Connect(
-                //        new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
-                //            _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]));
-                //    _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
-                //    return returnState;
-                //}
-                //_logger.Write(_logger.BuildLogMessage(AdminConnectionErrorMessageBasicMode,
-                //    LdapState.LdapConnectionError));
-                //return LdapState.LdapConnectionError;
             }
             catch (Exception)
             {
@@ -66,47 +81,23 @@ namespace LDAPLibrary.Connectors
                 throw new Exception(AdminConnectionErrorMessage);
             }
         }
-
-        protected abstract LdapState ConnectAdmin();
-
+        
         public LdapState Connect(NetworkCredential credential)
         {
             try
             {
                 ConnectUser(credential);
-                //if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
-                //if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
-
-                //_ldapConnection = LdapConnectionFactory.GetLdapConnection(credential, _configRepository);
-                //if (_adminModeChecker.IsAdminMode()) _ldapConnection.Bind(credential);
-                //if (_adminModeChecker.IsAnonymousMode()) _ldapConnection.Bind(credential);
             }
             catch (Exception e)
             {
-                string errorConnectionMessage = String.Format("{0}\n User: {1}\n Pwd: {2}{3}{4}{5}",
-                    e.Message,
-                    credential.UserName,
-                    credential.Password,
-                    (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
-                    (_configRepository.GetTransportSocketLayerFlag()? "\n With TLS " : ""),
-                    (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
-                _logger.Write(_logger.BuildLogMessage(errorConnectionMessage, LdapState.LdapConnectionError));
+                _logger.Write(_logger.BuildLogMessage(ErrorConnectionMessage(credential,e.Message), LdapState.LdapConnectionError));
                 return LdapState.LdapConnectionError;
             }
-
-            var successConnectionMessage = String.Format("Connection success\n User: {0}\n Pwd: {1}{2}{3}{4}",
-                credential.UserName,
-                credential.Password,
-                (_configRepository.GetSecureSocketLayerFlag() ? "\n With SSL " : ""),
-                (_configRepository.GetTransportSocketLayerFlag() ? "\n With TLS " : ""),
-                (_configRepository.GetClientCertificateFlag() ? "\n With Client Certificate" : ""));
-            //if (_adminModeChecker.IsNoAdminMode())
-            //    _ldapConnection.Dispose();
-            _logger.Write(_logger.BuildLogMessage(successConnectionMessage, LdapState.LdapConnectionSuccess));
+            _logger.Write(_logger.BuildLogMessage(SuccessConnectionMessage(credential), LdapState.LdapConnectionSuccess));
             return LdapState.LdapConnectionSuccess;
         }
 
-        protected abstract void ConnectUser(NetworkCredential credential);
+        //~~~~~~~~~~~~~~~~~~~~~~Observer Pattern~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         public void LdapConnectionSubscribe(ILdapConnectionObserver observer)
         {
@@ -117,6 +108,8 @@ namespace LDAPLibrary.Connectors
         {
             _observers.Remove(observer);
         }
+
+        //~~~~~~~~~~~~~~~~~~~~~~Disposable~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
         /// <summary>
         /// Purge the connection and the object reference in the class

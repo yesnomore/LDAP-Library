@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
@@ -18,13 +13,23 @@ namespace LDAPLibrary.Connectors
 
         protected override LdapState ConnectAdmin()
         {
-            return StandardAdminConnect();
+            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
+            var adminCredential = new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
+                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]);
+            
+            _ldapConnection.Bind(adminCredential);
+            
+            
+            _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
+            
+            
+            _logger.Write(_logger.BuildLogMessage(SuccessConnectionMessage(adminCredential), LdapState.LdapConnectionSuccess));
+            return LdapState.LdapConnectionSuccess;
         }
 
         protected override void ConnectUser(NetworkCredential credential)
         {
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
-            _ldapConnection.Bind(credential);
+            StandardConnect(credential);
         }
     }
 }

@@ -109,15 +109,17 @@ namespace LDAPLibrary
 
         public void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)
         {
-            BasicLdapConfigValidator(server, loggerType, logPath,searchBaseDn,adminUser,adminMode);
-
+            _adminMode = adminMode;
+            _loggerType = loggerType;
             _authType = authType;
+
+            BasicLdapConfigValidator(server,logPath,searchBaseDn,adminUser);
+
             _searchBaseDn = searchBaseDn;
             _server = server;
             _adminUser = adminUser;
-            _loggerType = loggerType;
             _logPath = logPath;
-            _adminMode = adminMode;
+            
 
             StandardLdapInformation();
         }
@@ -170,11 +172,12 @@ namespace LDAPLibrary
         /// <param name="searchBaseDn">Search Root Node</param>
         /// <param name="admin">Admin User</param>
         /// <param name="adminMode">Library Admin Mode</param>
-        private static void BasicLdapConfigValidator(string server, LoggerType loggerType, string logPath, string searchBaseDn, ILdapUser admin, LDAPAdminMode adminMode)
+        private void BasicLdapConfigValidator(string server, string logPath, string searchBaseDn, ILdapUser admin)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { server, searchBaseDn }) ||
-                (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { logPath })) && loggerType == LoggerType.File ||
-                (adminMode == LDAPAdminMode.Admin && admin == null))
+            if (     String.IsNullOrEmpty(server) 
+                ||  (String.IsNullOrEmpty(logPath) && GetWriteLogFlag() == LoggerType.File)
+                ||  (GetAdminMode() == LDAPAdminMode.Admin && admin == null)
+                ||  (String.IsNullOrEmpty(searchBaseDn) && GetAdminMode() != LDAPAdminMode.NoAdmin))
                 throw new ArgumentNullException(String.Format(BasicConfigNullParametersErrorMessage));
         }
 

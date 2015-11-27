@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Security.Authentication;
-using System.Text;
-using System.Threading.Tasks;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
@@ -26,11 +22,7 @@ namespace LDAPLibrary.Connectors
 
         protected override void ConnectUser(NetworkCredential credential)
         {
-            if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
-            if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
-
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
-            _ldapConnection.Bind(credential);
+            StandardConnect(credential);
             _ldapConnection.Dispose();
         }
     }

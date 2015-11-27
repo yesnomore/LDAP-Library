@@ -1,8 +1,5 @@
 ﻿using System.DirectoryServices.Protocols;
-using System.IO;
 using System.Net;
-using System.Net.Mime;
-using System.Reflection;
 using LDAPLibrary;
 using LDAPLibrary.Connectors;
 using LDAPLibrary.Enums;

@@ -1,5 +1,4 @@
-﻿using LDAPLibrary;
-using LDAPLibrary.Enums;
+﻿using LDAPLibrary.Enums;
 using LDAPLibrary.StaticClasses;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

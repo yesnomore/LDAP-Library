@@ -1,8 +1,5 @@
-﻿using System;
-using System.Net;
-using System.Security.Authentication;
+﻿using System.Net;
 using LDAPLibrary.Enums;
-using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
 
 namespace LDAPLibrary.Connectors
@@ -15,16 +12,16 @@ namespace LDAPLibrary.Connectors
 
         protected override LdapState ConnectAdmin()
         {
-            return StandardAdminConnect();
+            var returnState = Connect(
+                        new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
+                                                _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]));
+            _observers.ForEach(x => x.SetLdapConnection(_ldapConnection));
+            return returnState;
         }
 
         protected override void ConnectUser(NetworkCredential credential)
         {
-            if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
-            if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
-
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
-            _ldapConnection.Bind(credential);
+            StandardConnect(credential);
         }
     }
 }
