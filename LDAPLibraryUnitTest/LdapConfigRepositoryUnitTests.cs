@@ -148,7 +148,7 @@ namespace LDAP_Library_UnitTest
             _configRepository.AdditionalLdapConfig(
                 SecureSocketLayer,
                 TransportSocketLayer,
-                ClientCertificate,
+                true,
                 "",
                 UserObjectClass,
                 MatchFieldUsername

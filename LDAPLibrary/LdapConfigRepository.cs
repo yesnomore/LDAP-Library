@@ -127,14 +127,16 @@ namespace LDAPLibrary
             string clientCertificatePath, string userObjectClass,
             string matchFieldUsername)
         {
+            _clientCertificateFlag = clientCertificateFlag;
+            _transportSocketLayerFlag = transportSocketLayerFlag;
+            _secureSocketLayerFlag = secureSocketLayerFlag;
+
             AddictionalLdapConfigValidator(clientCertificatePath, userObjectClass, matchFieldUsername);
 
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _clientCertificatePath = clientCertificatePath;
-            _clientCertificateFlag = clientCertificateFlag;
-            _transportSocketLayerFlag = transportSocketLayerFlag;
-            _secureSocketLayerFlag = secureSocketLayerFlag;
+            
         }
 
         /// <summary>
@@ -191,7 +193,7 @@ namespace LDAPLibrary
         private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass,
             string matchFieldUsername)
         {
-            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { clientCertificatePath, userObjectClass, matchFieldUsername }))
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { userObjectClass, matchFieldUsername }) || String.IsNullOrEmpty(clientCertificatePath) && GetClientCertificateFlag() == true)
                 throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage,
                     _adminUser, clientCertificatePath, userObjectClass, matchFieldUsername));
         }

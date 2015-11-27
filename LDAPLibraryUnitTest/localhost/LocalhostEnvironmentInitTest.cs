@@ -104,7 +104,26 @@ namespace LDAP_Library_UnitTest.localhost
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
         [ExpectedException(typeof(ArgumentNullException),
             "The creation of the library with Certificate path null or empty throw an exception")]
-        public void TestCompleteInitLibraryNoCertificatePath()
+        public void TestCompleteInitLibraryNoCertificatePathRequired()
+        {
+            _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
+                LdapServer,
+                LdapSearchBaseDn,
+                LdapAuthType,
+                SecureSocketLayerFlag,
+                TransportSocketLayerFlag,
+                true,
+                "",
+                EnableLdapLibraryLog,
+                LdapLibraryLogPath,
+                LdapUserObjectClass,
+                LdapMatchFieldUsername
+                );
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+        }
+
+        [TestMethod, TestCategory("LDAPLibrary Test Init")]
+        public void TestCompleteInitLibraryNoCertificatePathNotRequired()
         {
             _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
                 LdapServer,
@@ -119,7 +138,8 @@ namespace LDAP_Library_UnitTest.localhost
                 LdapUserObjectClass,
                 LdapMatchFieldUsername
                 );
-            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
+            Assert.IsFalse(_ldapManagerObj.Equals(null));
+            Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT SUCCESS");
         }
 
         [TestMethod, TestCategory("LDAPLibrary Test Init")]
