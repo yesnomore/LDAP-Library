@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("LDAPLibrary")]
 [assembly:
     AssemblyDescription(
-        " Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infostructures"
+        " Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures"
         )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -38,5 +38,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.1.*")]
-[assembly: AssemblyFileVersion("3.1.*")]
+[assembly: AssemblyVersion("3.3.*")]
+[assembly: AssemblyFileVersion("3.3.*")]

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyTitle("GUI_LDAPUnitTest")]
 [assembly:
-    AssemblyDescription("Simply project that use the LDAPLibrary and test it. in particolar for not-develop enviroments"
+    AssemblyDescription("Simply project that use the LDAPLibrary and test it. in particular for not-develop enviroments"
         )]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -37,5 +37,5 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 
-[assembly: AssemblyVersion("3.1.*")]
-[assembly: AssemblyFileVersion("3.1.*")]
+[assembly: AssemblyVersion("3.3.*")]
+[assembly: AssemblyFileVersion("3.3.*")]
