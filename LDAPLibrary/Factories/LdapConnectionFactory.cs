@@ -13,11 +13,9 @@ namespace LDAPLibrary.Factories
         /// <summary>
         /// Static Method used to create an LDAP connection object
         /// </summary>
-        /// <param name="credential">User Credential</param>
         /// <param name="ldapConfigRepository">Repository of all LDAP configuration</param>
         /// <returns></returns>
-        public static LdapConnection GetLdapConnection(NetworkCredential credential,
-            ILdapConfigRepository ldapConfigRepository)
+        public static LdapConnection GetLdapConnection(ILdapConfigRepository ldapConfigRepository)
         {
             var ldapConnection = new LdapConnection(ldapConfigRepository.GetServer())
             {

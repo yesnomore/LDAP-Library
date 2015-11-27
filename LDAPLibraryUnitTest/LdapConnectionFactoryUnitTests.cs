@@ -37,7 +37,7 @@ namespace LDAP_Library_UnitTest
             var ldapConfigRepository = new LdapConfigRepository();
             ldapConfigRepository.BasicLdapConfig(null,LDAPAdminMode.Anonymous, "127.0.0.1:636","test",AuthType.Basic,LoggerType.None,"");
             ldapConfigRepository.AdditionalLdapConfig(secureSocketLayer, transportSocketLayer, clientCertificate, @"LDAPCert/Terena-chain.pem", "test", "test");
-            var ldapConnection = LdapConnectionFactory.GetLdapConnection(_credential, ldapConfigRepository);
+            var ldapConnection = LdapConnectionFactory.GetLdapConnection(ldapConfigRepository);
 
             Assert.IsInstanceOfType(ldapConnection, typeof(LdapConnection));         
             Assert.IsTrue(ldapConnection.ClientCertificates.Count == 1);

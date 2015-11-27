@@ -23,7 +23,7 @@ namespace LDAPLibrary.Connectors
 
         protected override void ConnectUser(NetworkCredential credential)
         {
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(credential, _configRepository);
+            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
             _ldapConnection.Bind(credential);
         }
     }

@@ -29,7 +29,8 @@ namespace LDAPLibrary.Connectors
             if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
             if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
 
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(credential, _configRepository);
+            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
+            _ldapConnection.Bind(credential);
             _ldapConnection.Dispose();
         }
     }
