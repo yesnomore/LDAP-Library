@@ -7,13 +7,15 @@ using LDAPLibrary.Enums;
 using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 
-namespace GUI_LDAPUnitTest.Tests.BusinessLogic
+namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
 {
     internal class TestImplementation
     {
         private readonly string[] _ldapMatchSearchField = {Config.LdapLibrary["LDAPMatchFieldUsername"]};
         private readonly TestUserRepository _userRepository;
         private ILdapManager _ldapManagerObj;
+
+        delegate bool Test();
 
         public TestImplementation(TestUserRepository userRepository, ILdapManager ldapManagerObj)
         {
@@ -65,9 +67,19 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 
         public bool TestAdminConnect()
         {
+            var adminMode = (LDAPAdminMode) Enum.Parse(typeof (LDAPAdminMode), Config.LdapLibrary["LDAPAdminMode"]);
+
+            Test initLibrary;
+
+            if (adminMode.Equals(LDAPAdminMode.Admin))
+                initLibrary = TestCompleteInitLibrary;
+            else
+                initLibrary = TestStardardInitLibraryNoAdmin;
             //Init the DLL
-            if (!TestCompleteInitLibrary())
+            
+            if (!initLibrary())
                 return false;
+                
 
             //Connect with admin user
             if (!_ldapManagerObj.Connect())

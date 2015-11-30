@@ -36,8 +36,6 @@ namespace LDAP_Library_UnitTest.localhost
         private const string ReadOnlyUserPwd = "1";
         private const string ReadOnlyUserDn = "cn=" + ReadOnlyUserCn + ",o=ApexNet,ou=People,dc=maxcrc,dc=com";
 
-        private LdapUser _readOnlyUser = new LdapUser(ReadOnlyUserDn, ReadOnlyUserCn, "test",
-            new Dictionary<string, List<string>> {{"userPassword", new List<string> {ReadOnlyUserPwd}}});
         //WRITE USER THIS MUST NOT EXIST INITIALLY
         private const string WriteUserCn = "Fabio";
         private const string WriteUserPwd = "1";

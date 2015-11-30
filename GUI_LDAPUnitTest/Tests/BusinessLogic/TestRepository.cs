@@ -7,12 +7,12 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
 {
     internal class TestRepository
     {
-        private readonly TestImplementation _testImplementation;
+        private readonly TestImplementation.TestImplementation _testImplementation;
         private readonly bool _writePermission = Convert.ToBoolean(ConfigurationManager.AppSettings["writePermissions"]);
 
         public TestRepository(ILdapManager ldapManagerObj, TestUserRepository testUserRepository)
         {
-            _testImplementation = new TestImplementation(testUserRepository, ldapManagerObj);
+            _testImplementation = new TestImplementation.TestImplementation(testUserRepository, ldapManagerObj);
 
             TestList = new Dictionary<TestType, TestMethod>
             {
