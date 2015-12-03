@@ -32,8 +32,7 @@ namespace LDAPLibrary.StaticClasses
             return new DeleteRequest(user.GetUserDn());
         }
 
-        public static ModifyRequest GetModifyRequest(ILdapUser user, DirectoryAttributeOperation attributeOperation,
-            string attributeName, string attributeValue)
+        public static ModifyRequest GetModifyRequest(ILdapUser user, DirectoryAttributeOperation attributeOperation,string attributeName, string attributeValue)
         {
             return new ModifyRequest(user.GetUserDn(), attributeOperation, attributeName, attributeValue);
         }
@@ -50,8 +49,7 @@ namespace LDAPLibrary.StaticClasses
             return new ModifyRequest(user.GetUserDn(), modifyUserPassword);
         }
 
-        public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter,
-            List<string> searchAttributes)
+        public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter,List<string> searchAttributes)
         {
             return new SearchRequest(baseDn, searchFilter, SearchScope.Subtree, searchAttributes.ToArray());
         }

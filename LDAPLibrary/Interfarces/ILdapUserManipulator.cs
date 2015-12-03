@@ -29,9 +29,7 @@ namespace LDAPLibrary.Interfarces
         /// <param name="attributeName">Attribute name</param>
         /// <param name="attributeValue">Attribute Value</param>
         /// <returns>Success or Failed</returns>
-        LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user,
-            string attributeName,
-            string attributeValue);
+        LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user,string attributeName,string attributeValue);
 
         /// <summary>
         /// Change an LDAPUser's Password
@@ -48,7 +46,6 @@ namespace LDAPLibrary.Interfarces
         /// <param name="searchedUsers">Credential for the search</param>
         /// <param name="searchResult">LDAPUsers object returned in the search</param>
         /// <returns>Boolean that comunicate the result of search</returns>
-        LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
-            out List<ILdapUser> searchResult);
+        LdapState SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,out List<ILdapUser> searchResult);
     }
 }

@@ -1,4 +1,5 @@
-﻿using LDAPLibrary.Interfarces;
+﻿using LDAPLibrary.Enums;
+using LDAPLibrary.Interfarces;
 using LDAPLibrary.Logger;
 
 namespace LDAPLibrary.Factories

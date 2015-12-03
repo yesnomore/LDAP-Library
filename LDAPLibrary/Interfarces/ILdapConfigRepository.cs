@@ -31,11 +31,7 @@ namespace LDAPLibrary.Interfarces
         /// <param name="clientCertificatePath">Path of the certificate file</param>
         /// <param name="userObjectClass">Object class that rapresent an user</param>
         /// <param name="matchFieldUsername">Attribute that rapresent the username</param>
-        void AdditionalLdapConfig(
-            bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
-            string clientCertificatePath,
-            string userObjectClass, string matchFieldUsername);
-
+        void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,string clientCertificatePath,string userObjectClass, string matchFieldUsername);
         /*
          * Getters
          */

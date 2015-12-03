@@ -1,0 +1,664 @@
+<Project>
+  <Name>LDAPLibrary</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>Class Diagram</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Interface">
+        <Name>ILdapManager</Name>
+        <Access>Public</Access>
+        <Location left="588" top="78" />
+        <Size width="691" height="214" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">bool CreateUser(ILdapUser newUser)</Member>
+        <Member type="Method">bool DeleteUser(ILdapUser user)</Member>
+        <Member type="Method">bool ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName, string attributeValue)</Member>
+        <Member type="Method">bool ChangeUserPassword(ILdapUser user, string newPwd)</Member>
+        <Member type="Method">bool SearchUsers(List&lt;string&gt; otherReturnedAttributes, string[] searchedUsers, out List&lt;ILdapUser&gt; searchResult)</Member>
+        <Member type="Method">string GetLdapMessage()</Member>
+        <Member type="Method">bool Connect()</Member>
+        <Member type="Method">bool Connect(NetworkCredential credential)</Member>
+        <Member type="Method">bool SearchUserAndConnect(string user, string password)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapManager</Name>
+        <Access>Public</Access>
+        <Location left="737" top="407" />
+        <Size width="345" height="213" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">ILdapConfigRepository _configRepository</Member>
+        <Member type="Field">readonly ILdapConnector _connector</Member>
+        <Member type="Field">ILogger _logger</Member>
+        <Member type="Field">readonly ILdapUserManipulator _manageLdapUser</Member>
+        <Member type="Field">ILdapAdminModeChecker _adminModeChecker</Member>
+        <Member type="Field">LdapState _ldapCurrentState</Member>
+        <Member type="Constructor">public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, LoggerType loggerType, string logPath)</Member>
+        <Member type="Constructor">public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, LoggerType loggerType, string logPath, string userObjectClass, string matchFieldUsername)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>IDisposable</Name>
+        <Access>Public</Access>
+        <Location left="1333" top="78" />
+        <Size width="162" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void Dispose()</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapConfigRepository</Name>
+        <Access>Public</Access>
+        <Location left="1333" top="454" />
+        <Size width="162" height="316" />
+        <Collapsed>True</Collapsed>
+        <Member type="Method">void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)</Member>
+        <Member type="Method">void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, string userObjectClass, string matchFieldUsername)</Member>
+        <Member type="Method">ILdapUser GetAdminUser()</Member>
+        <Member type="Method">string GetServer()</Member>
+        <Member type="Method">string GetSearchBaseDn()</Member>
+        <Member type="Method">AuthType GetAuthType()</Member>
+        <Member type="Method">bool GetSecureSocketLayerFlag()</Member>
+        <Member type="Method">bool GetTransportSocketLayerFlag()</Member>
+        <Member type="Method">bool GetClientCertificateFlag()</Member>
+        <Member type="Method">string GetClientCertificatePath()</Member>
+        <Member type="Method">LoggerType GetWriteLogFlag()</Member>
+        <Member type="Method">string GetLogPath()</Member>
+        <Member type="Method">string GetUserObjectClass()</Member>
+        <Member type="Method">string GetMatchFieldName()</Member>
+        <Member type="Method">LDAPAdminMode GetAdminMode()</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapConfigRepository</Name>
+        <Access>Public</Access>
+        <Location left="1883" top="454" />
+        <Size width="162" height="383" />
+        <Collapsed>True</Collapsed>
+        <Member type="Field">const string BasicConfigNullParametersErrorMessage = Server or SearchBaseDn parameter cannot be null or empty and the file log path cannot be null if the logType is 'File' </Member>
+        <Member type="Field">const string CompleteConfigNullParametersErrorMessage = One param are null or empty:Admin User: {0},clientCertificatePath: {1}, userObjectClass: {2},matchFieldUsername: {3}</Member>
+        <Member type="Field">LDAPAdminMode _adminMode</Member>
+        <Member type="Field">ILdapUser _adminUser</Member>
+        <Member type="Field">AuthType _authType</Member>
+        <Member type="Field">bool _clientCertificateFlag</Member>
+        <Member type="Field">string _clientCertificatePath</Member>
+        <Member type="Field">LoggerType _loggerType</Member>
+        <Member type="Field">private string _logPath</Member>
+        <Member type="Field">string _matchFieldUsername</Member>
+        <Member type="Field">string _searchBaseDn</Member>
+        <Member type="Field">bool _secureSocketLayerFlag</Member>
+        <Member type="Field">string _server</Member>
+        <Member type="Field">bool _transportSocketLayerFlag</Member>
+        <Member type="Field">string _userObjectClass</Member>
+        <Member type="Method">private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass, string matchFieldUsername)</Member>
+        <Member type="Method">private void BasicLdapConfigValidator(string server, string logPath, string searchBaseDn, ILdapUser admin)</Member>
+        <Member type="Method">private void StandardLdapInformation()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapConnector</Name>
+        <Access>Internal</Access>
+        <Location left="1581" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">LdapState Connect()</Member>
+        <Member type="Method">LdapState Connect(NetworkCredential credential)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapConnectionObservable</Name>
+        <Access>Internal</Access>
+        <Location left="1813" top="78" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void LdapConnectionSubscribe(ILdapConnectionObserver observer)</Member>
+        <Member type="Method">void LdapConnectionUnsubscribe(ILdapConnectionObserver observer)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ALdapConnector</Name>
+        <Access>Public</Access>
+        <Location left="1458" top="737" />
+        <Size width="448" height="298" />
+        <Collapsed>True</Collapsed>
+        <Member type="Field">const string AdminConnectionErrorMessage = "unable to connect with administrator credential, see the config file"</Member>
+        <Member type="Field">protected const string AdminConnectionErrorMessageBasicMode = "unable to connect with administrator in basic mode, see the config file"</Member>
+        <Member type="Field">protected ILdapConfigRepository _configRepository</Member>
+        <Member type="Field">protected ILogger _logger</Member>
+        <Member type="Field">protected List&lt;ILdapConnectionObserver&gt; _observers</Member>
+        <Member type="Field">protected LdapConnection _ldapConnection</Member>
+        <Member type="Method">protected string SuccessConnectionMessage(NetworkCredential credential)</Member>
+        <Member type="Method">protected string ErrorConnectionMessage(NetworkCredential credential, string exceptionMessage)</Member>
+        <Member type="Constructor">protected ALdapConnector(ILdapConfigRepository configRepository, ILogger logger)</Member>
+        <Member type="Method">protected abstract LdapState ConnectAdmin()</Member>
+        <Member type="Method">protected abstract void ConnectUser(NetworkCredential credential)</Member>
+        <Member type="Method">protected void StandardConnect(NetworkCredential credential)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AdminLdapConnector</Name>
+        <Access>Public</Access>
+        <Location left="1361" top="861" />
+        <Size width="162" height="103" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>AnonymousLdapConnector</Name>
+        <Access>Public</Access>
+        <Location left="1601" top="861" />
+        <Size width="162" height="99" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>NoAdminLdapConnector</Name>
+        <Access>Public</Access>
+        <Location left="1834" top="861" />
+        <Size width="162" height="96" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILogger</Name>
+        <Access>Public</Access>
+        <Location left="1015" top="1078" />
+        <Size width="350" height="99" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">string BuildLogMessage(string message, LdapState state)</Member>
+        <Member type="Method">void Write(string message)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>ALogger</Name>
+        <Access>Public</Access>
+        <Location left="1038" top="1235" />
+        <Size width="283" height="145" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">protected const string DateFormat = "dd/MM/yyyy HH:mm:ss tt"</Member>
+        <Member type="Field">private readonly Dictionary&lt;LdapState, LdapError&gt; _ldapErrors</Member>
+        <Member type="Method">public abstract void Write(string message)</Member>
+        <Modifier>Abstract</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>EventViewerLogger</Name>
+        <Access>Public</Access>
+        <Location left="910" top="1457" />
+        <Size width="162" height="99" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const string EventLogSource = "LDAPLibrary"</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FakeLogger</Name>
+        <Access>Public</Access>
+        <Location left="1097" top="1457" />
+        <Size width="162" height="216" />
+        <Collapsed>True</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FileLogger</Name>
+        <Access>Public</Access>
+        <Location left="1273" top="1457" />
+        <Size width="162" height="111" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const string LogFileName = "LDAPLog.txt"</Member>
+        <Member type="Field">private readonly string _logPath</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapUserManipulator</Name>
+        <Access>Public</Access>
+        <Location left="10" top="419" />
+        <Size width="446" height="167" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">LdapState CreateUser(ILdapUser newUser)</Member>
+        <Member type="Method">LdapState DeleteUser(ILdapUser user)</Member>
+        <Member type="Method">LdapState ModifyUserAttribute(DirectoryAttributeOperation operationType, ILdapUser user, string attributeName, string attributeValue)</Member>
+        <Member type="Method">LdapState ChangeUserPassword(ILdapUser user, string newPwd)</Member>
+        <Member type="Method">LdapState SearchUsers(List&lt;string&gt; otherReturnedAttributes, string[] searchedUsers, out List&lt;ILdapUser&gt; searchResult)</Member>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapConnectionObserver</Name>
+        <Access>Public</Access>
+        <Location left="85" top="90" />
+        <Size width="340" height="78" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">void SetLdapConnection(LdapConnection ldapConnection)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapUserManipulator</Name>
+        <Access>Public</Access>
+        <Location left="26" top="697" />
+        <Size width="370" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private ILdapConfigRepository _configRepository</Member>
+        <Member type="Field">private ILogger _logger</Member>
+        <Member type="Field">private LdapConnection _ldapConnection</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapAdminModeChecker</Name>
+        <Access>Public</Access>
+        <Location left="674" top="763" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">bool IsAdminMode()</Member>
+        <Member type="Method">bool IsNoAdminMode()</Member>
+        <Member type="Method">bool IsAnonymousMode()</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapAdminModeChecker</Name>
+        <Access>Public</Access>
+        <Location left="880" top="763" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private readonly ILdapConfigRepository _configRepository</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>LDAPAdminMode</Name>
+        <Access>Public</Access>
+        <Location left="2413" top="50" />
+        <Size width="170" height="127" />
+        <Collapsed>False</Collapsed>
+        <Value>Anonimous</Value>
+        <Value>Admin</Value>
+        <Value>NoAdmin</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>LdapState</Name>
+        <Access>Public</Access>
+        <Location left="2655" top="61" />
+        <Size width="162" height="248" />
+        <Collapsed>False</Collapsed>
+        <Value>LdapLibraryInitSuccess</Value>
+        <Value>LdapConnectionSuccess</Value>
+        <Value>LdapUserManipulatorSuccess</Value>
+        <Value>LdapConnectionError</Value>
+        <Value>LdapCreateUserError</Value>
+        <Value>LdapDeleteUserError</Value>
+        <Value>LdapModifyUserAttributeError</Value>
+        <Value>LdapChangeUserPasswordError</Value>
+        <Value>LdapSearchUserError</Value>
+        <Value>LdapLibraryInitError</Value>
+        <Value>LdapGenericError</Value>
+      </Entity>
+      <Entity type="Enum">
+        <Name>LoggerType</Name>
+        <Access>Public</Access>
+        <Location left="2413" top="215" />
+        <Size width="170" height="112" />
+        <Collapsed>False</Collapsed>
+        <Value>File</Value>
+        <Value>EventViewer</Value>
+        <Value>None</Value>
+      </Entity>
+      <Entity type="Delegate">
+        <Name>LdapError</Name>
+        <Access>Default</Access>
+        <Location left="1427" top="1078" />
+        <Size width="193" height="78" />
+        <Collapsed>False</Collapsed>
+        <ReturnType>string</ReturnType>
+        <Param>string message</Param>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapConfigRepositoryFactory</Name>
+        <Access>Public</Access>
+        <Location left="2424" top="397" />
+        <Size width="273" height="96" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static ILdapConfigRepository GetConfigRepository()</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapConnectionFactory</Name>
+        <Access>Public</Access>
+        <Location left="2728" top="397" />
+        <Size width="393" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static LdapConnection GetLdapConnection(ILdapConfigRepository ldapConfigRepository)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapConnectorFactory</Name>
+        <Access>Public</Access>
+        <Location left="2750" top="515" />
+        <Size width="338" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static ILdapConnector GetLdapConnector(ILdapAdminModeChecker adminModeChecker, ILdapConfigRepository configRepository, ILogger logger)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapUserManipulatorFactory</Name>
+        <Access>Public</Access>
+        <Location left="2424" top="515" />
+        <Size width="301" height="100" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static ILdapUserManipulator GetUserManipulator(ILdapConnectionObservable connector, ILogger logger, ILdapConfigRepository configRepository)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LoggerFactory</Name>
+        <Access>Public</Access>
+        <Location left="2424" top="651" />
+        <Size width="315" height="94" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static ILogger GetLogger(LoggerType type, string logPath)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Interface">
+        <Name>ILdapUser</Name>
+        <Access>Public</Access>
+        <Location left="2425" top="829" />
+        <Size width="162" height="282" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">List&lt;string&gt; GetUserAttribute(string attributeName)</Member>
+        <Member type="Method">string[] GetUserAttributeKeys()</Member>
+        <Member type="Method">Dictionary&lt;string, List&lt;string&gt;&gt; GetUserAttributes()</Member>
+        <Member type="Method">string GetUserCn()</Member>
+        <Member type="Method">string GetUserDn()</Member>
+        <Member type="Method">string GetUserSn()</Member>
+        <Member type="Method">void OverwriteUserAttribute(string attributeName, List&lt;string&gt; attributeValues)</Member>
+        <Member type="Method">void OverwriteUserAttribute(string attributeName, string attributeValue)</Member>
+        <Member type="Method">void CreateUserAttribute(string attributeName, List&lt;string&gt; attributeValues)</Member>
+        <Member type="Method">void CreateUserAttribute(string attributeName, string attributeValue)</Member>
+        <Member type="Method">void InsertUserAttribute(string attributeName, string attributeValue)</Member>
+        <Member type="Method">void DeleteUserAttribute(string attributeName, string attributeValue)</Member>
+        <Member type="Method">Action GetUserOperation(DirectoryAttributeOperation operationType, string attributeName, string attributeValue)</Member>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapUser</Name>
+        <Access>Public</Access>
+        <Location left="2704" top="829" />
+        <Size width="200" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">readonly string _cn</Member>
+        <Member type="Field">readonly string _sn</Member>
+        <Member type="Field">readonly string _dn</Member>
+        <Member type="Field">readonly Dictionary&lt;string, List&lt;string&gt;&gt; _otherAttributes</Member>
+        <Member type="Field">const string AttributeUserRemoveError = "Cannot remove the value of user's attribute : {0}"</Member>
+        <Member type="Field">const string AttributeNotFoundError = "The attribute is not in the dictionary of the user's attributes"</Member>
+        <Member type="Field">const string AttributeAlreadyExistError = "The attribute you want to create already exist"</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FakeLdapUser</Name>
+        <Access>Public</Access>
+        <Location left="2716" top="1067" />
+        <Size width="162" height="77" />
+        <Collapsed>False</Collapsed>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Comment">
+        <Text>Enums</Text>
+        <Location left="2160" top="152" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Factories</Text>
+        <Location left="2162" top="502" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>Ldap User structure</Text>
+        <Location left="2160" top="913" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Comment">
+        <Text>General Static Classes</Text>
+        <Location left="1910" top="1168" />
+        <Size width="160" height="75" />
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapFilterBuilder</Name>
+        <Access>Internal</Access>
+        <Location left="1725" top="1305" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const string SearchFilterTemplate = "(&amp;(objectClass={0})({1}={2}))"</Member>
+        <Member type="Method">public static string GetSearchFilter(string objectClass, string fieldUsername, string user)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapParameterChecker</Name>
+        <Access>Internal</Access>
+        <Location left="1943" top="1308" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static bool ParametersIsNullOrEmpty(IEnumerable&lt;string&gt; parameters)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapRequestBuilder</Name>
+        <Access>Internal</Access>
+        <Location left="2153" top="1313" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static AddRequest GetAddRequest(ILdapUser user, string objectClass)</Member>
+        <Member type="Method">public static DeleteRequest GetDeleteRequest(ILdapUser user)</Member>
+        <Member type="Method">public static ModifyRequest GetModifyRequest(ILdapUser user, DirectoryAttributeOperation attributeOperation, string attributeName, string attributeValue)</Member>
+        <Member type="Method">public static ModifyRequest GetModifyPasswordRequest(ILdapUser user, string newPassword)</Member>
+        <Member type="Method">public static SearchRequest GetSearchUserRequest(string baseDn, string searchFilter, List&lt;string&gt; searchAttributes)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapStateUtils</Name>
+        <Access>Internal</Access>
+        <Location left="1722" top="1548" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Method">public static bool ToBoolean(LdapState state)</Member>
+        <Modifier>Static</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>LdapUserUtils</Name>
+        <Access>Public</Access>
+        <Location left="1945" top="1548" />
+        <Size width="162" height="216" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private const string DefaultUserSn = "Default Surname"</Member>
+        <Member type="Field">private const string DefaultUserCn = "Default CommonName"</Member>
+        <Member type="Method">public static List&lt;ILdapUser&gt; ConvertToLdapUsers(SearchResponse searchResponse)</Member>
+        <Member type="Method">private static ILdapUser ConvertToLdapUser(SearchResultEntry searchResultEntry)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Dependency" first="0" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1298</X>
+          <Y>120</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Dependency" first="5" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="5" second="6">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="8" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="9" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="10" second="7">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="1" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1115</X>
+          <Y>576</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1425</X>
+          <Y>576</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>1053</X>
+          <Y>649</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="7" second="5">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1693</X>
+          <Y>320</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Realization" first="4" second="3">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="1" second="0">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="12" second="11">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="13" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Generalization" first="14" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="False">
+          <X>1179</X>
+          <Y>1407</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Generalization" first="15" second="12">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Dependency" first="17" second="2">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>330</X>
+          <Y>30</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1420</X>
+          <Y>53</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Dependency" first="16" second="17">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="18" second="16">
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+      </Relationship>
+      <Relationship type="Association" first="18" second="3">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>444</X>
+          <Y>702</Y>
+        </BendPoint>
+        <BendPoint relativeToStartShape="False">
+          <X>1458</X>
+          <Y>526</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="18" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>374</X>
+          <Y>1073</Y>
+        </BendPoint>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="1" second="16">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="20" second="19">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <BendPoint relativeToStartShape="True">
+          <X>855</X>
+          <Y>885</Y>
+        </BendPoint>
+      </Relationship>
+      <Relationship type="Association" first="1" second="19">
+        <Label>
+        </Label>
+        <StartOrientation>Vertical</StartOrientation>
+        <EndOrientation>Vertical</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+      </Relationship>
+      <Relationship type="Association" first="24" second="11">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Association</AssociationType>
+      </Relationship>
+      <Relationship type="Realization" first="31" second="30">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+      <Relationship type="Realization" first="32" second="30">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>

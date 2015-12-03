@@ -69,19 +69,7 @@ namespace LDAPLibrary
         /// <summary>
         /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
-            string ldapServer,
-            string ldapSearchBaseDn,
-            AuthType authType,
-            bool secureSocketLayerFlag,
-            bool transportSocketLayerFlag,
-            bool clientCertificateFlag,
-            string clientCertificatePath,
-            LoggerType loggerType,
-            string logPath,
-            string userObjectClass,
-            string matchFieldUsername
-            )
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,string ldapServer,string ldapSearchBaseDn,AuthType authType,bool secureSocketLayerFlag,bool transportSocketLayerFlag,bool clientCertificateFlag,string clientCertificatePath,LoggerType loggerType,string logPath,string userObjectClass,string matchFieldUsername)
             : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
