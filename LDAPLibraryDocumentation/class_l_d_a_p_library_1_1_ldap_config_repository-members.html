@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,8 +32,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">LDAPLibrary
-   &#160;<span id="projectnumber">3.1</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
+   <div id="projectbrief">Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures</div>
   </td>
  </tr>
  </tbody>
@@ -41,7 +50,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -68,6 +76,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('class_l_d_a_p_library_1_1_ldap_config_repository.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +105,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LdapConfigRepository</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">LDAPLibrary.LdapConfigRepository Member List</div>  </div>
@@ -97,25 +115,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a2dd4a1750c9ec339cd445022caab5bfb">AdditionalLdapConfig</a>(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, string userObjectClass, string matchFieldUsername)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aac8007314f366acc1f50442e28e5e694">BasicLdapConfig</a>(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#abec1034ddd6ca6cd8a9f6f372eed3a18">GetAdminMode</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a267f26a77a9f88dacda920a3627097f4">GetAdminUser</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa5fcfea3fdc2294b532bebf7b312d050">GetAuthType</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa4970d1628065d7ebbd0ff77b122b36e">GetClientCertificateFlag</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a089c164784a54bb46207d27f991cb4a0">GetClientCertificatePath</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a56d63bbf67e3f9424f7447773a7c0bd9">GetLogPath</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a90c1ff69830ff68a26d5f05deb29bbc5">GetMatchFieldName</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a81de9f7bbba70b3733eb5294198eac67">GetSearchBaseDn</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#ab2fd6ed6d86bff36f7b7d2c38af58a1a">GetSecureSocketLayerFlag</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa571589e5bc057e67af97898ec9b445d">GetServer</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a550614c9d98ffd3faf9d6f899cd2b742">GetTransportSocketLayerFlag</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#abc62eeccfe7edd613048befa27159d41">GetUserObjectClass</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#af6c64e056a1b7b835815388fe9b5e88b">GetWriteLogFlag</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetAdminMode</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetAdminUser</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetAuthType</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetClientCertificateFlag</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetClientCertificatePath</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetLogPath</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetMatchFieldName</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetSearchBaseDn</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetSecureSocketLayerFlag</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetServer</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetTransportSocketLayerFlag</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetUserObjectClass</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>GetWriteLogFlag</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html">LDAPLibrary.LdapConfigRepository</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 10 2015 18:12:28 for LDAPLibrary by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Thu Dec 3 2015 14:27:41 for LDAPLibrary by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

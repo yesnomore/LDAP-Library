@@ -1,19 +1,16 @@
 var searchData=
 [
-  ['ildapadminmodechecker_2ecs',['ILdapAdminModeChecker.cs',['../_i_ldap_admin_mode_checker_8cs.html',1,'']]],
-  ['ildapconfigrepository',['ILdapConfigRepository',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html',1,'LDAPLibrary::Interfarces']]],
-  ['ildapconfigrepository_2ecs',['ILdapConfigRepository.cs',['../_i_ldap_config_repository_8cs.html',1,'']]],
-  ['ildapconnectionobservable_2ecs',['ILdapConnectionObservable.cs',['../_i_ldap_connection_observable_8cs.html',1,'']]],
-  ['ildapconnectionobserver',['ILdapConnectionObserver',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_connection_observer.html',1,'LDAPLibrary::Interfarces']]],
-  ['ildapconnectionobserver_2ecs',['ILdapConnectionObserver.cs',['../_i_ldap_connection_observer_8cs.html',1,'']]],
-  ['ildapconnector_2ecs',['ILdapConnector.cs',['../_i_ldap_connector_8cs.html',1,'']]],
-  ['ildapmanager',['ILdapManager',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html',1,'LDAPLibrary::Interfarces']]],
-  ['ildapmanager_2ecs',['ILDAPManager.cs',['../_i_l_d_a_p_manager_8cs.html',1,'']]],
-  ['ildapuser',['ILdapUser',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html',1,'LDAPLibrary::Interfarces']]],
-  ['ildapuser_2ecs',['ILdapUser.cs',['../_i_ldap_user_8cs.html',1,'']]],
-  ['ildapusermanipulator',['ILdapUserManipulator',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user_manipulator.html',1,'LDAPLibrary::Interfarces']]],
-  ['ildapusermanipulator_2ecs',['ILdapUserManipulator.cs',['../_i_ldap_user_manipulator_8cs.html',1,'']]],
-  ['ilogger',['ILogger',['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_logger.html',1,'LDAPLibrary::Interfarces']]],
-  ['ilogger_2ecs',['ILogger.cs',['../_i_logger_8cs.html',1,'']]],
-  ['insertuserattribute',['InsertUserAttribute',['../class_l_d_a_p_library_1_1_fake_ldap_user.html#a6774a1815781480d02bd5f54c903e1cd',1,'LDAPLibrary.FakeLdapUser.InsertUserAttribute()'],['../interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a9a5c6edf227442d352988d85ff6203dd',1,'LDAPLibrary.Interfarces.ILdapUser.InsertUserAttribute()'],['../class_l_d_a_p_library_1_1_ldap_user.html#ab5b50dd0e945b9bce0ce02900cfb80e5',1,'LDAPLibrary.LdapUser.InsertUserAttribute()']]]
+  ['connectors',['Connectors',['../namespace_l_d_a_p_library_1_1_connectors.html',1,'LDAPLibrary']]],
+  ['enums',['Enums',['../namespace_l_d_a_p_library_1_1_enums.html',1,'LDAPLibrary']]],
+  ['factories',['Factories',['../namespace_l_d_a_p_library_1_1_factories.html',1,'LDAPLibrary']]],
+  ['interfarces',['Interfarces',['../namespace_l_d_a_p_library_1_1_interfarces.html',1,'LDAPLibrary']]],
+  ['ldapconfigrepository',['LdapConfigRepository',['../class_l_d_a_p_library_1_1_ldap_config_repository.html',1,'LDAPLibrary']]],
+  ['ldapconnectionfactory',['LdapConnectionFactory',['../class_l_d_a_p_library_1_1_factories_1_1_ldap_connection_factory.html',1,'LDAPLibrary::Factories']]],
+  ['ldaplibrary',['LDAPLibrary',['../namespace_l_d_a_p_library.html',1,'']]],
+  ['ldapmanager',['LdapManager',['../class_l_d_a_p_library_1_1_ldap_manager.html#a0ff65da13648e0203ef513bb9a0a2639',1,'LDAPLibrary.LdapManager.LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, LoggerType loggerType, string logPath)'],['../class_l_d_a_p_library_1_1_ldap_manager.html#a7dafc6f2dc5723529dd62cfbf270a105',1,'LDAPLibrary.LdapManager.LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, LoggerType loggerType, string logPath, string userObjectClass, string matchFieldUsername)']]],
+  ['ldapmanager',['LdapManager',['../class_l_d_a_p_library_1_1_ldap_manager.html',1,'LDAPLibrary']]],
+  ['ldapuser',['LdapUser',['../class_l_d_a_p_library_1_1_ldap_user.html',1,'LDAPLibrary']]],
+  ['ldapusermanipulator',['LdapUserManipulator',['../class_l_d_a_p_library_1_1_ldap_user_manipulator.html',1,'LDAPLibrary']]],
+  ['logger',['Logger',['../namespace_l_d_a_p_library_1_1_logger.html',1,'LDAPLibrary']]],
+  ['staticclasses',['StaticClasses',['../namespace_l_d_a_p_library_1_1_static_classes.html',1,'LDAPLibrary']]]
 ];

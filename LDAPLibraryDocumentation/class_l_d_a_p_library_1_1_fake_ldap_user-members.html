@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,8 +32,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">LDAPLibrary
-   &#160;<span id="projectnumber">3.1</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
+   <div id="projectbrief">Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures</div>
   </td>
  </tr>
  </tbody>
@@ -41,7 +50,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -68,6 +76,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('class_l_d_a_p_library_1_1_fake_ldap_user.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +105,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">FakeLdapUser</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="headertitle">
 <div class="title">LDAPLibrary.FakeLdapUser Member List</div>  </div>
@@ -96,24 +114,27 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <p>This is the complete list of members for <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a>, including all inherited members.</p>
 <table class="directory">
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a43d9c13866411b42b3a96b1539d97bf6">CreateUserAttribute</a>(string attributeName, List&lt; string &gt; attributeValues)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a61b894b8f3d68a629175c74f8109a259">CreateUserAttribute</a>(string attributeName, string attributeValue)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>CreateUserAttribute</b>(string attributeName, string attributeValue) (defined in <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#aa60d7cada3a25c51850ccd4466910035">DeleteUserAttribute</a>(string attributeName, string attributeValue)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#af902518a89a2b51531a12ef09cf3b5bd">GetUserAttribute</a>(string attributeName)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#aa84ff42fd32baded585d7cc1e33b08ba">GetUserAttributeKeys</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
-  <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a98292dfb6af91b64f8e1378331b422c6">GetUserAttributes</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0"><td class="entry"><b>GetUserAttributes</b>() (defined in <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a632602fc00b15975f50b9feaa2fa31f3">GetUserCn</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#ac29eaa7b10a2f951e81279c61c65cc4a">GetUserDn</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#af9c494f251bf32394de48296b1f5ac91">GetUserOperation</a>(DirectoryAttributeOperation operationType, string attributeName, string attributeValue)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a095d24dc1e2358a4440021cd3001ca43">GetUserSn</a>()</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a6774a1815781480d02bd5f54c903e1cd">InsertUserAttribute</a>(string attributeName, string attributeValue)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
   <tr><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a925852deb067585fde60b2aa6713fb53">OverwriteUserAttribute</a>(string attributeName, List&lt; string &gt; attributeValues)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
-  <tr class="even"><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a624c08c87cd235bc6c424000443fdcaa">OverwriteUserAttribute</a>(string attributeName, string attributeValue)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
+  <tr bgcolor="#f0f0f0" class="even"><td class="entry"><b>OverwriteUserAttribute</b>(string attributeName, string attributeValue) (defined in <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a>)</td><td class="entry"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">LDAPLibrary.FakeLdapUser</a></td><td class="entry"></td></tr>
 </table></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 10 2015 18:12:28 for LDAPLibrary by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Thu Dec 3 2015 14:27:41 for LDAPLibrary by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

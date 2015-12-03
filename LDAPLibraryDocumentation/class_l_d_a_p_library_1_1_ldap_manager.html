@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,8 +32,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">LDAPLibrary
-   &#160;<span id="projectnumber">3.1</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
+   <div id="projectbrief">Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures</div>
   </td>
  </tr>
  </tbody>
@@ -41,7 +50,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -68,6 +76,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('class_l_d_a_p_library_1_1_ldap_manager.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +105,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html">LdapManager</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -110,10 +128,10 @@ Inheritance diagram for LDAPLibrary.LdapManager:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a0ff65da13648e0203ef513bb9a0a2639"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a0ff65da13648e0203ef513bb9a0a2639">LdapManager</a> (<a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html">ILdapUser</a> adminUser, <a class="el" href="namespace_l_d_a_p_library_1_1_enums.html#aaaf5c3ff906b84752d719f58d502f15e">LDAPAdminMode</a> adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, <a class="el" href="namespace_l_d_a_p_library_1_1_logger.html#a398123fc2bb2443d0e0821044d077795">LoggerType</a> loggerType, string logPath)</td></tr>
+<tr class="memitem:a0ff65da13648e0203ef513bb9a0a2639"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a0ff65da13648e0203ef513bb9a0a2639">LdapManager</a> (<a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html">ILdapUser</a> adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, LoggerType loggerType, string logPath)</td></tr>
 <tr class="memdesc:a0ff65da13648e0203ef513bb9a0a2639"><td class="mdescLeft">&#160;</td><td class="mdescRight">LDAP library constructior where all the class variables are initialized The variables not specified in definition will be set at default values.  <a href="#a0ff65da13648e0203ef513bb9a0a2639">More...</a><br /></td></tr>
 <tr class="separator:a0ff65da13648e0203ef513bb9a0a2639"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7dafc6f2dc5723529dd62cfbf270a105"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a7dafc6f2dc5723529dd62cfbf270a105">LdapManager</a> (<a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html">ILdapUser</a> adminUser, <a class="el" href="namespace_l_d_a_p_library_1_1_enums.html#aaaf5c3ff906b84752d719f58d502f15e">LDAPAdminMode</a> adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, <a class="el" href="namespace_l_d_a_p_library_1_1_logger.html#a398123fc2bb2443d0e0821044d077795">LoggerType</a> loggerType, string logPath, string userObjectClass, string matchFieldUsername)</td></tr>
+<tr class="memitem:a7dafc6f2dc5723529dd62cfbf270a105"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a7dafc6f2dc5723529dd62cfbf270a105">LdapManager</a> (<a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html">ILdapUser</a> adminUser, LDAPAdminMode adminMode, string ldapServer, string ldapSearchBaseDn, AuthType authType, bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, LoggerType loggerType, string logPath, string userObjectClass, string matchFieldUsername)</td></tr>
 <tr class="memdesc:a7dafc6f2dc5723529dd62cfbf270a105"><td class="mdescLeft">&#160;</td><td class="mdescRight">More detailed contructor that user the default constructor and the addictionalLDAPInformation method  <a href="#a7dafc6f2dc5723529dd62cfbf270a105">More...</a><br /></td></tr>
 <tr class="separator:a7dafc6f2dc5723529dd62cfbf270a105"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7994edb46c98bcea6fe778c7e36b809c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a7994edb46c98bcea6fe778c7e36b809c">CreateUser</a> (<a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html">ILdapUser</a> newUser)</td></tr>
@@ -137,8 +155,9 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:ae35b3da29e7cbf5b4b788fb3dfcb88c1"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#ae35b3da29e7cbf5b4b788fb3dfcb88c1">Connect</a> ()</td></tr>
 <tr class="memdesc:ae35b3da29e7cbf5b4b788fb3dfcb88c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Instance the Ldap connection  <a href="#ae35b3da29e7cbf5b4b788fb3dfcb88c1">More...</a><br /></td></tr>
 <tr class="separator:ae35b3da29e7cbf5b4b788fb3dfcb88c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa116689a5c9a347d95c167cce892fd01"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#aa116689a5c9a347d95c167cce892fd01">Connect</a> (NetworkCredential credential, bool secureSocketLayer, bool transportSocketLayer, bool clientCertificate)</td></tr>
-<tr class="separator:aa116689a5c9a347d95c167cce892fd01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9735087703905a36ccaa88ed171c8381"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9735087703905a36ccaa88ed171c8381"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>Connect</b> (NetworkCredential credential)</td></tr>
+<tr class="separator:a9735087703905a36ccaa88ed171c8381"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abfe1735d912d42f81cc989e030eaf6e4"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#abfe1735d912d42f81cc989e030eaf6e4">SearchUserAndConnect</a> (string user, string password)</td></tr>
 <tr class="memdesc:abfe1735d912d42f81cc989e030eaf6e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">BuildLogMessage that wrap SearchUsers and Connect in one operation  <a href="#abfe1735d912d42f81cc989e030eaf6e4">More...</a><br /></td></tr>
 <tr class="separator:abfe1735d912d42f81cc989e030eaf6e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -148,8 +167,6 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Entry class of the Library </p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00017">17</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a0ff65da13648e0203ef513bb9a0a2639"></a>
 <div class="memitem">
@@ -164,7 +181,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_l_d_a_p_library_1_1_enums.html#aaaf5c3ff906b84752d719f58d502f15e">LDAPAdminMode</a>&#160;</td>
+          <td class="paramtype">LDAPAdminMode&#160;</td>
           <td class="paramname"><em>adminMode</em>, </td>
         </tr>
         <tr>
@@ -188,7 +205,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_l_d_a_p_library_1_1_logger.html#a398123fc2bb2443d0e0821044d077795">LoggerType</a>&#160;</td>
+          <td class="paramtype">LoggerType&#160;</td>
           <td class="paramname"><em>loggerType</em>, </td>
         </tr>
         <tr>
@@ -219,8 +236,6 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00042">42</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a7dafc6f2dc5723529dd62cfbf270a105"></a>
@@ -236,7 +251,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_l_d_a_p_library_1_1_enums.html#aaaf5c3ff906b84752d719f58d502f15e">LDAPAdminMode</a>&#160;</td>
+          <td class="paramtype">LDAPAdminMode&#160;</td>
           <td class="paramname"><em>adminMode</em>, </td>
         </tr>
         <tr>
@@ -284,7 +299,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype"><a class="el" href="namespace_l_d_a_p_library_1_1_logger.html#a398123fc2bb2443d0e0821044d077795">LoggerType</a>&#160;</td>
+          <td class="paramtype">LoggerType&#160;</td>
           <td class="paramname"><em>loggerType</em>, </td>
         </tr>
         <tr>
@@ -314,8 +329,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>More detailed contructor that user the default constructor and the addictionalLDAPInformation method </p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00072">72</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 
 </div>
 </div>
@@ -356,8 +369,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#a3004e83a4a4bfcb2b6f4beec22baf09a">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00132">132</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="ae35b3da29e7cbf5b4b788fb3dfcb88c1"></a>
@@ -377,50 +388,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#ac135485716eca624368a34dd8ddc5001">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00153">153</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="aa116689a5c9a347d95c167cce892fd01"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">bool LDAPLibrary.LdapManager.Connect </td>
-          <td>(</td>
-          <td class="paramtype">NetworkCredential&#160;</td>
-          <td class="paramname"><em>credential</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>secureSocketLayer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>transportSocketLayer</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool&#160;</td>
-          <td class="paramname"><em>clientCertificate</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#a04969d3c8d4bf20e0a8693b7e421c328">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00159">159</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 
 </div>
 </div>
@@ -449,8 +416,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#acf17800591faca192d77abfc1e8cd741">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00112">112</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a11f186145acab54321c1894259f7967c"></a>
@@ -478,8 +443,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#ab2c16e1f25ddc3b24d1d5d473ac92d3a">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00118">118</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a84ad2276cff03123c8f5378b35f546e4"></a>
@@ -496,8 +459,6 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Call the dispose method of his fields and set to null the reference fo the others </p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00189">189</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 
 </div>
 </div>
@@ -518,8 +479,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd></dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#ab4008f4d3f63519a116f22c7865df892">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00148">148</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 
 </div>
 </div>
@@ -573,8 +532,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#a4287136af0e5b29463399def7d235548">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00125">125</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="abfe1735d912d42f81cc989e030eaf6e4"></a>
@@ -612,8 +569,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>the operation result</dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#a3f70698b6652b8a368bff0db06339047">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
-
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00168">168</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
 
 </div>
 </div>
@@ -660,19 +615,21 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#a11d2b2e2b4eaa12bce5cb448a921ca4c">LDAPLibrary.Interfarces.ILdapManager</a>.</p>
 
-<p>Definition at line <a class="el" href="_ldap_manager_8cs_source.html#l00139">139</a> of file <a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/work/LDAP-Library/LDAPLibrary/<a class="el" href="_ldap_manager_8cs_source.html">LdapManager.cs</a></li>
+<li>LDAPManager.cs</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 10 2015 18:12:28 for LDAPLibrary by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html">LdapManager</a></li>
+    <li class="footer">Generated on Thu Dec 3 2015 14:27:41 for LDAPLibrary by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

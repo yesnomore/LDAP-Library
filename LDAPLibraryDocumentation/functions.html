@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,8 +32,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">LDAPLibrary
-   &#160;<span id="projectnumber">3.1</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
+   <div id="projectbrief">Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures</div>
   </td>
  </tr>
  </tbody>
@@ -41,7 +50,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -85,11 +93,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="#index_l"><span>l</span></a></li>
       <li><a href="#index_m"><span>m</span></a></li>
       <li><a href="#index_o"><span>o</span></a></li>
-      <li><a href="#index_s"><span>s</span></a></li>
-      <li class="current"><a href="#index_w"><span>w</span></a></li>
+      <li class="current"><a href="#index_s"><span>s</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('functions.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -105,7 +126,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 
 <div class="contents">
-<div class="textblock">Here is a list of all class members with links to the classes they belong to:</div>
+<div class="textblock">Here is a list of all documented class members with links to the class documentation for each member:</div>
 
 <h3><a class="anchor" id="index_a"></a>- a -</h3><ul>
 <li>AdditionalLdapConfig()
@@ -120,9 +141,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a02e4f8f798a2884f47eac5a194ea89c4">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aac8007314f366acc1f50442e28e5e694">LDAPLibrary.LdapConfigRepository</a>
 </li>
-<li>BuildLogMessage()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_logger.html#a001b3ba4b246d7d5e70af6f46c8857b7">LDAPLibrary.Interfarces.ILogger</a>
-</li>
 </ul>
 
 
@@ -135,7 +153,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>Connect()
 : <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#ac135485716eca624368a34dd8ddc5001">LDAPLibrary.Interfarces.ILdapManager</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#aa116689a5c9a347d95c167cce892fd01">LDAPLibrary.LdapManager</a>
+, <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#ae35b3da29e7cbf5b4b788fb3dfcb88c1">LDAPLibrary.LdapManager</a>
 </li>
 <li>CreateUser()
 : <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#acf17800591faca192d77abfc1e8cd741">LDAPLibrary.Interfarces.ILdapManager</a>
@@ -145,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>CreateUserAttribute()
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a43d9c13866411b42b3a96b1539d97bf6">LDAPLibrary.FakeLdapUser</a>
-, <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a6073df689eb89d446015432313ac35e8">LDAPLibrary.Interfarces.ILdapUser</a>
+, <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a240c54768b0de646b98b7f6971b42322">LDAPLibrary.Interfarces.ILdapUser</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a2b681d80bcaf7b5427693a4613c05421">LDAPLibrary.LdapUser</a>
 </li>
 </ul>
@@ -165,59 +183,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </li>
 <li>Dispose()
 : <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a84ad2276cff03123c8f5378b35f546e4">LDAPLibrary.LdapManager</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_user_manipulator.html#a684b2ed96a3f09d019000088fb9978c7">LDAPLibrary.LdapUserManipulator</a>
 </li>
 </ul>
 
 
 <h3><a class="anchor" id="index_g"></a>- g -</h3><ul>
-<li>GetAdminMode()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a510a9c5dde4b4fb5e4647c51997eac7e">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#abec1034ddd6ca6cd8a9f6f372eed3a18">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetAdminUser()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#abc93789c2f541a07bb5f0200484c7450">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a267f26a77a9f88dacda920a3627097f4">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetAuthType()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a9848877d9e19a28908e1ada8abf563d7">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa5fcfea3fdc2294b532bebf7b312d050">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetClientCertificateFlag()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#ae5ac45043a0ca995848ee6fe36d6f0cb">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa4970d1628065d7ebbd0ff77b122b36e">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetClientCertificatePath()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a1588544b9b3d97f1a03e577190643146">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a089c164784a54bb46207d27f991cb4a0">LDAPLibrary.LdapConfigRepository</a>
+<li>GetLdapConnection()
+: <a class="el" href="class_l_d_a_p_library_1_1_factories_1_1_ldap_connection_factory.html#a6fd58e1eb1b341f7ddd151871b3cdee5">LDAPLibrary.Factories.LdapConnectionFactory</a>
 </li>
 <li>GetLdapMessage()
 : <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_manager.html#ab4008f4d3f63519a116f22c7865df892">LDAPLibrary.Interfarces.ILdapManager</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#ac2318217abb55a567726f743eb448095">LDAPLibrary.LdapManager</a>
-</li>
-<li>GetLogPath()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a8340bfe99af1222b9f231393cdd7a063">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a56d63bbf67e3f9424f7447773a7c0bd9">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetMatchFieldName()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a53752b3b11c70ce04379694ccde42050">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a90c1ff69830ff68a26d5f05deb29bbc5">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetSearchBaseDn()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a5844821d9f540b8bff52faa61231009b">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a81de9f7bbba70b3733eb5294198eac67">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetSecureSocketLayerFlag()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#afbaa38bdae4690c499e72691d5733c2f">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#ab2fd6ed6d86bff36f7b7d2c38af58a1a">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetServer()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a5c70eefce4b989717725c3fa37ee9982">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#aa571589e5bc057e67af97898ec9b445d">LDAPLibrary.LdapConfigRepository</a>
-</li>
-<li>GetTransportSocketLayerFlag()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#ad03509ec78ec51b28c322331ed33a939">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#a550614c9d98ffd3faf9d6f899cd2b742">LDAPLibrary.LdapConfigRepository</a>
 </li>
 <li>GetUserAttribute()
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#af902518a89a2b51531a12ef09cf3b5bd">LDAPLibrary.FakeLdapUser</a>
@@ -229,11 +205,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ae0f3bc0df76d36f5ae90508c16560c84">LDAPLibrary.Interfarces.ILdapUser</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a780c387e3d7832377f54e5d442fd1aaf">LDAPLibrary.LdapUser</a>
 </li>
-<li>GetUserAttributes()
-: <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a98292dfb6af91b64f8e1378331b422c6">LDAPLibrary.FakeLdapUser</a>
-, <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a82357f34323abea928b5424e3d4ef8bc">LDAPLibrary.Interfarces.ILdapUser</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a41f1012228046179008d081aa57f9ef4">LDAPLibrary.LdapUser</a>
-</li>
 <li>GetUserCn()
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a632602fc00b15975f50b9feaa2fa31f3">LDAPLibrary.FakeLdapUser</a>
 , <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a2915de8e56c27d96660ff0b11cd5a61c">LDAPLibrary.Interfarces.ILdapUser</a>
@@ -244,10 +215,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#aa9f1f36bd5918eb9a7feaa05bab098c2">LDAPLibrary.Interfarces.ILdapUser</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#af6a5669ed860bfbd98e0b687fc79afa0">LDAPLibrary.LdapUser</a>
 </li>
-<li>GetUserObjectClass()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#ad797d15a7d56cd9e2f90456a1903a5a6">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#abc62eeccfe7edd613048befa27159d41">LDAPLibrary.LdapConfigRepository</a>
-</li>
 <li>GetUserOperation()
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#af9c494f251bf32394de48296b1f5ac91">LDAPLibrary.FakeLdapUser</a>
 , <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a761d7eb5b8ad8dc4eff77ecac9ffaafd">LDAPLibrary.Interfarces.ILdapUser</a>
@@ -257,10 +224,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a095d24dc1e2358a4440021cd3001ca43">LDAPLibrary.FakeLdapUser</a>
 , <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ae80532025ebf42ca45298afac2bdcd2a">LDAPLibrary.Interfarces.ILdapUser</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a02a1e6c71b41518fe5687c2442e58571">LDAPLibrary.LdapUser</a>
-</li>
-<li>GetWriteLogFlag()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_config_repository.html#a822fdeb0cc049d922e5d18c9a280afc1">LDAPLibrary.Interfarces.ILdapConfigRepository</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_config_repository.html#af6c64e056a1b7b835815388fe9b5e88b">LDAPLibrary.LdapConfigRepository</a>
 </li>
 </ul>
 
@@ -278,12 +241,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>LdapManager()
 : <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a0ff65da13648e0203ef513bb9a0a2639">LDAPLibrary.LdapManager</a>
 </li>
-<li>LdapUser()
-: <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a8065af5b821d076abae045a671d1b094">LDAPLibrary.LdapUser</a>
-</li>
-<li>LdapUserManipulator()
-: <a class="el" href="class_l_d_a_p_library_1_1_ldap_user_manipulator.html#a274adcc84fad435c4570950874dce85a">LDAPLibrary.LdapUserManipulator</a>
-</li>
 </ul>
 
 
@@ -300,8 +257,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h3><a class="anchor" id="index_o"></a>- o -</h3><ul>
 <li>OverwriteUserAttribute()
 : <a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a925852deb067585fde60b2aa6713fb53">LDAPLibrary.FakeLdapUser</a>
-, <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a16acedbe659f578b4d2767e631362043">LDAPLibrary.Interfarces.ILdapUser</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a0822b2aa91120e7f88a044ba76f49209">LDAPLibrary.LdapUser</a>
+, <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a6167e8f24247a123bfd041521a254a61">LDAPLibrary.Interfarces.ILdapUser</a>
+, <a class="el" href="class_l_d_a_p_library_1_1_ldap_user.html#a5635c4c2729d50d128fc8ec544e20af9">LDAPLibrary.LdapUser</a>
 </li>
 </ul>
 
@@ -317,24 +274,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_manager.html#a9c6e78e2aa498d84a551d5d9f2321b8d">LDAPLibrary.LdapManager</a>
 , <a class="el" href="class_l_d_a_p_library_1_1_ldap_user_manipulator.html#ab881e29e6737faaeaefbe999e5d7f3d7">LDAPLibrary.LdapUserManipulator</a>
 </li>
-<li>SetLdapConnection()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_connection_observer.html#aa411ec841d11b2047fb8228cf2b609a3">LDAPLibrary.Interfarces.ILdapConnectionObserver</a>
-, <a class="el" href="class_l_d_a_p_library_1_1_ldap_user_manipulator.html#ab8a1cbc0234d21d53a7818e932debd18">LDAPLibrary.LdapUserManipulator</a>
-</li>
-</ul>
-
-
-<h3><a class="anchor" id="index_w"></a>- w -</h3><ul>
-<li>Write()
-: <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_logger.html#abf72ea72df3151360eec7f70e170d286">LDAPLibrary.Interfarces.ILogger</a>
-</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 10 2015 18:12:28 for LDAPLibrary by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="footer">Generated on Thu Dec 3 2015 14:27:41 for LDAPLibrary by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>

@@ -8,6 +8,14 @@
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtreedata.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/searchdata.js"></script>
 <script type="text/javascript" src="search/search.js"></script>
@@ -24,8 +32,9 @@
  <tr style="height: 56px;">
   <td style="padding-left: 0.5em;">
    <div id="projectname">LDAPLibrary
-   &#160;<span id="projectnumber">3.1</span>
+   &#160;<span id="projectnumber">3.3</span>
    </div>
+   <div id="projectbrief">Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infrastructures</div>
   </td>
  </tr>
  </tbody>
@@ -41,7 +50,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="namespaces.html"><span>Packages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
-      <li><a href="files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
         <span class="left">
@@ -68,6 +76,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       <li><a href="functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
+</div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('class_l_d_a_p_library_1_1_fake_ldap_user.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
@@ -82,11 +105,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<div id="nav-path" class="navpath">
-  <ul>
-<li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">FakeLdapUser</a></li>  </ul>
-</div>
-</div><!-- top -->
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
@@ -116,7 +134,8 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:aa84ff42fd32baded585d7cc1e33b08ba"><td class="memItemLeft" align="right" valign="top">string[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#aa84ff42fd32baded585d7cc1e33b08ba">GetUserAttributeKeys</a> ()</td></tr>
 <tr class="memdesc:aa84ff42fd32baded585d7cc1e33b08ba"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get all the Attribute Names of an LDAPUser  <a href="#aa84ff42fd32baded585d7cc1e33b08ba">More...</a><br /></td></tr>
 <tr class="separator:aa84ff42fd32baded585d7cc1e33b08ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a98292dfb6af91b64f8e1378331b422c6"><td class="memItemLeft" align="right" valign="top">Dictionary&lt; string, List&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a98292dfb6af91b64f8e1378331b422c6">GetUserAttributes</a> ()</td></tr>
+<tr class="memitem:a98292dfb6af91b64f8e1378331b422c6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a98292dfb6af91b64f8e1378331b422c6"></a>
+Dictionary&lt; string, List&lt; string &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>GetUserAttributes</b> ()</td></tr>
 <tr class="separator:a98292dfb6af91b64f8e1378331b422c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a632602fc00b15975f50b9feaa2fa31f3"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a632602fc00b15975f50b9feaa2fa31f3">GetUserCn</a> ()</td></tr>
 <tr class="memdesc:a632602fc00b15975f50b9feaa2fa31f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get User CN  <a href="#a632602fc00b15975f50b9feaa2fa31f3">More...</a><br /></td></tr>
@@ -130,12 +149,14 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a925852deb067585fde60b2aa6713fb53"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a925852deb067585fde60b2aa6713fb53">OverwriteUserAttribute</a> (string attributeName, List&lt; string &gt; attributeValues)</td></tr>
 <tr class="memdesc:a925852deb067585fde60b2aa6713fb53"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set the user attribute values list with a new one  <a href="#a925852deb067585fde60b2aa6713fb53">More...</a><br /></td></tr>
 <tr class="separator:a925852deb067585fde60b2aa6713fb53"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a624c08c87cd235bc6c424000443fdcaa"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a624c08c87cd235bc6c424000443fdcaa">OverwriteUserAttribute</a> (string attributeName, string attributeValue)</td></tr>
+<tr class="memitem:a624c08c87cd235bc6c424000443fdcaa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a624c08c87cd235bc6c424000443fdcaa"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>OverwriteUserAttribute</b> (string attributeName, string attributeValue)</td></tr>
 <tr class="separator:a624c08c87cd235bc6c424000443fdcaa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43d9c13866411b42b3a96b1539d97bf6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a43d9c13866411b42b3a96b1539d97bf6">CreateUserAttribute</a> (string attributeName, List&lt; string &gt; attributeValues)</td></tr>
 <tr class="memdesc:a43d9c13866411b42b3a96b1539d97bf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create a new user attribute with the given attribute values  <a href="#a43d9c13866411b42b3a96b1539d97bf6">More...</a><br /></td></tr>
 <tr class="separator:a43d9c13866411b42b3a96b1539d97bf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61b894b8f3d68a629175c74f8109a259"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a61b894b8f3d68a629175c74f8109a259">CreateUserAttribute</a> (string attributeName, string attributeValue)</td></tr>
+<tr class="memitem:a61b894b8f3d68a629175c74f8109a259"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61b894b8f3d68a629175c74f8109a259"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>CreateUserAttribute</b> (string attributeName, string attributeValue)</td></tr>
 <tr class="separator:a61b894b8f3d68a629175c74f8109a259"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6774a1815781480d02bd5f54c903e1cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html#a6774a1815781480d02bd5f54c903e1cd">InsertUserAttribute</a> (string attributeName, string attributeValue)</td></tr>
 <tr class="memdesc:a6774a1815781480d02bd5f54c903e1cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Add a new value to the existing user attribute list  <a href="#a6774a1815781480d02bd5f54c903e1cd">More...</a><br /></td></tr>
@@ -149,8 +170,6 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Fake user. Used in the NoAdmin Mode to simulate his presence. </p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00018">18</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a43d9c13866411b42b3a96b1539d97bf6"></a>
 <div class="memitem">
@@ -186,38 +205,6 @@ Public Member Functions</h2></td></tr>
 </dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a240c54768b0de646b98b7f6971b42322">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00058">58</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a61b894b8f3d68a629175c74f8109a259"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void LDAPLibrary.FakeLdapUser.CreateUserAttribute </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>attributeName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>attributeValue</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a6073df689eb89d446015432313ac35e8">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00062">62</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
 
 </div>
 </div>
@@ -256,8 +243,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ac2ec74cb853617c0d8199565b757d55c">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00070">70</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="af902518a89a2b51531a12ef09cf3b5bd"></a>
@@ -286,8 +271,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ad9fb0415b7c5f1ecea9bcca568dc4d5b">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00020">20</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="aa84ff42fd32baded585d7cc1e33b08ba"></a>
@@ -307,27 +290,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>All the Attribute Names</dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ae0f3bc0df76d36f5ae90508c16560c84">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00025">25</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a98292dfb6af91b64f8e1378331b422c6"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">Dictionary&lt;string, List&lt;string&gt; &gt; LDAPLibrary.FakeLdapUser.GetUserAttributes </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a82357f34323abea928b5424e3d4ef8bc">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00030">30</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
 
 </div>
 </div>
@@ -349,8 +311,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a2915de8e56c27d96660ff0b11cd5a61c">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00035">35</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="ac29eaa7b10a2f951e81279c61c65cc4a"></a>
@@ -370,8 +330,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>User DN</dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#aa9f1f36bd5918eb9a7feaa05bab098c2">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00045">45</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
 
 </div>
 </div>
@@ -418,8 +376,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a761d7eb5b8ad8dc4eff77ecac9ffaafd">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00074">74</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a095d24dc1e2358a4440021cd3001ca43"></a>
@@ -439,8 +395,6 @@ Public Member Functions</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>User SN</dd></dl>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#ae80532025ebf42ca45298afac2bdcd2a">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00040">40</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
 
 </div>
 </div>
@@ -480,8 +434,6 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a9a5c6edf227442d352988d85ff6203dd">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00066">66</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <a class="anchor" id="a925852deb067585fde60b2aa6713fb53"></a>
@@ -520,49 +472,21 @@ Public Member Functions</h2></td></tr>
 
 <p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a6167e8f24247a123bfd041521a254a61">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
 
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00050">50</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a624c08c87cd235bc6c424000443fdcaa"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void LDAPLibrary.FakeLdapUser.OverwriteUserAttribute </td>
-          <td>(</td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>attributeName</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>attributeValue</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Implements <a class="el" href="interface_l_d_a_p_library_1_1_interfarces_1_1_i_ldap_user.html#a16acedbe659f578b4d2767e631362043">LDAPLibrary.Interfarces.ILdapUser</a>.</p>
-
-<p>Definition at line <a class="el" href="_fake_ldap_user_8cs_source.html#l00054">54</a> of file <a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a>.</p>
-
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>C:/work/LDAP-Library/LDAPLibrary/<a class="el" href="_fake_ldap_user_8cs_source.html">FakeLdapUser.cs</a></li>
+<li>FakeLDAPUser.cs</li>
 </ul>
 </div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 10 2015 18:12:28 for LDAPLibrary by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.9.1
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><a class="el" href="namespace_l_d_a_p_library.html">LDAPLibrary</a></li><li class="navelem"><a class="el" href="class_l_d_a_p_library_1_1_fake_ldap_user.html">FakeLdapUser</a></li>
+    <li class="footer">Generated on Thu Dec 3 2015 14:27:41 for LDAPLibrary by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.9.1 </li>
+  </ul>
+</div>
 </body>
 </html>
