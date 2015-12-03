@@ -1,0 +1,4 @@
+var namespace_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration =
+[
+    [ "IOneItemConfiguration", "interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration.html", "interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration" ]
+];

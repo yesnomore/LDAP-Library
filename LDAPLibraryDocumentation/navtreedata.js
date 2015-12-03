@@ -1,6 +1,8 @@
 var NAVTREE =
 [
   [ "LDAPLibrary", "index.html", [
+    [ "LICENSE", "md__l_i_c_e_n_s_e.html", null ],
+    [ "LDAP-Library", "md__r_e_a_d_m_e.html", null ],
     [ "Packages", null, [
       [ "Packages", "namespaces.html", "namespaces" ]
     ] ],
@@ -18,7 +20,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"annotated.html"
+"annotated.html",
+"class_l_d_a_p_library_1_1_ldap_user.html#a459f4b4fc65411462b563d4fafa91de5"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
