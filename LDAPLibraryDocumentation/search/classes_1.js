@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['fakeldapuser',['FakeLdapUser',['../class_l_d_a_p_library_1_1_fake_ldap_user.html',1,'LDAPLibrary']]]
+  ['bommanager',['BomManager',['../class_bom_1_1_bom_manager.html',1,'Bom']]],
+  ['bommanagertests',['BomManagerTests',['../class_bom_test_1_1_bom_manager_tests.html',1,'BomTest']]]
 ];

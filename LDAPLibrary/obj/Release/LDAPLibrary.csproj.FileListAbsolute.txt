@@ -1,0 +1,4 @@
+C:\work\LDAP-Library\LDAPLibrary\bin\Release\LDAPLibrary.dll
+C:\work\LDAP-Library\LDAPLibrary\bin\Release\LDAPLibrary.pdb
+C:\work\LDAP-Library\LDAPLibrary\obj\Release\LDAPLibrary.dll
+C:\work\LDAP-Library\LDAPLibrary\obj\Release\LDAPLibrary.pdb

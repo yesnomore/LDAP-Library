@@ -1,0 +1,9 @@
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPCert\Terena-chain.pem
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPLibraryUnitTest.dll.config
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPLibraryUnitTest.dll
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPLibraryUnitTest.pdb
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPLibrary.dll
+C:\work\LDAP-Library\LDAPLibraryUnitTest\bin\Release\LDAPLibrary.pdb
+C:\work\LDAP-Library\LDAPLibraryUnitTest\obj\Release\LDAPLibraryUnitTest.csprojResolveAssemblyReference.cache
+C:\work\LDAP-Library\LDAPLibraryUnitTest\obj\Release\LDAPLibraryUnitTest.dll
+C:\work\LDAP-Library\LDAPLibraryUnitTest\obj\Release\LDAPLibraryUnitTest.pdb

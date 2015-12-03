@@ -1,0 +1,6 @@
+var namespace_l_d_a_p___library___unit_test_1_1_logger_unit_tests =
+[
+    [ "EventViewerLoggerUnitTests", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_event_viewer_logger_unit_tests.html", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_event_viewer_logger_unit_tests" ],
+    [ "FakeLoggerUnitTest", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_fake_logger_unit_test.html", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_fake_logger_unit_test" ],
+    [ "FileLoggerAndALoggerUnitTests", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_file_logger_and_a_logger_unit_tests.html", "class_l_d_a_p___library___unit_test_1_1_logger_unit_tests_1_1_file_logger_and_a_logger_unit_tests" ]
+];

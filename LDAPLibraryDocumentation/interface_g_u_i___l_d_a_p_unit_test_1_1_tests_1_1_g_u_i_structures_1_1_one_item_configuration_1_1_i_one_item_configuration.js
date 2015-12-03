@@ -1,0 +1,6 @@
+var interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration =
+[
+    [ "SaveUserRepositoryConfiguration", "interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration.html#a0445c3b18c07c3e4ce676f4b8bb15a3b", null ],
+    [ "SetConfiguraionLabel", "interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration.html#a96eefa9acdc89e27a2642161181567eb", null ],
+    [ "SetConfiguraionTextBox", "interface_g_u_i___l_d_a_p_unit_test_1_1_tests_1_1_g_u_i_structures_1_1_one_item_configuration_1_1_i_one_item_configuration.html#a63162add525932d7ba0342edf2ed7c3a", null ]
+];
