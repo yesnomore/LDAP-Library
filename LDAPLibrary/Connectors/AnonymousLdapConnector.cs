@@ -13,10 +13,10 @@ namespace LDAPLibrary.Connectors
 
         protected override LdapState ConnectAdmin()
         {
-            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
             var adminCredential = new NetworkCredential(_configRepository.GetAdminUser().GetUserDn(),
                 _configRepository.GetAdminUser().GetUserAttribute("userPassword")[0]);
-            
+
+            _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
             _ldapConnection.Bind(adminCredential);
             
             
