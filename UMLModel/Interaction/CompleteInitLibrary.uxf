@@ -129,7 +129,7 @@ AdditionalLdapConfig</panel_attributes>
     <coordinates>
       <x>340</x>
       <y>450</y>
-      <w>180</w>
+      <w>190</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>_LdapUserManipulatorFactory_</panel_attributes>
