@@ -6,6 +6,7 @@ using System.Security.Authentication;
 using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Interfarces;
+using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary.Connectors
 {
@@ -62,8 +63,8 @@ namespace LDAPLibrary.Connectors
 
         protected void StandardConnect(NetworkCredential credential)
         {
-            if (String.IsNullOrEmpty(credential.UserName)) throw new InvalidCredentialException("Username cannot be null or empty");
-            if (String.IsNullOrEmpty(credential.Password)) throw new InvalidCredentialException("Password cannot be null or empty");
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new []{credential.UserName})) throw new InvalidCredentialException("Username cannot be null or empty");
+            if (LdapParameterChecker.ParametersIsNullOrEmpty(new []{credential.Password})) throw new InvalidCredentialException("Password cannot be null or empty");
 
             _ldapConnection = LdapConnectionFactory.GetLdapConnection(_configRepository);
             _ldapConnection.Bind(credential);

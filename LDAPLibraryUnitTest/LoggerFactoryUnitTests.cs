@@ -1,4 +1,5 @@
 ﻿using System;
+using LDAPLibrary.Enums;
 using LDAPLibrary.Factories;
 using LDAPLibrary.Logger;
 using Microsoft.VisualStudio.TestTools.UnitTesting;

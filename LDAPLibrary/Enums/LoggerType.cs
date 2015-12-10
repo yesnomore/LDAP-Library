@@ -1,4 +1,4 @@
-﻿namespace LDAPLibrary.Logger
+﻿namespace LDAPLibrary.Enums
 {
     public enum LoggerType
     {

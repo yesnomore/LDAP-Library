@@ -19,9 +19,9 @@ namespace LDAPLibrary
         #region Class Variables
 
         private ILdapConfigRepository _configRepository;
-        private readonly ILdapConnector _connector;
+        private ILdapConnector _connector;
         private ILogger _logger;
-        private readonly ILdapUserManipulator _manageLdapUser;
+        private ILdapUserManipulator _manageLdapUser;
 
         private ILdapAdminModeChecker _adminModeChecker;
         private LdapState _ldapCurrentState;
@@ -61,27 +61,20 @@ namespace LDAPLibrary
 
             _adminModeChecker = new LdapAdminModeChecker(_configRepository);
 
+            CommonInitOperations();
+            _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
+        }
+
+        private void CommonInitOperations()
+        {
             _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
-            _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
         }
 
         /// <summary>
         /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,
-            string ldapServer,
-            string ldapSearchBaseDn,
-            AuthType authType,
-            bool secureSocketLayerFlag,
-            bool transportSocketLayerFlag,
-            bool clientCertificateFlag,
-            string clientCertificatePath,
-            LoggerType loggerType,
-            string logPath,
-            string userObjectClass,
-            string matchFieldUsername
-            )
+        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,string ldapServer,string ldapSearchBaseDn,AuthType authType,bool secureSocketLayerFlag,bool transportSocketLayerFlag,bool clientCertificateFlag,string clientCertificatePath,LoggerType loggerType,string logPath,string userObjectClass,string matchFieldUsername)
             : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
@@ -101,8 +94,7 @@ namespace LDAPLibrary
                 throw;
             }
 
-            _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
-            _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
+            CommonInitOperations();
             _ldapCurrentState = LdapState.LdapLibraryInitSuccess;
             _logger.Write(_logger.BuildLogMessage("", _ldapCurrentState));
         }

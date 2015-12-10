@@ -193,8 +193,7 @@ namespace LDAPLibrary
         /// <param name="clientCertificatePath"></param>
         /// <param name="userObjectClass"></param>
         /// <param name="matchFieldUsername"></param>
-        private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass,
-            string matchFieldUsername)
+        private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass,string matchFieldUsername)
         {
             if (LdapParameterChecker.ParametersIsNullOrEmpty(new[] { userObjectClass, matchFieldUsername }) || String.IsNullOrEmpty(clientCertificatePath) && GetClientCertificateFlag() == true)
                 throw new ArgumentNullException(String.Format(CompleteConfigNullParametersErrorMessage,

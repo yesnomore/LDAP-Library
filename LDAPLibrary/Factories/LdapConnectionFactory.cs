@@ -7,7 +7,7 @@ namespace LDAPLibrary.Factories
     /// <summary>
     /// Factory Class used to create teh LDAP connection Object
     /// </summary>
-    class LdapConnectionFactory
+    public static class LdapConnectionFactory
     {
         /// <summary>
         /// Static Method used to create an LDAP connection object
