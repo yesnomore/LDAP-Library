@@ -15,7 +15,7 @@ namespace LDAPLibrary
 	    /// <param name="searchedUsers">Credential for the search</param>
 	    /// <param name="searchResult">LDAPUsers object returned in the search</param>
 	    /// <returns>Boolean that comunicate the result of search</returns>
-	    LdapState SearchUsers(IEnumerable<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult);
+	    LdapState SearchUsers(IList<string> otherReturnedAttributes, string[] searchedUsers, out IList<ILdapUser> searchResult);
 
 		/// <summary>
 		/// Search all the users in the base tree.
@@ -24,7 +24,7 @@ namespace LDAPLibrary
 		/// <param name="otherReturnedAttributes">Attribute To return in the search</param>
 		/// <param name="searchResult">Result of the search</param>
 		/// <returns>Boolean that comunicate the result of search</returns>
-		LdapState SearchUsers(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult);
+		LdapState SearchUsers(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult);
 		
 		/// <summary>
 		/// Search for every node in the LDAP Tree
@@ -32,6 +32,6 @@ namespace LDAPLibrary
 		/// <param name="otherReturnedAttributes">Attribute To return in the search</param>
 		/// <param name="searchResult">Result of the search</param>
 		/// <returns>Boolean that comunicate the result of search</returns>
-		LdapState SearchAllNodes(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult);
+		LdapState SearchAllNodes(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult);
 	}
 }

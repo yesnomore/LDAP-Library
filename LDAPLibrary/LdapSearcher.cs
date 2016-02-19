@@ -25,10 +25,10 @@ namespace LDAPLibrary
 		    _baseAttributes = new List<string> {"cn", "sn"};
 		}
 
-        private LdapState BaseLdapSearch(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult, string searchFilter)
+        private LdapState BaseLdapSearch(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult, string searchFilter)
         {
             searchResult = new List<ILdapUser>();
-            otherReturnedAttributes = _baseAttributes.Union(otherReturnedAttributes).ToList();
+            otherReturnedAttributes = otherReturnedAttributes == null ? _baseAttributes.ToList() : _baseAttributes.Union(otherReturnedAttributes).ToList();
             try
             {
                 searchResult = LdapUserUtils.ConvertToLdapUsers((SearchResponse)_ldapConnection.SendRequest(
@@ -55,10 +55,10 @@ namespace LDAPLibrary
             _ldapConnection = ldapConnection;
         }
 
-		public LdapState SearchUsers(IEnumerable<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult)
+		public LdapState SearchUsers(IList<string> otherReturnedAttributes, string[] searchedUsers, out IList<ILdapUser> searchResult)
 		{
 			searchResult = new List<ILdapUser>();
-            otherReturnedAttributes = otherReturnedAttributes == null ? _baseAttributes : _baseAttributes.Union(otherReturnedAttributes).ToList();
+            otherReturnedAttributes = otherReturnedAttributes == null ? _baseAttributes.ToList() : _baseAttributes.Union(otherReturnedAttributes).ToList();
 			try
 			{
 			    //Foreach all the credential,for everyone do the search and add user results to the out parameter
@@ -88,12 +88,12 @@ namespace LDAPLibrary
 			return LdapState.LdapUserManipulatorSuccess;
 		}
 
-		public LdapState SearchUsers(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult)
+		public LdapState SearchUsers(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
 		{
             return BaseLdapSearch(otherReturnedAttributes, out searchResult, LdapFilterBuilder.GetSearchFilter(_configRepository.GetUserObjectClass()));
 		}
         
-	    public LdapState SearchAllNodes(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult)
+	    public LdapState SearchAllNodes(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
 		{
             return BaseLdapSearch(otherReturnedAttributes, out searchResult, LdapFilterBuilder.GetSearchFilter());
 		}

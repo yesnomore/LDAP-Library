@@ -130,20 +130,20 @@ namespace LDAPLibrary
         }
 
 
-        public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
-            out List<ILdapUser> searchResult)
+        public bool SearchUsers(IList<string> otherReturnedAttributes, string[] searchedUsers,
+            out IList<ILdapUser> searchResult)
         {
             _ldapCurrentState = _searcher.SearchUsers(otherReturnedAttributes, searchedUsers, out searchResult);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        public bool SearchUsers(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult)
+        public bool SearchUsers(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
         {
             _ldapCurrentState = _searcher.SearchUsers(otherReturnedAttributes, out searchResult);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
-        public bool SearchAllNodes(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult)
+        public bool SearchAllNodes(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
         {
             _ldapCurrentState = _searcher.SearchAllNodes(otherReturnedAttributes, out searchResult);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
@@ -171,7 +171,7 @@ namespace LDAPLibrary
 
         public bool SearchUserAndConnect(string user, string password)
         {
-            List<ILdapUser> searchReturn;
+            IList<ILdapUser> searchReturn;
 
             //Do the search and check the result 
             bool searchResult = SearchUsers(null, new[] {user}, out searchReturn);
