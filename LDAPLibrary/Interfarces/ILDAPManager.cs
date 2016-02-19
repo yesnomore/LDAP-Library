@@ -50,6 +50,23 @@ namespace LDAPLibrary.Interfarces
         bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers, out List<ILdapUser> searchResult);
 
         /// <summary>
+        /// Search all the users in the base tree.
+        /// Does not apply the match fieldname to search
+        /// </summary>
+        /// <param name="otherReturnedAttributes">Attribute To return in the search</param>
+        /// <param name="searchResult">Result of the search</param>
+        /// <returns>Boolean that comunicate the result of search</returns>
+        bool SearchUsers(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult);
+
+        /// <summary>
+        /// Search for every node in the LDAP Tree
+        /// </summary>
+        /// <param name="otherReturnedAttributes">Attribute To return in the search</param>
+        /// <param name="searchResult">Result of the search</param>
+        /// <returns>Boolean that comunicate the result of search</returns>
+        bool SearchAllNodes(List<string> otherReturnedAttributes, out List<ILdapUser> searchResult);
+
+        /// <summary>
         /// Return the Error Message of an occurred LDAP Exception
         /// </summary>
         /// <returns></returns>
