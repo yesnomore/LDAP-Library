@@ -432,6 +432,34 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
             return false;
         }
 
+        public bool TestSearchUserNoFilter()
+        {
+            if (!TestAdminConnect())
+                return false;
+
+            IList<ILdapUser> returnUsers;
+
+            bool result = _ldapManagerObj.SearchUsers(null, out returnUsers);
+
+            if (result && _userRepository.ExpectedSearchNoFilterResultNumber == 0) return true;
+
+            return result && returnUsers.Count.Equals(_userRepository.ExpectedSearchNoFilterResultNumber);
+        }
+
+        public bool TestSearchAllNodes()
+        {
+            if (!TestAdminConnect())
+                return false;
+
+            IList<ILdapUser> returnUsers;
+
+            bool result = _ldapManagerObj.SearchAllNodes(null, out returnUsers);
+
+            if (result && _userRepository.ExpectedSearchAllNodesResultNumber == 0) return true;
+
+            return result && returnUsers.Count.Equals(_userRepository.ExpectedSearchAllNodesResultNumber);
+        }
+
         public bool TestUserConnectWithoutWritePermissions()
         {
             if (!string.IsNullOrEmpty(Config.LdapLibrary["LDAPAdminUserDN"]))

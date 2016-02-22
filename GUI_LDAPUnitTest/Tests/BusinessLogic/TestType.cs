@@ -12,6 +12,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         TestConnectUser,
         TestSearchUserAndConnect,
         TestUserChangePassword,
-        TestDeleteUser
+        TestDeleteUser,
+        TestSearchUsersNoFilter,
+        TestSearchAllNodes
     }
 }
