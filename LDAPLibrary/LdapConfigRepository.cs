@@ -7,6 +7,7 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
+    using System.Configuration;
 
     /// <summary>
     /// Repository for all the configuration and input of the library.
@@ -135,7 +136,7 @@ namespace LDAPLibrary
         public void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
             string clientCertificatePath, string userObjectClass,
-            string matchFieldUsername, TimeSpan connectionTimeout)
+            string matchFieldUsername, TimeSpan? connectionTimeout)
         {
             _clientCertificateFlag = clientCertificateFlag;
             _transportSocketLayerFlag = transportSocketLayerFlag;
@@ -146,7 +147,7 @@ namespace LDAPLibrary
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _clientCertificatePath = clientCertificatePath;
-            _connectionTimeout = connectionTimeout;
+            _connectionTimeout = connectionTimeout ?? new TimeSpan(0, 0, 30);
         }
 
         /// <summary>

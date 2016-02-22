@@ -140,6 +140,22 @@ namespace LDAP_Library_UnitTest
             Assert.AreEqual(connectionTimeout, _configRepository.GetConnectionTimeout());
         }
 
+        [TestMethod, TestCategory("configRepository no Exceptions")]
+        public void CompleteConfigNoConnectionTimeout()
+        {
+            _configRepository.BasicLdapConfig(AdminUser, AdminMode, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+
+            _configRepository.AdditionalLdapConfig(
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                UserObjectClass,
+                MatchFieldUsername,
+                null
+                );
+        }
+
         [TestMethod, TestCategory("configRepository Exceptions")]
         [ExpectedException(typeof (ArgumentNullException),
             "The creation of the configRepository with Certificate path null or empty throw an exception")]

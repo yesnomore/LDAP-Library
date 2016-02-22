@@ -50,11 +50,11 @@
       <Entity type="Interface">
         <Name>ILdapConfigRepository</Name>
         <Access>Public</Access>
-        <Location left="1333" top="454" />
-        <Size width="162" height="316" />
-        <Collapsed>True</Collapsed>
+        <Location left="1333" top="407" />
+        <Size width="162" height="333" />
+        <Collapsed>False</Collapsed>
         <Member type="Method">void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)</Member>
-        <Member type="Method">void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, string userObjectClass, string matchFieldUsername)</Member>
+        <Member type="Method">void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag, string clientCertificatePath, string userObjectClass, string matchFieldUsername, TimeSpan? connectionTimeout)</Member>
         <Member type="Method">ILdapUser GetAdminUser()</Member>
         <Member type="Method">string GetServer()</Member>
         <Member type="Method">string GetSearchBaseDn()</Member>
@@ -68,13 +68,14 @@
         <Member type="Method">string GetUserObjectClass()</Member>
         <Member type="Method">string GetMatchFieldName()</Member>
         <Member type="Method">LDAPAdminMode GetAdminMode()</Member>
+        <Member type="Method">TimeSpan GetConnectionTimeout()</Member>
       </Entity>
       <Entity type="Class">
         <Name>LdapConfigRepository</Name>
         <Access>Public</Access>
         <Location left="1883" top="454" />
-        <Size width="162" height="383" />
-        <Collapsed>True</Collapsed>
+        <Size width="162" height="400" />
+        <Collapsed>False</Collapsed>
         <Member type="Field">const string BasicConfigNullParametersErrorMessage = Server or SearchBaseDn parameter cannot be null or empty and the file log path cannot be null if the logType is 'File'</Member>
         <Member type="Field">const string CompleteConfigNullParametersErrorMessage = One param are null or empty:Admin User: {0},clientCertificatePath: {1}, userObjectClass: {2},matchFieldUsername: {3}</Member>
         <Member type="Field">LDAPAdminMode _adminMode</Member>
@@ -90,7 +91,8 @@
         <Member type="Field">string _server</Member>
         <Member type="Field">bool _transportSocketLayerFlag</Member>
         <Member type="Field">string _userObjectClass</Member>
-        <Member type="Method">private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass, string matchFieldUsername)</Member>
+        <Member type="Field">private TimeSpan _connectionTimeout</Member>
+        <Member type="Method">private void AddictionalLdapConfigValidator(string clientCertificatePath, string userObjectClass, string matchFieldUsername, TimeSpan? connectionTimeout)</Member>
         <Member type="Method">private void BasicLdapConfigValidator(string server, string logPath, string searchBaseDn, ILdapUser admin)</Member>
         <Member type="Method">private void StandardLdapInformation()</Member>
         <Modifier>None</Modifier>
@@ -508,6 +510,8 @@
     </Entities>
     <Relationships>
       <Relationship type="Dependency" first="0" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="False">
@@ -516,10 +520,14 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="5" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="5" second="6">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
       </Relationship>
@@ -536,6 +544,8 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="1" second="5">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -550,12 +560,16 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="11">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -602,6 +616,8 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Dependency" first="17" second="2">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -614,6 +630,8 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Dependency" first="16" second="17">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
@@ -622,6 +640,8 @@
         <EndOrientation>Vertical</EndOrientation>
       </Relationship>
       <Relationship type="Association" first="18" second="3">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -630,12 +650,14 @@
         </BendPoint>
         <BendPoint relativeToStartShape="False">
           <X>1458</X>
-          <Y>526</Y>
+          <Y>767</Y>
         </BendPoint>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="18" second="11">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">
@@ -646,6 +668,8 @@
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="1" second="16">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -660,12 +684,16 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="1" second="19">
+        <Label>
+        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Association" first="24" second="11">
+        <Label>
+        </Label>
         <StartOrientation>Horizontal</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <Direction>Unidirectional</Direction>
@@ -688,16 +716,12 @@
         </BendPoint>
       </Relationship>
       <Relationship type="Association" first="1" second="43">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Vertical</EndOrientation>
         <Direction>Unidirectional</Direction>
         <AssociationType>Composition</AssociationType>
       </Relationship>
       <Relationship type="Dependency" first="42" second="17">
-        <Label>
-        </Label>
         <StartOrientation>Vertical</StartOrientation>
         <EndOrientation>Horizontal</EndOrientation>
         <BendPoint relativeToStartShape="True">

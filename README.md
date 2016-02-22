@@ -39,7 +39,7 @@ To make all things work the library needs a set of input parameters. Check the t
 |     **LDAPSearchBaseDN**     | Base node where the library can operate (search, connect, create, modify)                                                                               |  ou=People,dc=maxcrc,dc=com | No                                                   |               |
 |   **enableLDAPLibraryLog**   | Show where log the library. Possible values: *File*, *EventViewer*, *None*                                                                              |             File            | No                                                   |               |
 |    **LDAPLibraryLogPath**    | Location into write the log file if the enableLDAPLibraryLog has value File. (optional value)                                                           |           C:\.....          | No, if theenableLDAPLibraryLog is *File*             |               |
-|    **LDAPConnectionTimeout**    | Value of the timeout in the ldap connection                                                           |           0.00:00:30          | yes             |               | 0.00:00:30
+|    **LDAPConnectionTimeout**    | Value of the timeout in the ldap connection                                                           |           0.00:00:30          | yes             | 0.00:00:30        |
 |   **secureSocketLayerFlag**  | Specify if establish the connection through SecureSocketLayer                                                                                           |             true            | Requested only in the Full Library Constructor       | false         |
 | **transportSocketLayerFlag** | Specify if establish the connection through TransportSocketLayer                                                                                        |             true            | Requested only in the Full Library Constructor       | false         |
 |  **ClientCertificationFlag** | Specify if establish the connection through a specific Certification file                                                                               |             true            | Requested only in the Full Library Constructor       | false         |
@@ -92,6 +92,7 @@ private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
     new Dictionary<string, List<string>> {{"userPassword", new List<string> {LdapAdminUserPassword}}});
 
 private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
+private static readonly TimeSpan ConnectionTimeout = new TimeSpan(0, 0, 30, 0);
 
 ```
 
@@ -133,14 +134,15 @@ ILdapManager _ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                EnableLdapLibraryLog,
 			                LdapLibraryLogPath,
 			                LdapUserObjectClass,
-			                LdapMatchFieldUsername
+			                LdapMatchFieldUsername,
+							ConnectionTimeout
 			                );
 
 ILdapManager _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
                 LdapServer,
                 LdapSearchBaseDn,
                 LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
-                );			                
+                );
 ```
 
 Connect of the Administator User

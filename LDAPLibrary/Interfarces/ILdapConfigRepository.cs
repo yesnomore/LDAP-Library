@@ -34,7 +34,7 @@ namespace LDAPLibrary.Interfarces
         /// <param name="userObjectClass">Object class that rapresent an user</param>
         /// <param name="matchFieldUsername">Attribute that rapresent the username</param>
         /// <param name="connectionTimeout">Connection timeout of the ldap connection</param>
-        void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,string clientCertificatePath,string userObjectClass, string matchFieldUsername, TimeSpan connectionTimeout);
+        void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,string clientCertificatePath,string userObjectClass, string matchFieldUsername, TimeSpan? connectionTimeout);
         /*
          * Getters
          */
