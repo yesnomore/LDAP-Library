@@ -76,7 +76,20 @@ namespace LDAPLibrary
         /// <summary>
         /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,string ldapServer,string ldapSearchBaseDn,AuthType authType,bool secureSocketLayerFlag,bool transportSocketLayerFlag,bool clientCertificateFlag,string clientCertificatePath,LoggerType loggerType,string logPath,string userObjectClass,string matchFieldUsername)
+        public LdapManager( ILdapUser adminUser, 
+                            LDAPAdminMode adminMode, 
+                            string ldapServer,
+                            string ldapSearchBaseDn,
+                            AuthType authType,
+                            bool secureSocketLayerFlag,
+                            bool transportSocketLayerFlag,
+                            bool clientCertificateFlag,
+                            string clientCertificatePath,
+                            LoggerType loggerType,
+                            string logPath,
+                            string userObjectClass,
+                            string matchFieldUsername,
+                            TimeSpan connectionTimeout)
             : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
@@ -87,7 +100,7 @@ namespace LDAPLibrary
             {
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
                     clientCertificateFlag, clientCertificatePath, userObjectClass,
-                    matchFieldUsername);
+                    matchFieldUsername, connectionTimeout);
             }
             catch (ArgumentNullException e)
             {

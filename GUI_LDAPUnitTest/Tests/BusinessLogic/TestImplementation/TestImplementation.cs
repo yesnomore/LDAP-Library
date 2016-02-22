@@ -52,7 +52,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
                     (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
                     Config.LdapLibrary["LDAPLibraryLogPath"],
                     Config.LdapLibrary["LDAPUserObjectClass"],
-                    Config.LdapLibrary["LDAPMatchFieldUsername"]
+                    Config.LdapLibrary["LDAPMatchFieldUsername"],
+                    TimeSpan.Parse(Config.LdapLibrary["LDAPConnectionTimeout"])
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -110,7 +111,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
                     (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
                     Config.LdapLibrary["LDAPLibraryLogPath"],
                     Config.LdapLibrary["LDAPUserObjectClass"],
-                    Config.LdapLibrary["LDAPMatchFieldUsername"]
+                    Config.LdapLibrary["LDAPMatchFieldUsername"],
+                    TimeSpan.Parse(Config.LdapLibrary["LDAPConnectionTimeout"])
                     );
 
                 if (!_ldapManagerObj.Equals(null))

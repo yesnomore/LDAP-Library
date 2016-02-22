@@ -4,6 +4,8 @@ using LDAPLibrary.Logger;
 
 namespace LDAPLibrary.Interfarces
 {
+    using System;
+
     public interface ILdapConfigRepository
     {
 
@@ -31,7 +33,8 @@ namespace LDAPLibrary.Interfarces
         /// <param name="clientCertificatePath">Path of the certificate file</param>
         /// <param name="userObjectClass">Object class that rapresent an user</param>
         /// <param name="matchFieldUsername">Attribute that rapresent the username</param>
-        void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,string clientCertificatePath,string userObjectClass, string matchFieldUsername);
+        /// <param name="connectionTimeout">Connection timeout of the ldap connection</param>
+        void AdditionalLdapConfig(bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,string clientCertificatePath,string userObjectClass, string matchFieldUsername, TimeSpan connectionTimeout);
         /*
          * Getters
          */
@@ -49,5 +52,6 @@ namespace LDAPLibrary.Interfarces
         string GetUserObjectClass();
         string GetMatchFieldName();
         LDAPAdminMode GetAdminMode();
+        TimeSpan GetConnectionTimeout();
     }
 }

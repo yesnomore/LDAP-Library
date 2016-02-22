@@ -36,6 +36,8 @@ namespace LDAPLibrary.Factories
                 ldapConnection.SessionOptions.VerifyServerCertificate += (conn, cert) => true;
             }
 
+            ldapConnection.Timeout = ldapConfigRepository.GetConnectionTimeout();
+
             return ldapConnection;
         }
     }

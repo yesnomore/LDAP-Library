@@ -55,6 +55,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const bool ClientCertificationFlag = false;
         private const string ClientCertificatePath = "null";
         private const LDAPAdminMode AdminMode = LDAPAdminMode.Anonymous;
+        private static readonly TimeSpan connectionTimeout = new TimeSpan(0, 0, 30, 0);
 
         private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
 
@@ -76,7 +77,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -206,7 +208,7 @@ namespace LDAP_Library_UnitTest.localhost
             Assert.AreEqual(returnUsers[1].GetUserCn(), ReadOnlyUserCn);
             Assert.IsTrue(returnUsers[1].GetUserAttributes().Count == 0);
 
-            result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, out returnUsers);
+            result = _ldapManagerObj.SearchAllNodes(userAttributeToReturnBySearch, out returnUsers);
 
             Assert.IsTrue(result);
             Assert.AreEqual(returnUsers.Count, 4);
