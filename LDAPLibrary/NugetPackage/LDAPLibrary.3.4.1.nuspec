@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>LDAPLibrary</id>
+        <version>3.4.1</version>
+        <title>LDAPLibrary</title>
+        <authors>Enrico Benini</authors>
+        <owners>Enrico Benini</owners>
+        <projectUrl>https://github.com/Apex-net/LDAP-Library</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>Library that wrap the S.DS.P Microsoft libraries and provide a better interface and management for all the LDAP infostructures</description>
+        <releaseNotes>Add some search method, see docs on github
+
+THE STAND ALONE TEST PROGRAM DOESN'T HAVE THE TEST FOR THIS NEW FEATURES.</releaseNotes>
+        <copyright>Enrico Benini Copyright ©  2013</copyright>
+        <language />
+        <tags>LDAP</tags>
+    </metadata>
+    <files>
+        <file src="..\bin\Release\net40\LDAPLibrary.dll" target="lib\net40\LDAPLibrary.dll" />
+        <file src="..\bin\Release\net45\LDAPLibrary.dll" target="lib\net45\LDAPLibrary.dll" />
+    </files>
+</package>
