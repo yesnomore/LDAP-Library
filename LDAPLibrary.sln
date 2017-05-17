@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30723.0
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 14.0.25420.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibrary", "LDAPLibrary\LDAPLibrary.csproj", "{A31E343A-C1DA-40A1-9BFA-2200D892E83D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LDAPLibraryUnitTest", "LDAPLibraryUnitTest\LDAPLibraryUnitTest.csproj", "{2C87EE7A-B569-49E1-860F-55B49BC755DA}"
