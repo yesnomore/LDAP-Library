@@ -23,7 +23,7 @@ namespace LDAPLibrary
 
         public LdapUser(string userDn, string userCn, string userSn, Dictionary<string, List<string>> otherAttribute)
         {
-            if (!LdapParameterChecker.ParametersIsNullOrEmpty(new[] {userDn, userSn, userCn}))
+            if (!LdapParameterChecker.ParametersIsNullOrEmpty(new[] {userDn, userCn}))
             {
                 _sn = userSn;
                 _dn = userDn;
@@ -34,7 +34,7 @@ namespace LDAPLibrary
             }
             else
             {
-                throw new ArgumentException("The first 3 parameters cannot be null or empty");
+                throw new ArgumentException("The first 2 parameters cannot be null or empty");
             }
         }
 
