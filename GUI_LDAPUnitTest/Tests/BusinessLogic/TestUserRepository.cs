@@ -35,6 +35,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
         public string TestUserNewDescription { get; set; }
         public string TestUserNewPassword { get; set; }
         public ILdapUser TestUser { get; private set; }
+        public int ExpectedSearchNoFilterResultNumber { get; set; }
+        public int ExpectedSearchAllNodesResultNumber { get; set; }
 
         public void SetupTestUser(string testUserDn, string testUserCn, string testUserSn,
             Dictionary<string, List<string>> testUserOtherAttribute)

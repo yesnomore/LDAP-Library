@@ -134,6 +134,19 @@ namespace GUI_LDAPUnitTest.Forms
             stateDeleteUserLabel.Enabled = testDeleteUserCheckBox.Checked;
         }
 
+        private void testSearchUsersNoFilterCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            testSearchUserNoFilterLabel.Enabled = testSearchUsersNoFilterCheckBox.Checked;
+            stateSearchUsersNoFilterLabel.Enabled = testSearchUsersNoFilterCheckBox.Checked;
+            searchUserNoFilterSpinEdit.Enabled = testSearchUsersNoFilterCheckBox.Checked;
+        }
+
+        private void testSearchAllNodesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            testSearchAllNodesLabel.Enabled = testSearchAllNodesCheckBox.Checked;
+            stateSearchAllNodesLabel.Enabled = testSearchAllNodesCheckBox.Checked;
+            searchAllNodesSpinEdit.Enabled = testSearchAllNodesCheckBox.Checked;
+        }
         #endregion
 
         #region Other Events
@@ -148,11 +161,11 @@ namespace GUI_LDAPUnitTest.Forms
             if (readTestsPanel.Height == 35)
             {
                 //Expand the read and move the write panel
-                readTestsPanel.Height = 180;
+                readTestsPanel.Height = 261;
                 readTestIconLabel.Text = @"-";
                 writeTestsPanel.Location = new Point(writeTestsPanel.Location.X, writeTestsPanel.Location.Y + 150);
             }
-            else if (readTestsPanel.Height == 180)
+            else if (readTestsPanel.Height == 261)
             {
                 //Collapse the read panel and write panel repositioned.
                 readTestsPanel.Height = 35;
@@ -219,6 +232,21 @@ namespace GUI_LDAPUnitTest.Forms
             Cursor.Current = Cursors.Default;
         }
 
+        /// <summary>
+        /// numericUpDown for the searchNoFilter users
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            _testRunnerObj.UserRepository.ExpectedSearchNoFilterResultNumber = (int) searchUserNoFilterSpinEdit.Value;
+        }
+
+        private void numericUpDown2_ValueChanged(object sender, EventArgs e)
+        {
+            _testRunnerObj.UserRepository.ExpectedSearchAllNodesResultNumber = (int)searchAllNodesSpinEdit.Value;
+        }
+
         #endregion
 
         /// <summary>
@@ -269,6 +297,16 @@ namespace GUI_LDAPUnitTest.Forms
             _testTripletRepository.AddTestTriplet(new TestTriplet(testDeleteUserCheckBox,
                 TestType.TestDeleteUser,
                 stateDeleteUserLabel));
+
+            _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchUsersNoFilterCheckBox,
+                TestType.TestSearchUsersNoFilter,
+                stateSearchUsersNoFilterLabel
+                ));
+
+            _testTripletRepository.AddTestTriplet(new TestTriplet(testSearchAllNodesCheckBox,
+                TestType.TestSearchAllNodes,
+                stateSearchAllNodesLabel
+                ));
         }
     }
 }

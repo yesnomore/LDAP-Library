@@ -46,6 +46,7 @@ namespace LDAP_Library_UnitTest.localhost
         private const bool ClientCertificationFlag = false;
         private const string ClientCertificatePath = "null";
         private const LDAPAdminMode AdminMode = LDAPAdminMode.Admin;
+        private static readonly TimeSpan connectionTimeout = new TimeSpan(0, 0, 30, 0);
 
         private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
             LdapAdminUserCn,
@@ -72,7 +73,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
 
             Assert.IsFalse(_ldapManagerObj.Equals(null));
@@ -95,7 +97,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -116,7 +119,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -135,7 +139,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.IsFalse(_ldapManagerObj.Equals(null));
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT SUCCESS");
@@ -157,7 +162,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 "",
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -176,7 +182,8 @@ namespace LDAP_Library_UnitTest.localhost
                 LoggerType.EventViewer,
                 "",
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -194,7 +201,8 @@ namespace LDAP_Library_UnitTest.localhost
                 LoggerType.None,
                 "",
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -214,7 +222,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 "",
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -235,7 +244,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                ""
+                "",
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -256,7 +266,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -277,7 +288,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
             Assert.AreEqual(_ldapManagerObj.GetLdapMessage().Split('-')[1].Substring(1), "LDAP LIBRARY INIT ERROR: ");
         }
@@ -296,7 +308,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -314,7 +327,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -332,7 +346,8 @@ namespace LDAP_Library_UnitTest.localhost
                 EnableLdapLibraryLog,
                 LdapLibraryLogPath,
                 LdapUserObjectClass,
-                LdapMatchFieldUsername
+                LdapMatchFieldUsername,
+                connectionTimeout
                 );
         }
 

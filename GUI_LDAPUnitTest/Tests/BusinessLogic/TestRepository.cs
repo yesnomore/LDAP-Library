@@ -41,7 +41,9 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic
                         if (_writePermission) testMethod = _testImplementation.TestSearchUserAndConnect;
                         return testMethod();
                     }
-                }
+                },
+                {TestType.TestSearchUsersNoFilter, _testImplementation.TestSearchUserNoFilter},
+                {TestType.TestSearchAllNodes, _testImplementation.TestSearchAllNodes}
             };
         }
 

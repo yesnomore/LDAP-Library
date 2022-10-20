@@ -10,6 +10,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace LDAP_Library_UnitTest
 {
+    using System;
+
     [TestClass]
     public class LdapConnectionFactoryUnitTests
     {
@@ -17,6 +19,7 @@ namespace LDAP_Library_UnitTest
         private bool secureSocketLayer = true;
         private bool transportSocketLayer = false;
         private bool clientCertificate = true;
+        private static readonly TimeSpan connectionTimeout = new TimeSpan(0, 0, 30, 0);
 
         [TestMethod, TestCategory("LdapConnectionFactory")]
         public void GetLdapConnector()
@@ -33,11 +36,12 @@ namespace LDAP_Library_UnitTest
         {
             var ldapConfigRepository = new LdapConfigRepository();
             ldapConfigRepository.BasicLdapConfig(null,LDAPAdminMode.Anonymous, "127.0.0.1:636","test",AuthType.Basic,LoggerType.None,"");
-            ldapConfigRepository.AdditionalLdapConfig(secureSocketLayer, transportSocketLayer, clientCertificate, @"LDAPCert/Terena-chain.pem", "test", "test");
+            ldapConfigRepository.AdditionalLdapConfig(secureSocketLayer, transportSocketLayer, clientCertificate, @"LDAPCert/Terena-chain.pem", "test", "test",connectionTimeout);
             var ldapConnection = LdapConnectionFactory.GetLdapConnection(ldapConfigRepository);
 
             Assert.IsInstanceOfType(ldapConnection, typeof(LdapConnection));         
             Assert.IsTrue(ldapConnection.ClientCertificates.Count == 1);
+            Assert.AreEqual(ldapConnection.Timeout, connectionTimeout);
         }
     }
 }

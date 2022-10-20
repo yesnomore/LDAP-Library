@@ -84,17 +84,29 @@
             this.testStandardInitLibraryNoAdminCheckBox = new System.Windows.Forms.CheckBox();
             this.testStandardInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
             this.stateStandardInitLibraryNoAdminLabel = new System.Windows.Forms.Label();
+            this.testSearchUsersNoFilterCheckBox = new System.Windows.Forms.CheckBox();
+            this.stateSearchUsersNoFilterLabel = new System.Windows.Forms.Label();
+            this.testSearchUserNoFilterLabel = new System.Windows.Forms.Label();
+            this.testSearchAllNodesCheckBox = new System.Windows.Forms.CheckBox();
+            this.stateSearchAllNodesLabel = new System.Windows.Forms.Label();
+            this.testSearchAllNodesLabel = new System.Windows.Forms.Label();
+            this.searchUserNoFilterSpinEdit = new System.Windows.Forms.NumericUpDown();
+            this.searchAllNodesSpinEdit = new System.Windows.Forms.NumericUpDown();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.readTestsPanel.SuspendLayout();
             this.writeTestsPanel.SuspendLayout();
             this.readWriteTestsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchUserNoFilterSpinEdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchAllNodesSpinEdit)).BeginInit();
             this.SuspendLayout();
             // 
             // runButton
             // 
             this.runButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.runButton.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.runButton.Location = new System.Drawing.Point(26, 675);
+            this.runButton.Location = new System.Drawing.Point(26, 751);
             this.runButton.Name = "runButton";
             this.runButton.Size = new System.Drawing.Size(149, 48);
             this.runButton.TabIndex = 4;
@@ -104,7 +116,7 @@
             // 
             // testsProgressBar
             // 
-            this.testsProgressBar.Location = new System.Drawing.Point(181, 683);
+            this.testsProgressBar.Location = new System.Drawing.Point(190, 768);
             this.testsProgressBar.Name = "testsProgressBar";
             this.testsProgressBar.Size = new System.Drawing.Size(420, 31);
             this.testsProgressBar.TabIndex = 5;
@@ -115,7 +127,7 @@
             this.testsLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.testsLabel.Location = new System.Drawing.Point(25, 34);
             this.testsLabel.Name = "testsLabel";
-            this.testsLabel.Size = new System.Drawing.Size(135, 25);
+            this.testsLabel.Size = new System.Drawing.Size(175, 25);
             this.testsLabel.TabIndex = 0;
             this.testsLabel.Text = "Basic TestType";
             this.testsLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -459,6 +471,16 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // changeConfigFileToolStripMenuItem
+            // 
+            this.changeConfigFileToolStripMenuItem.Name = "changeConfigFileToolStripMenuItem";
+            this.changeConfigFileToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(67, 22);
+            // 
             // lineLabel
             // 
             this.lineLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -471,6 +493,16 @@
             // readTestsPanel
             // 
             this.readTestsPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.readTestsPanel.Controls.Add(this.label5);
+            this.readTestsPanel.Controls.Add(this.label3);
+            this.readTestsPanel.Controls.Add(this.searchAllNodesSpinEdit);
+            this.readTestsPanel.Controls.Add(this.searchUserNoFilterSpinEdit);
+            this.readTestsPanel.Controls.Add(this.testSearchAllNodesCheckBox);
+            this.readTestsPanel.Controls.Add(this.stateSearchAllNodesLabel);
+            this.readTestsPanel.Controls.Add(this.testSearchAllNodesLabel);
+            this.readTestsPanel.Controls.Add(this.testSearchUsersNoFilterCheckBox);
+            this.readTestsPanel.Controls.Add(this.stateSearchUsersNoFilterLabel);
+            this.readTestsPanel.Controls.Add(this.testSearchUserNoFilterLabel);
             this.readTestsPanel.Controls.Add(this.label2);
             this.readTestsPanel.Controls.Add(this.readTestIconLabel);
             this.readTestsPanel.Controls.Add(this.readTestsLabel);
@@ -486,7 +518,7 @@
             this.readTestsPanel.Controls.Add(this.testSearchUserLabel);
             this.readTestsPanel.Location = new System.Drawing.Point(14, 49);
             this.readTestsPanel.Name = "readTestsPanel";
-            this.readTestsPanel.Size = new System.Drawing.Size(545, 180);
+            this.readTestsPanel.Size = new System.Drawing.Size(548, 261);
             this.readTestsPanel.TabIndex = 31;
             // 
             // label2
@@ -539,7 +571,7 @@
             this.writeTestsPanel.Controls.Add(this.testCreateUserLabel);
             this.writeTestsPanel.Controls.Add(this.configUserChangePasswordButton);
             this.writeTestsPanel.Controls.Add(this.testModifyUserDescriptionLabel);
-            this.writeTestsPanel.Location = new System.Drawing.Point(14, 240);
+            this.writeTestsPanel.Location = new System.Drawing.Point(17, 316);
             this.writeTestsPanel.Name = "writeTestsPanel";
             this.writeTestsPanel.Size = new System.Drawing.Size(545, 220);
             this.writeTestsPanel.TabIndex = 32;
@@ -584,7 +616,7 @@
             this.readWriteTestsPanel.Controls.Add(this.writeTestsPanel);
             this.readWriteTestsPanel.Location = new System.Drawing.Point(30, 195);
             this.readWriteTestsPanel.Name = "readWriteTestsPanel";
-            this.readWriteTestsPanel.Size = new System.Drawing.Size(580, 474);
+            this.readWriteTestsPanel.Size = new System.Drawing.Size(580, 550);
             this.readWriteTestsPanel.TabIndex = 33;
             // 
             // setUserButton
@@ -708,11 +740,117 @@
             this.stateStandardInitLibraryNoAdminLabel.Text = "Undefined";
             this.stateStandardInitLibraryNoAdminLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // testSearchUsersNoFilterCheckBox
+            // 
+            this.testSearchUsersNoFilterCheckBox.AutoSize = true;
+            this.testSearchUsersNoFilterCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.testSearchUsersNoFilterCheckBox.Location = new System.Drawing.Point(8, 182);
+            this.testSearchUsersNoFilterCheckBox.Name = "testSearchUsersNoFilterCheckBox";
+            this.testSearchUsersNoFilterCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.testSearchUsersNoFilterCheckBox.TabIndex = 37;
+            this.testSearchUsersNoFilterCheckBox.UseVisualStyleBackColor = true;
+            this.testSearchUsersNoFilterCheckBox.CheckedChanged += new System.EventHandler(this.testSearchUsersNoFilterCheckBox_CheckedChanged);
+            // 
+            // stateSearchUsersNoFilterLabel
+            // 
+            this.stateSearchUsersNoFilterLabel.AutoSize = true;
+            this.stateSearchUsersNoFilterLabel.Enabled = false;
+            this.stateSearchUsersNoFilterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stateSearchUsersNoFilterLabel.Location = new System.Drawing.Point(252, 180);
+            this.stateSearchUsersNoFilterLabel.Name = "stateSearchUsersNoFilterLabel";
+            this.stateSearchUsersNoFilterLabel.Size = new System.Drawing.Size(64, 15);
+            this.stateSearchUsersNoFilterLabel.TabIndex = 36;
+            this.stateSearchUsersNoFilterLabel.Text = "Undefined";
+            this.stateSearchUsersNoFilterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // testSearchUserNoFilterLabel
+            // 
+            this.testSearchUserNoFilterLabel.AutoSize = true;
+            this.testSearchUserNoFilterLabel.Enabled = false;
+            this.testSearchUserNoFilterLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.testSearchUserNoFilterLabel.Location = new System.Drawing.Point(29, 178);
+            this.testSearchUserNoFilterLabel.Name = "testSearchUserNoFilterLabel";
+            this.testSearchUserNoFilterLabel.Size = new System.Drawing.Size(159, 18);
+            this.testSearchUserNoFilterLabel.TabIndex = 35;
+            this.testSearchUserNoFilterLabel.Text = "Search Users No Filter";
+            this.testSearchUserNoFilterLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // testSearchAllNodesCheckBox
+            // 
+            this.testSearchAllNodesCheckBox.AutoSize = true;
+            this.testSearchAllNodesCheckBox.CheckAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.testSearchAllNodesCheckBox.Location = new System.Drawing.Point(8, 223);
+            this.testSearchAllNodesCheckBox.Name = "testSearchAllNodesCheckBox";
+            this.testSearchAllNodesCheckBox.Size = new System.Drawing.Size(15, 14);
+            this.testSearchAllNodesCheckBox.TabIndex = 40;
+            this.testSearchAllNodesCheckBox.UseVisualStyleBackColor = true;
+            this.testSearchAllNodesCheckBox.CheckedChanged += new System.EventHandler(this.testSearchAllNodesCheckBox_CheckedChanged);
+            // 
+            // stateSearchAllNodesLabel
+            // 
+            this.stateSearchAllNodesLabel.AutoSize = true;
+            this.stateSearchAllNodesLabel.Enabled = false;
+            this.stateSearchAllNodesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stateSearchAllNodesLabel.Location = new System.Drawing.Point(252, 221);
+            this.stateSearchAllNodesLabel.Name = "stateSearchAllNodesLabel";
+            this.stateSearchAllNodesLabel.Size = new System.Drawing.Size(64, 15);
+            this.stateSearchAllNodesLabel.TabIndex = 39;
+            this.stateSearchAllNodesLabel.Text = "Undefined";
+            this.stateSearchAllNodesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // testSearchAllNodesLabel
+            // 
+            this.testSearchAllNodesLabel.AutoSize = true;
+            this.testSearchAllNodesLabel.Enabled = false;
+            this.testSearchAllNodesLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.testSearchAllNodesLabel.Location = new System.Drawing.Point(29, 219);
+            this.testSearchAllNodesLabel.Name = "testSearchAllNodesLabel";
+            this.testSearchAllNodesLabel.Size = new System.Drawing.Size(122, 18);
+            this.testSearchAllNodesLabel.TabIndex = 38;
+            this.testSearchAllNodesLabel.Text = "Search All Nodes";
+            this.testSearchAllNodesLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // searchUserNoFilterSpinEdit
+            // 
+            this.searchUserNoFilterSpinEdit.Enabled = false;
+            this.searchUserNoFilterSpinEdit.Location = new System.Drawing.Point(492, 180);
+            this.searchUserNoFilterSpinEdit.Name = "searchUserNoFilterSpinEdit";
+            this.searchUserNoFilterSpinEdit.Size = new System.Drawing.Size(36, 20);
+            this.searchUserNoFilterSpinEdit.TabIndex = 41;
+            this.searchUserNoFilterSpinEdit.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // searchAllNodesSpinEdit
+            // 
+            this.searchAllNodesSpinEdit.Enabled = false;
+            this.searchAllNodesSpinEdit.Location = new System.Drawing.Point(492, 221);
+            this.searchAllNodesSpinEdit.Name = "searchAllNodesSpinEdit";
+            this.searchAllNodesSpinEdit.Size = new System.Drawing.Size(36, 20);
+            this.searchAllNodesSpinEdit.TabIndex = 42;
+            this.searchAllNodesSpinEdit.ValueChanged += new System.EventHandler(this.numericUpDown2_ValueChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(352, 182);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(125, 13);
+            this.label3.TabIndex = 43;
+            this.label3.Text = "Expected Result Number";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(352, 223);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(125, 13);
+            this.label5.TabIndex = 44;
+            this.label5.Text = "Expected Result Number";
+            // 
             // TestForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(649, 737);
+            this.ClientSize = new System.Drawing.Size(644, 811);
             this.Controls.Add(this.testStandardInitLibraryNoAdminCheckBox);
             this.Controls.Add(this.testStandardInitLibraryNoAdminLabel);
             this.Controls.Add(this.stateStandardInitLibraryNoAdminLabel);
@@ -744,6 +882,8 @@
             this.writeTestsPanel.PerformLayout();
             this.readWriteTestsPanel.ResumeLayout(false);
             this.readWriteTestsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.searchUserNoFilterSpinEdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.searchAllNodesSpinEdit)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -807,6 +947,16 @@
         private System.Windows.Forms.CheckBox testStandardInitLibraryNoAdminCheckBox;
         private System.Windows.Forms.Label testStandardInitLibraryNoAdminLabel;
         private System.Windows.Forms.Label stateStandardInitLibraryNoAdminLabel;
+        private System.Windows.Forms.CheckBox testSearchAllNodesCheckBox;
+        private System.Windows.Forms.Label stateSearchAllNodesLabel;
+        private System.Windows.Forms.Label testSearchAllNodesLabel;
+        private System.Windows.Forms.CheckBox testSearchUsersNoFilterCheckBox;
+        private System.Windows.Forms.Label stateSearchUsersNoFilterLabel;
+        private System.Windows.Forms.Label testSearchUserNoFilterLabel;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown searchAllNodesSpinEdit;
+        private System.Windows.Forms.NumericUpDown searchUserNoFilterSpinEdit;
     }
 }
 

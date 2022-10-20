@@ -7,6 +7,8 @@ using LDAPLibrary.StaticClasses;
 
 namespace LDAPLibrary
 {
+    using System.Configuration;
+
     /// <summary>
     /// Repository for all the configuration and input of the library.
     /// Created at startup.
@@ -35,6 +37,8 @@ namespace LDAPLibrary
         private bool _transportSocketLayerFlag;
         private string _userObjectClass;
         private LDAPAdminMode _adminMode;
+        private TimeSpan _connectionTimeout;
+
 
         #endregion
 
@@ -105,6 +109,11 @@ namespace LDAPLibrary
             return _adminMode;
         }
 
+        public TimeSpan GetConnectionTimeout()
+        {
+            return _connectionTimeout;
+        }
+
         #endregion
 
         public void BasicLdapConfig(ILdapUser adminUser, LDAPAdminMode adminMode, string server, string searchBaseDn, AuthType authType, LoggerType loggerType, string logPath)
@@ -127,7 +136,7 @@ namespace LDAPLibrary
         public void AdditionalLdapConfig(
             bool secureSocketLayerFlag, bool transportSocketLayerFlag, bool clientCertificateFlag,
             string clientCertificatePath, string userObjectClass,
-            string matchFieldUsername)
+            string matchFieldUsername, TimeSpan? connectionTimeout)
         {
             _clientCertificateFlag = clientCertificateFlag;
             _transportSocketLayerFlag = transportSocketLayerFlag;
@@ -138,7 +147,7 @@ namespace LDAPLibrary
             _matchFieldUsername = matchFieldUsername;
             _userObjectClass = userObjectClass;
             _clientCertificatePath = clientCertificatePath;
-            
+            _connectionTimeout = connectionTimeout ?? new TimeSpan(0, 0, 30);
         }
 
         /// <summary>

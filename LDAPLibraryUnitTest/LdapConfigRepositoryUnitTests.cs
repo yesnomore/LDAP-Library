@@ -50,6 +50,7 @@ namespace LDAP_Library_UnitTest
         private const string StandardLogPath = "";
         private const string StandardUserObjectClass = "person";
         private const string StandardMatchFieldUsername = "cn";
+        private static readonly TimeSpan connectionTimeout = new TimeSpan(0, 0, 30, 0);
 
         #endregion
 
@@ -121,7 +122,7 @@ namespace LDAP_Library_UnitTest
             _configRepository.BasicLdapConfig(AdminUser,AdminMode, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
 
             _configRepository.AdditionalLdapConfig(SecureSocketLayer,
-                TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername);
+                TransportSocketLayer, ClientCertificate, ClientCertificatePath, UserObjectClass, MatchFieldUsername,connectionTimeout);
 
             Assert.AreEqual(AdminUser, _configRepository.GetAdminUser());
             Assert.AreEqual(AdminMode, _configRepository.GetAdminMode());
@@ -136,6 +137,23 @@ namespace LDAP_Library_UnitTest
             Assert.AreEqual(LogPath, _configRepository.GetLogPath());
             Assert.AreEqual(UserObjectClass, _configRepository.GetUserObjectClass());
             Assert.AreEqual(MatchFieldUsername, _configRepository.GetMatchFieldName());
+            Assert.AreEqual(connectionTimeout, _configRepository.GetConnectionTimeout());
+        }
+
+        [TestMethod, TestCategory("configRepository no Exceptions")]
+        public void CompleteConfigNoConnectionTimeout()
+        {
+            _configRepository.BasicLdapConfig(AdminUser, AdminMode, Server, SearchBaseDn, AuthType, EnableLog, LogPath);
+
+            _configRepository.AdditionalLdapConfig(
+                SecureSocketLayer,
+                TransportSocketLayer,
+                ClientCertificate,
+                ClientCertificatePath,
+                UserObjectClass,
+                MatchFieldUsername,
+                null
+                );
         }
 
         [TestMethod, TestCategory("configRepository Exceptions")]
@@ -151,7 +169,8 @@ namespace LDAP_Library_UnitTest
                 true,
                 "",
                 UserObjectClass,
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -176,7 +195,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 "",
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -193,7 +213,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 UserObjectClass,
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -210,7 +231,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 UserObjectClass,
-                ""
+                "",
+                connectionTimeout
                 );
         }
 
@@ -227,7 +249,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 UserObjectClass,
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -242,7 +265,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 UserObjectClass,
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
 
@@ -257,7 +281,8 @@ namespace LDAP_Library_UnitTest
                 ClientCertificate,
                 ClientCertificatePath,
                 UserObjectClass,
-                MatchFieldUsername
+                MatchFieldUsername,
+                connectionTimeout
                 );
         }
     }

@@ -22,6 +22,7 @@ namespace LDAPLibrary
         private ILdapConnector _connector;
         private ILogger _logger;
         private ILdapUserManipulator _manageLdapUser;
+        private ILdapSearcher _searcher;
 
         private ILdapAdminModeChecker _adminModeChecker;
         private LdapState _ldapCurrentState;
@@ -69,12 +70,26 @@ namespace LDAPLibrary
         {
             _connector = LdapConnectorFactory.GetLdapConnector(_adminModeChecker, _configRepository, _logger);
             _manageLdapUser = LdapUserManipulatorFactory.GetUserManipulator(_connector, _logger, _configRepository);
+            _searcher = LdapSearcherFactory.GetSearcher(_connector, _logger, _configRepository);
         }
 
         /// <summary>
         /// More detailed contructor that user the default constructor and the addictionalLDAPInformation method
         /// </summary>
-        public LdapManager(ILdapUser adminUser, LDAPAdminMode adminMode,string ldapServer,string ldapSearchBaseDn,AuthType authType,bool secureSocketLayerFlag,bool transportSocketLayerFlag,bool clientCertificateFlag,string clientCertificatePath,LoggerType loggerType,string logPath,string userObjectClass,string matchFieldUsername)
+        public LdapManager( ILdapUser adminUser, 
+                            LDAPAdminMode adminMode, 
+                            string ldapServer,
+                            string ldapSearchBaseDn,
+                            AuthType authType,
+                            bool secureSocketLayerFlag,
+                            bool transportSocketLayerFlag,
+                            bool clientCertificateFlag,
+                            string clientCertificatePath,
+                            LoggerType loggerType,
+                            string logPath,
+                            string userObjectClass,
+                            string matchFieldUsername,
+                            TimeSpan connectionTimeout)
             : this(adminUser, adminMode,
                 ldapServer,
                 ldapSearchBaseDn,
@@ -85,7 +100,7 @@ namespace LDAPLibrary
             {
                 _configRepository.AdditionalLdapConfig(secureSocketLayerFlag, transportSocketLayerFlag,
                     clientCertificateFlag, clientCertificatePath, userObjectClass,
-                    matchFieldUsername);
+                    matchFieldUsername, connectionTimeout);
             }
             catch (ArgumentNullException e)
             {
@@ -128,10 +143,22 @@ namespace LDAPLibrary
         }
 
 
-        public bool SearchUsers(List<string> otherReturnedAttributes, string[] searchedUsers,
-            out List<ILdapUser> searchResult)
+        public bool SearchUsers(IList<string> otherReturnedAttributes, string[] searchedUsers,
+            out IList<ILdapUser> searchResult)
         {
-            _ldapCurrentState = _manageLdapUser.SearchUsers(otherReturnedAttributes, searchedUsers, out searchResult);
+            _ldapCurrentState = _searcher.SearchUsers(otherReturnedAttributes, searchedUsers, out searchResult);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
+        }
+
+        public bool SearchUsers(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
+        {
+            _ldapCurrentState = _searcher.SearchUsers(otherReturnedAttributes, out searchResult);
+            return LdapStateUtils.ToBoolean(_ldapCurrentState);
+        }
+
+        public bool SearchAllNodes(IList<string> otherReturnedAttributes, out IList<ILdapUser> searchResult)
+        {
+            _ldapCurrentState = _searcher.SearchAllNodes(otherReturnedAttributes, out searchResult);
             return LdapStateUtils.ToBoolean(_ldapCurrentState);
         }
 
@@ -157,7 +184,7 @@ namespace LDAPLibrary
 
         public bool SearchUserAndConnect(string user, string password)
         {
-            List<ILdapUser> searchReturn;
+            IList<ILdapUser> searchReturn;
 
             //Do the search and check the result 
             bool searchResult = SearchUsers(null, new[] {user}, out searchReturn);

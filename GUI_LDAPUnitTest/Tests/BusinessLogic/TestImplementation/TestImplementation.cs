@@ -52,7 +52,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
                     (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
                     Config.LdapLibrary["LDAPLibraryLogPath"],
                     Config.LdapLibrary["LDAPUserObjectClass"],
-                    Config.LdapLibrary["LDAPMatchFieldUsername"]
+                    Config.LdapLibrary["LDAPMatchFieldUsername"],
+                    TimeSpan.Parse(Config.LdapLibrary["LDAPConnectionTimeout"])
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -110,7 +111,8 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
                     (LoggerType) Enum.Parse(typeof (LoggerType), Config.LdapLibrary["enableLDAPLibraryLog"]),
                     Config.LdapLibrary["LDAPLibraryLogPath"],
                     Config.LdapLibrary["LDAPUserObjectClass"],
-                    Config.LdapLibrary["LDAPMatchFieldUsername"]
+                    Config.LdapLibrary["LDAPMatchFieldUsername"],
+                    TimeSpan.Parse(Config.LdapLibrary["LDAPConnectionTimeout"])
                     );
 
                 if (!_ldapManagerObj.Equals(null))
@@ -206,7 +208,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
             if (!_ldapManagerObj.CreateUser(_userRepository.TestUser))
                 return false;
 
-            List<ILdapUser> returnUsers;
+            IList<ILdapUser> returnUsers;
 
             try
             {
@@ -420,7 +422,7 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
             if (!TestAdminConnect())
                 return false;
 
-            List<ILdapUser> returnUsers;
+            IList<ILdapUser> returnUsers;
 
             bool result = _ldapManagerObj.SearchUsers(null, _userRepository.GetUserToSearch(), out returnUsers);
 
@@ -428,6 +430,34 @@ namespace GUI_LDAPUnitTest.Tests.BusinessLogic.TestImplementation
                 returnUsers.Count.Equals(_userRepository.GetUserToSearch().Length))
                 return true;
             return false;
+        }
+
+        public bool TestSearchUserNoFilter()
+        {
+            if (!TestAdminConnect())
+                return false;
+
+            IList<ILdapUser> returnUsers;
+
+            bool result = _ldapManagerObj.SearchUsers(null, out returnUsers);
+
+            if (result && _userRepository.ExpectedSearchNoFilterResultNumber == 0) return true;
+
+            return result && returnUsers.Count.Equals(_userRepository.ExpectedSearchNoFilterResultNumber);
+        }
+
+        public bool TestSearchAllNodes()
+        {
+            if (!TestAdminConnect())
+                return false;
+
+            IList<ILdapUser> returnUsers;
+
+            bool result = _ldapManagerObj.SearchAllNodes(null, out returnUsers);
+
+            if (result && _userRepository.ExpectedSearchAllNodesResultNumber == 0) return true;
+
+            return result && returnUsers.Count.Equals(_userRepository.ExpectedSearchAllNodesResultNumber);
         }
 
         public bool TestUserConnectWithoutWritePermissions()

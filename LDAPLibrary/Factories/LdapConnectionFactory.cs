@@ -20,21 +20,32 @@ namespace LDAPLibrary.Factories
             {
                 AuthType = ldapConfigRepository.GetAuthType()
             };
+
             ldapConnection.SessionOptions.ProtocolVersion = 3;
 
             if (ldapConfigRepository.GetSecureSocketLayerFlag())
+            {
                 ldapConnection.SessionOptions.SecureSocketLayer = true;
+                ldapConnection.SessionOptions.VerifyServerCertificate += (conn, cert) => true;
+            }
 
             if (ldapConfigRepository.GetTransportSocketLayerFlag())
+            {
                 ldapConnection.SessionOptions.StartTransportLayerSecurity(null);
+            }
 
             if (ldapConfigRepository.GetClientCertificateFlag())
             {
-                var clientCertificateFile = new X509Certificate();
-                clientCertificateFile.Import(ldapConfigRepository.GetClientCertificatePath());
-                ldapConnection.ClientCertificates.Add(clientCertificateFile);
-                ldapConnection.SessionOptions.VerifyServerCertificate += (conn, cert) => true;
+                if (!string.IsNullOrWhiteSpace(ldapConfigRepository.GetClientCertificatePath()))
+                {
+                    var clientCertificateFile = new X509Certificate();
+                    clientCertificateFile.Import(ldapConfigRepository.GetClientCertificatePath());
+                    ldapConnection.ClientCertificates.Add(clientCertificateFile);
+                    //ldapConnection.SessionOptions.VerifyServerCertificate += (conn, cert) => true;
+                }
             }
+
+            ldapConnection.Timeout = ldapConfigRepository.GetConnectionTimeout();
 
             return ldapConnection;
         }

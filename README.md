@@ -39,6 +39,7 @@ To make all things work the library needs a set of input parameters. Check the t
 |     **LDAPSearchBaseDN**     | Base node where the library can operate (search, connect, create, modify)                                                                               |  ou=People,dc=maxcrc,dc=com | No                                                   |               |
 |   **enableLDAPLibraryLog**   | Show where log the library. Possible values: *File*, *EventViewer*, *None*                                                                              |             File            | No                                                   |               |
 |    **LDAPLibraryLogPath**    | Location into write the log file if the enableLDAPLibraryLog has value File. (optional value)                                                           |           C:\.....          | No, if theenableLDAPLibraryLog is *File*             |               |
+|    **LDAPConnectionTimeout**    | Value of the timeout in the ldap connection                                                           |           0.00:00:30          | yes             | 0.00:00:30        |
 |   **secureSocketLayerFlag**  | Specify if establish the connection through SecureSocketLayer                                                                                           |             true            | Requested only in the Full Library Constructor       | false         |
 | **transportSocketLayerFlag** | Specify if establish the connection through TransportSocketLayer                                                                                        |             true            | Requested only in the Full Library Constructor       | false         |
 |  **ClientCertificationFlag** | Specify if establish the connection through a specific Certification file                                                                               |             true            | Requested only in the Full Library Constructor       | false         |
@@ -91,6 +92,7 @@ private static readonly LdapUser AdminUser = new LdapUser(LdapAdminUserDn,
     new Dictionary<string, List<string>> {{"userPassword", new List<string> {LdapAdminUserPassword}}});
 
 private static readonly string LdapLibraryLogPath = string.Format("{0}", AppDomain.CurrentDomain.BaseDirectory);
+private static readonly TimeSpan ConnectionTimeout = new TimeSpan(0, 0, 30, 0);
 
 ```
 
@@ -132,14 +134,15 @@ ILdapManager _ldapManagerObj = new LdapManager(AdminUser,AdminMode,
 			                EnableLdapLibraryLog,
 			                LdapLibraryLogPath,
 			                LdapUserObjectClass,
-			                LdapMatchFieldUsername
+			                LdapMatchFieldUsername,
+							ConnectionTimeout
 			                );
 
 ILdapManager _ldapManagerObj = new LdapManager(AdminUser, AdminMode,
                 LdapServer,
                 LdapSearchBaseDn,
                 LdapAuthType, EnableLdapLibraryLog, LdapLibraryLogPath
-                );			                
+                );
 ```
 
 Connect of the Administator User
@@ -186,7 +189,7 @@ bool result = _ldapManagerObj.SearchUserAndConnect(ReadOnlyUserCn, ReadOnlyUserP
 Assert.IsTrue(result);
 ```
 
-Search Users 
+Search Users
 -------------
 
 In this snippet there's showed how to search a set of users and also how to specify a particular set of returning attributes of the users result.
@@ -228,6 +231,80 @@ Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
 ```
 
 
+SearchUsers
+-------------
+
+This is another version of the previous method but in this case this not check the *LDAPMatchFieldUsername* with the input but return all the entities that only matches the *LdapUserObjectClass* attribute
+
+```cs
+
+//////////////////////////////////////////////////////////
+// ATTENTION, THIS TEST WILL FAIL IF IN THE DEFAULT LOCALHOST LDAP ISN'T PRESENT:
+// Matteo : objectClass -> person
+// Alessandro : objectClass -> person
+//////////////////////////////////////////////////////////
+TestAdminConnect();
+
+var userAttributeToReturnBySearch = new List<string>
+{
+"description"
+};
+
+IList<ILdapUser> returnUsers;
+
+var result = _ldapManagerObj.SearchUsers(null, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, 2);
+Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+Assert.IsTrue(returnUsers[0].GetUserAttributes().Count == 0);
+
+result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, 2);
+Assert.AreEqual(returnUsers[0].GetUserCn(), ReadOnlyUserCn);
+
+```
+
+SearchAllNodes
+--------------
+
+This method return all the nodes starting from the *LdapSearchBaseDn*. This search does not apply filters, even on the objectClass.
+Note: the first returned entities is the LdapSearchBaseDn itself.
+
+```cs
+
+//////////////////////////////////////////////////////////
+// ATTENTION, THIS TEST WILL FAIL IF IN THE DEFAULT LOCALHOST LDAP ISN'T PRESENT:
+// Matteo : objectClass -> person
+// Alessandro : objectClass -> person
+// Clock : objectClass -> device
+//////////////////////////////////////////////////////////
+TestAdminConnect();
+
+var userAttributeToReturnBySearch = new List<string>
+{
+"description"
+};
+
+IList<ILdapUser> returnUsers;
+
+var result = _ldapManagerObj.SearchAllNodes(null, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, 4);
+Assert.AreEqual(returnUsers[1].GetUserCn(), ReadOnlyUserCn);
+Assert.IsTrue(returnUsers[1].GetUserAttributes().Count == 0);
+
+result = _ldapManagerObj.SearchUsers(userAttributeToReturnBySearch, out returnUsers);
+
+Assert.IsTrue(result);
+Assert.AreEqual(returnUsers.Count, 4);
+Assert.AreEqual(returnUsers[1].GetUserCn(), ReadOnlyUserCn);
+Assert.IsTrue(returnUsers[1].GetUserAttributes().Count == 1);
+
+```
 
 CUD OPERATIONS (require the administrator user and write permissions )
 =============
